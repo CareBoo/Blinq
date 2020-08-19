@@ -1,7 +1,7 @@
 {
-    "name": "__MyOrganization__.__MyPackage__.Tests",
+    "name": "CareBoo.BLinq.Tests",
     "references": [
-        "__MyOrganization__.__MyPackage__"
+        "CareBoo.BLinq"
     ],
     "optionalUnityReferences": [
         "TestAssemblies"

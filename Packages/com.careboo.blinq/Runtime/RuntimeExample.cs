@@ -4,7 +4,7 @@
 //
 // -----------------------------------------------------------------------------
 
-namespace __MyOrganization__.__MyPackage__
+namespace CareBoo.BLinq
 {
     /// <summary>
     /// Provide a general description of the public class.

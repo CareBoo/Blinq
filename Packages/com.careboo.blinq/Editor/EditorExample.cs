@@ -4,7 +4,7 @@
 //
 // -----------------------------------------------------------------------------
 
-namespace __MyOrganization__.__MyPackage__.Editor
+namespace CareBoo.BLinq.Editor
 {
     /// <summary>
     /// Provide a general description of the public class.

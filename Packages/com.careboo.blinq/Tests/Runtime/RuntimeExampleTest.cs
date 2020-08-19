@@ -1,17 +1,16 @@
 using UnityEngine;
-using UnityEditor;
 using UnityEngine.TestTools;
 using NUnit.Framework;
 using System.Collections;
 
-namespace __MyOrganization__.__MyPackage__.Editor.Tests 
+namespace CareBoo.BLinq.Tests 
 {
 	
-	class EditorExampleTest 
+	class RuntimeExampleTest 
 	{
 
 		[Test]
-		public void EditorSampleTestSimplePasses() 
+		public void PlayModeSampleTestSimplePasses() 
 		{
 			// Use the Assert class to test conditions.
 		}
@@ -19,7 +18,7 @@ namespace __MyOrganization__.__MyPackage__.Editor.Tests
 		// A UnityTest behaves like a coroutine in PlayMode
 		// and allows you to yield null to skip a frame in EditMode
 		[UnityTest]
-		public IEnumerator EditorSampleTestWithEnumeratorPasses() 
+		public IEnumerator PlayModeSampleTestWithEnumeratorPasses() 
 		{
 			// Use the Assert class to test conditions.
 			// yield to skip a frame

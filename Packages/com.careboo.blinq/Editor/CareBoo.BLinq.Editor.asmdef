@@ -1,7 +1,7 @@
 {
-    "name": "__MyOrganization__.__MyPackage__.Editor",
+    "name": "CareBoo.BLinq.Editor",
     "references": [
-      "__MyOrganization__.__MyPackage__"
+      "CareBoo.BLinq"
     ],
     "includePlatforms": [
         "Editor"
