@@ -5,7 +5,7 @@
 //
 // -----------------------------------------------------------------------------
 
-namespace CareBoo.BLinq
+namespace CareBoo.Blinq
 {
     /// <summary>
     /// Provide a general description of the public class.

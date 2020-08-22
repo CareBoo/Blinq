@@ -4,7 +4,7 @@ using UnityEngine.TestTools;
 using NUnit.Framework;
 using System.Collections;
 
-namespace CareBoo.BLinq.Editor.Tests 
+namespace CareBoo.Blinq.Editor.Tests 
 {
 	
 	class EditorExampleTest 

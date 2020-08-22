@@ -1,0 +1,14 @@
+{
+    "name": "CareBoo.Blinq.Editor.Tests",
+    "references": [
+        "CareBoo.Blinq.Editor",
+        "CareBoo.Blinq"
+    ],
+    "optionalUnityReferences": [
+        "TestAssemblies"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": []
+}

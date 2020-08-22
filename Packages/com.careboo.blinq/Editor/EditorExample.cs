@@ -4,7 +4,7 @@
 //
 // -----------------------------------------------------------------------------
 
-namespace CareBoo.BLinq.Editor
+namespace CareBoo.Blinq.Editor
 {
     /// <summary>
     /// Provide a general description of the public class.

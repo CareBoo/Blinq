@@ -1,0 +1,10 @@
+{
+    "name": "CareBoo.Blinq.Editor",
+    "references": [
+      "CareBoo.Blinq"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": []
+}

@@ -3,7 +3,7 @@ using UnityEngine.TestTools;
 using NUnit.Framework;
 using System.Collections;
 
-namespace CareBoo.BLinq.Tests 
+namespace CareBoo.Blinq.Tests 
 {
 	
 	class RuntimeExampleTest 

@@ -1,0 +1,11 @@
+{
+    "name": "CareBoo.Blinq.Tests",
+    "references": [
+        "CareBoo.Blinq"
+    ],
+    "optionalUnityReferences": [
+        "TestAssemblies"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": []
+}
