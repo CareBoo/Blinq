@@ -1,3 +1,15 @@
+# [1.0.0-preview.2](https://github.com/CareBoo/Blinq/compare/v1.0.0-preview.1...v1.0.0-preview.2) (2020-08-23)
+
+
+### Code Refactoring
+
+* :art: replacing IMap with IFunc ([f9b6a18](https://github.com/CareBoo/Blinq/commit/f9b6a181f9eb2a7370066fba8c0a670f1a14a8d9))
+
+
+### BREAKING CHANGES
+
+* IMap removed, use IFunc instead
+
 # 1.0.0-preview.1 (2020-08-22)
 
 
