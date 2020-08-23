@@ -37,7 +37,7 @@ namespace CareBoo.Blinq
         where TAccumulate : unmanaged
         where TResult : unmanaged
         where TAccumulator : IAccumulator<TSource, TAccumulate>
-        where TResultSelector : IMap<TAccumulate, TResult>
+        where TResultSelector : IFunc<TAccumulate, TResult>
     {
         [ReadOnly]
         public NativeArray<TSource> Input;
@@ -87,7 +87,7 @@ namespace CareBoo.Blinq
             where TSource : unmanaged
             where TResult : unmanaged
             where TAccumulator : IAccumulator<TSource, TSource>
-            where TResultSelector : IMap<TSource, TResult>
+            where TResultSelector : IFunc<TSource, TResult>
         {
             return source.Aggregate<TSource, TSource, TResult, TAccumulator, TResultSelector>(dependsOn);
         }
@@ -97,7 +97,7 @@ namespace CareBoo.Blinq
             where TAccumulate : unmanaged
             where TResult : unmanaged
             where TAccumulator : IAccumulator<TSource, TAccumulate>
-            where TResultSelector : IMap<TAccumulate, TResult>
+            where TResultSelector : IFunc<TAccumulate, TResult>
         {
             var output = new NativeArray<TResult>(1, Allocator.Persistent);
             var job = new AggregateJob<TSource, TAccumulate, TResult, TAccumulator, TResultSelector> { Input = source, Accumulator = default, ResultSelector = default, Output = output };
@@ -131,7 +131,7 @@ namespace CareBoo.Blinq
             where TSource : unmanaged
             where TResult : unmanaged
             where TAccumulator : IAccumulator<TSource, TSource>
-            where TResultSelector : IMap<TSource, TResult>
+            where TResultSelector : IFunc<TSource, TResult>
         {
             return source.Aggregate<TSource, TSource, TResult, TAccumulator, TResultSelector>();
         }
@@ -141,7 +141,7 @@ namespace CareBoo.Blinq
             where TAccumulate : unmanaged
             where TResult : unmanaged
             where TAccumulator : IAccumulator<TSource, TAccumulate>
-            where TResultSelector : IMap<TAccumulate, TResult>
+            where TResultSelector : IFunc<TAccumulate, TResult>
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
 
@@ -175,7 +175,7 @@ namespace CareBoo.Blinq
             where TSource : unmanaged
             where TResult : unmanaged
             where TAccumulator : IAccumulator<TSource, TSource>
-            where TResultSelector : IMap<TSource, TResult>
+            where TResultSelector : IFunc<TSource, TResult>
         {
             return source.Aggregate<TSource, TSource, TResult, TAccumulator, TResultSelector>();
         }
@@ -185,7 +185,7 @@ namespace CareBoo.Blinq
             where TAccumulate : unmanaged
             where TResult : unmanaged
             where TAccumulator : IAccumulator<TSource, TAccumulate>
-            where TResultSelector : IMap<TAccumulate, TResult>
+            where TResultSelector : IFunc<TAccumulate, TResult>
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
 

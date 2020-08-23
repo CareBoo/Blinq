@@ -1,7 +1,6 @@
 ﻿namespace CareBoo.Blinq
 {
-    public interface IPredicate<T> where T : unmanaged
-    {
-        bool Invoke(T value);
-    }
+    public interface IPredicate<T> : IFunc<T, bool>
+        where T : unmanaged
+    { }
 }
