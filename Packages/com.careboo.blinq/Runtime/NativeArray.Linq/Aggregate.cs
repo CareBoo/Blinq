@@ -61,7 +61,7 @@ namespace CareBoo.Blinq
         }
     }
 
-    public static partial class BlinqExtensions
+    public static partial class Enumerable
     {
         public static TSource Aggregate<TSource, TAccumulator>(this ref NativeArray<TSource> source, JobHandle dependsOn = default)
             where TSource : unmanaged

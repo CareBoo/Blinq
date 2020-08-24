@@ -4,12 +4,12 @@ using Unity.Burst;
 using Unity.Collections;
 using Unity.Jobs;
 
-namespace CareBoo.Blinq.NativeArray
+namespace CareBoo.Blinq
 {
     [BurstCompile(CompileSynchronously = true)]
     public struct AllJob<TSource, TPredicate> : IJob
         where TSource : unmanaged
-        where TPredicate : IPredicate<TSource>
+        where TPredicate : struct, IPredicate<TSource>
     {
         [ReadOnly]
         public NativeArray<TSource> Input;
@@ -22,18 +22,21 @@ namespace CareBoo.Blinq.NativeArray
 
         public void Execute()
         {
-            var result = true;
             for (var i = 0; i < Input.Length; i++)
-                result &= Predicate.Invoke(Input[i]);
-            Output[0] = result;
+                if (!Predicate.Invoke(Input[i]))
+                {
+                    Output[0] = false;
+                    return;
+                }
+            Output[0] = true;
         }
     }
 
-    public static partial class BlinqExtensions
+    public static partial class Enumerable
     {
-        public static bool All<TSource, TPredicate>(this ref NativeArray<TSource> source, JobHandle dependsOn = default)
+        public static bool All<TSource, TPredicate>(this NativeArray<TSource> source, JobHandle dependsOn = default)
             where TSource : unmanaged
-            where TPredicate : IPredicate<TSource>
+            where TPredicate : struct, IPredicate<TSource>
         {
             var output = new NativeArray<bool>(1, Allocator.Persistent);
             var job = new AllJob<TSource, TPredicate> { Input = source, Predicate = default, Output = output };
@@ -45,7 +48,7 @@ namespace CareBoo.Blinq.NativeArray
 
         public static bool All<TSource, TPredicate>(this TSource[] source)
             where TSource : unmanaged
-            where TPredicate : IPredicate<TSource>
+            where TPredicate : struct, IPredicate<TSource>
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
 
@@ -57,7 +60,7 @@ namespace CareBoo.Blinq.NativeArray
 
         public static bool All<TSource, TPredicate>(this List<TSource> source)
             where TSource : unmanaged
-            where TPredicate : IPredicate<TSource>
+            where TPredicate : struct, IPredicate<TSource>
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
 
