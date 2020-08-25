@@ -2,92 +2,48 @@
 using Unity.Collections;
 using Unity.PerformanceTesting;
 using LinqEnumerable = System.Linq.Enumerable;
-using BlinqEnumerable = CareBoo.Blinq.Enumerable;
 using System;
-using System.Collections.Generic;
+using CareBoo.Blinq;
 
 internal class AnyTest
 {
     const int NumElements = 16 << 10;
-    int[] sourceArray;
-    List<int> sourceList;
-    NativeArray<int> sourceNativeArray;
+    NativeSequence<int> source;
 
     [OneTimeSetUp]
     public void SetUpSources()
     {
-        sourceArray = new int[NumElements];
+        var sourceArray = new int[NumElements];
         sourceArray[NumElements / 2] = 1;
-        sourceList = LinqEnumerable.ToList(sourceArray);
-        sourceNativeArray = new NativeArray<int>(sourceArray, Allocator.Persistent);
+        var sourceList = new NativeList<int>(NumElements, Allocator.Persistent);
+        sourceList.CopyFrom(sourceArray);
+        source = new NativeSequence<int>(sourceList);
     }
 
     [OneTimeTearDown]
     public void TearDownSources()
     {
-        sourceArray = null;
-        sourceList = null;
-        sourceNativeArray.Dispose();
+        source.Dispose();
     }
-
-    // [Test, Performance]
-    // [Category("Performance")]
-    // public void BlinqAnyArrayPerformanceComparedToLinqAny()
-    // {
-    //     bool result;
-
-    //     MeasureLinq(() => result = LinqEnumerable.Any(sourceArray));
-    //     MeasureBlinq(() => result = BlinqEnumerable.Any(sourceArray));
-    // }
-
-    // [Test, Performance]
-    // [Category("Performance")]
-    // public void BlinqAnyListPerformanceComparedToLinqAny()
-    // {
-    //     bool result;
-
-    //     MeasureLinq(() => result = LinqEnumerable.Any(sourceList));
-    //     MeasureBlinq(() => result = BlinqEnumerable.Any(sourceList));
-    // }
 
     [Test, Performance]
     [Category("Performance")]
-    public void BlinqAnyNativeArrayPerformanceComparedToLinqAny()
+    public void BlinqAnyComparedToLinqAnyNativeSequencePerformance()
     {
         bool result;
 
-        MeasureLinq(() => result = LinqEnumerable.Any(sourceNativeArray));
-        MeasureBlinq(() => result = BlinqEnumerable.Any(sourceNativeArray));
+        MeasureBlinq(() => result = source.Any());
+        MeasureLinq(() => result = LinqEnumerable.Any(source));
     }
-
-    // [Test, Performance]
-    // [Category("Performance")]
-    // public void BlinqAnyArrayPredicatePerformanceComparedToLinqAny()
-    // {
-    //     bool result;
-
-    //     MeasureLinq(() => result = LinqEnumerable.Any(sourceArray, default(EqualsOne).Invoke));
-    //     MeasureBlinq(() => result = BlinqEnumerable.Any<int, EqualsOne>(sourceArray));
-    // }
-
-    // [Test, Performance]
-    // [Category("Performance")]
-    // public void BlinqAnyListPredicatePerformanceComparedToLinqAny()
-    // {
-    //     bool result;
-
-    //     MeasureLinq(() => result = LinqEnumerable.Any(sourceList, default(EqualsOne).Invoke));
-    //     MeasureBlinq(() => result = BlinqEnumerable.Any<int, EqualsOne>(sourceList));
-    // }
 
     [Test, Performance]
     [Category("Performance")]
-    public void BlinqAnyNativeArrayPredicatePerformanceComparedToLinqAny()
+    public void BlinqAnyPredicateComparedToLinqAnyPredicateNativeSequencePerformance()
     {
         bool result;
 
-        MeasureLinq(() => result = LinqEnumerable.Any(sourceNativeArray, default(EqualsOne).Invoke));
-        MeasureBlinq(() => result = BlinqEnumerable.Any<int, EqualsOne>(sourceNativeArray));
+        MeasureBlinq(() => result = source.Any<EqualsOne>());
+        MeasureLinq(() => result = LinqEnumerable.Any(source, default(EqualsOne).Invoke));
     }
 
     private void MeasureLinq(Action method)
