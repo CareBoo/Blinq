@@ -14,6 +14,7 @@ internal class AnyTest
         var expected = LinqEnumerable.Any(sequence);
         var actual = sequence.Any();
         Assert.AreEqual(expected, actual);
+        sequence.Dispose();
     }
 
     [Test, Parallelizable]
@@ -23,5 +24,6 @@ internal class AnyTest
         var expected = LinqEnumerable.Any(sequence, default(EqualsZero).Invoke);
         var actual = sequence.Any<EqualsZero>();
         Assert.AreEqual(expected, actual);
+        sequence.Dispose();
     }
 }

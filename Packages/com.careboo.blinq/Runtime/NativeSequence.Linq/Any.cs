@@ -11,8 +11,8 @@ namespace CareBoo.Blinq
         public struct AnyJob<TPredicate> : IJob
             where TPredicate : struct, IPredicate<T>
         {
-            [DeallocateOnJobCompletion]
-            public NativeList<T> Input;
+            [ReadOnly]
+            public NativeArray<T> Input;
 
             [ReadOnly]
             public TPredicate Predicate;
@@ -48,7 +48,6 @@ namespace CareBoo.Blinq
             dependsOn.Complete();
             var result = input.Length > 0;
 
-            input.Dispose();
             return result;
         }
     }

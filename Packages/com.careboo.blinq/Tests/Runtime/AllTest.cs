@@ -11,7 +11,7 @@ internal class AllTest
     public void BlinqAllShouldEqualLinqAllNativeSequence([EnumerableValues] IEnumerable<int> source)
     {
         var sequence = new NativeSequence<int>(LinqEnumerable.ToArray(source), Allocator.Persistent);
-        var expected = LinqEnumerable.All(sequence, default(EqualsZero).Invoke);
+        var expected = LinqEnumerable.All(sequence.Copy(Allocator.Persistent), default(EqualsZero).Invoke);
         var actual = sequence.All<EqualsZero>();
         Assert.AreEqual(expected, actual);
     }

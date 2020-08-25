@@ -15,9 +15,7 @@ internal class AnyTest
     {
         var sourceArray = new int[NumElements];
         sourceArray[NumElements / 2] = 1;
-        var sourceList = new NativeList<int>(NumElements, Allocator.Persistent);
-        sourceList.CopyFrom(sourceArray);
-        source = new NativeSequence<int>(sourceList);
+        source = new NativeSequence<int>(sourceArray, Allocator.Persistent);
     }
 
     [OneTimeTearDown]

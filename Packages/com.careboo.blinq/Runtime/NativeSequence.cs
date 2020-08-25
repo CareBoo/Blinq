@@ -9,25 +9,24 @@ namespace CareBoo.Blinq
     public partial struct NativeSequence<T> : IDisposable, IEnumerable<T>, IEnumerable, IEquatable<NativeSequence<T>>
         where T : struct
     {
-        private NativeList<T> input;
+        private NativeArray<T> input;
         private JobHandle dependsOn;
 
-        public NativeSequence(NativeList<T> input, JobHandle dependsOn = default)
+        public NativeSequence(NativeArray<T> input, JobHandle dependsOn = default)
         {
             this.input = input;
             this.dependsOn = dependsOn;
         }
 
-        public NativeSequence(NativeArray<T> input, Allocator allocator)
-            : this(new NativeList<T>(input.Length, allocator))
+        public NativeSequence(T[] input, Allocator allocator)
+            : this(new NativeArray<T>(input, allocator))
         {
-            this.input.CopyFrom(input);
         }
 
-        public NativeSequence(T[] input, Allocator allocator)
-            : this(new NativeList<T>(input.Length, allocator))
+        public NativeSequence<T> Copy(Allocator allocator)
         {
-            this.input.CopyFrom(input);
+            dependsOn.Complete();
+            return new NativeSequence<T>(new NativeArray<T>(input, allocator));
         }
 
         public void Dispose()
