@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace CareBoo.Blinq.Tests
+﻿namespace CareBoo.Blinq.Tests
 {
     public struct EqualsZero : IPredicate<int>
     {
