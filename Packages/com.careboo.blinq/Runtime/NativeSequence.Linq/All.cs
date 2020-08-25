@@ -11,8 +11,8 @@ namespace CareBoo.Blinq
         public struct AllJob<TPredicate> : IJob
             where TPredicate : struct, IPredicate<T>
         {
-            [DeallocateOnJobCompletion]
-            public NativeList<T> Input;
+            [ReadOnly]
+            public NativeArray<T> Input;
 
             [ReadOnly]
             public TPredicate Predicate;

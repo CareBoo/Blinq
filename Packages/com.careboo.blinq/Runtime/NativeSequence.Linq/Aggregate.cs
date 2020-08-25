@@ -12,8 +12,9 @@ namespace CareBoo.Blinq
             where TAccumulate : struct
             where TAccumulator : struct, IAccumulator<T, TAccumulate>
         {
+            [ReadOnly]
             [DeallocateOnJobCompletion]
-            public NativeList<T> Input;
+            public NativeArray<T> Input;
 
             public TAccumulate Seed;
 
@@ -38,8 +39,8 @@ namespace CareBoo.Blinq
             where TAccumulator : IAccumulator<T, TAccumulate>
             where TResultSelector : IFunc<TAccumulate, TResult>
         {
-            [DeallocateOnJobCompletion]
-            public NativeList<T> Input;
+            [ReadOnly]
+            public NativeArray<T> Input;
 
             public TAccumulate Seed;
 
