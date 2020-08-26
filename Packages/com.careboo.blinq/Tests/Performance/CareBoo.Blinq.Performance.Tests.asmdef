@@ -6,7 +6,8 @@
         "UnityEngine.TestRunner",
         "Unity.PerformanceTesting",
         "CareBoo.Blinq.Tests",
-        "Unity.Collections"
+        "Unity.Collections",
+        "Unity.Burst"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
