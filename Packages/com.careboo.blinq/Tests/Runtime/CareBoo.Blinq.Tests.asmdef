@@ -4,7 +4,8 @@
         "CareBoo.Blinq",
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
-        "Unity.Collections"
+        "Unity.Collections",
+        "Unity.Burst"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

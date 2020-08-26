@@ -4,11 +4,17 @@ using Unity.PerformanceTesting;
 using LinqEnumerable = System.Linq.Enumerable;
 using System;
 using CareBoo.Blinq;
+using Unity.Burst;
 
+[BurstCompile]
 internal class AnyTest
 {
     const int NumElements = 16 << 10;
     NativeSequence<int> source;
+
+    [BurstCompile]
+    public static bool EqualsOneDelegate(int i) => i == 1;
+    public static BFunc<int, bool> EqualsOne = new BFunc<int, bool>(EqualsOneDelegate);
 
     [OneTimeSetUp]
     public void SetUpSources()
@@ -26,22 +32,39 @@ internal class AnyTest
 
     [Test, Performance]
     [Category("Performance")]
-    public void BlinqAnyComparedToLinqAnyNativeSequencePerformance()
+    public void BlinqAnyNativeSequencePerformance()
     {
         bool result;
 
         MeasureBlinq(() => result = source.Any());
-        MeasureLinq(() => result = LinqEnumerable.Any(source));
     }
 
     [Test, Performance]
     [Category("Performance")]
-    public void BlinqAnyPredicateComparedToLinqAnyPredicateNativeSequencePerformance()
+    public void LinqAnyNativeSequencePerformance()
     {
         bool result;
 
-        MeasureBlinq(() => result = source.Any<EqualsOne>());
-        MeasureLinq(() => result = LinqEnumerable.Any(source, default(EqualsOne).Invoke));
+        MeasureLinq(() => result = LinqEnumerable.Any(source));
+    }
+
+
+    [Test, Performance]
+    [Category("Performance")]
+    public void BlinqAnyPredicateNativeSequencePerformance()
+    {
+        bool result;
+
+        MeasureBlinq(() => result = source.Any(EqualsOne));
+    }
+
+    [Test, Performance]
+    [Category("Performance")]
+    public void LinqAnyPredicateNativeSequencePerformance()
+    {
+        bool result;
+
+        MeasureLinq(() => result = LinqEnumerable.Any(source, EqualsOneDelegate));
     }
 
     private void MeasureLinq(Action method)
