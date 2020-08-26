@@ -1,16 +1,13 @@
 ﻿using CareBoo.Blinq;
 
-internal struct EqualsZero : IPredicate<int>
+internal struct EqualsOne : IFunc<int, bool>, IFunc<int, int, bool>
 {
     public bool Invoke(int val)
     {
-        return val == 0;
+        return val == 1;
     }
-}
 
-internal struct EqualsOne : IPredicate<int>
-{
-    public bool Invoke(int val)
+    public bool Invoke(int val, int index)
     {
         return val == 1;
     }

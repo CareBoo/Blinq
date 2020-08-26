@@ -7,9 +7,28 @@ namespace CareBoo.Blinq
     public partial struct NativeSequence<T>
         where T : struct
     {
+        public bool Any<TPredicate>(TPredicate predicate = default)
+            where TPredicate : struct, IFunc<T, bool>
+        {
+            var output = new NativeArray<bool>(1, Allocator.TempJob, NativeArrayOptions.UninitializedMemory);
+            var job = new AnyJob<TPredicate> { Input = input, Predicate = predicate, Output = output };
+            job.Schedule(dependsOn).Complete();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public bool Any()
+        {
+            dependsOn.Complete();
+            var result = input.Length > 0;
+
+            return result;
+        }
+
         [BurstCompile(CompileSynchronously = true)]
         public struct AnyJob<TPredicate> : IJob
-            where TPredicate : struct, IPredicate<T>
+            where TPredicate : struct, IFunc<T, bool>
         {
             [ReadOnly]
             public NativeArray<T> Input;
@@ -30,25 +49,6 @@ namespace CareBoo.Blinq
                     }
                 Output[0] = false;
             }
-        }
-
-        public bool Any<TPredicate>(TPredicate predicate = default)
-            where TPredicate : struct, IPredicate<T>
-        {
-            var output = new NativeArray<bool>(1, Allocator.TempJob, NativeArrayOptions.UninitializedMemory);
-            var job = new AnyJob<TPredicate> { Input = input, Predicate = predicate, Output = output };
-            job.Schedule(dependsOn).Complete();
-            var result = output[0];
-            output.Dispose();
-            return result;
-        }
-
-        public bool Any()
-        {
-            dependsOn.Complete();
-            var result = input.Length > 0;
-
-            return result;
         }
     }
 }
