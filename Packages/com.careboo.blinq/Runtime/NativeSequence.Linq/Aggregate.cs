@@ -46,6 +46,7 @@ namespace CareBoo.Blinq
         {
             return Aggregate<T, TAccumulator>(seed, accumulator);
         }
+
         [BurstCompile(CompileSynchronously = true)]
         public struct AggregateJob<TAccumulate, TAccumulator> : IJob
             where TAccumulate : struct

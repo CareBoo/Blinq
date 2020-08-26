@@ -1,15 +1,12 @@
-﻿namespace CareBoo.Blinq.Tests
-{
-    public struct EqualsZero : IFunc<int, bool>, IFunc<int, int, bool>
-    {
-        public bool Invoke(int val)
-        {
-            return val == 0;
-        }
+﻿using Unity.Burst;
 
-        public bool Invoke(int val, int index)
-        {
-            return val == 0;
-        }
+namespace CareBoo.Blinq.Tests
+{
+    [BurstCompile]
+    public static class Predicates
+    {
+        [BurstCompile]
+        public static bool EqualsZero(int val) => val == 0;
+        public static BFunc<int, bool> EqualsZeroFunc = new BFunc<int, bool>(EqualsZero);
     }
 }
