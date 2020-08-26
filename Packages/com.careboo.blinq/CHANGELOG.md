@@ -1,3 +1,20 @@
+# [1.0.0-preview.3](https://github.com/CareBoo/Blinq/compare/v1.0.0-preview.2...v1.0.0-preview.3) (2020-08-26)
+
+
+### Features
+
+* :sparkles: adding Any method ([8f5df36](https://github.com/CareBoo/Blinq/commit/8f5df364663b37614320be39d8c2617cce65f679))
+* :sparkles: adding BFunc ([14c0d1b](https://github.com/CareBoo/Blinq/commit/14c0d1b325959760ad11d3be0beba928bf1d0621))
+* :sparkles: adding in NativeSequence ([ef5f7d1](https://github.com/CareBoo/Blinq/commit/ef5f7d17af295c2ecab370f6ba0b8460d40046e0))
+* :sparkles: adding predicate with 2 args ([0be9da7](https://github.com/CareBoo/Blinq/commit/0be9da7c284e52196e06d8f988857da12d988a62))
+* :sparkles: Adding Select ([fcf1009](https://github.com/CareBoo/Blinq/commit/fcf10094a0d325a01a0d241bbc74d2d3c576edc1))
+* :tada: Now managing memory conventionally ([0ffc964](https://github.com/CareBoo/Blinq/commit/0ffc964637b52fd2e519bbe8ee407b24a71a3267))
+
+
+### BREAKING CHANGES
+
+* this whole repo got foobar'd. All the tests have been rewritten, and the extension methods have been removed to focus on getting Blinq working with a single struct for now.
+
 # [1.0.0-preview.2](https://github.com/CareBoo/Blinq/compare/v1.0.0-preview.1...v1.0.0-preview.2) (2020-08-23)
 
 
