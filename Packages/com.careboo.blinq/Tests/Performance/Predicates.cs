@@ -12,6 +12,6 @@ internal struct EqualsOne : IPredicate<int>
 {
     public bool Invoke(int val)
     {
-        return false;
+        return val == 1;
     }
 }
