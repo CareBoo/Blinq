@@ -7,12 +7,14 @@ namespace CareBoo.Blinq
     {
         public static double Average(this NativeSequence<long> source)
         {
-            if (source.Length == 0) throw Error.NoElements();
+            source.DependsOn.Complete();
+            var length = source.Length;
+            if (length == 0) throw Error.NoElements();
 
             var output = new NativeArray<long>(1, Allocator.Persistent, NativeArrayOptions.ClearMemory);
             var job = new SumJob_long { Input = source, Output = output };
-            job.Schedule(source.Length, 64, source.DependsOn).Complete();
-            var result = (double)output[0] / source.Length;
+            job.Schedule(length, 64).Complete();
+            var result = (double)output[0] / length;
 
             output.Dispose();
             return result;
@@ -21,12 +23,14 @@ namespace CareBoo.Blinq
         public static double Average<TSource>(this NativeSequence<TSource> source, BurstCompiledFunc<TSource, long> selector)
             where TSource : struct
         {
-            if (source.Length == 0) throw Error.NoElements();
+            source.DependsOn.Complete();
+            var length = source.Length;
+            if (length == 0) throw Error.NoElements();
 
             var output = new NativeArray<long>(1, Allocator.Persistent, NativeArrayOptions.ClearMemory);
             var job = new SumJob_long<TSource> { Input = source, Selector = selector, Output = output };
-            job.Schedule(source.Length, 64, source.DependsOn).Complete();
-            var result = (double)output[0] / source.Length;
+            job.Schedule(length, 64).Complete();
+            var result = (double)output[0] / length;
 
             output.Dispose();
             return result;
