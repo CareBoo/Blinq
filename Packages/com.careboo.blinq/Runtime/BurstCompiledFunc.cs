@@ -1,27 +1,32 @@
-﻿using System;
-using Unity.Burst;
+﻿using Unity.Burst;
 
 namespace CareBoo.Blinq
 {
-    public struct BFunc<TResult> : IFunc<TResult>
+    public struct BurstCompiledFunc<TResult> : IFunc<TResult>
         where TResult : struct
     {
         public delegate TResult Delegate();
 
         private readonly FunctionPointer<Delegate> functionPointer;
 
-        public BFunc(Delegate func)
+        public BurstCompiledFunc(FunctionPointer<Delegate> functionPointer)
         {
-            functionPointer = BurstCompiler.CompileFunctionPointer(func);
+            this.functionPointer = functionPointer;
         }
 
         public TResult Invoke()
         {
             return functionPointer.Invoke();
         }
+
+        public static BurstCompiledFunc<TResult> Compile(Delegate func)
+        {
+            var functionPointer = BurstCompiler.CompileFunctionPointer(func);
+            return new BurstCompiledFunc<TResult>(functionPointer);
+        }
     }
 
-    public struct BFunc<T, TResult> : IFunc<T, TResult>, IFunc<TResult>
+    public struct BurstCompiledFunc<T, TResult> : IFunc<T, TResult>, IFunc<TResult>
         where T : struct
         where TResult : struct
     {
@@ -31,10 +36,15 @@ namespace CareBoo.Blinq
 
         private readonly FunctionPointer<Delegate> functionPointer;
 
-        public BFunc(Delegate func)
+        public BurstCompiledFunc(FunctionPointer<Delegate> functionPointer)
         {
             Arg0 = default;
-            functionPointer = BurstCompiler.CompileFunctionPointer(func);
+            this.functionPointer = functionPointer;
+        }
+
+        public TResult Invoke(T arg0)
+        {
+            return functionPointer.Invoke(arg0);
         }
 
         public TResult Invoke()
@@ -42,13 +52,14 @@ namespace CareBoo.Blinq
             return functionPointer.Invoke(Arg0);
         }
 
-        public TResult Invoke(T arg0)
+        public static BurstCompiledFunc<T, TResult> Compile(Delegate func)
         {
-            return functionPointer.Invoke(arg0);
+            var functionPointer = BurstCompiler.CompileFunctionPointer(func);
+            return new BurstCompiledFunc<T, TResult>(functionPointer);
         }
     }
 
-    public struct BFunc<T, U, TResult> : IFunc<T, U, TResult>, IFunc<T, TResult>, IFunc<TResult>
+    public struct BurstCompiledFunc<T, U, TResult> : IFunc<T, U, TResult>, IFunc<T, TResult>, IFunc<TResult>
         where T : struct
         where U : struct
         where TResult : struct
@@ -60,11 +71,11 @@ namespace CareBoo.Blinq
 
         private readonly FunctionPointer<Delegate> functionPointer;
 
-        public BFunc(Delegate func)
+        public BurstCompiledFunc(FunctionPointer<Delegate> functionPointer)
         {
             Arg0 = default;
             Arg1 = default;
-            functionPointer = BurstCompiler.CompileFunctionPointer(func);
+            this.functionPointer = functionPointer;
         }
 
         public TResult Invoke(T arg0, U arg1)
@@ -81,9 +92,15 @@ namespace CareBoo.Blinq
         {
             return functionPointer.Invoke(Arg0, Arg1);
         }
+
+        public static BurstCompiledFunc<T, U, TResult> Compile(Delegate func)
+        {
+            var functionPointer = BurstCompiler.CompileFunctionPointer(func);
+            return new BurstCompiledFunc<T, U, TResult>(functionPointer);
+        }
     }
 
-    public struct BFunc<T, U, V, TResult> : IFunc<T, U, V, TResult>, IFunc<T, U, TResult>, IFunc<T, TResult>, IFunc<TResult>
+    public struct BurstCompiledFunc<T, U, V, TResult> : IFunc<T, U, V, TResult>, IFunc<T, U, TResult>, IFunc<T, TResult>, IFunc<TResult>
         where T : struct
         where U : struct
         where V : struct
@@ -97,12 +114,12 @@ namespace CareBoo.Blinq
 
         private readonly FunctionPointer<Delegate> functionPointer;
 
-        public BFunc(Delegate func)
+        public BurstCompiledFunc(FunctionPointer<Delegate> functionPointer)
         {
             Arg0 = default;
             Arg1 = default;
             Arg2 = default;
-            functionPointer = BurstCompiler.CompileFunctionPointer(func);
+            this.functionPointer = functionPointer;
         }
 
         public TResult Invoke(T arg0, U arg1, V arg2)
@@ -123,6 +140,12 @@ namespace CareBoo.Blinq
         public TResult Invoke()
         {
             return functionPointer.Invoke(Arg0, Arg1, Arg2);
+        }
+
+        public static BurstCompiledFunc<T, U, V, TResult> Compile(Delegate func)
+        {
+            var functionPointer = BurstCompiler.CompileFunctionPointer(func);
+            return new BurstCompiledFunc<T, U, V, TResult>(functionPointer);
         }
     }
 }

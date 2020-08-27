@@ -7,50 +7,37 @@ namespace CareBoo.Blinq
     public partial struct NativeSequence<T>
         where T : struct
     {
-        public TResult Aggregate<TAccumulate, TResult, TAccumulator, TResultSelector>(TAccumulate seed = default, TAccumulator accumulator = default, TResultSelector resultSelector = default)
+        public TResult Aggregate<TAccumulate, TResult>(TAccumulate seed, BurstCompiledFunc<TAccumulate, T, TAccumulate> func, BurstCompiledFunc<TAccumulate, TResult> resultSelector)
             where TAccumulate : struct
             where TResult : struct
-            where TAccumulator : struct, IFunc<T, TAccumulate, TAccumulate>
-            where TResultSelector : struct, IFunc<TAccumulate, TResult>
         {
             var output = new NativeArray<TResult>(1, Allocator.TempJob, NativeArrayOptions.UninitializedMemory);
-            var job = new AggregateJob<TAccumulate, TResult, TAccumulator, TResultSelector> { Input = input, Seed = seed, Accumulator = accumulator, ResultSelector = resultSelector, Output = output };
+            var job = new AggregateJob<TAccumulate, TResult> { Input = input, Seed = seed, Func = func, ResultSelector = resultSelector, Output = output };
             job.Schedule(dependsOn).Complete();
             var result = output[0];
             output.Dispose();
             return result;
         }
 
-        public TResult Aggregate<TResult, TAccumulator, TResultSelector>(T seed = default, TAccumulator accumulator = default, TResultSelector resultSelector = default)
-            where TResult : struct
-            where TAccumulator : struct, IFunc<T, T, T>
-            where TResultSelector : struct, IFunc<T, TResult>
-        {
-            return Aggregate<T, TResult, TAccumulator, TResultSelector>(seed, accumulator, resultSelector);
-        }
-
-        public TAccumulate Aggregate<TAccumulate, TAccumulator>(TAccumulate seed = default, TAccumulator accumulator = default)
+        public TAccumulate Aggregate<TAccumulate>(TAccumulate seed, BurstCompiledFunc<TAccumulate, T, TAccumulate> func)
             where TAccumulate : struct
-            where TAccumulator : struct, IFunc<T, TAccumulate, TAccumulate>
         {
             var output = new NativeArray<TAccumulate>(1, Allocator.TempJob, NativeArrayOptions.UninitializedMemory);
-            var job = new AggregateJob<TAccumulate, TAccumulator> { Input = input, Seed = seed, Accumulator = accumulator };
+            var job = new AggregateJob<TAccumulate> { Input = input, Seed = seed, Func = func };
             job.Schedule(dependsOn).Complete();
             var result = output[0];
             output.Dispose();
             return result;
         }
 
-        public T Aggregate<TAccumulator>(T seed = default, TAccumulator accumulator = default)
-            where TAccumulator : struct, IFunc<T, T, T>
+        public T Aggregate(BurstCompiledFunc<T, T, T> func)
         {
-            return Aggregate<T, TAccumulator>(seed, accumulator);
+            return Aggregate(default, func);
         }
 
         [BurstCompile(CompileSynchronously = true)]
-        public struct AggregateJob<TAccumulate, TAccumulator> : IJob
+        public struct AggregateJob<TAccumulate> : IJob
             where TAccumulate : struct
-            where TAccumulator : struct, IFunc<T, TAccumulate, TAccumulate>
         {
             [ReadOnly]
             [DeallocateOnJobCompletion]
@@ -59,7 +46,7 @@ namespace CareBoo.Blinq
             public TAccumulate Seed;
 
             [ReadOnly]
-            public TAccumulator Accumulator;
+            public BurstCompiledFunc<TAccumulate, T, TAccumulate> Func;
 
             [WriteOnly]
             public NativeArray<TAccumulate> Output;
@@ -67,17 +54,15 @@ namespace CareBoo.Blinq
             public void Execute()
             {
                 for (var i = 0; i < Input.Length; i++)
-                    Seed = Accumulator.Invoke(Input[i], Seed);
+                    Seed = Func.Invoke(Seed, Input[i]);
                 Output[0] = Seed;
             }
         }
 
         [BurstCompile(CompileSynchronously = true)]
-        public struct AggregateJob<TAccumulate, TResult, TAccumulator, TResultSelector> : IJob
+        public struct AggregateJob<TAccumulate, TResult> : IJob
             where TAccumulate : struct
             where TResult : struct
-            where TAccumulator : IFunc<T, TAccumulate, TAccumulate>
-            where TResultSelector : IFunc<TAccumulate, TResult>
         {
             [ReadOnly]
             public NativeArray<T> Input;
@@ -85,10 +70,10 @@ namespace CareBoo.Blinq
             public TAccumulate Seed;
 
             [ReadOnly]
-            public TAccumulator Accumulator;
+            public BurstCompiledFunc<TAccumulate, T, TAccumulate> Func;
 
             [ReadOnly]
-            public TResultSelector ResultSelector;
+            public BurstCompiledFunc<TAccumulate, TResult> ResultSelector;
 
             [WriteOnly]
             public NativeArray<TResult> Output;
@@ -96,7 +81,7 @@ namespace CareBoo.Blinq
             public void Execute()
             {
                 for (var i = 0; i < Input.Length; i++)
-                    Seed = Accumulator.Invoke(Input[i], Seed);
+                    Seed = Func.Invoke(Seed, Input[i]);
                 Output[0] = ResultSelector.Invoke(Seed);
             }
         }

@@ -14,7 +14,7 @@ internal class AnyTest
 
     [BurstCompile]
     public static bool EqualsOneDelegate(int i) => i == 1;
-    public static BFunc<int, bool> EqualsOne = new BFunc<int, bool>(EqualsOneDelegate);
+    public static BurstCompiledFunc<int, bool> EqualsOne = BurstCompiledFunc<int, bool>.Compile(EqualsOneDelegate);
 
     [OneTimeSetUp]
     public void SetUpSources()
