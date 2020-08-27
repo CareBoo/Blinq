@@ -1,3 +1,16 @@
+# [1.0.0-preview.5](https://github.com/CareBoo/Blinq/compare/v1.0.0-preview.4...v1.0.0-preview.5) (2020-08-27)
+
+
+### Bug Fixes
+
+* :bug: fixing Average race condition ([366ecaa](https://github.com/CareBoo/Blinq/commit/366ecaabd868ce1816a7f8cd6489cdaec99c0435))
+
+
+### Features
+
+* :sparkles: adding Concat ([591a3bc](https://github.com/CareBoo/Blinq/commit/591a3bc0926327193428c745dacc55ff40bd4001))
+* :sparkles: adding count ([982e113](https://github.com/CareBoo/Blinq/commit/982e113e604e3eb33e27147a739011dc7017d82e))
+
 # [1.0.0-preview.4](https://github.com/CareBoo/Blinq/compare/v1.0.0-preview.3...v1.0.0-preview.4) (2020-08-27)
 
 
