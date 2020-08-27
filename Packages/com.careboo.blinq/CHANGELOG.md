@@ -1,3 +1,10 @@
+# [1.0.0-preview.4](https://github.com/CareBoo/Blinq/compare/v1.0.0-preview.3...v1.0.0-preview.4) (2020-08-27)
+
+
+### Features
+
+* :sparkles: adding in average ([1336d48](https://github.com/CareBoo/Blinq/commit/1336d481a33e6890a6cdf7e757e8d2aa2305ad14))
+
 # [1.0.0-preview.3](https://github.com/CareBoo/Blinq/compare/v1.0.0-preview.2...v1.0.0-preview.3) (2020-08-26)
 
 
