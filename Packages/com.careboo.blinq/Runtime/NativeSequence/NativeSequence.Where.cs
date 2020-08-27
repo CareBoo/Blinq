@@ -11,18 +11,20 @@ namespace CareBoo.Blinq
         {
             var output = new NativeList<T>(input.Length, Allocator.Persistent);
             var job = new WhereWithIndexJob { Input = input, Predicate = predicate, Output = output };
-            dependsOn = job.Schedule(dependsOn);
-            input = output.AsDeferredJobArray();
-            return this;
+            return new NativeSequence<T>(
+                output.AsDeferredJobArray(),
+                job.Schedule(dependsOn)
+            );
         }
 
         public NativeSequence<T> Where(BurstCompiledFunc<T, bool> predicate = default)
         {
             var output = new NativeList<T>(input.Length, Allocator.Persistent);
             var job = new WhereJob { Input = input, Predicate = predicate, Output = output };
-            dependsOn = job.Schedule(dependsOn);
-            input = output.AsDeferredJobArray();
-            return this;
+            return new NativeSequence<T>(
+                output.AsDeferredJobArray(),
+                job.Schedule(dependsOn)
+            );
         }
 
         [BurstCompile(CompileSynchronously = true)]

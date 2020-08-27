@@ -12,6 +12,9 @@ namespace CareBoo.Blinq
         private NativeArray<T> input;
         private JobHandle dependsOn;
 
+        public int Length => input.Length;
+        public JobHandle DependsOn => dependsOn;
+
         public NativeSequence(NativeArray<T> input, JobHandle dependsOn = default)
         {
             this.input = input;
@@ -54,6 +57,11 @@ namespace CareBoo.Blinq
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
+        }
+
+        public static implicit operator NativeArray<T>(NativeSequence<T> from)
+        {
+            return from.input;
         }
     }
 }

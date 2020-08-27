@@ -21,6 +21,7 @@ namespace CareBoo.Blinq
         public struct AllJob : IJob
         {
             [ReadOnly]
+            [DeallocateOnJobCompletion]
             public NativeArray<T> Input;
 
             [ReadOnly]
