@@ -6,7 +6,10 @@ using Unity.Jobs;
 
 namespace CareBoo.Blinq
 {
-    public partial struct NativeSequence<T> : IDisposable, IEnumerable<T>, IEnumerable, IEquatable<NativeSequence<T>>
+    public partial struct NativeSequence<T>
+        : IDisposable
+        , IEnumerable<T>
+        , IEquatable<NativeSequence<T>>
         where T : struct
     {
         private NativeArray<T> input;
