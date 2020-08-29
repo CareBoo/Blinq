@@ -1,3 +1,21 @@
+# [1.0.0-preview.6](https://github.com/CareBoo/Blinq/compare/v1.0.0-preview.5...v1.0.0-preview.6) (2020-08-29)
+
+
+### Features
+
+* :sparkles: Add Aggregate IFunc API ([bc5ab35](https://github.com/CareBoo/Blinq/commit/bc5ab3569df4b9cd042ef499bf12836265dbd87a))
+* :sparkles: Add NotCodeGenerated error ([968e9bf](https://github.com/CareBoo/Blinq/commit/968e9bf5307bfa1dd7f220593315bc1bbb62b64b))
+
+
+### Reverts
+
+* :fire: Delete average ([c63fc35](https://github.com/CareBoo/Blinq/commit/c63fc35454ebbe8ae5f075b237ecbc10209d0b4d))
+
+
+### BREAKING CHANGES
+
+* Average is no longer supported.
+
 # [1.0.0-preview.5](https://github.com/CareBoo/Blinq/compare/v1.0.0-preview.4...v1.0.0-preview.5) (2020-08-27)
 
 
