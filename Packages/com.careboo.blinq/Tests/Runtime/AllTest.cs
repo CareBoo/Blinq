@@ -3,6 +3,7 @@ using LinqEnumerable = System.Linq.Enumerable;
 using NUnit.Framework;
 using Unity.Collections;
 using CareBoo.Blinq;
+using static Utils;
 
 internal class AllTest
 {
@@ -10,8 +11,9 @@ internal class AllTest
     public void BlinqAllShouldEqualLinqAllNativeSequence([EnumerableValues] IEnumerable<int> source)
     {
         var sequence = new NativeSequence<int>(LinqEnumerable.ToArray(source), Allocator.Persistent);
-        var expected = LinqEnumerable.All(sequence.Copy(Allocator.Persistent), default(EqualsZero).Invoke);
-        var actual = sequence.All<EqualsZero>();
+        var expected = ExceptionOrValue(() => LinqEnumerable.All(sequence, default(EqualsZero).Invoke));
+        var actual = ExceptionOrValue(() => sequence.All<EqualsZero>());
         Assert.AreEqual(expected, actual);
+        sequence.Dispose();
     }
 }
