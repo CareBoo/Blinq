@@ -12,9 +12,10 @@ internal class AnyTest
     const int NumElements = 16 << 10;
     NativeSequence<int> source;
 
-    [BurstCompile]
-    public static bool EqualsOneDelegate(int i) => i == 1;
-    public static BurstCompiledFunc<int, bool> EqualsOne = BurstCompiledFunc<int, bool>.Compile(EqualsOneDelegate);
+    public struct EqualsOne : IFunc<int, bool>
+    {
+        public bool Invoke(int arg0) => arg0 == 1;
+    }
 
     [OneTimeSetUp]
     public void SetUpSources()
@@ -55,7 +56,7 @@ internal class AnyTest
     {
         bool result;
 
-        MeasureBlinq(() => result = source.Any(EqualsOne));
+        MeasureBlinq(() => result = source.Any<EqualsOne>());
     }
 
     [Test, Performance]
@@ -64,7 +65,7 @@ internal class AnyTest
     {
         bool result;
 
-        MeasureLinq(() => result = LinqEnumerable.Any(source, EqualsOneDelegate));
+        MeasureLinq(() => result = LinqEnumerable.Any(source, default(EqualsOne).Invoke));
     }
 
     private void MeasureLinq(Action method)

@@ -2,7 +2,6 @@
 using LinqEnumerable = System.Linq.Enumerable;
 using NUnit.Framework;
 using Unity.Collections;
-using static CareBoo.Blinq.Tests.Predicates;
 using CareBoo.Blinq;
 
 internal class AnyTest
@@ -21,8 +20,8 @@ internal class AnyTest
     public void BlinqShouldEqualLinqNativeSequenceAnyPredicate([EnumerableValues] IEnumerable<int> source)
     {
         var sequence = new NativeSequence<int>(LinqEnumerable.ToArray(source), Allocator.Persistent);
-        var expected = LinqEnumerable.Any(sequence, EqualsZero);
-        var actual = sequence.Any(EqualsZeroFunc);
+        var expected = LinqEnumerable.Any(sequence, default(EqualsZero).Invoke);
+        var actual = sequence.Any<EqualsZero>();
         Assert.AreEqual(expected, actual);
         sequence.Dispose();
     }

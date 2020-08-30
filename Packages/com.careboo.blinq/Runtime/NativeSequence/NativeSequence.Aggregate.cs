@@ -8,6 +8,7 @@ namespace CareBoo.Blinq
     public partial struct NativeSequence<T>
         where T : struct
     {
+        [CodeGenSourceApi("1239b99f-e73f-4297-a9b3-0d896e763cb4")]
         public TResult Aggregate<TAccumulate, TResult>(TAccumulate seed, Func<TAccumulate, T, TAccumulate> func, Func<TAccumulate, TResult> resultSelector)
             where TAccumulate : struct
             where TResult : struct
@@ -15,41 +16,8 @@ namespace CareBoo.Blinq
             throw Error.NotCodeGenerated();
         }
 
-        public TAccumulate Aggregate<TAccumulate>(TAccumulate seed, Func<TAccumulate, T, TAccumulate> func)
-            where TAccumulate : struct
-        {
-            throw Error.NotCodeGenerated();
-        }
-
-        public T Aggregate(Func<T, T, T> func)
-        {
-            throw Error.NotCodeGenerated();
-        }
-
-        public TResult Aggregate<TAccumulate, TResult>(TAccumulate seed, BurstCompiledFunc<TAccumulate, T, TAccumulate> func, BurstCompiledFunc<TAccumulate, TResult> resultSelector)
-            where TAccumulate : struct
-            where TResult : struct
-        {
-            return Aggregate_CodeGeneratedFunc<
-                TAccumulate,
-                TResult,
-                BurstCompiledFunc<TAccumulate, T, TAccumulate>,
-                BurstCompiledFunc<TAccumulate, TResult>>
-                (seed, func, resultSelector);
-        }
-
-        public TAccumulate Aggregate<TAccumulate>(TAccumulate seed, BurstCompiledFunc<TAccumulate, T, TAccumulate> func)
-            where TAccumulate : struct
-        {
-            return Aggregate_CodeGeneratedFunc(seed, func);
-        }
-
-        public T Aggregate(BurstCompiledFunc<T, T, T> func)
-        {
-            return Aggregate(default, func);
-        }
-
-        public TResult Aggregate_CodeGeneratedFunc<TAccumulate, TResult, TFunc, TResultSelector>(
+        [CodeGenTargetApi("1239b99f-e73f-4297-a9b3-0d896e763cb4")]
+        public TResult Aggregate<TAccumulate, TResult, TFunc, TResultSelector>(
             TAccumulate seed,
             TFunc func,
             TResultSelector resultSelector
@@ -67,7 +35,15 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public TAccumulate Aggregate_CodeGeneratedFunc<TAccumulate, TFunc>(
+        [CodeGenSourceApi("7098ee9b-1530-450f-96d4-d6255d573dd5")]
+        public TAccumulate Aggregate<TAccumulate>(TAccumulate seed, Func<TAccumulate, T, TAccumulate> func)
+            where TAccumulate : struct
+        {
+            throw Error.NotCodeGenerated();
+        }
+
+        [CodeGenTargetApi("7098ee9b-1530-450f-96d4-d6255d573dd5")]
+        public TAccumulate Aggregate<TAccumulate, TFunc>(
             TAccumulate seed,
             TFunc func
             )
@@ -80,6 +56,19 @@ namespace CareBoo.Blinq
             var result = output[0];
             output.Dispose();
             return result;
+        }
+
+        [CodeGenSourceApi("5a161ba7-0663-473e-a970-d275c8e53bf6")]
+        public T Aggregate(Func<T, T, T> func)
+        {
+            throw Error.NotCodeGenerated();
+        }
+
+        [CodeGenTargetApi("5a161ba7-0663-473e-a970-d275c8e53bf6")]
+        public T Aggregate<TFunc>(TFunc func)
+            where TFunc : struct, IFunc<T, T, T>
+        {
+            return Aggregate<T, TFunc>(default, func);
         }
 
         [BurstCompile(CompileSynchronously = true)]

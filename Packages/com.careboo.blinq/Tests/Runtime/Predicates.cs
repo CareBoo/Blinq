@@ -1,12 +1,6 @@
-﻿using Unity.Burst;
+﻿using CareBoo.Blinq;
 
-namespace CareBoo.Blinq.Tests
+internal struct EqualsZero : IFunc<int, bool>
 {
-    [BurstCompile]
-    public static class Predicates
-    {
-        [BurstCompile]
-        public static bool EqualsZero(int val) => val == 0;
-        public static BurstCompiledFunc<int, bool> EqualsZeroFunc = BurstCompiledFunc<int, bool>.Compile(EqualsZero);
-    }
+    public bool Invoke(int arg0) => arg0 == 0;
 }

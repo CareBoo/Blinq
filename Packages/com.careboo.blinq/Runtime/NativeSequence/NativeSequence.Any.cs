@@ -1,4 +1,5 @@
-﻿using Unity.Burst;
+﻿using System;
+using Unity.Burst;
 using Unity.Collections;
 using Unity.Jobs;
 
@@ -7,10 +8,18 @@ namespace CareBoo.Blinq
     public partial struct NativeSequence<T>
         where T : struct
     {
-        public bool Any(BurstCompiledFunc<T, bool> predicate)
+        [CodeGenSourceApi("156435a9-2bbf-4a7e-a395-a5e697a81e85")]
+        public bool Any(Func<T, bool> predicate)
+        {
+            throw Error.NotCodeGenerated();
+        }
+
+        [CodeGenTargetApi("156435a9-2bbf-4a7e-a395-a5e697a81e85")]
+        public bool Any<TPredicate>(TPredicate predicate = default)
+            where TPredicate : struct, IFunc<T, bool>
         {
             var output = new NativeArray<bool>(1, Allocator.TempJob, NativeArrayOptions.UninitializedMemory);
-            var job = new AnyJob { Input = input, Predicate = predicate, Output = output };
+            var job = new AnyJob<TPredicate> { Input = input, Predicate = predicate, Output = output };
             job.Schedule(dependsOn).Complete();
             var result = output[0];
             output.Dispose();
@@ -26,13 +35,14 @@ namespace CareBoo.Blinq
         }
 
         [BurstCompile(CompileSynchronously = true)]
-        public struct AnyJob : IJob
+        public struct AnyJob<TPredicate> : IJob
+            where TPredicate : struct, IFunc<T, bool>
         {
             [ReadOnly]
             public NativeArray<T> Input;
 
             [ReadOnly]
-            public BurstCompiledFunc<T, bool> Predicate;
+            public TPredicate Predicate;
 
             [WriteOnly]
             public NativeArray<bool> Output;
