@@ -49,7 +49,8 @@ namespace CareBoo.Blinq
         public NativeArray<T>.Enumerator GetEnumerator()
         {
             dependsOn.Complete();
-            return input.GetEnumerator();
+            var enumerator = input.GetEnumerator();
+            return enumerator;
         }
 
         IEnumerator<T> IEnumerable<T>.GetEnumerator()
