@@ -31,7 +31,6 @@ namespace CareBoo.Blinq
             where TPredicate : struct, IFunc<T, bool>
         {
             [ReadOnly]
-            [DeallocateOnJobCompletion]
             public NativeArray<T> Input;
 
             [ReadOnly]
