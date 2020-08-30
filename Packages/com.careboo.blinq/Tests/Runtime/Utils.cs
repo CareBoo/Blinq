@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using CareBoo.Blinq;
+using Unity.Collections;
+using LinqEnumerable = System.Linq.Enumerable;
 
 internal static class Utils
 {
@@ -15,5 +19,11 @@ internal static class Utils
             exceptionMessage = ex.Message;
         }
         return (exceptionMessage, value);
+    }
+
+    public static NativeSequence<T> InitSequence<T>(IEnumerable<T> source)
+        where T : struct
+    {
+        return new NativeSequence<T>(LinqEnumerable.ToArray(source), Allocator.Persistent);
     }
 }
