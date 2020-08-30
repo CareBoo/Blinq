@@ -19,8 +19,8 @@ namespace CareBoo.Blinq
         [CodeGenTargetApi("1239b99f-e73f-4297-a9b3-0d896e763cb4")]
         public TResult Aggregate<TAccumulate, TResult, TFunc, TResultSelector>(
             TAccumulate seed,
-            TFunc func,
-            TResultSelector resultSelector
+            TFunc func = default,
+            TResultSelector resultSelector = default
             )
             where TAccumulate : struct
             where TResult : struct
@@ -45,7 +45,7 @@ namespace CareBoo.Blinq
         [CodeGenTargetApi("7098ee9b-1530-450f-96d4-d6255d573dd5")]
         public TAccumulate Aggregate<TAccumulate, TFunc>(
             TAccumulate seed,
-            TFunc func
+            TFunc func = default
             )
             where TAccumulate : struct
             where TFunc : struct, IFunc<TAccumulate, T, TAccumulate>
@@ -65,9 +65,11 @@ namespace CareBoo.Blinq
         }
 
         [CodeGenTargetApi("5a161ba7-0663-473e-a970-d275c8e53bf6")]
-        public T Aggregate<TFunc>(TFunc func)
+        public T Aggregate<TFunc>(TFunc func = default)
             where TFunc : struct, IFunc<T, T, T>
         {
+            dependsOn.Complete();
+            if (Length == 0) throw Error.NoElements();
             return Aggregate<T, TFunc>(default, func);
         }
 
@@ -77,7 +79,6 @@ namespace CareBoo.Blinq
             where TFunc : struct, IFunc<TAccumulate, T, TAccumulate>
         {
             [ReadOnly]
-            [DeallocateOnJobCompletion]
             public NativeArray<T> Input;
 
             public TAccumulate Seed;
