@@ -6,16 +6,10 @@ using System;
 using CareBoo.Blinq;
 using Unity.Burst;
 
-[BurstCompile]
 internal class AnyTest
 {
     const int NumElements = 16 << 10;
     NativeSequence<int> source;
-
-    public struct EqualsOne : IFunc<int, bool>
-    {
-        public bool Invoke(int arg0) => arg0 == 1;
-    }
 
     [OneTimeSetUp]
     public void SetUpSources()

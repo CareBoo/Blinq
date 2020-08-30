@@ -3,6 +3,7 @@ using LinqEnumerable = System.Linq.Enumerable;
 using NUnit.Framework;
 using Unity.Collections;
 using CareBoo.Blinq;
+using static Utils;
 
 internal class AnyTest
 {
@@ -10,8 +11,8 @@ internal class AnyTest
     public void BlinqShouldEqualLinqNativeSequenceAny([EnumerableValues] IEnumerable<int> source)
     {
         var sequence = new NativeSequence<int>(LinqEnumerable.ToArray(source), Allocator.Persistent);
-        var expected = LinqEnumerable.Any(sequence);
-        var actual = sequence.Any();
+        var expected = ExceptionOrValue(() => LinqEnumerable.Any(sequence));
+        var actual = ExceptionOrValue(() => sequence.Any());
         Assert.AreEqual(expected, actual);
         sequence.Dispose();
     }
@@ -20,8 +21,8 @@ internal class AnyTest
     public void BlinqShouldEqualLinqNativeSequenceAnyPredicate([EnumerableValues] IEnumerable<int> source)
     {
         var sequence = new NativeSequence<int>(LinqEnumerable.ToArray(source), Allocator.Persistent);
-        var expected = LinqEnumerable.Any(sequence, default(EqualsZero).Invoke);
-        var actual = sequence.Any<EqualsZero>();
+        var expected = ExceptionOrValue(() => LinqEnumerable.Any(sequence, default(EqualsZero).Invoke));
+        var actual = ExceptionOrValue(() => sequence.Any<EqualsZero>());
         Assert.AreEqual(expected, actual);
         sequence.Dispose();
     }
