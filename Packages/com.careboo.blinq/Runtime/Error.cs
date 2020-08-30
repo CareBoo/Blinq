@@ -15,6 +15,8 @@ internal static class Error
     internal static Exception NoMatch() { return new InvalidOperationException("Sequence contains no matching element"); }
 
     internal static Exception NotSupported() { return new NotSupportedException(); }
+
     internal static Exception NotCodeGenerated() { return new NotImplementedException("Code generation for this method has failed!"); }
+
     internal static Exception NotImplemented() { return new NotImplementedException(); }
 }
