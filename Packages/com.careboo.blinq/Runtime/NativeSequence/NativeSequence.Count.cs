@@ -19,8 +19,8 @@ namespace CareBoo.Blinq
             where TPredicate : struct, IFunc<T, bool>
         {
             var output = new NativeArray<int>(1, Allocator.Persistent, NativeArrayOptions.UninitializedMemory);
-            var job = new CountJob<TPredicate> { Input = input, Predicate = predicate, Output = output };
-            job.Schedule(input.Length, 64, dependsOn).Complete();
+            var job = new CountJob<TPredicate> { Source = source, Predicate = predicate, Output = output };
+            job.Schedule(source.Length, 64, dependsOn).Complete();
             var result = output[0];
             output.Dispose();
             return result;
@@ -28,7 +28,8 @@ namespace CareBoo.Blinq
 
         public int Count()
         {
-            return Length;
+            dependsOn.Complete();
+            return source.Length;
         }
 
         [BurstCompile(CompileSynchronously = true)]
@@ -36,7 +37,7 @@ namespace CareBoo.Blinq
             where TPredicate : struct, IFunc<T, bool>
         {
             [ReadOnly]
-            public NativeArray<T> Input;
+            public NativeList<T> Source;
 
             [ReadOnly]
             public TPredicate Predicate;
@@ -46,7 +47,7 @@ namespace CareBoo.Blinq
 
             public void Execute(int index)
             {
-                if (Predicate.Invoke(Input[index]))
+                if (Predicate.Invoke(Source[index]))
                     Output[0]++;
             }
         }

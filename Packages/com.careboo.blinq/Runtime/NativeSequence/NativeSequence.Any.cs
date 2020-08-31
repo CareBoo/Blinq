@@ -19,7 +19,7 @@ namespace CareBoo.Blinq
             where TPredicate : struct, IFunc<T, bool>
         {
             var output = new NativeArray<bool>(1, Allocator.TempJob, NativeArrayOptions.UninitializedMemory);
-            var job = new AnyJob<TPredicate> { Input = input, Predicate = predicate, Output = output };
+            var job = new AnyJob<TPredicate> { Input = source, Predicate = predicate, Output = output };
             job.Schedule(dependsOn).Complete();
             var result = output[0];
             output.Dispose();
@@ -29,7 +29,7 @@ namespace CareBoo.Blinq
         public bool Any()
         {
             dependsOn.Complete();
-            var result = input.Length > 0;
+            var result = source.Length > 0;
 
             return result;
         }

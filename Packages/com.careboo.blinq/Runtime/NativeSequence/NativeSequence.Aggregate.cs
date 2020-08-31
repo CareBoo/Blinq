@@ -28,7 +28,7 @@ namespace CareBoo.Blinq
             where TResultSelector : struct, IFunc<TAccumulate, TResult>
         {
             var output = new NativeArray<TResult>(1, Allocator.Persistent, NativeArrayOptions.UninitializedMemory);
-            var job = new AggregateJob<TAccumulate, TResult, TFunc, TResultSelector> { Input = input, Seed = seed, Func = func, ResultSelector = resultSelector, Output = output };
+            var job = new AggregateJob<TAccumulate, TResult, TFunc, TResultSelector> { Input = source, Seed = seed, Func = func, ResultSelector = resultSelector, Output = output };
             job.Schedule(dependsOn).Complete();
             var result = output[0];
             output.Dispose();
@@ -51,7 +51,7 @@ namespace CareBoo.Blinq
             where TFunc : struct, IFunc<TAccumulate, T, TAccumulate>
         {
             var output = new NativeArray<TAccumulate>(1, Allocator.Persistent, NativeArrayOptions.UninitializedMemory);
-            var job = new AggregateJob<TAccumulate, TFunc> { Input = input, Seed = seed, Func = func, Output = output };
+            var job = new AggregateJob<TAccumulate, TFunc> { Source = source, Seed = seed, Func = func, Output = output };
             job.Schedule(dependsOn).Complete();
             var result = output[0];
             output.Dispose();
@@ -69,7 +69,7 @@ namespace CareBoo.Blinq
             where TFunc : struct, IFunc<T, T, T>
         {
             dependsOn.Complete();
-            if (Length == 0) throw Error.NoElements();
+            if (source.Length == 0) throw Error.NoElements();
             return Aggregate<T, TFunc>(default, func);
         }
 
@@ -79,7 +79,7 @@ namespace CareBoo.Blinq
             where TFunc : struct, IFunc<TAccumulate, T, TAccumulate>
         {
             [ReadOnly]
-            public NativeArray<T> Input;
+            public NativeArray<T> Source;
 
             public TAccumulate Seed;
 
@@ -91,8 +91,8 @@ namespace CareBoo.Blinq
 
             public void Execute()
             {
-                for (var i = 0; i < Input.Length; i++)
-                    Seed = Func.Invoke(Seed, Input[i]);
+                for (var i = 0; i < Source.Length; i++)
+                    Seed = Func.Invoke(Seed, Source[i]);
                 Output[0] = Seed;
             }
         }

@@ -9,34 +9,22 @@ namespace CareBoo.Blinq
     {
         public NativeSequence<T> Concat(NativeSequence<T> second)
         {
-            var output = new NativeList<T>(Length + second.Length, Allocator.Persistent);
-            var job = new ConcatJob { First = input, Second = second, Output = output };
-            return new NativeSequence<T>(
-                output.AsDeferredJobArray(),
-                job.Schedule(dependsOn)
-            );
+            var job = new ConcatJob { Source = source, Second = second.source };
+            dependsOn = job.Schedule();
+            return this;
         }
 
         [BurstCompile(CompileSynchronously = true)]
         public struct ConcatJob : IJob
         {
-            [ReadOnly]
-            [DeallocateOnJobCompletion]
-            public NativeArray<T> First;
+            public NativeList<T> Source;
 
             [ReadOnly]
-            [DeallocateOnJobCompletion]
-            public NativeArray<T> Second;
-
-            [WriteOnly]
-            public NativeList<T> Output;
+            public NativeList<T> Second;
 
             public void Execute()
             {
-                for (var i = 0; i < First.Length; i++)
-                    Output.AddNoResize(First[i]);
-                for (var i = 0; i < Second.Length; i++)
-                    Output.AddNoResize(Second[i]);
+                Source.AddRange(Second);
             }
         }
     }
