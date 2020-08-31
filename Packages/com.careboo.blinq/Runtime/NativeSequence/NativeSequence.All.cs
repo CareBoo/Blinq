@@ -15,7 +15,7 @@ namespace CareBoo.Blinq
         }
 
         [CodeGenTargetApi("927b1d67-8862-43a8-b4f4-99e90e9e5b30")]
-        public bool All<TPredicate>(TPredicate predicate = default)
+        internal bool All<TPredicate>(TPredicate predicate = default)
             where TPredicate : struct, IFunc<T, bool>
         {
             var output = new NativeArray<bool>(1, Allocator.TempJob, NativeArrayOptions.UninitializedMemory);
@@ -27,7 +27,7 @@ namespace CareBoo.Blinq
         }
 
         [BurstCompile(CompileSynchronously = true)]
-        public struct AllJob<TPredicate> : IJob
+        internal struct AllJob<TPredicate> : IJob
             where TPredicate : struct, IFunc<T, bool>
         {
             [ReadOnly]

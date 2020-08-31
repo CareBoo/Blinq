@@ -15,7 +15,7 @@ namespace CareBoo.Blinq
         }
 
         [CodeGenTargetApi("0beab518-4e77-4166-8c32-d191679c2aa2")]
-        public NativeSequence<T> WhereWithIndex<TPredicate>(TPredicate predicate = default)
+        internal NativeSequence<T> WhereWithIndex<TPredicate>(TPredicate predicate = default)
             where TPredicate : struct, IFunc<T, int, bool>
         {
             var job = new WhereWithIndexJob<TPredicate> { Source = source, Predicate = predicate };
@@ -30,7 +30,7 @@ namespace CareBoo.Blinq
         }
 
         [CodeGenTargetApi("a5d240e9-7f53-4bd7-9061-d8289bdf224f")]
-        public NativeSequence<T> Where<TPredicate>(TPredicate predicate = default)
+        internal NativeSequence<T> Where<TPredicate>(TPredicate predicate = default)
             where TPredicate : struct, IFunc<T, bool>
         {
             var job = new WhereJob<TPredicate> { Source = source, Predicate = predicate };
@@ -39,7 +39,7 @@ namespace CareBoo.Blinq
         }
 
         [BurstCompile(CompileSynchronously = true)]
-        public struct WhereWithIndexJob<TPredicate> : IJob
+        internal struct WhereWithIndexJob<TPredicate> : IJob
             where TPredicate : struct, IFunc<T, int, bool>
         {
             public NativeList<T> Source;
@@ -63,7 +63,7 @@ namespace CareBoo.Blinq
         }
 
         [BurstCompile(CompileSynchronously = true)]
-        public struct WhereJob<TPredicate> : IJob
+        internal struct WhereJob<TPredicate> : IJob
             where TPredicate : struct, IFunc<T, bool>
         {
             public NativeList<T> Source;

@@ -15,7 +15,7 @@ namespace CareBoo.Blinq
         }
 
         [CodeGenTargetApi("ce70eaef-6b62-4f4b-b9e4-eff91ab0d629")]
-        public int Count<TPredicate>(TPredicate predicate)
+        internal int Count<TPredicate>(TPredicate predicate)
             where TPredicate : struct, IFunc<T, bool>
         {
             var output = new NativeArray<int>(1, Allocator.Persistent, NativeArrayOptions.UninitializedMemory);
@@ -33,7 +33,7 @@ namespace CareBoo.Blinq
         }
 
         [BurstCompile(CompileSynchronously = true)]
-        public struct CountJob<TPredicate> : IJobParallelFor
+        internal struct CountJob<TPredicate> : IJobParallelFor
             where TPredicate : struct, IFunc<T, bool>
         {
             [ReadOnly]

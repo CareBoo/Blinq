@@ -15,7 +15,7 @@ namespace CareBoo.Blinq
         }
 
         [BurstCompile(CompileSynchronously = true)]
-        public struct AppendJob : IJob
+        internal struct AppendJob : IJob
         {
             public NativeList<T> Source;
 
