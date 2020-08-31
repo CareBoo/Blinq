@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 
-[assembly: InternalsVisibleTo("CareBoo.CareBoo.Blinq.Tests")]
-[assembly: InternalsVisibleTo("CareBoo.CareBoo.Blinq.Performance.Tests")]
+[assembly: InternalsVisibleTo("CareBoo.Blinq.Tests")]
+[assembly: InternalsVisibleTo("CareBoo.Blinq.Performance.Tests")]
 internal static class Error
 {
     internal static Exception ArgumentNull(string s) { return new ArgumentNullException(s); }

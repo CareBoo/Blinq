@@ -7,7 +7,7 @@ using Unity.Jobs;
 namespace CareBoo.Blinq
 {
     public partial struct NativeSequence<T>
-        : IDisposable
+        : INativeDisposable
         , IEnumerable<T>
         , IEquatable<NativeSequence<T>>
         where T : struct
@@ -15,8 +15,6 @@ namespace CareBoo.Blinq
         private NativeList<T> source;
 
         private JobHandle dependsOn;
-
-        public JobHandle DependsOn => dependsOn;
 
         private NativeSequence(NativeList<T> source, JobHandle dependsOn = default)
         {
@@ -34,12 +32,18 @@ namespace CareBoo.Blinq
         {
         }
 
-
         public void Dispose()
         {
             dependsOn.Complete();
             source.Dispose();
         }
+
+        public JobHandle Dispose(JobHandle inputDeps)
+        {
+            dependsOn = JobHandle.CombineDependencies(dependsOn, inputDeps);
+            return source.Dispose(dependsOn);
+        }
+
 
         public bool Equals(NativeSequence<T> other)
         {

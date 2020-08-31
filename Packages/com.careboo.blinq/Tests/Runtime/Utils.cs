@@ -5,7 +5,7 @@ using CareBoo.Blinq;
 using Unity.Collections;
 using LinqEnumerable = System.Linq.Enumerable;
 
-[assembly: InternalsVisibleTo("CareBoo.CareBoo.Blinq.Performance.Tests")]
+[assembly: InternalsVisibleTo("CareBoo.Blinq.Performance.Tests")]
 internal static class Utils
 {
     public static (string exceptionMessage, T value) ExceptionOrValue<T>(Func<T> func)
