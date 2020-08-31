@@ -16,16 +16,18 @@ namespace CareBoo.Blinq
         }
 
         [CodeGenTargetApi("02618425-8d2b-4858-be01-7dfb335b15b5")]
-        public NativeSequence<TResult> SelectWithIndex<TResult, TSelector>(TSelector selector)
+        public NativeSequence<TResult> SelectWithIndex<TResult, TSelector>(TSelector selector = default)
             where TResult : struct
             where TSelector : struct, IFunc<T, int, TResult>
         {
             dependsOn.Complete();
             var output = new NativeList<TResult>(source.Length, Allocator.Persistent) { Length = source.Length };
-            var selectJob = new SelectWithIndexJob<TResult, TSelector> { Source = source, Selector = selector, Output = output };
+            var selectJob = new SelectWithIndexJob<TResult, TSelector> { Source = source, Selector = selector, Output = output }
+                .Schedule(source.Length, 32);
+            source.Dispose(selectJob);
             return new NativeSequence<TResult>(
                 output,
-                selectJob.Schedule(source.Length, 32)
+                selectJob
             );
         }
 
@@ -37,16 +39,18 @@ namespace CareBoo.Blinq
         }
 
         [CodeGenTargetApi("cd64809b-cb18-434e-8b22-81f4a133c657")]
-        public NativeSequence<TResult> Select<TResult, TSelector>(TSelector selector)
+        public NativeSequence<TResult> Select<TResult, TSelector>(TSelector selector = default)
             where TResult : struct
             where TSelector : struct, IFunc<T, TResult>
         {
             dependsOn.Complete();
             var output = new NativeList<TResult>(source.Length, Allocator.Persistent) { Length = source.Length };
-            var job = new SelectJob<TResult, TSelector> { Source = source, Selector = selector, Output = output };
+            var selectJob = new SelectJob<TResult, TSelector> { Source = source, Selector = selector, Output = output }
+                .Schedule(source.Length, 32);
+            source.Dispose(selectJob);
             return new NativeSequence<TResult>(
                 output,
-                job.Schedule(source.Length, 32, dependsOn)
+                selectJob
             );
         }
 
@@ -56,14 +60,13 @@ namespace CareBoo.Blinq
             where TSelector : struct, IFunc<T, int, TResult>
         {
             [ReadOnly]
-            [DeallocateOnJobCompletion]
             public NativeList<T> Source;
 
             [ReadOnly]
             public TSelector Selector;
 
             [WriteOnly]
-            public NativeList<TResult> Output;
+            public NativeArray<TResult> Output;
 
             public void Execute(int index)
             {
@@ -77,14 +80,13 @@ namespace CareBoo.Blinq
             where TSelector : struct, IFunc<T, TResult>
         {
             [ReadOnly]
-            [DeallocateOnJobCompletion]
             public NativeList<T> Source;
 
             [ReadOnly]
             public TSelector Selector;
 
             [WriteOnly]
-            public NativeList<TResult> Output;
+            public NativeArray<TResult> Output;
 
             public void Execute(int index)
             {
