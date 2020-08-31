@@ -9,32 +9,22 @@ namespace CareBoo.Blinq
     {
         public NativeSequence<T> Append(T item)
         {
-            var output = new NativeList<T>(input.Length + 1, Allocator.Persistent);
-            var job = new AppendJob { Input = input, Item = item, Output = output };
-            return new NativeSequence<T>(
-                output.AsDeferredJobArray(),
-                job.Schedule(dependsOn)
-            );
+            var job = new AppendJob { Source = source, Item = item };
+            dependsOn = job.Schedule(dependsOn);
+            return this;
         }
 
         [BurstCompile(CompileSynchronously = true)]
         public struct AppendJob : IJob
         {
-            [ReadOnly]
-            [DeallocateOnJobCompletion]
-            public NativeArray<T> Input;
+            public NativeList<T> Source;
 
             [ReadOnly]
             public T Item;
 
-            [WriteOnly]
-            public NativeList<T> Output;
-
             public void Execute()
             {
-                for (var i = 0; i < Input.Length; i++)
-                    Output.AddNoResize(Input[i]);
-                Output.AddNoResize(Item);
+                Source.Add(Item);
             }
         }
     }

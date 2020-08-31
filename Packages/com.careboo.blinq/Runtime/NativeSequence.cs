@@ -12,44 +12,44 @@ namespace CareBoo.Blinq
         , IEquatable<NativeSequence<T>>
         where T : struct
     {
-        private NativeArray<T> input;
+        private NativeList<T> source;
+
         private JobHandle dependsOn;
 
-        public int Length => input.Length;
         public JobHandle DependsOn => dependsOn;
 
-        public NativeSequence(NativeArray<T> input, JobHandle dependsOn = default)
+        private NativeSequence(NativeList<T> source, JobHandle dependsOn = default)
         {
-            this.input = input;
+            this.source = source;
             this.dependsOn = dependsOn;
         }
 
-        public NativeSequence(T[] input, Allocator allocator)
-            : this(new NativeArray<T>(input, allocator))
+        public NativeSequence(T[] source, Allocator allocator)
+            : this(source.ToNativeList(allocator))
         {
         }
 
-        public NativeSequence<T> Copy(Allocator allocator)
+        public NativeSequence(NativeArray<T> source, Allocator allocator)
+            : this(source.ToNativeList(allocator))
         {
-            dependsOn.Complete();
-            return new NativeSequence<T>(new NativeArray<T>(input, allocator));
         }
+
 
         public void Dispose()
         {
             dependsOn.Complete();
-            input.Dispose();
+            source.Dispose();
         }
 
         public bool Equals(NativeSequence<T> other)
         {
-            return input.Equals(other.input);
+            return source.Equals(other.source);
         }
 
         public NativeArray<T>.Enumerator GetEnumerator()
         {
             dependsOn.Complete();
-            var enumerator = input.GetEnumerator();
+            var enumerator = source.GetEnumerator();
             return enumerator;
         }
 
@@ -65,7 +65,7 @@ namespace CareBoo.Blinq
 
         public static implicit operator NativeArray<T>(NativeSequence<T> from)
         {
-            return from.input;
+            return from.source;
         }
     }
 }

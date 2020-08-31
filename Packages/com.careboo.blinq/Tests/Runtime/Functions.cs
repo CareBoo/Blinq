@@ -6,9 +6,9 @@ internal struct EqualsZero : IFunc<int, bool>
     public bool Invoke(int arg0) => arg0 == 0;
 }
 
-internal struct LessThanIndex : IFunc<int, int, bool>
+internal struct EqualToIndex : IFunc<int, int, bool>
 {
-    public bool Invoke(int val, int index) => val < index;
+    public bool Invoke(int val, int index) => val == index;
 }
 
 internal struct AddToIndex : IFunc<int, int, long>

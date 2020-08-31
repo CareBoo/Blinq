@@ -26,4 +26,9 @@ internal static class Utils
     {
         return new NativeSequence<T>(LinqEnumerable.ToArray(source), Allocator.Persistent);
     }
+
+    public static string LogEnumerables(IEnumerable<int> expected, IEnumerable<int> actual)
+    {
+        return $"Expected: {{{string.Join(",", expected)}}}\nActual: {{{string.Join(",", actual)}}}";
+    }
 }

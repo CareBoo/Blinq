@@ -18,12 +18,9 @@ namespace CareBoo.Blinq
         public NativeSequence<T> WhereWithIndex<TPredicate>(TPredicate predicate = default)
             where TPredicate : struct, IFunc<T, int, bool>
         {
-            var output = new NativeList<T>(input.Length, Allocator.Persistent);
-            var job = new WhereWithIndexJob<TPredicate> { Input = input, Predicate = predicate, Output = output };
-            return new NativeSequence<T>(
-                output.AsDeferredJobArray(),
-                job.Schedule(dependsOn)
-            );
+            var job = new WhereWithIndexJob<TPredicate> { Source = source, Predicate = predicate };
+            dependsOn = job.Schedule(dependsOn);
+            return this;
         }
 
         [CodeGenSourceApi("a5d240e9-7f53-4bd7-9061-d8289bdf224f")]
@@ -36,33 +33,32 @@ namespace CareBoo.Blinq
         public NativeSequence<T> Where<TPredicate>(TPredicate predicate = default)
             where TPredicate : struct, IFunc<T, bool>
         {
-            var output = new NativeList<T>(input.Length, Allocator.Persistent);
-            var job = new WhereJob<TPredicate> { Input = input, Predicate = predicate, Output = output };
-            return new NativeSequence<T>(
-                output.AsDeferredJobArray(),
-                job.Schedule(dependsOn)
-            );
+            var job = new WhereJob<TPredicate> { Source = source, Predicate = predicate };
+            dependsOn = job.Schedule(dependsOn);
+            return this;
         }
 
         [BurstCompile(CompileSynchronously = true)]
         public struct WhereWithIndexJob<TPredicate> : IJob
             where TPredicate : struct, IFunc<T, int, bool>
         {
-            [ReadOnly]
-            [DeallocateOnJobCompletion]
-            public NativeArray<T> Input;
+            public NativeList<T> Source;
 
             [ReadOnly]
             public TPredicate Predicate;
 
-            [WriteOnly]
-            public NativeList<T> Output;
-
             public void Execute()
             {
-                for (var i = 0; i < Input.Length; i++)
-                    if (Predicate.Invoke(Input[i], i))
-                        Output.AddNoResize(Input[i]);
+                var length = Source.Length;
+                for (var i = 0; i < length; i++)
+                {
+                    if (!Predicate.Invoke(Source[i], i))
+                    {
+                        Source.RemoveAt(i);
+                        i--;
+                        length--;
+                    }
+                }
             }
         }
 
@@ -70,21 +66,23 @@ namespace CareBoo.Blinq
         public struct WhereJob<TPredicate> : IJob
             where TPredicate : struct, IFunc<T, bool>
         {
-            [ReadOnly]
-            [DeallocateOnJobCompletion]
-            public NativeArray<T> Input;
+            public NativeList<T> Source;
 
             [ReadOnly]
             public TPredicate Predicate;
 
-            [WriteOnly]
-            public NativeList<T> Output;
-
             public void Execute()
             {
-                for (var i = 0; i < Input.Length; i++)
-                    if (Predicate.Invoke(Input[i]))
-                        Output.AddNoResize(Input[i]);
+                var length = Source.Length;
+                for (var i = 0; i < length; i++)
+                {
+                    if (!Predicate.Invoke(Source[i]))
+                    {
+                        Source.RemoveAt(i);
+                        i--;
+                        length--;
+                    }
+                }
             }
         }
     }
