@@ -1,3 +1,29 @@
+# [1.0.0-preview.7](https://github.com/CareBoo/Blinq/compare/v1.0.0-preview.6...v1.0.0-preview.7) (2020-09-04)
+
+
+### Bug Fixes
+
+* :bug: enforce IFunc struct params ([ca074fe](https://github.com/CareBoo/Blinq/commit/ca074fe5cb82d619e1c780557eac1b6a0298e38c))
+* :bug: remove deallocate ([9eefb9d](https://github.com/CareBoo/Blinq/commit/9eefb9d792536495c860c196fec9d96aa38a0c15))
+* :bug: Remove deallocate for aggregate and count ([5b415fd](https://github.com/CareBoo/Blinq/commit/5b415fd826fbd52ca6a7700fd40ef80c602bcf93))
+
+
+### Features
+
+* :sparkles: Add CodeGenSourceApiAttribute ([f176c70](https://github.com/CareBoo/Blinq/commit/f176c7040c4b7584901c18cbc2cb3ab1cd4b39c4))
+* :sparkles: Add CodeGenTargetApiAttribute ([44d3037](https://github.com/CareBoo/Blinq/commit/44d3037e0faf4941cf62ad1e3fa64da2119cac58))
+* :sparkles: Add INativeDisposable interface ([d294b42](https://github.com/CareBoo/Blinq/commit/d294b42a65b89b2080c9145426f35aec068de527))
+* :sparkles: Add Lots of Features ([ccdf51a](https://github.com/CareBoo/Blinq/commit/ccdf51a9ba2a1307414ec83edb02b8fc34d1aa9d))
+* :sparkles: Implement CodeGenApi attributes ([3325f2d](https://github.com/CareBoo/Blinq/commit/3325f2de12e4d60000cf2b1f3c7f3d7d6d1d8fd4))
+* :sparkles: Use NativeList as backed field ([5044aab](https://github.com/CareBoo/Blinq/commit/5044aab83a6be2e479d48a5177b6471f622da100))
+* :tada: Implement ValueSequence API ([5d27a08](https://github.com/CareBoo/Blinq/commit/5d27a08987688759353ea6cb62ec0a66bde6b68e))
+
+
+### BREAKING CHANGES
+
+* Delete Native Sequence
+* literally everything. About to remove NativeSequence
+
 # [1.0.0-preview.6](https://github.com/CareBoo/Blinq/compare/v1.0.0-preview.5...v1.0.0-preview.6) (2020-08-29)
 
 
