@@ -1,26 +1,10 @@
 ﻿using NUnit.Framework;
-using Unity.Collections;
 using Unity.PerformanceTesting;
-using LinqEnumerable = System.Linq.Enumerable;
-using CareBoo.Blinq;
+using Linq = System.Linq.Enumerable;
+using Blinq = CareBoo.Blinq.NativeArrayExtensions;
 
 internal class AnyTest : BaseBlinqPerformanceTest
 {
-    NativeSequence<int> source;
-
-    [OneTimeSetUp]
-    public override void SetUpSource()
-    {
-        base.SetUpSource();
-        source = new NativeSequence<int>(sourceArr, Allocator.Persistent);
-    }
-
-    [OneTimeTearDown]
-    public override void TearDownSource()
-    {
-        base.TearDownSource();
-        source.Dispose();
-    }
 
     [Test, Performance]
     [Category("Performance")]
@@ -28,7 +12,7 @@ internal class AnyTest : BaseBlinqPerformanceTest
     {
         bool result;
 
-        MeasureBlinq(() => result = source.Any()).Run();
+        MeasureBlinq(() => result = Blinq.Any(ref source)).Run();
     }
 
     [Test, Performance]
@@ -37,7 +21,7 @@ internal class AnyTest : BaseBlinqPerformanceTest
     {
         bool result;
 
-        MeasureLinq(() => result = LinqEnumerable.Any(source)).Run();
+        MeasureLinq(() => result = Linq.Any(source)).Run();
     }
 
 
@@ -47,7 +31,7 @@ internal class AnyTest : BaseBlinqPerformanceTest
     {
         bool result;
 
-        MeasureBlinq(() => result = source.Any<EqualsOne>()).Run();
+        MeasureBlinq(() => result = Blinq.Any<int, EqualsOne>(ref source)).Run();
     }
 
     [Test, Performance]
@@ -56,6 +40,6 @@ internal class AnyTest : BaseBlinqPerformanceTest
     {
         bool result;
 
-        MeasureLinq(() => result = LinqEnumerable.Any(source, default(EqualsOne).Invoke)).Run();
+        MeasureLinq(() => result = Linq.Any(source, default(EqualsOne).Invoke)).Run();
     }
 }

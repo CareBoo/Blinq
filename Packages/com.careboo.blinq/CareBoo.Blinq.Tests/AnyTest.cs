@@ -1,27 +1,26 @@
-﻿using System.Collections.Generic;
-using LinqEnumerable = System.Linq.Enumerable;
-using NUnit.Framework;
+﻿using NUnit.Framework;
+using Linq = System.Linq.Enumerable;
 using static Utils;
+using Unity.Collections;
+using Blinq = CareBoo.Blinq.NativeArrayExtensions;
 
 internal class AnyTest
 {
     [Test, Parallelizable]
-    public void BlinqShouldEqualLinqNativeSequenceAny([EnumerableValues] IEnumerable<int> source)
+    public void BlinqShouldEqualLinqNativeArrayAny([NativeArrayValues] NativeArray<int> source)
     {
-        var sequence = InitSequence(source);
-        var expected = ExceptionOrValue(() => LinqEnumerable.Any(sequence));
-        var actual = ExceptionOrValue(() => sequence.Any());
+        var expected = ExceptionOrValue(() => Linq.Any(source));
+        var actual = ExceptionOrValue(() => Blinq.Any(ref source));
         Assert.AreEqual(expected, actual);
-        sequence.Dispose();
+        source.Dispose();
     }
 
     [Test, Parallelizable]
-    public void BlinqShouldEqualLinqNativeSequenceAnyPredicate([EnumerableValues] IEnumerable<int> source)
+    public void BlinqShouldEqualLinqNativeArrayAnyPredicate([NativeArrayValues] NativeArray<int> source)
     {
-        var sequence = InitSequence(source);
-        var expected = ExceptionOrValue(() => LinqEnumerable.Any(sequence, default(EqualsZero).Invoke));
-        var actual = ExceptionOrValue(() => sequence.Any<EqualsZero>());
+        var expected = ExceptionOrValue(() => Linq.Any(source, default(EqualsZero).Invoke));
+        var actual = ExceptionOrValue(() => Blinq.Any<int, EqualsZero>(ref source));
         Assert.AreEqual(expected, actual);
-        sequence.Dispose();
+        source.Dispose();
     }
 }

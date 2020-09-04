@@ -1,17 +1,17 @@
-﻿using System.Collections.Generic;
-using LinqEnumerable = System.Linq.Enumerable;
-using NUnit.Framework;
+﻿using NUnit.Framework;
+using Linq = System.Linq.Enumerable;
 using static Utils;
+using Unity.Collections;
+using Blinq = CareBoo.Blinq.NativeArrayExtensions;
 
 internal class AllTest
 {
     [Test, Parallelizable]
-    public void BlinqAllShouldEqualLinqAllNativeSequence([EnumerableValues] IEnumerable<int> source)
+    public void BlinqAllShouldEqualLinqNativeArrayAll([NativeArrayValues] NativeArray<int> source)
     {
-        var sequence = InitSequence(source);
-        var expected = ExceptionOrValue(() => LinqEnumerable.All(sequence, default(EqualsZero).Invoke));
-        var actual = ExceptionOrValue(() => sequence.All<EqualsZero>());
+        var expected = ExceptionOrValue(() => Linq.All(source, default(EqualsZero).Invoke));
+        var actual = ExceptionOrValue(() => Blinq.All<int, EqualsZero>(ref source));
         Assert.AreEqual(expected, actual);
-        sequence.Dispose();
+        source.Dispose();
     }
 }

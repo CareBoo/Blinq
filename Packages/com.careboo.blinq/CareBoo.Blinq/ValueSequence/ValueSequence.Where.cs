@@ -19,9 +19,10 @@ namespace CareBoo.Blinq
                 var sourceList = Query.Execute();
                 for (var i = 0; i < sourceList.Length; i++)
                 {
-                    if (Predicate.Invoke(sourceList[i], i))
+                    if (!Predicate.Invoke(sourceList[i], i))
                     {
                         sourceList.RemoveAt(i);
+                        i--;
                     }
                 }
                 return sourceList;
@@ -46,9 +47,10 @@ namespace CareBoo.Blinq
                 var sourceList = Query.Execute();
                 for (var i = 0; i < sourceList.Length; i++)
                 {
-                    if (Predicate.Invoke(sourceList[i]))
+                    if (!Predicate.Invoke(sourceList[i]))
                     {
                         sourceList.RemoveAt(i);
+                        i--;
                     }
                 }
                 return sourceList;

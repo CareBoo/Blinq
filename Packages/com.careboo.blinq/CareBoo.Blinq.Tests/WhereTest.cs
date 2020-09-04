@@ -1,27 +1,28 @@
-﻿using System.Collections.Generic;
-using NUnit.Framework;
-using LinqEnumerable = System.Linq.Enumerable;
+﻿using NUnit.Framework;
+using Linq = System.Linq.Enumerable;
 using static Utils;
+using Unity.Collections;
+using Blinq = CareBoo.Blinq.NativeArrayExtensions;
 
 internal class WhereTest
 {
     [Test, Parallelizable]
-    public void BlinqShouldEqualLinqWhereWithIndex([EnumerableValues] IEnumerable<int> source)
+    public void BlinqShouldEqualLinqNativeArrayWhereWithIndex([NativeArrayValues] NativeArray<int> source)
     {
-        var sequence = InitSequence(source);
-        var (expectedException, expectedValue) = ExceptionOrValue(() => LinqEnumerable.ToArray(LinqEnumerable.Where(sequence, default(EqualToIndex).Invoke)));
-        var (actualException, actualValue) = ExceptionOrValue(() => LinqEnumerable.ToArray(sequence.WhereWithIndex<EqualToIndex>()));
+        var (expectedException, expectedValue) = ExceptionOrValue(() => Linq.ToArray(Linq.Where(source, default(EqualToIndex).Invoke)));
+        var (actualException, actualValue) = ExceptionOrValue(() => Linq.ToArray(Blinq.WhereWithIndex<int, EqualToIndex>(ref source)));
         Assert.AreEqual(expectedException, actualException);
         Assert.AreEqual(expectedValue, actualValue);
+        source.Dispose();
     }
 
     [Test, Parallelizable]
-    public void BlinqShouldEqualLinqWhere([EnumerableValues] IEnumerable<int> source)
+    public void BlinqShouldEqualLinqNativeArrayWhere([NativeArrayValues] NativeArray<int> source)
     {
-        var sequence = InitSequence(source);
-        var (expectedException, expectedValue) = ExceptionOrValue(() => LinqEnumerable.ToArray(LinqEnumerable.Where(sequence, default(EqualsZero).Invoke)));
-        var (actualException, actualValue) = ExceptionOrValue(() => LinqEnumerable.ToArray(sequence.Where<EqualsZero>()));
+        var (expectedException, expectedValue) = ExceptionOrValue(() => Linq.ToArray(Linq.Where(source, default(EqualsZero).Invoke)));
+        var (actualException, actualValue) = ExceptionOrValue(() => Linq.ToArray(Blinq.Where<int, EqualsZero>(ref source)));
         Assert.AreEqual(expectedException, actualException);
         Assert.AreEqual(expectedValue, actualValue);
+        source.Dispose();
     }
 }
