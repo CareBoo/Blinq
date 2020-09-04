@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Collections;
 using NUnit.Framework;
-using Unity.Collections;
 
 [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = true, Inherited = false)]
-internal class NativeArrayValuesAttribute : ValueSourceAttribute
+internal class ArrayValuesAttribute : ValueSourceAttribute
 {
-    public NativeArrayValuesAttribute() :
-        base(typeof(NativeArrayValues), nameof(NativeArrayValues.Values))
+    public ArrayValuesAttribute() :
+        base(typeof(ArrayValues), nameof(ArrayValues.Values))
     { }
 }
 
-internal class NativeArrayValues
+internal class ArrayValues
 {
     public static IEnumerable Values
     {
@@ -22,9 +21,9 @@ internal class NativeArrayValues
         }
     }
 
-    private static NativeArray<int> Range(int start, int count)
+    private static int[] Range(int start, int count)
     {
-        var arr = new NativeArray<int>(count, Allocator.Persistent, NativeArrayOptions.UninitializedMemory);
+        var arr = new int[count];
         for (var i = 0; i < count; i++)
         {
             arr[i] = start + i;

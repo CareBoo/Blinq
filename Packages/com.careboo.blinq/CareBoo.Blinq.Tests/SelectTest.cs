@@ -7,8 +7,9 @@ using Blinq = CareBoo.Blinq.NativeArrayExtensions;
 internal class SelectTest
 {
     [Test, Parallelizable]
-    public void BlinqShouldEqualLinqNativeArraySelectWithIndex([NativeArrayValues] NativeArray<int> source)
+    public void BlinqShouldEqualLinqNativeArraySelectWithIndex([ArrayValues] int[] sourceArr)
     {
+        var source = new NativeArray<int>(sourceArr, Allocator.Persistent);
         var (expectedException, expectedValue) = ExceptionOrValue(() => Linq.ToArray(Linq.Select(source, default(AddToIndex).Invoke)));
         var (actualException, actualValue) = ExceptionOrValue(() => Linq.ToArray(Blinq.SelectWithIndex<int, long, AddToIndex>(ref source)));
         Assert.AreEqual(expectedException, actualException);
@@ -17,8 +18,9 @@ internal class SelectTest
     }
 
     [Test, Parallelizable]
-    public void BlinqShouldEqualLinqNativeArraySelect([NativeArrayValues] NativeArray<int> source)
+    public void BlinqShouldEqualLinqNativeArraySelect([ArrayValues] int[] sourceArr)
     {
+        var source = new NativeArray<int>(sourceArr, Allocator.Persistent);
         var (expectedException, expectedValue) = ExceptionOrValue(() => Linq.ToArray(Linq.Select(source, default(IntToLong).Invoke)));
         var (actualException, actualValue) = ExceptionOrValue(() => Linq.ToArray(Blinq.Select<int, long, IntToLong>(ref source)));
         Assert.AreEqual(expectedException, actualException);

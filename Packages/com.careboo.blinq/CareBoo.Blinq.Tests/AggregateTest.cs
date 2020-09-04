@@ -1,14 +1,15 @@
 ﻿using NUnit.Framework;
 using Linq = System.Linq.Enumerable;
 using static Utils;
-using Unity.Collections;
 using Blinq = CareBoo.Blinq.NativeArrayExtensions;
+using Unity.Collections;
 
 internal class AggregateTest
 {
     [Test, Parallelizable]
-    public void BlinqShouldEqualLinqNativeArrayAggregateWithAccumulateAndResult([NativeArrayValues] NativeArray<int> source)
+    public void BlinqShouldEqualLinqNativeArrayAggregateWithAccumulateAndResult([ArrayValues] int[] sourceArr)
     {
+        var source = new NativeArray<int>(sourceArr, Allocator.Persistent);
         var expected = ExceptionOrValue(() => Linq.Aggregate<int, long, double>(
             source,
             0,
@@ -21,8 +22,9 @@ internal class AggregateTest
     }
 
     [Test, Parallelizable]
-    public void BlinqShouldEqualLinqNativeArrayAggregateWithAccumulate([NativeArrayValues] NativeArray<int> source)
+    public void BlinqShouldEqualLinqNativeArrayAggregateWithAccumulate([ArrayValues] int[] sourceArr)
     {
+        var source = new NativeArray<int>(sourceArr, Allocator.Persistent);
         var expected = ExceptionOrValue(() => Linq.Aggregate<int, long>(
             source,
             0,
@@ -34,8 +36,9 @@ internal class AggregateTest
     }
 
     [Test, Parallelizable]
-    public void BlinqShouldEqualLinqNativeArrayAggregate([NativeArrayValues] NativeArray<int> source)
+    public void BlinqShouldEqualLinqNativeArrayAggregate([ArrayValues] int[] sourceArr)
     {
+        var source = new NativeArray<int>(sourceArr, Allocator.Persistent);
         var expected = ExceptionOrValue(() => Linq.Aggregate(
             source,
             default(Sum).Invoke
