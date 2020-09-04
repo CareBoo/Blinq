@@ -1,3 +1,15 @@
+# [1.0.0-preview.8](https://github.com/CareBoo/Blinq/compare/v1.0.0-preview.7...v1.0.0-preview.8) (2020-09-04)
+
+
+### Bug Fixes
+
+* :bug: Fix concat memory leak ([73eaaae](https://github.com/CareBoo/Blinq/commit/73eaaaeb020dcd3d0902a8571aae502823dd9930))
+
+
+### Features
+
+* :sparkles: Implement Zip ([36d847a](https://github.com/CareBoo/Blinq/commit/36d847afd6bb8613429be903672156a5283a4d42)), closes [#33](https://github.com/CareBoo/Blinq/issues/33)
+
 # [1.0.0-preview.7](https://github.com/CareBoo/Blinq/compare/v1.0.0-preview.6...v1.0.0-preview.7) (2020-09-04)
 
 
