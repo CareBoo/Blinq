@@ -19,6 +19,7 @@ namespace CareBoo.Blinq
                 var first = Query.Execute();
                 var second = SecondSequence.ToNativeList();
                 first.AddRange(second);
+                second.Dispose();
                 return first;
             }
         }
