@@ -36,7 +36,12 @@ namespace CareBoo.Blinq
         public T Aggregate<TFunc>(TFunc func = default)
             where TFunc : struct, IValueFunc<T, T, T>
         {
-            return Aggregate<T, TFunc>(default, func);
+            var sourceList = query.Execute();
+            if (sourceList.Length == 0) throw Error.NoElements();
+            var seed = sourceList[0];
+            for (var i = 1; i < sourceList.Length; i++)
+                seed = func.Invoke(seed, sourceList[i]);
+            return seed;
         }
     }
 }

@@ -1,8 +1,7 @@
-﻿using CareBoo.Blinq;
-using NUnit.Framework;
-using Unity.Collections;
+﻿using NUnit.Framework;
 using Unity.PerformanceTesting;
-using LinqEnumerable = System.Linq.Enumerable;
+using Linq = System.Linq.Enumerable;
+using Blinq = CareBoo.Blinq.NativeArrayExtensions;
 
 internal class SelectTest : BaseBlinqPerformanceTest
 {
@@ -10,29 +9,13 @@ internal class SelectTest : BaseBlinqPerformanceTest
     [Category("Performance")]
     public void BlinqSelectNativeSequencePerformance()
     {
-        NativeSequence<int> source = default;
-        NativeSequence<long> output = default;
-
-        MeasureBlinq(() =>
-        {
-            output = source.Select<long, IntToLong>();
-            output.Complete();
-        })
-        .SetUp(() => source = new NativeSequence<int>(sourceArr, Allocator.Persistent))
-        .CleanUp(() => output.Dispose())
-        .Run();
+        MeasureBlinq(() => Blinq.Select<int, long, IntToLong>(ref source)).Run();
     }
 
     [Test, Performance]
     [Category("Performance")]
     public void LinqSelectNativeSequencePerformance()
     {
-        NativeSequence<int> source = default;
-        long[] output = null;
-
-        MeasureLinq(() => output = LinqEnumerable.ToArray(LinqEnumerable.Select(source, default(IntToLong).Invoke)))
-        .SetUp(() => source = new NativeSequence<int>(sourceArr, Allocator.Persistent))
-        .CleanUp(() => source.Dispose())
-        .Run();
+        MeasureLinq(() => Linq.Select(source, default(IntToLong).Invoke)).Run();
     }
 }

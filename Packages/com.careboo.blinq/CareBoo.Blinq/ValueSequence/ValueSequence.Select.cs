@@ -18,10 +18,11 @@ namespace CareBoo.Blinq
             public NativeList<TResult> Execute()
             {
                 var sourceList = Query.Execute();
+
                 var newList = new NativeList<TResult>(sourceList.Length, Allocator.Temp);
                 for (var i = 0; i < sourceList.Length; i++)
                 {
-                    newList[i] = Selector.Invoke(sourceList[i], i);
+                    newList.AddNoResize(Selector.Invoke(sourceList[i], i));
                 }
                 sourceList.Dispose();
                 return newList;
@@ -49,7 +50,7 @@ namespace CareBoo.Blinq
                 var newList = new NativeList<TResult>(sourceList.Length, Allocator.Temp);
                 for (var i = 0; i < sourceList.Length; i++)
                 {
-                    newList[i] = Selector.Invoke(sourceList[i]);
+                    newList.AddNoResize(Selector.Invoke(sourceList[i]));
                 }
                 sourceList.Dispose();
                 return newList;
