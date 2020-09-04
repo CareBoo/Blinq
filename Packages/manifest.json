@@ -5,7 +5,7 @@
     "com.unity.entities": "0.14.0-preview.18",
     "com.unity.ide.vscode": "1.2.1",
     "com.unity.jobs": "0.5.0-preview.14",
-    "com.unity.package-validation-suite": "0.14.0-preview",
+    "com.unity.package-validation-suite": "0.15.0-preview",
     "com.unity.settings-manager": "1.0.3",
     "com.unity.test-framework": "1.1.16",
     "com.unity.test-framework.performance": "2.3.1-preview",
@@ -43,5 +43,14 @@
     "com.unity.modules.vr": "1.0.0",
     "com.unity.modules.wind": "1.0.0",
     "com.unity.modules.xr": "1.0.0"
-  }
+  },
+  "scopedRegistries": [
+    {
+      "name": "npmjs",
+      "url": "https://registry.npmjs.org/",
+      "scopes": [
+        "com.careboo"
+      ]
+    }
+  ]
 }
