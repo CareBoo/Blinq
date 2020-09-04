@@ -7,8 +7,9 @@ using Blinq = CareBoo.Blinq.NativeArrayExtensions;
 internal class AllTest
 {
     [Test, Parallelizable]
-    public void BlinqAllShouldEqualLinqNativeArrayAll([NativeArrayValues] NativeArray<int> source)
+    public void BlinqAllShouldEqualLinqNativeArrayAll([ArrayValues] int[] sourceArr)
     {
+        var source = new NativeArray<int>(sourceArr, Allocator.Persistent);
         var expected = ExceptionOrValue(() => Linq.All(source, default(EqualsZero).Invoke));
         var actual = ExceptionOrValue(() => Blinq.All<int, EqualsZero>(ref source));
         Assert.AreEqual(expected, actual);
