@@ -1,3 +1,12 @@
+# [1.0.0-preview.9](https://github.com/CareBoo/Blinq/compare/v1.0.0-preview.8...v1.0.0-preview.9) (2020-09-09)
+
+
+### Features
+
+* :sparkles: Add ToNativeArray and ToNativeArrayJob ([22f7f15](https://github.com/CareBoo/Blinq/commit/22f7f15419accf7a65d3c56069dd760445fc2732)), closes [#31](https://github.com/CareBoo/Blinq/issues/31)
+* :sparkles: Add ToNativeHashMap and ToNativeHashMapJob ([b176257](https://github.com/CareBoo/Blinq/commit/b17625750d231471933ef9d24d7a6728fd2b4eab))
+* :sparkles: Add ToNativeList and ToNativeListJob ([64e7b32](https://github.com/CareBoo/Blinq/commit/64e7b3250104c606fc9120828b3bb3f9d405d89b))
+
 # [1.0.0-preview.8](https://github.com/CareBoo/Blinq/compare/v1.0.0-preview.7...v1.0.0-preview.8) (2020-09-04)
 
 
