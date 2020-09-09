@@ -13,7 +13,7 @@ namespace CareBoo.Blinq
             where TSecond : struct
             where TResult : struct
             where TResultSelector : struct, IValueFunc<T, TSecond, TResult>
-            where TSecondSequence : struct, IValueSequence<TSecond>
+            where TSecondSequence : struct, IQuery<TSecond>
         {
             public TQuery Query;
             public TSecondSequence SecondSequence;
@@ -22,7 +22,7 @@ namespace CareBoo.Blinq
             public NativeList<TResult> Execute()
             {
                 var first = Query.Execute();
-                var second = SecondSequence.ToNativeList();
+                var second = SecondSequence.Execute();
                 var length = math.min(first.Length, second.Length);
                 var result = new NativeList<TResult>(length, Allocator.Temp);
                 for (var i = 0; i < length; i++)
@@ -39,7 +39,7 @@ namespace CareBoo.Blinq
             where TSecond : struct
             where TResult : struct
             where TResultSelector : struct, IValueFunc<T, TSecond, TResult>
-            where TSecondSequence : struct, IValueSequence<TSecond>
+            where TSecondSequence : struct, IQuery<TSecond>
         {
             var newQuery = new ZipQuery<TSecond, TResult, TResultSelector, TSecondSequence> { Query = query, SecondSequence = second, ResultSelector = resultSelector };
             return new ValueSequence<TResult, ZipQuery<TSecond, TResult, TResultSelector, TSecondSequence>>(newQuery);

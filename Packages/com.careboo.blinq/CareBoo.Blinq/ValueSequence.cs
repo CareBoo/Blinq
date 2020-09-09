@@ -1,18 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Unity.Burst;
 using Unity.Collections;
 
 namespace CareBoo.Blinq
 {
-    public interface IValueSequence<T>
-        where T : struct
-    {
-        NativeList<T> ToNativeList();
-    }
-
+    [BurstCompile]
     public partial struct ValueSequence<T, TQuery>
         : IEnumerable<T>
-        , IValueSequence<T>
+        , IQuery<T>
         where T : struct
         where TQuery : struct, IQuery<T>
     {
@@ -23,19 +19,14 @@ namespace CareBoo.Blinq
             this.query = query;
         }
 
-        public NativeList<T> ToNativeList()
+        public NativeList<T> Execute()
         {
             return query.Execute();
         }
 
-        public NativeArray<T> ToNativeArray()
-        {
-            return query.Execute().AsArray();
-        }
-
         public NativeArray<T>.Enumerator GetEnumerator()
         {
-            return ToNativeList().GetEnumerator();
+            return Execute().GetEnumerator();
         }
 
         IEnumerator<T> IEnumerable<T>.GetEnumerator()

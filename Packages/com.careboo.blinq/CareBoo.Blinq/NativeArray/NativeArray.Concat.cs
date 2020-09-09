@@ -9,7 +9,7 @@ namespace CareBoo.Blinq
             TSequence second
             )
             where T : struct
-            where TSequence : struct, IValueSequence<T>
+            where TSequence : struct, IQuery<T>
         {
             return source.ToValueSequence().Concat(second);
         }
