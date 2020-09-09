@@ -19,4 +19,6 @@ internal static class Error
     internal static Exception NotCodeGenerated() { return new NotImplementedException("Code generation for this method has failed!"); }
 
     internal static Exception NotImplemented() { return new NotImplementedException(); }
+
+    internal static Exception DuplicateKey() { return new ArgumentException("keySelector produces duplicate keys for two elements."); }
 }
