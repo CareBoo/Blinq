@@ -10,9 +10,9 @@ internal class AllTest
     public void BlinqAllShouldEqualLinqNativeArrayAll([ArrayValues] int[] sourceArr)
     {
         var source = new NativeArray<int>(sourceArr, Allocator.Persistent);
-        var expected = ExceptionOrValue(() => Linq.All(source, default(EqualsZero).Invoke));
-        var actual = ExceptionOrValue(() => Blinq.All<int, EqualsZero>(ref source));
-        Assert.AreEqual(expected, actual);
+        var expected = ExceptionAndValue(() => Linq.All(source, default(EqualsZero).Invoke));
+        var actual = ExceptionAndValue(() => Blinq.All<int, EqualsZero>(ref source));
+        AssertAreEqual(expected, actual);
         source.Dispose();
     }
 }

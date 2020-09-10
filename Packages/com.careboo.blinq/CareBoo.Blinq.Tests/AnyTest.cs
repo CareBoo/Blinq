@@ -10,9 +10,9 @@ internal class AnyTest
     public void BlinqShouldEqualLinqNativeArrayAny([ArrayValues] int[] sourceArr)
     {
         var source = new NativeArray<int>(sourceArr, Allocator.Persistent);
-        var expected = ExceptionOrValue(() => Linq.Any(source));
-        var actual = ExceptionOrValue(() => Blinq.Any(ref source));
-        Assert.AreEqual(expected, actual);
+        var expected = ExceptionAndValue(() => Linq.Any(source));
+        var actual = ExceptionAndValue(() => Blinq.Any(ref source));
+        AssertAreEqual(expected, actual);
         source.Dispose();
     }
 
@@ -20,9 +20,9 @@ internal class AnyTest
     public void BlinqShouldEqualLinqNativeArrayAnyPredicate([ArrayValues] int[] sourceArr)
     {
         var source = new NativeArray<int>(sourceArr, Allocator.Persistent);
-        var expected = ExceptionOrValue(() => Linq.Any(source, default(EqualsZero).Invoke));
-        var actual = ExceptionOrValue(() => Blinq.Any<int, EqualsZero>(ref source));
-        Assert.AreEqual(expected, actual);
+        var expected = ExceptionAndValue(() => Linq.Any(source, default(EqualsZero).Invoke));
+        var actual = ExceptionAndValue(() => Blinq.Any<int, EqualsZero>(ref source));
+        AssertAreEqual(expected, actual);
         source.Dispose();
     }
 }

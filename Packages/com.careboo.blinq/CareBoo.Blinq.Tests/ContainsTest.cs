@@ -25,8 +25,8 @@ internal class ContainsTest
     {
         var sourceNativeArr = new NativeArray<int>(sourceArr, Allocator.Persistent);
         var sourceSeq = Blinq.ToValueSequence(ref sourceNativeArr);
-        var (expectedException, expectedValue) = ExceptionOrValue(() => Linq.Contains(sourceSeq, 7));
-        var (actualException, actualValue) = ExceptionOrValue(() => sourceSeq.Contains(7));
+        var (expectedException, expectedValue) = ExceptionAndValue(() => Linq.Contains(sourceSeq, 7));
+        var (actualException, actualValue) = ExceptionAndValue(() => sourceSeq.Contains(7));
         Assert.AreEqual(expectedException, actualException);
         Assert.AreEqual(expectedValue, actualValue);
         sourceNativeArr.Dispose();
@@ -36,8 +36,8 @@ internal class ContainsTest
     public void BlinqShouldEqualLinqNativeArrayContains([ArrayValues] int[] sourceArr)
     {
         var source = new NativeArray<int>(sourceArr, Allocator.Persistent);
-        var (expectedException, expectedValue) = ExceptionOrValue(() => Linq.Contains(source, 7));
-        var (actualException, actualValue) = ExceptionOrValue(() => Blinq.Contains(ref source, 7));
+        var (expectedException, expectedValue) = ExceptionAndValue(() => Linq.Contains(source, 7));
+        var (actualException, actualValue) = ExceptionAndValue(() => Blinq.Contains(ref source, 7));
         Assert.AreEqual(expectedException, actualException);
         Assert.AreEqual(expectedValue, actualValue);
         source.Dispose();
@@ -48,8 +48,8 @@ internal class ContainsTest
     {
         var sourceNativeArr = new NativeArray<int>(sourceArr, Allocator.Persistent);
         var sourceSeq = Blinq.ToValueSequence(ref sourceNativeArr);
-        var (expectedException, expectedValue) = ExceptionOrValue(() => Linq.Contains(sourceSeq, 7, default(RemainderTwoComparer)));
-        var (actualException, actualValue) = ExceptionOrValue(() => sourceSeq.Contains(7, default(RemainderTwoComparer)));
+        var (expectedException, expectedValue) = ExceptionAndValue(() => Linq.Contains(sourceSeq, 7, default(RemainderTwoComparer)));
+        var (actualException, actualValue) = ExceptionAndValue(() => sourceSeq.Contains(7, default(RemainderTwoComparer)));
         Assert.AreEqual(expectedException, actualException);
         Assert.AreEqual(expectedValue, actualValue);
         sourceNativeArr.Dispose();
@@ -59,8 +59,8 @@ internal class ContainsTest
     public void BlinqShouldEqualLinqNativeArrayContainsComparer([ArrayValues] int[] sourceArr)
     {
         var source = new NativeArray<int>(sourceArr, Allocator.Persistent);
-        var (expectedException, expectedValue) = ExceptionOrValue(() => Linq.Contains(source, 7, default(RemainderTwoComparer)));
-        var (actualException, actualValue) = ExceptionOrValue(() => Blinq.Contains(ref source, 7, default(RemainderTwoComparer)));
+        var (expectedException, expectedValue) = ExceptionAndValue(() => Linq.Contains(source, 7, default(RemainderTwoComparer)));
+        var (actualException, actualValue) = ExceptionAndValue(() => Blinq.Contains(ref source, 7, default(RemainderTwoComparer)));
         Assert.AreEqual(expectedException, actualException);
         Assert.AreEqual(expectedValue, actualValue);
         source.Dispose();

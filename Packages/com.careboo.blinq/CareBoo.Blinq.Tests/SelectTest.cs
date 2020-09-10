@@ -10,10 +10,9 @@ internal class SelectTest
     public void BlinqShouldEqualLinqNativeArraySelectWithIndex([ArrayValues] int[] sourceArr)
     {
         var source = new NativeArray<int>(sourceArr, Allocator.Persistent);
-        var (expectedException, expectedValue) = ExceptionOrValue(() => Linq.ToArray(Linq.Select(source, default(AddToIndex).Invoke)));
-        var (actualException, actualValue) = ExceptionOrValue(() => Linq.ToArray(Blinq.SelectWithIndex<int, long, AddToIndex>(ref source)));
-        Assert.AreEqual(expectedException, actualException);
-        Assert.AreEqual(expectedValue, actualValue);
+        var expected = ExceptionAndValue(() => Linq.ToArray(Linq.Select(source, default(AddToIndex).Invoke)));
+        var actual = ExceptionAndValue(() => Linq.ToArray(Blinq.SelectWithIndex<int, long, AddToIndex>(ref source)));
+        AssertAreEqual(expected, actual);
         source.Dispose();
     }
 
@@ -21,10 +20,9 @@ internal class SelectTest
     public void BlinqShouldEqualLinqNativeArraySelect([ArrayValues] int[] sourceArr)
     {
         var source = new NativeArray<int>(sourceArr, Allocator.Persistent);
-        var (expectedException, expectedValue) = ExceptionOrValue(() => Linq.ToArray(Linq.Select(source, default(IntToLong).Invoke)));
-        var (actualException, actualValue) = ExceptionOrValue(() => Linq.ToArray(Blinq.Select<int, long, IntToLong>(ref source)));
-        Assert.AreEqual(expectedException, actualException);
-        Assert.AreEqual(expectedValue, actualValue);
+        var expected = ExceptionAndValue(() => Linq.ToArray(Linq.Select(source, default(IntToLong).Invoke)));
+        var actual = ExceptionAndValue(() => Linq.ToArray(Blinq.Select<int, long, IntToLong>(ref source)));
+        AssertAreEqual(expected, actual);
         source.Dispose();
     }
 }
