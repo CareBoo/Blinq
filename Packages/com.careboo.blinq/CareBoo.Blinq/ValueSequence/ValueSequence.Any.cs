@@ -3,7 +3,7 @@
 namespace CareBoo.Blinq
 {
     public partial struct ValueSequence<T, TSource>
-        where T : struct, IEquatable<T>
+        where T : unmanaged, IEquatable<T>
         where TSource : struct, ISequence<T>
     {
         public bool Any<TPredicate>(TPredicate predicate = default)

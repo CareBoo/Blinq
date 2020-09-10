@@ -5,20 +5,20 @@ namespace CareBoo.Blinq
 {
     public static partial class NativeArrayExtensions
     {
-        public static ValueSequence<TResult, ValueSequence<T, NativeArraySequence<T>>.ZipSequence<TSecond, TResult, TResultSelector, TSecondSequence>> Zip<T, TSecond, TResult, TResultSelector, TSecondSequence>(
+        public static ValueSequence<TResult, ValueSequence<T, NativeArraySequence<T>>.ZipSequence<TSecondElement, TResult, TResultSelector, TSecond>> Zip<T, TSecondElement, TResult, TResultSelector, TSecond>(
             this ref NativeArray<T> source,
-            TSecondSequence secondSequence,
+            TSecond secondSequence,
             TResultSelector resultSelector = default
             )
-            where T : struct, IEquatable<T>
-            where TSecond : struct
-            where TResult : struct, IEquatable<TResult>
-            where TResultSelector : struct, IValueFunc<T, TSecond, TResult>
-            where TSecondSequence : struct, ISequence<TSecond>
+            where T : unmanaged, IEquatable<T>
+            where TSecondElement : struct
+            where TResult : unmanaged, IEquatable<TResult>
+            where TResultSelector : struct, IValueFunc<T, TSecondElement, TResult>
+            where TSecond : struct, ISequence<TSecondElement>
         {
             return source
                 .ToValueSequence()
-                .Zip<TSecond, TResult, TResultSelector, TSecondSequence>(secondSequence, resultSelector);
+                .Zip<TSecondElement, TResult, TResultSelector, TSecond>(secondSequence, resultSelector);
         }
     }
 }

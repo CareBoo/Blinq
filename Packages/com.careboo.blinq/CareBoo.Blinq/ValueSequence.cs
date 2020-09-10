@@ -16,7 +16,7 @@ namespace CareBoo.Blinq
     public partial struct ValueSequence<T, TSource>
         : IEnumerable<T>
         , ISequence<T>
-        where T : struct, IEquatable<T>
+        where T : unmanaged, IEquatable<T>
         where TSource : struct, ISequence<T>
     {
         readonly TSource source;
