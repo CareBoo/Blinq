@@ -1,10 +1,6 @@
-﻿using System;
-
-namespace CareBoo.Blinq
+﻿namespace CareBoo.Blinq
 {
     public partial struct ValueSequence<T, TSource>
-        where T : unmanaged, IEquatable<T>
-        where TSource : struct, ISequence<T>
     {
         public bool All<TPredicate>(TPredicate predicate = default)
             where TPredicate : struct, IValueFunc<T, bool>

@@ -5,8 +5,6 @@ using Unity.Mathematics;
 namespace CareBoo.Blinq
 {
     public partial struct ValueSequence<T, TSource>
-        where T : unmanaged, IEquatable<T>
-        where TSource : struct, ISequence<T>
     {
         public struct ZipSequence<TSecondElement, TResult, TResultSelector, TSecond> : ISequence<TResult>
             where TSecondElement : struct

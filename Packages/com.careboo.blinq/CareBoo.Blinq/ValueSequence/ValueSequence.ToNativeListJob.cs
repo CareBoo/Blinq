@@ -1,12 +1,9 @@
-﻿using System;
-using Unity.Collections;
+﻿using Unity.Collections;
 using Unity.Jobs;
 
 namespace CareBoo.Blinq
 {
     public partial struct ValueSequence<T, TSource>
-        where T : unmanaged, IEquatable<T>
-        where TSource : struct, ISequence<T>
     {
         public NativeListJob ToNativeListJob(NativeList<T> output)
         {
