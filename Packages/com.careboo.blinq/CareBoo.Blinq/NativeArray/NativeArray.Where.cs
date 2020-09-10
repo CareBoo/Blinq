@@ -4,7 +4,7 @@ namespace CareBoo.Blinq
 {
     public static partial class NativeArrayExtensions
     {
-        public static ValueSequence<T, ValueSequence<T, NativeArraySourceSequence<T>>.WhereWithIndexSequence<TPredicate>> WhereWithIndex<T, TPredicate>(
+        public static ValueSequence<T, ValueSequence<T, NativeArraySequence<T>>.WhereWithIndexSequence<TPredicate>> WhereWithIndex<T, TPredicate>(
             this ref NativeArray<T> source,
             TPredicate predicate = default
             )
@@ -14,7 +14,7 @@ namespace CareBoo.Blinq
             return source.ToValueSequence().WhereWithIndex(predicate);
         }
 
-        public static ValueSequence<T, ValueSequence<T, NativeArraySourceSequence<T>>.WhereSequence<TPredicate>> Where<T, TPredicate>(
+        public static ValueSequence<T, ValueSequence<T, NativeArraySequence<T>>.WhereSequence<TPredicate>> Where<T, TPredicate>(
             this ref NativeArray<T> source,
             TPredicate predicate = default
             )

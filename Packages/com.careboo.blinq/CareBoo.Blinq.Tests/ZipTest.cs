@@ -15,7 +15,7 @@ internal class ZipTest
         var second = new NativeArray<int>(secondArr, Allocator.Persistent);
         var secondSequence = second.ToValueSequence();
         var (expectedException, expectedValue) = ExceptionOrValue(() => Linq.ToArray(Linq.Zip(source, secondSequence, default(Sum).Invoke)));
-        var (actualException, actualValue) = ExceptionOrValue(() => Linq.ToArray(Blinq.Zip<int, int, int, Sum, ValueSequence<int, NativeArraySourceSequence<int>>>(ref source, secondSequence)));
+        var (actualException, actualValue) = ExceptionOrValue(() => Linq.ToArray(Blinq.Zip<int, int, int, Sum, ValueSequence<int, NativeArraySequence<int>>>(ref source, secondSequence)));
         Assert.AreEqual(expectedException, actualException);
         Assert.AreEqual(expectedValue, actualValue);
         source.Dispose();
