@@ -4,7 +4,7 @@ namespace CareBoo.Blinq
 {
     public static partial class NativeArrayExtensions
     {
-        public struct NativeArraySourceQuery<T> : IQuery<T>
+        public struct NativeArraySourceQuery<T> : ISequence<T>
             where T : struct
         {
             public NativeArray<T> Source;

@@ -7,10 +7,10 @@ using Unity.Jobs;
 
 namespace CareBoo.Blinq
 {
-    public partial struct ValueSequence<T, TQuery>
+    public partial struct ValueSequence<T, TSource>
         : IEnumerable<T>
         where T : struct
-        where TQuery : struct, IQuery<T>
+        where TSource : struct, ISequence<T>
     {
         public NativeHashMapJob<TKey, TElement, TKeySelector, TElementSelector> ToNativeHashMapJob<TKey, TElement, TKeySelector, TElementSelector>(
             TKeySelector keySelector,
@@ -91,7 +91,7 @@ namespace CareBoo.Blinq
             where TKeySelector : struct, IValueFunc<T, TKey>
             where TElementSelector : struct, IValueFunc<T, TElement>
         {
-            public ValueSequence<T, TQuery> Sequence;
+            public ValueSequence<T, TSource> Sequence;
             public TKeySelector KeySelector;
             public TElementSelector ElementSelector;
 
@@ -109,7 +109,7 @@ namespace CareBoo.Blinq
             where TKey : struct, IEquatable<TKey>
             where TKeySelector : struct, IValueFunc<T, TKey>
         {
-            public ValueSequence<T, TQuery> Sequence;
+            public ValueSequence<T, TSource> Sequence;
             public TKeySelector KeySelector;
 
             [WriteOnly]

@@ -4,18 +4,18 @@ using Unity.Mathematics;
 
 namespace CareBoo.Blinq
 {
-    public partial struct ValueSequence<T, TQuery>
+    public partial struct ValueSequence<T, TSource>
         : IEnumerable<T>
         where T : struct
-        where TQuery : struct, IQuery<T>
+        where TSource : struct, ISequence<T>
     {
-        public struct ZipQuery<TSecond, TResult, TResultSelector, TSecondSequence> : IQuery<TResult>
+        public struct ZipQuery<TSecond, TResult, TResultSelector, TSecondSequence> : ISequence<TResult>
             where TSecond : struct
             where TResult : struct
             where TResultSelector : struct, IValueFunc<T, TSecond, TResult>
-            where TSecondSequence : struct, IQuery<TSecond>
+            where TSecondSequence : struct, ISequence<TSecond>
         {
-            public TQuery Query;
+            public TSource Query;
             public TSecondSequence SecondSequence;
             public TResultSelector ResultSelector;
 
@@ -39,9 +39,9 @@ namespace CareBoo.Blinq
             where TSecond : struct
             where TResult : struct
             where TResultSelector : struct, IValueFunc<T, TSecond, TResult>
-            where TSecondSequence : struct, IQuery<TSecond>
+            where TSecondSequence : struct, ISequence<TSecond>
         {
-            var newQuery = new ZipQuery<TSecond, TResult, TResultSelector, TSecondSequence> { Query = query, SecondSequence = second, ResultSelector = resultSelector };
+            var newQuery = new ZipQuery<TSecond, TResult, TResultSelector, TSecondSequence> { Query = source, SecondSequence = second, ResultSelector = resultSelector };
             return new ValueSequence<TResult, ZipQuery<TSecond, TResult, TResultSelector, TSecondSequence>>(newQuery);
         }
     }

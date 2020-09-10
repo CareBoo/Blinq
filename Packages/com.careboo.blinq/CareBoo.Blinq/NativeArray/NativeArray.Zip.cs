@@ -13,7 +13,7 @@ namespace CareBoo.Blinq
             where TSecond : struct
             where TResult : struct
             where TResultSelector : struct, IValueFunc<T, TSecond, TResult>
-            where TSecondSequence : struct, IQuery<TSecond>
+            where TSecondSequence : struct, ISequence<TSecond>
         {
             return source
                 .ToValueSequence()

@@ -2,10 +2,10 @@
 
 namespace CareBoo.Blinq
 {
-    public partial struct ValueSequence<T, TQuery>
+    public partial struct ValueSequence<T, TSource>
         : IEnumerable<T>
         where T : struct
-        where TQuery : struct, IQuery<T>
+        where TSource : struct, ISequence<T>
     {
         public TResult Aggregate<TAccumulate, TResult, TFunc, TResultSelector>(
             TAccumulate seed,
@@ -17,7 +17,7 @@ namespace CareBoo.Blinq
             where TFunc : struct, IValueFunc<TAccumulate, T, TAccumulate>
             where TResultSelector : struct, IValueFunc<TAccumulate, TResult>
         {
-            var sourceList = query.Execute();
+            var sourceList = source.Execute();
             for (var i = 0; i < sourceList.Length; i++)
                 seed = func.Invoke(seed, sourceList[i]);
             return resultSelector.Invoke(seed);
@@ -27,7 +27,7 @@ namespace CareBoo.Blinq
             where TAccumulate : struct
             where TFunc : struct, IValueFunc<TAccumulate, T, TAccumulate>
         {
-            var sourceList = query.Execute();
+            var sourceList = source.Execute();
             for (var i = 0; i < sourceList.Length; i++)
                 seed = func.Invoke(seed, sourceList[i]);
             return seed;
@@ -36,7 +36,7 @@ namespace CareBoo.Blinq
         public T Aggregate<TFunc>(TFunc func = default)
             where TFunc : struct, IValueFunc<T, T, T>
         {
-            var sourceList = query.Execute();
+            var sourceList = source.Execute();
             if (sourceList.Length == 0) throw Error.NoElements();
             var seed = sourceList[0];
             for (var i = 1; i < sourceList.Length; i++)

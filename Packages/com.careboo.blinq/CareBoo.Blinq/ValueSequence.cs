@@ -5,23 +5,29 @@ using Unity.Collections;
 
 namespace CareBoo.Blinq
 {
-    [BurstCompile]
-    public partial struct ValueSequence<T, TQuery>
-        : IEnumerable<T>
-        , IQuery<T>
+    public interface ISequence<T>
         where T : struct
-        where TQuery : struct, IQuery<T>
     {
-        readonly TQuery query;
+        NativeList<T> Execute();
+    }
 
-        public ValueSequence(TQuery query)
+    [BurstCompile]
+    public partial struct ValueSequence<T, TSource>
+        : IEnumerable<T>
+        , ISequence<T>
+        where T : struct
+        where TSource : struct, ISequence<T>
+    {
+        readonly TSource source;
+
+        public ValueSequence(TSource source)
         {
-            this.query = query;
+            this.source = source;
         }
 
         public NativeList<T> Execute()
         {
-            return query.Execute();
+            return source.Execute();
         }
 
         public NativeArray<T>.Enumerator GetEnumerator()

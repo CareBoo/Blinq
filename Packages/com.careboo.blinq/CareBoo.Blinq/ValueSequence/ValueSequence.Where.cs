@@ -3,15 +3,15 @@ using Unity.Collections;
 
 namespace CareBoo.Blinq
 {
-    public partial struct ValueSequence<T, TQuery>
+    public partial struct ValueSequence<T, TSource>
         : IEnumerable<T>
         where T : struct
-        where TQuery : struct, IQuery<T>
+        where TSource : struct, ISequence<T>
     {
-        public struct WhereWithIndexQuery<TPredicate> : IQuery<T>
+        public struct WhereWithIndexQuery<TPredicate> : ISequence<T>
             where TPredicate : struct, IValueFunc<T, int, bool>
         {
-            public TQuery Query;
+            public TSource Query;
             public TPredicate Predicate;
 
             public NativeList<T> Execute()
@@ -32,14 +32,14 @@ namespace CareBoo.Blinq
         public ValueSequence<T, WhereWithIndexQuery<TPredicate>> WhereWithIndex<TPredicate>(TPredicate predicate = default)
             where TPredicate : struct, IValueFunc<T, int, bool>
         {
-            var newQuery = new WhereWithIndexQuery<TPredicate> { Query = query, Predicate = predicate };
+            var newQuery = new WhereWithIndexQuery<TPredicate> { Query = source, Predicate = predicate };
             return new ValueSequence<T, WhereWithIndexQuery<TPredicate>>(newQuery);
         }
 
-        public struct WhereQuery<TPredicate> : IQuery<T>
+        public struct WhereQuery<TPredicate> : ISequence<T>
             where TPredicate : struct, IValueFunc<T, bool>
         {
-            public TQuery Query;
+            public TSource Query;
             public TPredicate Predicate;
 
             public NativeList<T> Execute()
@@ -60,7 +60,7 @@ namespace CareBoo.Blinq
         public ValueSequence<T, WhereQuery<TPredicate>> Where<TPredicate>(TPredicate predicate = default)
             where TPredicate : struct, IValueFunc<T, bool>
         {
-            var newQuery = new WhereQuery<TPredicate> { Query = query, Predicate = predicate };
+            var newQuery = new WhereQuery<TPredicate> { Query = source, Predicate = predicate };
             return new ValueSequence<T, WhereQuery<TPredicate>>(newQuery);
         }
     }

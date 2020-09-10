@@ -3,16 +3,16 @@ using Unity.Collections;
 
 namespace CareBoo.Blinq
 {
-    public partial struct ValueSequence<T, TQuery>
+    public partial struct ValueSequence<T, TSource>
         : IEnumerable<T>
         where T : struct
-        where TQuery : struct, IQuery<T>
+        where TSource : struct, ISequence<T>
     {
-        public struct ConcatQuery<TSequence> : IQuery<T>
-            where TSequence : struct, IQuery<T>
+        public struct ConcatQuery<TSequence> : ISequence<T>
+            where TSequence : struct, ISequence<T>
         {
             public TSequence SecondSequence;
-            public TQuery Query;
+            public TSource Query;
 
             public NativeList<T> Execute()
             {
@@ -25,9 +25,9 @@ namespace CareBoo.Blinq
         }
 
         public ValueSequence<T, ConcatQuery<TSequence>> Concat<TSequence>(TSequence secondSequence)
-            where TSequence : struct, IQuery<T>
+            where TSequence : struct, ISequence<T>
         {
-            var newQuery = new ConcatQuery<TSequence> { SecondSequence = secondSequence, Query = query };
+            var newQuery = new ConcatQuery<TSequence> { SecondSequence = secondSequence, Query = source };
             return new ValueSequence<T, ConcatQuery<TSequence>>(newQuery);
         }
     }
