@@ -1,11 +1,9 @@
-﻿using System.Collections.Generic;
-using Unity.Collections;
+﻿using Unity.Collections;
 using Unity.Mathematics;
 
 namespace CareBoo.Blinq
 {
     public partial struct ValueSequence<T, TSource>
-        : IEnumerable<T>
         where T : struct
         where TSource : struct, ISequence<T>
     {

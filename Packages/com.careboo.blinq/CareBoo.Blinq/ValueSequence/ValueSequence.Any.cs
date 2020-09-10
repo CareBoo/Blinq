@@ -1,9 +1,6 @@
-﻿using System.Collections.Generic;
-
-namespace CareBoo.Blinq
+﻿namespace CareBoo.Blinq
 {
     public partial struct ValueSequence<T, TSource>
-        : IEnumerable<T>
         where T : struct
         where TSource : struct, ISequence<T>
     {
