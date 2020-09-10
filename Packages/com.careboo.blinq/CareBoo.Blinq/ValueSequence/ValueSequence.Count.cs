@@ -1,7 +1,9 @@
-﻿namespace CareBoo.Blinq
+﻿using System;
+
+namespace CareBoo.Blinq
 {
     public partial struct ValueSequence<T, TSource>
-        where T : struct
+        where T : struct, IEquatable<T>
         where TSource : struct, ISequence<T>
     {
         public int Count<TPredicate>(TPredicate predicate = default)

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Unity.Burst;
 using Unity.Collections;
@@ -15,7 +16,7 @@ namespace CareBoo.Blinq
     public partial struct ValueSequence<T, TSource>
         : IEnumerable<T>
         , ISequence<T>
-        where T : struct
+        where T : struct, IEquatable<T>
         where TSource : struct, ISequence<T>
     {
         readonly TSource source;

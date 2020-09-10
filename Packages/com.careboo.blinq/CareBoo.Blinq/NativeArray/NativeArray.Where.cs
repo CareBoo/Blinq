@@ -1,4 +1,5 @@
-﻿using Unity.Collections;
+﻿using System;
+using Unity.Collections;
 
 namespace CareBoo.Blinq
 {
@@ -8,7 +9,7 @@ namespace CareBoo.Blinq
             this ref NativeArray<T> source,
             TPredicate predicate = default
             )
-            where T : struct
+            where T : struct, IEquatable<T>
             where TPredicate : struct, IValueFunc<T, int, bool>
         {
             return source.ToValueSequence().WhereWithIndex(predicate);
@@ -18,7 +19,7 @@ namespace CareBoo.Blinq
             this ref NativeArray<T> source,
             TPredicate predicate = default
             )
-            where T : struct
+            where T : struct, IEquatable<T>
             where TPredicate : struct, IValueFunc<T, bool>
         {
             return source.ToValueSequence().Where(predicate);

@@ -1,9 +1,10 @@
-﻿using Unity.Collections;
+﻿using System;
+using Unity.Collections;
 
 namespace CareBoo.Blinq
 {
     public struct NativeArraySequence<T> : ISequence<T>
-        where T : struct
+        where T : struct, IEquatable<T>
     {
         public NativeArray<T> Source;
 
@@ -18,9 +19,8 @@ namespace CareBoo.Blinq
 
     public static partial class NativeArrayExtensions
     {
-
         public static ValueSequence<T, NativeArraySequence<T>> ToValueSequence<T>(this ref NativeArray<T> nativeArray)
-            where T : struct
+            where T : struct, IEquatable<T>
         {
             var newSequence = new NativeArraySequence<T> { Source = nativeArray };
             return new ValueSequence<T, NativeArraySequence<T>>(newSequence);

@@ -1,4 +1,5 @@
-﻿using Unity.Collections;
+﻿using System;
+using Unity.Collections;
 
 namespace CareBoo.Blinq
 {
@@ -9,9 +10,9 @@ namespace CareBoo.Blinq
             TSecondSequence secondSequence,
             TResultSelector resultSelector = default
             )
-            where T : struct
+            where T : struct, IEquatable<T>
             where TSecond : struct
-            where TResult : struct
+            where TResult : struct, IEquatable<TResult>
             where TResultSelector : struct, IValueFunc<T, TSecond, TResult>
             where TSecondSequence : struct, ISequence<TSecond>
         {

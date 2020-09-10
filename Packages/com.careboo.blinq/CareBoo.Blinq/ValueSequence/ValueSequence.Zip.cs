@@ -1,15 +1,16 @@
-﻿using Unity.Collections;
+﻿using System;
+using Unity.Collections;
 using Unity.Mathematics;
 
 namespace CareBoo.Blinq
 {
     public partial struct ValueSequence<T, TSource>
-        where T : struct
+        where T : struct, IEquatable<T>
         where TSource : struct, ISequence<T>
     {
         public struct ZipSequence<TSecondElement, TResult, TResultSelector, TSecond> : ISequence<TResult>
             where TSecondElement : struct
-            where TResult : struct
+            where TResult : struct, IEquatable<TResult>
             where TResultSelector : struct, IValueFunc<T, TSecondElement, TResult>
             where TSecond : struct, ISequence<TSecondElement>
         {
@@ -35,7 +36,7 @@ namespace CareBoo.Blinq
 
         public ValueSequence<TResult, ZipSequence<TSecondElement, TResult, TResultSelector, TSecond>> Zip<TSecondElement, TResult, TResultSelector, TSecond>(TSecond second, TResultSelector resultSelector)
             where TSecondElement : struct
-            where TResult : struct
+            where TResult : struct, IEquatable<TResult>
             where TResultSelector : struct, IValueFunc<T, TSecondElement, TResult>
             where TSecond : struct, ISequence<TSecondElement>
         {
