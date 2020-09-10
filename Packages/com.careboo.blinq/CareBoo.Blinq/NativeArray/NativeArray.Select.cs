@@ -4,7 +4,7 @@ namespace CareBoo.Blinq
 {
     public static partial class NativeArrayExtensions
     {
-        public static ValueSequence<TResult, ValueSequence<T, NativeArraySourceSequence<T>>.SelectWithIndexSequence<TResult, TSelector>> SelectWithIndex<T, TResult, TSelector>(
+        public static ValueSequence<TResult, ValueSequence<T, NativeArraySequence<T>>.SelectWithIndexSequence<TResult, TSelector>> SelectWithIndex<T, TResult, TSelector>(
             this ref NativeArray<T> source,
             TSelector selector = default
             )
@@ -15,7 +15,7 @@ namespace CareBoo.Blinq
             return source.ToValueSequence().SelectWithIndex<TResult, TSelector>(selector);
         }
 
-        public static ValueSequence<TResult, ValueSequence<T, NativeArraySourceSequence<T>>.SelectSequence<TResult, TSelector>> Select<T, TResult, TSelector>(
+        public static ValueSequence<TResult, ValueSequence<T, NativeArraySequence<T>>.SelectSequence<TResult, TSelector>> Select<T, TResult, TSelector>(
             this ref NativeArray<T> source,
             TSelector selector = default
             )
