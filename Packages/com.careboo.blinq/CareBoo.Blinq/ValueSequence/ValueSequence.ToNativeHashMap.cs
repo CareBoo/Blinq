@@ -5,10 +5,10 @@ using Unity.Collections;
 
 namespace CareBoo.Blinq
 {
-    public partial struct ValueSequence<T, TQuery>
+    public partial struct ValueSequence<T, TSource>
         : IEnumerable<T>
         where T : struct
-        where TQuery : struct, IQuery<T>
+        where TSource : struct, ISequence<T>
     {
         [BurstCompile]
         public NativeHashMap<TKey, TElement> ToNativeHashMap<TKey, TElement, TKeySelector, TElementSelector>(

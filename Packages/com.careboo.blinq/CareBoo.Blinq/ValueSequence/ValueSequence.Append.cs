@@ -3,15 +3,15 @@ using Unity.Collections;
 
 namespace CareBoo.Blinq
 {
-    public partial struct ValueSequence<T, TQuery>
+    public partial struct ValueSequence<T, TSource>
         : IEnumerable<T>
         where T : struct
-        where TQuery : struct, IQuery<T>
+        where TSource : struct, ISequence<T>
     {
-        public struct AppendQuery : IQuery<T>
+        public struct AppendQuery : ISequence<T>
         {
             public T Item;
-            public TQuery Query;
+            public TSource Query;
 
             public NativeList<T> Execute()
             {
@@ -23,7 +23,7 @@ namespace CareBoo.Blinq
 
         public ValueSequence<T, AppendQuery> Append(T item)
         {
-            var newQuery = new AppendQuery { Item = item, Query = query };
+            var newQuery = new AppendQuery { Item = item, Query = source };
             return new ValueSequence<T, AppendQuery>(newQuery);
         }
     }

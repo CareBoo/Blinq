@@ -4,10 +4,10 @@ using Unity.Jobs;
 
 namespace CareBoo.Blinq
 {
-    public partial struct ValueSequence<T, TQuery>
+    public partial struct ValueSequence<T, TSource>
         : IEnumerable<T>
         where T : struct
-        where TQuery : struct, IQuery<T>
+        where TSource : struct, ISequence<T>
     {
         public NativeListJob ToNativeListJob(NativeList<T> output)
         {
@@ -23,7 +23,7 @@ namespace CareBoo.Blinq
 
         public struct NativeListJob : IJob
         {
-            public ValueSequence<T, TQuery> Sequence;
+            public ValueSequence<T, TSource> Sequence;
 
             [WriteOnly]
             public NativeList<T> Output;
