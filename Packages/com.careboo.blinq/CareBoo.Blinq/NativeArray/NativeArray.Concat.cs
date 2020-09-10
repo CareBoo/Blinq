@@ -1,4 +1,5 @@
-﻿using Unity.Collections;
+﻿using System;
+using Unity.Collections;
 
 namespace CareBoo.Blinq
 {
@@ -8,7 +9,7 @@ namespace CareBoo.Blinq
             this ref NativeArray<T> source,
             TSequence second
             )
-            where T : struct
+            where T : struct, IEquatable<T>
             where TSequence : struct, ISequence<T>
         {
             return source.ToValueSequence().Concat(second);

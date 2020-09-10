@@ -1,4 +1,5 @@
-﻿using Unity.Collections;
+﻿using System;
+using Unity.Collections;
 
 namespace CareBoo.Blinq
 {
@@ -8,8 +9,8 @@ namespace CareBoo.Blinq
             this ref NativeArray<T> source,
             TSelector selector = default
             )
-            where T : struct
-            where TResult : struct
+            where T : struct, IEquatable<T>
+            where TResult : struct, IEquatable<TResult>
             where TSelector : struct, IValueFunc<T, int, TResult>
         {
             return source.ToValueSequence().SelectWithIndex<TResult, TSelector>(selector);
@@ -19,8 +20,8 @@ namespace CareBoo.Blinq
             this ref NativeArray<T> source,
             TSelector selector = default
             )
-            where T : struct
-            where TResult : struct
+            where T : struct, IEquatable<T>
+            where TResult : struct, IEquatable<TResult>
             where TSelector : struct, IValueFunc<T, TResult>
         {
             return source.ToValueSequence().Select<TResult, TSelector>(selector);
