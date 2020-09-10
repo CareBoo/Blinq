@@ -1,3 +1,10 @@
+# [1.0.0-preview.12](https://github.com/CareBoo/Blinq/compare/v1.0.0-preview.11...v1.0.0-preview.12) (2020-09-10)
+
+
+### Features
+
+* :sparkles: Implement DefaultIfEmpty ([1b9db20](https://github.com/CareBoo/Blinq/commit/1b9db2037ef406740463f4296a9105bd4c3f3885)), closes [#5](https://github.com/CareBoo/Blinq/issues/5)
+
 # [1.0.0-preview.11](https://github.com/CareBoo/Blinq/compare/v1.0.0-preview.10...v1.0.0-preview.11) (2020-09-10)
 
 
