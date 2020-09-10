@@ -1,3 +1,10 @@
+# [1.0.0-preview.11](https://github.com/CareBoo/Blinq/compare/v1.0.0-preview.10...v1.0.0-preview.11) (2020-09-10)
+
+
+### Features
+
+* :sparkles: Implement Contains ([42f6b6b](https://github.com/CareBoo/Blinq/commit/42f6b6b9804dbe362215053f4f4a29779140311b)), closes [#4](https://github.com/CareBoo/Blinq/issues/4)
+
 # [1.0.0-preview.10](https://github.com/CareBoo/Blinq/compare/v1.0.0-preview.9...v1.0.0-preview.10) (2020-09-10)
 
 
