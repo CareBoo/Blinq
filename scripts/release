@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
 npm publish \
-    --registry=https://npm.pkg.github.com \
-    --scope=@careboo \
     --access=public \
     Packages/com.careboo.blinq
