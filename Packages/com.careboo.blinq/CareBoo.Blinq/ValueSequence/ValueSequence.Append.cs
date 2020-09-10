@@ -8,23 +8,23 @@ namespace CareBoo.Blinq
         where T : struct
         where TSource : struct, ISequence<T>
     {
-        public struct AppendQuery : ISequence<T>
+        public struct AppendSequence : ISequence<T>
         {
+            public TSource Source;
             public T Item;
-            public TSource Query;
 
             public NativeList<T> Execute()
             {
-                var sourceList = Query.Execute();
+                var sourceList = Source.Execute();
                 sourceList.Add(Item);
                 return sourceList;
             }
         }
 
-        public ValueSequence<T, AppendQuery> Append(T item)
+        public ValueSequence<T, AppendSequence> Append(T item)
         {
-            var newQuery = new AppendQuery { Item = item, Query = source };
-            return new ValueSequence<T, AppendQuery>(newQuery);
+            var newSequence = new AppendSequence { Source = source, Item = item };
+            return new ValueSequence<T, AppendSequence>(newSequence);
         }
     }
 }

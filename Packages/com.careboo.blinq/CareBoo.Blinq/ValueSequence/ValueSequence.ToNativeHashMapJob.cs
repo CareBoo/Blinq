@@ -24,7 +24,7 @@ namespace CareBoo.Blinq
         {
             return new NativeHashMapJob<TKey, TElement, TKeySelector, TElementSelector>
             {
-                Sequence = this,
+                Source = this,
                 KeySelector = keySelector,
                 ElementSelector = elementSelector,
                 Output = output
@@ -44,7 +44,7 @@ namespace CareBoo.Blinq
             var output = new NativeHashMap<TKey, TElement>(0, allocator);
             var job = new NativeHashMapJob<TKey, TElement, TKeySelector, TElementSelector>
             {
-                Sequence = this,
+                Source = this,
                 KeySelector = keySelector,
                 ElementSelector = elementSelector,
                 Output = output
@@ -61,7 +61,7 @@ namespace CareBoo.Blinq
         {
             return new NativeHashMapJob<TKey, TKeySelector>
             {
-                Sequence = this,
+                Source = this,
                 KeySelector = keySelector,
                 Output = output
             };
@@ -77,7 +77,7 @@ namespace CareBoo.Blinq
             var output = new NativeHashMap<TKey, T>(0, allocator);
             var job = new NativeHashMapJob<TKey, TKeySelector>
             {
-                Sequence = this,
+                Source = this,
                 KeySelector = keySelector,
                 Output = output
             };
@@ -91,7 +91,7 @@ namespace CareBoo.Blinq
             where TKeySelector : struct, IValueFunc<T, TKey>
             where TElementSelector : struct, IValueFunc<T, TElement>
         {
-            public ValueSequence<T, TSource> Sequence;
+            public ValueSequence<T, TSource> Source;
             public TKeySelector KeySelector;
             public TElementSelector ElementSelector;
 
@@ -100,7 +100,7 @@ namespace CareBoo.Blinq
 
             public void Execute()
             {
-                Sequence.ToNativeHashMap(KeySelector, ElementSelector, Output);
+                Source.ToNativeHashMap(KeySelector, ElementSelector, Output);
             }
         }
 
@@ -109,7 +109,7 @@ namespace CareBoo.Blinq
             where TKey : struct, IEquatable<TKey>
             where TKeySelector : struct, IValueFunc<T, TKey>
         {
-            public ValueSequence<T, TSource> Sequence;
+            public ValueSequence<T, TSource> Source;
             public TKeySelector KeySelector;
 
             [WriteOnly]
@@ -117,7 +117,7 @@ namespace CareBoo.Blinq
 
             public void Execute()
             {
-                Sequence.ToNativeHashMap(KeySelector, Output);
+                Source.ToNativeHashMap(KeySelector, Output);
             }
         }
     }

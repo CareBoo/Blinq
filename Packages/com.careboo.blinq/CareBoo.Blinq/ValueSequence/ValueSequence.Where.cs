@@ -8,15 +8,15 @@ namespace CareBoo.Blinq
         where T : struct
         where TSource : struct, ISequence<T>
     {
-        public struct WhereWithIndexQuery<TPredicate> : ISequence<T>
+        public struct WhereWithIndexSequence<TPredicate> : ISequence<T>
             where TPredicate : struct, IValueFunc<T, int, bool>
         {
-            public TSource Query;
+            public TSource Source;
             public TPredicate Predicate;
 
             public NativeList<T> Execute()
             {
-                var sourceList = Query.Execute();
+                var sourceList = Source.Execute();
                 for (var i = 0; i < sourceList.Length; i++)
                 {
                     if (!Predicate.Invoke(sourceList[i], i))
@@ -29,22 +29,22 @@ namespace CareBoo.Blinq
             }
         }
 
-        public ValueSequence<T, WhereWithIndexQuery<TPredicate>> WhereWithIndex<TPredicate>(TPredicate predicate = default)
+        public ValueSequence<T, WhereWithIndexSequence<TPredicate>> WhereWithIndex<TPredicate>(TPredicate predicate = default)
             where TPredicate : struct, IValueFunc<T, int, bool>
         {
-            var newQuery = new WhereWithIndexQuery<TPredicate> { Query = source, Predicate = predicate };
-            return new ValueSequence<T, WhereWithIndexQuery<TPredicate>>(newQuery);
+            var newSequence = new WhereWithIndexSequence<TPredicate> { Source = source, Predicate = predicate };
+            return new ValueSequence<T, WhereWithIndexSequence<TPredicate>>(newSequence);
         }
 
-        public struct WhereQuery<TPredicate> : ISequence<T>
+        public struct WhereSequence<TPredicate> : ISequence<T>
             where TPredicate : struct, IValueFunc<T, bool>
         {
-            public TSource Query;
+            public TSource Source;
             public TPredicate Predicate;
 
             public NativeList<T> Execute()
             {
-                var sourceList = Query.Execute();
+                var sourceList = Source.Execute();
                 for (var i = 0; i < sourceList.Length; i++)
                 {
                     if (!Predicate.Invoke(sourceList[i]))
@@ -57,11 +57,11 @@ namespace CareBoo.Blinq
             }
         }
 
-        public ValueSequence<T, WhereQuery<TPredicate>> Where<TPredicate>(TPredicate predicate = default)
+        public ValueSequence<T, WhereSequence<TPredicate>> Where<TPredicate>(TPredicate predicate = default)
             where TPredicate : struct, IValueFunc<T, bool>
         {
-            var newQuery = new WhereQuery<TPredicate> { Query = source, Predicate = predicate };
-            return new ValueSequence<T, WhereQuery<TPredicate>>(newQuery);
+            var newSequence = new WhereSequence<TPredicate> { Source = source, Predicate = predicate };
+            return new ValueSequence<T, WhereSequence<TPredicate>>(newSequence);
         }
     }
 }

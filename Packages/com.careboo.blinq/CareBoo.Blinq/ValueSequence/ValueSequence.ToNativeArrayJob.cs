@@ -12,7 +12,7 @@ namespace CareBoo.Blinq
         public NativeArrayJobWrapper ToNativeArrayJob(Allocator allocator)
         {
             var jobOutput = new NativeList<T>(allocator);
-            var job = new NativeListJob { Sequence = this, Output = jobOutput };
+            var job = new NativeListJob { Source = this, Output = jobOutput };
             return new NativeArrayJobWrapper(job, jobOutput, allocator);
         }
 

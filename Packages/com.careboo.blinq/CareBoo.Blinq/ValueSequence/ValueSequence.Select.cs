@@ -33,8 +33,8 @@ namespace CareBoo.Blinq
             where TResult : struct
             where TSelector : struct, IValueFunc<T, int, TResult>
         {
-            var newQuery = new SelectWithIndexSequence<TResult, TSelector> { Source = source, Selector = selector };
-            return new ValueSequence<TResult, SelectWithIndexSequence<TResult, TSelector>>(newQuery);
+            var newSequence = new SelectWithIndexSequence<TResult, TSelector> { Source = source, Selector = selector };
+            return new ValueSequence<TResult, SelectWithIndexSequence<TResult, TSelector>>(newSequence);
         }
 
         public struct SelectSequence<TResult, TSelector> : ISequence<TResult>
@@ -61,8 +61,8 @@ namespace CareBoo.Blinq
             where TResult : struct
             where TSelector : struct, IValueFunc<T, TResult>
         {
-            var newQuery = new SelectSequence<TResult, TSelector> { Source = source, Selector = selector };
-            return new ValueSequence<TResult, SelectSequence<TResult, TSelector>>(newQuery);
+            var newSequence = new SelectSequence<TResult, TSelector> { Source = source, Selector = selector };
+            return new ValueSequence<TResult, SelectSequence<TResult, TSelector>>(newSequence);
         }
     }
 }

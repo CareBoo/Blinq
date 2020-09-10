@@ -8,27 +8,27 @@ namespace CareBoo.Blinq
         where T : struct
         where TSource : struct, ISequence<T>
     {
-        public struct ConcatQuery<TSequence> : ISequence<T>
-            where TSequence : struct, ISequence<T>
+        public struct ConcatSequence<TSecond> : ISequence<T>
+            where TSecond : struct, ISequence<T>
         {
-            public TSequence SecondSequence;
-            public TSource Query;
+            public TSource Source;
+            public TSecond Second;
 
             public NativeList<T> Execute()
             {
-                var first = Query.Execute();
-                var second = SecondSequence.Execute();
+                var first = Source.Execute();
+                var second = Second.Execute();
                 first.AddRange(second);
                 second.Dispose();
                 return first;
             }
         }
 
-        public ValueSequence<T, ConcatQuery<TSequence>> Concat<TSequence>(TSequence secondSequence)
-            where TSequence : struct, ISequence<T>
+        public ValueSequence<T, ConcatSequence<TSecond>> Concat<TSecond>(TSecond second)
+            where TSecond : struct, ISequence<T>
         {
-            var newQuery = new ConcatQuery<TSequence> { SecondSequence = secondSequence, Query = source };
-            return new ValueSequence<T, ConcatQuery<TSequence>>(newQuery);
+            var newSequence = new ConcatSequence<TSecond> { Source = source, Second = second };
+            return new ValueSequence<T, ConcatSequence<TSecond>>(newSequence);
         }
     }
 }
