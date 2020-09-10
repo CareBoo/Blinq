@@ -5,12 +5,12 @@ namespace CareBoo.Blinq
 {
     public static partial class NativeArrayExtensions
     {
-        public static ValueSequence<T, ValueSequence<T, NativeArraySequence<T>>.ConcatSequence<TSequence>> Concat<T, TSequence>(
+        public static ValueSequence<T, ValueSequence<T, NativeArraySequence<T>>.ConcatSequence<TSecond>> Concat<T, TSecond>(
             this ref NativeArray<T> source,
-            TSequence second
+            TSecond second
             )
             where T : unmanaged, IEquatable<T>
-            where TSequence : struct, ISequence<T>
+            where TSecond : struct, ISequence<T>
         {
             return source.ToValueSequence().Concat(second);
         }
