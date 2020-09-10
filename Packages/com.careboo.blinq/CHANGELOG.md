@@ -1,3 +1,11 @@
+# [1.0.0-preview.10](https://github.com/CareBoo/Blinq/compare/v1.0.0-preview.9...v1.0.0-preview.10) (2020-09-10)
+
+
+### Features
+
+* :sparkles: Add NativeArray impl of Union ([a41481d](https://github.com/CareBoo/Blinq/commit/a41481d6cc9bbebe5e5233312d15fbf58a7a556e))
+* :sparkles: Implement Union ([205e4ca](https://github.com/CareBoo/Blinq/commit/205e4ca2d97aca7b7d91448bc5e3d261cc9be580)), closes [#32](https://github.com/CareBoo/Blinq/issues/32)
+
 # [1.0.0-preview.9](https://github.com/CareBoo/Blinq/compare/v1.0.0-preview.8...v1.0.0-preview.9) (2020-09-09)
 
 
