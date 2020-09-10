@@ -10,10 +10,9 @@ internal class WhereTest
     public void BlinqShouldEqualLinqNativeArrayWhereWithIndex([ArrayValues] int[] sourceArr)
     {
         var source = new NativeArray<int>(sourceArr, Allocator.Persistent);
-        var (expectedException, expectedValue) = ExceptionOrValue(() => Linq.ToArray(Linq.Where(source, default(EqualToIndex).Invoke)));
-        var (actualException, actualValue) = ExceptionOrValue(() => Linq.ToArray(Blinq.WhereWithIndex<int, EqualToIndex>(ref source)));
-        Assert.AreEqual(expectedException, actualException);
-        Assert.AreEqual(expectedValue, actualValue);
+        var expected = ExceptionAndValue(() => Linq.ToArray(Linq.Where(source, default(EqualToIndex).Invoke)));
+        var actual = ExceptionAndValue(() => Linq.ToArray(Blinq.WhereWithIndex<int, EqualToIndex>(ref source)));
+        AssertAreEqual(expected, actual);
         source.Dispose();
     }
 
@@ -21,10 +20,9 @@ internal class WhereTest
     public void BlinqShouldEqualLinqNativeArrayWhere([ArrayValues] int[] sourceArr)
     {
         var source = new NativeArray<int>(sourceArr, Allocator.Persistent);
-        var (expectedException, expectedValue) = ExceptionOrValue(() => Linq.ToArray(Linq.Where(source, default(EqualsZero).Invoke)));
-        var (actualException, actualValue) = ExceptionOrValue(() => Linq.ToArray(Blinq.Where<int, EqualsZero>(ref source)));
-        Assert.AreEqual(expectedException, actualException);
-        Assert.AreEqual(expectedValue, actualValue);
+        var expected = ExceptionAndValue(() => Linq.ToArray(Linq.Where(source, default(EqualsZero).Invoke)));
+        var actual = ExceptionAndValue(() => Linq.ToArray(Blinq.Where<int, EqualsZero>(ref source)));
+        AssertAreEqual(expected, actual);
         source.Dispose();
     }
 }

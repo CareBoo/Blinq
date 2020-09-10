@@ -10,14 +10,14 @@ internal class AggregateTest
     public void BlinqShouldEqualLinqNativeArrayAggregateWithAccumulateAndResult([ArrayValues] int[] sourceArr)
     {
         var source = new NativeArray<int>(sourceArr, Allocator.Persistent);
-        var expected = ExceptionOrValue(() => Linq.Aggregate<int, long, double>(
+        var expected = ExceptionAndValue(() => Linq.Aggregate<int, long, double>(
             source,
             0,
             default(LongSum).Invoke,
             default(LongToDouble).Invoke
         ));
-        var actual = ExceptionOrValue(() => Blinq.Aggregate<int, long, double, LongSum, LongToDouble>(ref source, 0));
-        Assert.AreEqual(expected, actual);
+        var actual = ExceptionAndValue(() => Blinq.Aggregate<int, long, double, LongSum, LongToDouble>(ref source, 0));
+        AssertAreEqual(expected, actual);
         source.Dispose();
     }
 
@@ -25,13 +25,13 @@ internal class AggregateTest
     public void BlinqShouldEqualLinqNativeArrayAggregateWithAccumulate([ArrayValues] int[] sourceArr)
     {
         var source = new NativeArray<int>(sourceArr, Allocator.Persistent);
-        var expected = ExceptionOrValue(() => Linq.Aggregate<int, long>(
+        var expected = ExceptionAndValue(() => Linq.Aggregate<int, long>(
             source,
             0,
             default(LongSum).Invoke
         ));
-        var actual = ExceptionOrValue(() => Blinq.Aggregate<int, long, LongSum>(ref source, 0));
-        Assert.AreEqual(expected, actual);
+        var actual = ExceptionAndValue(() => Blinq.Aggregate<int, long, LongSum>(ref source, 0));
+        AssertAreEqual(expected, actual);
         source.Dispose();
     }
 
@@ -39,12 +39,12 @@ internal class AggregateTest
     public void BlinqShouldEqualLinqNativeArrayAggregate([ArrayValues] int[] sourceArr)
     {
         var source = new NativeArray<int>(sourceArr, Allocator.Persistent);
-        var expected = ExceptionOrValue(() => Linq.Aggregate(
+        var expected = ExceptionAndValue(() => Linq.Aggregate(
             source,
             default(Sum).Invoke
         ));
-        var actual = ExceptionOrValue(() => Blinq.Aggregate<int, Sum>(ref source));
-        Assert.AreEqual(expected, actual);
+        var actual = ExceptionAndValue(() => Blinq.Aggregate<int, Sum>(ref source));
+        AssertAreEqual(expected, actual);
         source.Dispose();
     }
 }
