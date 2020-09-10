@@ -5,8 +5,6 @@ using Unity.Collections;
 namespace CareBoo.Blinq
 {
     public partial struct ValueSequence<T, TSource>
-        where T : unmanaged, IEquatable<T>
-        where TSource : struct, ISequence<T>
     {
         [BurstCompile]
         public NativeHashMap<TKey, TElement> ToNativeHashMap<TKey, TElement, TKeySelector, TElementSelector>(

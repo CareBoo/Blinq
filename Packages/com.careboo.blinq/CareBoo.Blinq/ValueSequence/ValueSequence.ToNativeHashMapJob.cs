@@ -7,8 +7,6 @@ using Unity.Jobs;
 namespace CareBoo.Blinq
 {
     public partial struct ValueSequence<T, TSource>
-        where T : unmanaged, IEquatable<T>
-        where TSource : struct, ISequence<T>
     {
         public NativeHashMapJob<TKey, TElement, TKeySelector, TElementSelector> ToNativeHashMapJob<TKey, TElement, TKeySelector, TElementSelector>(
             TKeySelector keySelector,
