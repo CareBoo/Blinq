@@ -4,11 +4,11 @@ using Unity.Collections;
 namespace CareBoo.Blinq
 {
     public partial struct ValueSequence<T, TSource>
-        where T : struct, IEquatable<T>
+        where T : unmanaged, IEquatable<T>
         where TSource : struct, ISequence<T>
     {
         public struct SelectWithIndexSequence<TResult, TSelector> : ISequence<TResult>
-            where TResult : struct, IEquatable<TResult>
+            where TResult : unmanaged, IEquatable<TResult>
             where TSelector : struct, IValueFunc<T, int, TResult>
         {
             public TSource Source;
@@ -29,7 +29,7 @@ namespace CareBoo.Blinq
         }
 
         public ValueSequence<TResult, SelectWithIndexSequence<TResult, TSelector>> SelectWithIndex<TResult, TSelector>(TSelector selector = default)
-            where TResult : struct, IEquatable<TResult>
+            where TResult : unmanaged, IEquatable<TResult>
             where TSelector : struct, IValueFunc<T, int, TResult>
         {
             var newSequence = new SelectWithIndexSequence<TResult, TSelector> { Source = source, Selector = selector };
@@ -37,7 +37,7 @@ namespace CareBoo.Blinq
         }
 
         public struct SelectSequence<TResult, TSelector> : ISequence<TResult>
-            where TResult : struct
+            where TResult : unmanaged, IEquatable<TResult>
             where TSelector : struct, IValueFunc<T, TResult>
         {
             public TSource Source;
@@ -57,7 +57,7 @@ namespace CareBoo.Blinq
         }
 
         public ValueSequence<TResult, SelectSequence<TResult, TSelector>> Select<TResult, TSelector>(TSelector selector = default)
-            where TResult : struct, IEquatable<TResult>
+            where TResult : unmanaged, IEquatable<TResult>
             where TSelector : struct, IValueFunc<T, TResult>
         {
             var newSequence = new SelectSequence<TResult, TSelector> { Source = source, Selector = selector };

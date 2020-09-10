@@ -9,7 +9,7 @@ namespace CareBoo.Blinq
             this ref NativeArray<T> source,
             TSequence second
             )
-            where T : struct, IEquatable<T>
+            where T : unmanaged, IEquatable<T>
             where TSequence : struct, ISequence<T>
         {
             return source.ToValueSequence().Concat(second);
