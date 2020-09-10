@@ -4,7 +4,7 @@ namespace CareBoo.Blinq
 {
     public static partial class NativeArrayExtensions
     {
-        public static ValueSequence<T, ValueSequence<T, NativeArraySourceQuery<T>>.ConcatQuery<TSequence>> Concat<T, TSequence>(
+        public static ValueSequence<T, ValueSequence<T, NativeArraySourceSequence<T>>.ConcatSequence<TSequence>> Concat<T, TSequence>(
             this ref NativeArray<T> source,
             TSequence second
             )

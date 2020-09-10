@@ -9,20 +9,20 @@ namespace CareBoo.Blinq
         where T : struct
         where TSource : struct, ISequence<T>
     {
-        public struct ZipQuery<TSecond, TResult, TResultSelector, TSecondSequence> : ISequence<TResult>
-            where TSecond : struct
+        public struct ZipSequence<TSecondElement, TResult, TResultSelector, TSecond> : ISequence<TResult>
+            where TSecondElement : struct
             where TResult : struct
-            where TResultSelector : struct, IValueFunc<T, TSecond, TResult>
-            where TSecondSequence : struct, ISequence<TSecond>
+            where TResultSelector : struct, IValueFunc<T, TSecondElement, TResult>
+            where TSecond : struct, ISequence<TSecondElement>
         {
-            public TSource Query;
-            public TSecondSequence SecondSequence;
+            public TSource Source;
+            public TSecond Second;
             public TResultSelector ResultSelector;
 
             public NativeList<TResult> Execute()
             {
-                var first = Query.Execute();
-                var second = SecondSequence.Execute();
+                var first = Source.Execute();
+                var second = Second.Execute();
                 var length = math.min(first.Length, second.Length);
                 var result = new NativeList<TResult>(length, Allocator.Temp);
                 for (var i = 0; i < length; i++)
@@ -35,14 +35,14 @@ namespace CareBoo.Blinq
             }
         }
 
-        public ValueSequence<TResult, ZipQuery<TSecond, TResult, TResultSelector, TSecondSequence>> Zip<TSecond, TResult, TResultSelector, TSecondSequence>(TSecondSequence second, TResultSelector resultSelector)
-            where TSecond : struct
+        public ValueSequence<TResult, ZipSequence<TSecondElement, TResult, TResultSelector, TSecond>> Zip<TSecondElement, TResult, TResultSelector, TSecond>(TSecond second, TResultSelector resultSelector)
+            where TSecondElement : struct
             where TResult : struct
-            where TResultSelector : struct, IValueFunc<T, TSecond, TResult>
-            where TSecondSequence : struct, ISequence<TSecond>
+            where TResultSelector : struct, IValueFunc<T, TSecondElement, TResult>
+            where TSecond : struct, ISequence<TSecondElement>
         {
-            var newQuery = new ZipQuery<TSecond, TResult, TResultSelector, TSecondSequence> { Query = source, SecondSequence = second, ResultSelector = resultSelector };
-            return new ValueSequence<TResult, ZipQuery<TSecond, TResult, TResultSelector, TSecondSequence>>(newQuery);
+            var newSequence = new ZipSequence<TSecondElement, TResult, TResultSelector, TSecond> { Source = source, Second = second, ResultSelector = resultSelector };
+            return new ValueSequence<TResult, ZipSequence<TSecondElement, TResult, TResultSelector, TSecond>>(newSequence);
         }
     }
 }

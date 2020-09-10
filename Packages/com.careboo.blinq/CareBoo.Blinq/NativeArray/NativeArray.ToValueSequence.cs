@@ -4,7 +4,7 @@ namespace CareBoo.Blinq
 {
     public static partial class NativeArrayExtensions
     {
-        public struct NativeArraySourceQuery<T> : ISequence<T>
+        public struct NativeArraySourceSequence<T> : ISequence<T>
             where T : struct
         {
             public NativeArray<T> Source;
@@ -18,11 +18,11 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueSequence<T, NativeArraySourceQuery<T>> ToValueSequence<T>(this ref NativeArray<T> nativeArray)
+        public static ValueSequence<T, NativeArraySourceSequence<T>> ToValueSequence<T>(this ref NativeArray<T> nativeArray)
             where T : struct
         {
-            var newQuery = new NativeArraySourceQuery<T> { Source = nativeArray };
-            return new ValueSequence<T, NativeArraySourceQuery<T>>(newQuery);
+            var newSequence = new NativeArraySourceSequence<T> { Source = nativeArray };
+            return new ValueSequence<T, NativeArraySourceSequence<T>>(newSequence);
         }
     }
 }

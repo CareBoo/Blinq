@@ -11,26 +11,26 @@ namespace CareBoo.Blinq
     {
         public NativeListJob ToNativeListJob(NativeList<T> output)
         {
-            return new NativeListJob { Sequence = this, Output = output };
+            return new NativeListJob { Source = this, Output = output };
         }
 
         public SequenceExecutionJobWrapper<T, NativeListJob, NativeList<T>> ToNativeListJob(Allocator allocator)
         {
             var output = new NativeList<T>(allocator);
-            var job = new NativeListJob { Sequence = this, Output = output };
+            var job = new NativeListJob { Source = this, Output = output };
             return new SequenceExecutionJobWrapper<T, NativeListJob, NativeList<T>>(job, output);
         }
 
         public struct NativeListJob : IJob
         {
-            public ValueSequence<T, TSource> Sequence;
+            public ValueSequence<T, TSource> Source;
 
             [WriteOnly]
             public NativeList<T> Output;
 
             public void Execute()
             {
-                Sequence.ToNativeList(Output);
+                Source.ToNativeList(Output);
             }
         }
     }
