@@ -24,7 +24,7 @@ namespace CareBoo.Blinq
             where TSecond : struct, ISequence<T>
         {
             var newSequence = new ConcatSequence<TSecond> { Source = source, Second = second };
-            return new ValueSequence<T, ConcatSequence<TSecond>>(newSequence);
+            return Create(newSequence);
         }
     }
 }

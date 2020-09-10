@@ -21,6 +21,19 @@ namespace CareBoo.Blinq
     {
         readonly TSource source;
 
+        public static ValueSequence<T, TSequence> Create<TSequence>(TSequence seq)
+            where TSequence : struct, ISequence<T>
+        {
+            return new ValueSequence<T, TSequence>(seq);
+        }
+
+        public static ValueSequence<TResult, TSequence> Create<TResult, TSequence>(TSequence seq)
+            where TResult : unmanaged, IEquatable<TResult>
+            where TSequence : struct, ISequence<TResult>
+        {
+            return new ValueSequence<TResult, TSequence>(seq);
+        }
+
         public ValueSequence(TSource source)
         {
             this.source = source;

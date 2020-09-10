@@ -20,7 +20,7 @@ namespace CareBoo.Blinq
         public ValueSequence<T, AppendSequence> Append(T item)
         {
             var newSequence = new AppendSequence { Source = source, Item = item };
-            return new ValueSequence<T, AppendSequence>(newSequence);
+            return Create(newSequence);
         }
     }
 }

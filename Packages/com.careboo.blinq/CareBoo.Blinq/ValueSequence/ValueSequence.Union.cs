@@ -32,13 +32,13 @@ namespace CareBoo.Blinq
             where TSecond : struct, ISequence<T>
         {
             var newSequence = new UnionSequence<TSecond> { Source = source, Second = second };
-            return new ValueSequence<T, UnionSequence<TSecond>>(newSequence);
+            return Create(newSequence);
         }
 
         public ValueSequence<T, UnionSequence<ValueSequence<T, NativeArraySequence<T>>>> Union(NativeArray<T> second)
         {
             var newSequence = new UnionSequence<ValueSequence<T, NativeArraySequence<T>>> { Source = source, Second = second.ToValueSequence() };
-            return new ValueSequence<T, UnionSequence<ValueSequence<T, NativeArraySequence<T>>>>(newSequence);
+            return Create(newSequence);
         }
     }
 }
