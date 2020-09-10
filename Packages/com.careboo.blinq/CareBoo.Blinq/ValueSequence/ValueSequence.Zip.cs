@@ -18,15 +18,15 @@ namespace CareBoo.Blinq
 
             public NativeList<TResult> Execute()
             {
-                var first = Source.Execute();
+                var source = Source.Execute();
                 var second = Second.Execute();
-                var length = math.min(first.Length, second.Length);
+                var length = math.min(source.Length, second.Length);
                 var result = new NativeList<TResult>(length, Allocator.Temp);
                 for (var i = 0; i < length; i++)
                 {
-                    result.AddNoResize(ResultSelector.Invoke(first[i], second[i]));
+                    result.AddNoResize(ResultSelector.Invoke(source[i], second[i]));
                 }
-                first.Dispose();
+                source.Dispose();
                 second.Dispose();
                 return result;
             }
@@ -39,7 +39,7 @@ namespace CareBoo.Blinq
             where TSecond : struct, ISequence<TSecondElement>
         {
             var newSequence = new ZipSequence<TSecondElement, TResult, TResultSelector, TSecond> { Source = source, Second = second, ResultSelector = resultSelector };
-            return new ValueSequence<TResult, ZipSequence<TSecondElement, TResult, TResultSelector, TSecond>>(newSequence);
+            return Create<TResult, ZipSequence<TSecondElement, TResult, TResultSelector, TSecond>>(newSequence);
         }
     }
 }
