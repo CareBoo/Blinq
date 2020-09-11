@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using Unity.Collections;
+using static ValueFuncs;
 using Blinq = CareBoo.Blinq.NativeArrayExtensions;
 using Linq = System.Linq.Enumerable;
 using static Utils;
@@ -10,8 +11,8 @@ internal class WhereTest
     public void BlinqShouldEqualLinqNativeArrayWhereWithIndex([ArrayValues] int[] sourceArr)
     {
         var source = new NativeArray<int>(sourceArr, Allocator.Persistent);
-        var expected = ExceptionAndValue(() => Linq.ToArray(Linq.Where(source, default(EqualToIndex).Invoke)));
-        var actual = ExceptionAndValue(() => Linq.ToArray(Blinq.WhereWithIndex<int, EqualToIndex>(ref source)));
+        var expected = ExceptionAndValue(() => Linq.ToArray(Linq.Where(source, EqualToIndex.Invoke)));
+        var actual = ExceptionAndValue(() => Linq.ToArray(Blinq.Where(ref source, EqualToIndex)));
         AssertAreEqual(expected, actual);
         source.Dispose();
     }
@@ -20,8 +21,8 @@ internal class WhereTest
     public void BlinqShouldEqualLinqNativeArrayWhere([ArrayValues] int[] sourceArr)
     {
         var source = new NativeArray<int>(sourceArr, Allocator.Persistent);
-        var expected = ExceptionAndValue(() => Linq.ToArray(Linq.Where(source, default(EqualsZero).Invoke)));
-        var actual = ExceptionAndValue(() => Linq.ToArray(Blinq.Where<int, EqualsZero>(ref source)));
+        var expected = ExceptionAndValue(() => Linq.ToArray(Linq.Where(source, EqualsZero.Invoke)));
+        var actual = ExceptionAndValue(() => Linq.ToArray(Blinq.Where(ref source, EqualsZero)));
         AssertAreEqual(expected, actual);
         source.Dispose();
     }

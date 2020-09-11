@@ -3,6 +3,7 @@ using Unity.Collections;
 using Blinq = CareBoo.Blinq.NativeArrayExtensions;
 using Linq = System.Linq.Enumerable;
 using static Utils;
+using static ValueFuncs;
 using CareBoo.Blinq;
 using static CareBoo.Blinq.NativeArrayExtensions;
 
@@ -14,8 +15,8 @@ internal class ZipTest
         var source = new NativeArray<int>(sourceArr, Allocator.Persistent);
         var second = new NativeArray<int>(secondArr, Allocator.Persistent);
         var secondSequence = second.ToValueSequence();
-        var expected = ExceptionAndValue(() => Linq.ToArray(Linq.Zip(source, secondSequence, default(Sum).Invoke)));
-        var actual = ExceptionAndValue(() => Linq.ToArray(Blinq.Zip<int, int, int, Sum, ValueSequence<int, NativeArraySequence<int>>>(ref source, secondSequence)));
+        var expected = ExceptionAndValue(() => Linq.ToArray(Linq.Zip(source, secondSequence, Sum.Invoke)));
+        var actual = ExceptionAndValue(() => Linq.ToArray(Blinq.Zip(ref source, secondSequence, Sum)));
         AssertAreEqual(expected, actual);
         source.Dispose();
         second.Dispose();

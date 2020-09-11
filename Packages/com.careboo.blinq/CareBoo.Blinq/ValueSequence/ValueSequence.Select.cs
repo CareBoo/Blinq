@@ -5,12 +5,11 @@ namespace CareBoo.Blinq
 {
     public partial struct ValueSequence<T, TSource>
     {
-        public struct SelectWithIndexSequence<TResult, TSelector> : ISequence<TResult>
+        public struct SelectWithIndexSequence<TResult> : ISequence<TResult>
             where TResult : unmanaged, IEquatable<TResult>
-            where TSelector : struct, IValueFunc<T, int, TResult>
         {
             public TSource Source;
-            public TSelector Selector;
+            public ValueFunc<T, int, TResult> Selector;
 
             public NativeList<TResult> Execute()
             {
@@ -26,20 +25,18 @@ namespace CareBoo.Blinq
             }
         }
 
-        public ValueSequence<TResult, SelectWithIndexSequence<TResult, TSelector>> SelectWithIndex<TResult, TSelector>(TSelector selector = default)
+        public ValueSequence<TResult, SelectWithIndexSequence<TResult>> Select<TResult>(ValueFunc<T, int, TResult> selector)
             where TResult : unmanaged, IEquatable<TResult>
-            where TSelector : struct, IValueFunc<T, int, TResult>
         {
-            var newSequence = new SelectWithIndexSequence<TResult, TSelector> { Source = source, Selector = selector };
-            return Create<TResult, SelectWithIndexSequence<TResult, TSelector>>(newSequence);
+            var newSequence = new SelectWithIndexSequence<TResult> { Source = source, Selector = selector };
+            return Create<TResult, SelectWithIndexSequence<TResult>>(newSequence);
         }
 
-        public struct SelectSequence<TResult, TSelector> : ISequence<TResult>
+        public struct SelectSequence<TResult> : ISequence<TResult>
             where TResult : unmanaged, IEquatable<TResult>
-            where TSelector : struct, IValueFunc<T, TResult>
         {
             public TSource Source;
-            public TSelector Selector;
+            public ValueFunc<T, TResult> Selector;
 
             public NativeList<TResult> Execute()
             {
@@ -54,12 +51,11 @@ namespace CareBoo.Blinq
             }
         }
 
-        public ValueSequence<TResult, SelectSequence<TResult, TSelector>> Select<TResult, TSelector>(TSelector selector = default)
+        public ValueSequence<TResult, SelectSequence<TResult>> Select<TResult>(ValueFunc<T, TResult> selector)
             where TResult : unmanaged, IEquatable<TResult>
-            where TSelector : struct, IValueFunc<T, TResult>
         {
-            var newSequence = new SelectSequence<TResult, TSelector> { Source = source, Selector = selector };
-            return Create<TResult, SelectSequence<TResult, TSelector>>(newSequence);
+            var newSequence = new SelectSequence<TResult> { Source = source, Selector = selector };
+            return Create<TResult, SelectSequence<TResult>>(newSequence);
         }
     }
 }

@@ -2,8 +2,7 @@
 {
     public partial struct ValueSequence<T, TSource>
     {
-        public int Count<TPredicate>(TPredicate predicate = default)
-            where TPredicate : struct, IValueFunc<T, bool>
+        public int Count(ValueFunc<T, bool> predicate)
         {
             var count = 0;
             var sourceList = source.Execute();

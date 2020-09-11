@@ -5,26 +5,24 @@ namespace CareBoo.Blinq
 {
     public static partial class NativeArrayExtensions
     {
-        public static ValueSequence<TResult, ValueSequence<T, NativeArraySequence<T>>.SelectWithIndexSequence<TResult, TSelector>> SelectWithIndex<T, TResult, TSelector>(
+        public static ValueSequence<TResult, ValueSequence<T, NativeArraySequence<T>>.SelectWithIndexSequence<TResult>> Select<T, TResult>(
             this ref NativeArray<T> source,
-            TSelector selector = default
+            ValueFunc<T, int, TResult> selector
             )
             where T : unmanaged, IEquatable<T>
             where TResult : unmanaged, IEquatable<TResult>
-            where TSelector : struct, IValueFunc<T, int, TResult>
         {
-            return source.ToValueSequence().SelectWithIndex<TResult, TSelector>(selector);
+            return source.ToValueSequence().Select(selector);
         }
 
-        public static ValueSequence<TResult, ValueSequence<T, NativeArraySequence<T>>.SelectSequence<TResult, TSelector>> Select<T, TResult, TSelector>(
+        public static ValueSequence<TResult, ValueSequence<T, NativeArraySequence<T>>.SelectSequence<TResult>> Select<T, TResult>(
             this ref NativeArray<T> source,
-            TSelector selector = default
+            ValueFunc<T, TResult> selector
             )
             where T : unmanaged, IEquatable<T>
             where TResult : unmanaged, IEquatable<TResult>
-            where TSelector : struct, IValueFunc<T, TResult>
         {
-            return source.ToValueSequence().Select<TResult, TSelector>(selector);
+            return source.ToValueSequence().Select(selector);
         }
     }
 }
