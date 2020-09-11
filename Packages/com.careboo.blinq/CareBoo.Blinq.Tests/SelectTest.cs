@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using Linq = System.Linq.Enumerable;
 using static Utils;
+using static ValueFuncs;
 using Unity.Collections;
 using Blinq = CareBoo.Blinq.NativeArrayExtensions;
 
@@ -10,8 +11,8 @@ internal class SelectTest
     public void BlinqShouldEqualLinqNativeArraySelectWithIndex([ArrayValues] int[] sourceArr)
     {
         var source = new NativeArray<int>(sourceArr, Allocator.Persistent);
-        var expected = ExceptionAndValue(() => Linq.ToArray(Linq.Select(source, default(AddToIndex).Invoke)));
-        var actual = ExceptionAndValue(() => Linq.ToArray(Blinq.SelectWithIndex<int, long, AddToIndex>(ref source)));
+        var expected = ExceptionAndValue(() => Linq.ToArray(Linq.Select(source, AddToIndex.Invoke)));
+        var actual = ExceptionAndValue(() => Linq.ToArray(Blinq.Select(ref source, AddToIndex)));
         AssertAreEqual(expected, actual);
         source.Dispose();
     }
@@ -20,8 +21,8 @@ internal class SelectTest
     public void BlinqShouldEqualLinqNativeArraySelect([ArrayValues] int[] sourceArr)
     {
         var source = new NativeArray<int>(sourceArr, Allocator.Persistent);
-        var expected = ExceptionAndValue(() => Linq.ToArray(Linq.Select(source, default(IntToLong).Invoke)));
-        var actual = ExceptionAndValue(() => Linq.ToArray(Blinq.Select<int, long, IntToLong>(ref source)));
+        var expected = ExceptionAndValue(() => Linq.ToArray(Linq.Select(source, IntToLong.Invoke)));
+        var actual = ExceptionAndValue(() => Linq.ToArray(Blinq.Select(ref source, IntToLong)));
         AssertAreEqual(expected, actual);
         source.Dispose();
     }

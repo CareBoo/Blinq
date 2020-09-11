@@ -4,11 +4,10 @@ namespace CareBoo.Blinq
 {
     public partial struct ValueSequence<T, TSource>
     {
-        public struct WhereWithIndexSequence<TPredicate> : ISequence<T>
-            where TPredicate : struct, IValueFunc<T, int, bool>
+        public struct WhereWithIndexSequence : ISequence<T>
         {
             public TSource Source;
-            public TPredicate Predicate;
+            public ValueFunc<T, int, bool> Predicate;
 
             public NativeList<T> Execute()
             {
@@ -25,18 +24,16 @@ namespace CareBoo.Blinq
             }
         }
 
-        public ValueSequence<T, WhereWithIndexSequence<TPredicate>> WhereWithIndex<TPredicate>(TPredicate predicate = default)
-            where TPredicate : struct, IValueFunc<T, int, bool>
+        public ValueSequence<T, WhereWithIndexSequence> Where(ValueFunc<T, int, bool> predicate)
         {
-            var newSequence = new WhereWithIndexSequence<TPredicate> { Source = source, Predicate = predicate };
+            var newSequence = new WhereWithIndexSequence { Source = source, Predicate = predicate };
             return Create(newSequence);
         }
 
-        public struct WhereSequence<TPredicate> : ISequence<T>
-            where TPredicate : struct, IValueFunc<T, bool>
+        public struct WhereSequence : ISequence<T>
         {
             public TSource Source;
-            public TPredicate Predicate;
+            public ValueFunc<T, bool> Predicate;
 
             public NativeList<T> Execute()
             {
@@ -53,10 +50,9 @@ namespace CareBoo.Blinq
             }
         }
 
-        public ValueSequence<T, WhereSequence<TPredicate>> Where<TPredicate>(TPredicate predicate = default)
-            where TPredicate : struct, IValueFunc<T, bool>
+        public ValueSequence<T, WhereSequence> Where(ValueFunc<T, bool> predicate)
         {
-            var newSequence = new WhereSequence<TPredicate> { Source = source, Predicate = predicate };
+            var newSequence = new WhereSequence { Source = source, Predicate = predicate };
             return Create(newSequence);
         }
     }

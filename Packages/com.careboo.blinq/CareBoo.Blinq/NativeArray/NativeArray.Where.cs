@@ -5,22 +5,20 @@ namespace CareBoo.Blinq
 {
     public static partial class NativeArrayExtensions
     {
-        public static ValueSequence<T, ValueSequence<T, NativeArraySequence<T>>.WhereWithIndexSequence<TPredicate>> WhereWithIndex<T, TPredicate>(
+        public static ValueSequence<T, ValueSequence<T, NativeArraySequence<T>>.WhereWithIndexSequence> Where<T>(
             this ref NativeArray<T> source,
-            TPredicate predicate = default
+            ValueFunc<T, int, bool> predicate
             )
             where T : unmanaged, IEquatable<T>
-            where TPredicate : struct, IValueFunc<T, int, bool>
         {
-            return source.ToValueSequence().WhereWithIndex(predicate);
+            return source.ToValueSequence().Where(predicate);
         }
 
-        public static ValueSequence<T, ValueSequence<T, NativeArraySequence<T>>.WhereSequence<TPredicate>> Where<T, TPredicate>(
+        public static ValueSequence<T, ValueSequence<T, NativeArraySequence<T>>.WhereSequence> Where<T>(
             this ref NativeArray<T> source,
-            TPredicate predicate = default
+            ValueFunc<T, bool> predicate
             )
             where T : unmanaged, IEquatable<T>
-            where TPredicate : struct, IValueFunc<T, bool>
         {
             return source.ToValueSequence().Where(predicate);
         }

@@ -2,15 +2,13 @@
 {
     public partial struct ValueSequence<T, TSource>
     {
-        public TResult Aggregate<TAccumulate, TResult, TFunc, TResultSelector>(
+        public TResult Aggregate<TAccumulate, TResult>(
             TAccumulate seed,
-            TFunc func = default,
-            TResultSelector resultSelector = default
+            ValueFunc<TAccumulate, T, TAccumulate> func,
+            ValueFunc<TAccumulate, TResult> resultSelector
             )
             where TAccumulate : struct
             where TResult : struct
-            where TFunc : struct, IValueFunc<TAccumulate, T, TAccumulate>
-            where TResultSelector : struct, IValueFunc<TAccumulate, TResult>
         {
             var sourceList = source.Execute();
             for (var i = 0; i < sourceList.Length; i++)
@@ -18,9 +16,11 @@
             return resultSelector.Invoke(seed);
         }
 
-        public TAccumulate Aggregate<TAccumulate, TFunc>(TAccumulate seed, TFunc func = default)
+        public TAccumulate Aggregate<TAccumulate>(
+            TAccumulate seed,
+            ValueFunc<TAccumulate, T, TAccumulate> func
+            )
             where TAccumulate : struct
-            where TFunc : struct, IValueFunc<TAccumulate, T, TAccumulate>
         {
             var sourceList = source.Execute();
             for (var i = 0; i < sourceList.Length; i++)
@@ -28,8 +28,7 @@
             return seed;
         }
 
-        public T Aggregate<TFunc>(TFunc func = default)
-            where TFunc : struct, IValueFunc<T, T, T>
+        public T Aggregate(ValueFunc<T, T, T> func)
         {
             var sourceList = source.Execute();
             if (sourceList.Length == 0) throw Error.NoElements();

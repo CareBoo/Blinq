@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using Linq = System.Linq.Enumerable;
 using static Utils;
+using static ValueFuncs;
 using Unity.Collections;
 using Blinq = CareBoo.Blinq.NativeArrayExtensions;
 
@@ -10,8 +11,8 @@ internal class AllTest
     public void BlinqAllShouldEqualLinqNativeArrayAll([ArrayValues] int[] sourceArr)
     {
         var source = new NativeArray<int>(sourceArr, Allocator.Persistent);
-        var expected = ExceptionAndValue(() => Linq.All(source, default(EqualsZero).Invoke));
-        var actual = ExceptionAndValue(() => Blinq.All<int, EqualsZero>(ref source));
+        var expected = ExceptionAndValue(() => Linq.All(source, EqualsZero.Invoke));
+        var actual = ExceptionAndValue(() => Blinq.All(ref source, EqualsZero));
         AssertAreEqual(expected, actual);
         source.Dispose();
     }

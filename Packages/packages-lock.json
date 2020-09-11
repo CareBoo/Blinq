@@ -28,7 +28,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.entities": {
-      "version": "0.14.0-preview.18",
+      "version": "0.14.0-preview.19",
       "depth": 0,
       "source": "registry",
       "dependencies": {
