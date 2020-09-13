@@ -9,13 +9,14 @@ using CareBoo.Blinq;
 using Unity.Jobs;
 
 [BurstCompile]
-internal struct AnyJob : IJob
+internal struct AnyJob<TPredicate> : IJob
+    where TPredicate : struct, IFunc<int, bool>
 {
     [ReadOnly]
     public NativeArray<int> Source;
 
     [ReadOnly]
-    public ValueFunc<int, bool> Predicate;
+    public ValueFunc<int, bool>.Reference<TPredicate> Predicate;
 
     public void Execute()
     {
@@ -48,7 +49,7 @@ internal class AnyTest : BaseBlinqPerformanceTest
     [Category("Performance")]
     public void BlinqAnyPredicateNativeSequencePerformance()
     {
-        MeasureBlinq(() => new AnyJob { Source = source, Predicate = EqualsOne }.Run()).Run();
+        MeasureBlinq(() => new AnyJob<Functions.EqualsOne> { Source = source, Predicate = EqualsOne }.Run()).Run();
     }
 
     [Test, Performance]
@@ -57,6 +58,6 @@ internal class AnyTest : BaseBlinqPerformanceTest
     {
         bool result;
 
-        MeasureLinq(() => result = Linq.Any(source, Functions.EqualsOne)).Run();
+        MeasureLinq(() => result = Linq.Any(source, EqualsOne.Invoke)).Run();
     }
 }

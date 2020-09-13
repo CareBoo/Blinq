@@ -4,36 +4,43 @@ namespace CareBoo.Blinq
 {
     public static partial class NativeArrayExtensions
     {
-        public static TResult Aggregate<T, TAccumulate, TResult>(
+        public static TResult Aggregate<T, TAccumulate, TResult, TFunc, TResultSelector>(
             this ref NativeArray<T> source,
             TAccumulate seed,
-            ValueFunc<TAccumulate, T, TAccumulate> func,
-            ValueFunc<TAccumulate, TResult> resultSelector
+            ValueFunc<TAccumulate, T, TAccumulate>.Reference<TFunc> func,
+            ValueFunc<TAccumulate, TResult>.Reference<TResultSelector> resultSelector
             )
             where T : struct
             where TAccumulate : struct
             where TResult : struct
+            where TFunc : struct, IFunc<TAccumulate, T, TAccumulate>
+            where TResultSelector : struct, IFunc<TAccumulate, TResult>
         {
             for (var i = 0; i < source.Length; i++)
                 seed = func.Invoke(seed, source[i]);
             return resultSelector.Invoke(seed);
         }
 
-        public static TAccumulate Aggregate<T, TAccumulate>(
+        public static TAccumulate Aggregate<T, TAccumulate, TFunc>(
             this ref NativeArray<T> source,
             TAccumulate seed,
-            ValueFunc<TAccumulate, T, TAccumulate> func
+            ValueFunc<TAccumulate, T, TAccumulate>.Reference<TFunc> func
             )
             where T : struct
             where TAccumulate : struct
+            where TFunc : struct, IFunc<TAccumulate, T, TAccumulate>
         {
             for (var i = 0; i < source.Length; i++)
                 seed = func.Invoke(seed, source[i]);
             return seed;
         }
 
-        public static T Aggregate<T>(this ref NativeArray<T> source, ValueFunc<T, T, T> func)
+        public static T Aggregate<T, TFunc>(
+            this ref NativeArray<T> source,
+            ValueFunc<T, T, T>.Reference<TFunc> func
+            )
             where T : struct
+            where TFunc : struct, IFunc<T, T, T>
         {
             if (source.Length == 0) throw Error.NoElements();
             var seed = source[0];

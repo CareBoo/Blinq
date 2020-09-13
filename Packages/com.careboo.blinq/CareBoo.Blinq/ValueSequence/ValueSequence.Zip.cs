@@ -6,14 +6,15 @@ namespace CareBoo.Blinq
 {
     public partial struct ValueSequence<T, TSource>
     {
-        public struct ZipSequence<TSecondElement, TResult, TSecond> : ISequence<TResult>
+        public struct ZipSequence<TSecondElement, TResult, TSecond, TResultSelector> : ISequence<TResult>
             where TSecondElement : struct
             where TResult : struct, IEquatable<TResult>
             where TSecond : struct, ISequence<TSecondElement>
+            where TResultSelector : struct, IFunc<T, TSecondElement, TResult>
         {
             public TSource Source;
             public TSecond Second;
-            public ValueFunc<T, TSecondElement, TResult> ResultSelector;
+            public ValueFunc<T, TSecondElement, TResult>.Reference<TResultSelector> ResultSelector;
 
             public NativeList<TResult> Execute()
             {
@@ -31,13 +32,17 @@ namespace CareBoo.Blinq
             }
         }
 
-        public ValueSequence<TResult, ZipSequence<TSecondElement, TResult, TSecond>> Zip<TSecondElement, TResult, TSecond>(TSecond second, ValueFunc<T, TSecondElement, TResult> resultSelector)
+        public ValueSequence<TResult, ZipSequence<TSecondElement, TResult, TSecond, TResultSelector>> Zip<TSecondElement, TResult, TSecond, TResultSelector>(
+            TSecond second,
+            ValueFunc<T, TSecondElement, TResult>.Reference<TResultSelector> resultSelector
+            )
             where TSecondElement : struct
             where TResult : unmanaged, IEquatable<TResult>
             where TSecond : struct, ISequence<TSecondElement>
+            where TResultSelector : struct, IFunc<T, TSecondElement, TResult>
         {
-            var newSequence = new ZipSequence<TSecondElement, TResult, TSecond> { Source = source, Second = second, ResultSelector = resultSelector };
-            return Create<TResult, ZipSequence<TSecondElement, TResult, TSecond>>(newSequence);
+            var newSequence = new ZipSequence<TSecondElement, TResult, TSecond, TResultSelector> { Source = source, Second = second, ResultSelector = resultSelector };
+            return Create<TResult, ZipSequence<TSecondElement, TResult, TSecond, TResultSelector>>(newSequence);
         }
     }
 }

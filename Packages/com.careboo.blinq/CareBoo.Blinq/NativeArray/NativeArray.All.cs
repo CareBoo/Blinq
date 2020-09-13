@@ -4,8 +4,12 @@ namespace CareBoo.Blinq
 {
     public static partial class NativeArrayExtensions
     {
-        public static bool All<T>(this ref NativeArray<T> source, ValueFunc<T, bool> predicate)
+        public static bool All<T, TPredicate>(
+            this ref NativeArray<T> source,
+            ValueFunc<T, bool>.Reference<TPredicate> predicate
+            )
             where T : struct
+            where TPredicate : struct, IFunc<T, bool>
         {
             for (var i = 0; i < source.Length; i++)
                 if (!predicate.Invoke(source[i]))

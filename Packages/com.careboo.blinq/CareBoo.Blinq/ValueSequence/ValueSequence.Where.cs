@@ -4,10 +4,11 @@ namespace CareBoo.Blinq
 {
     public partial struct ValueSequence<T, TSource>
     {
-        public struct WhereWithIndexSequence : ISequence<T>
+        public struct WhereWithIndexSequence<TPredicate> : ISequence<T>
+            where TPredicate : struct, IFunc<T, int, bool>
         {
             public TSource Source;
-            public ValueFunc<T, int, bool> Predicate;
+            public ValueFunc<T, int, bool>.Reference<TPredicate> Predicate;
 
             public NativeList<T> Execute()
             {
@@ -24,16 +25,20 @@ namespace CareBoo.Blinq
             }
         }
 
-        public ValueSequence<T, WhereWithIndexSequence> Where(ValueFunc<T, int, bool> predicate)
+        public ValueSequence<T, WhereWithIndexSequence<TPredicate>> Where<TPredicate>(
+            ValueFunc<T, int, bool>.Reference<TPredicate> predicate
+            )
+            where TPredicate : struct, IFunc<T, int, bool>
         {
-            var newSequence = new WhereWithIndexSequence { Source = source, Predicate = predicate };
+            var newSequence = new WhereWithIndexSequence<TPredicate> { Source = source, Predicate = predicate };
             return Create(newSequence);
         }
 
-        public struct WhereSequence : ISequence<T>
+        public struct WhereSequence<TPredicate> : ISequence<T>
+            where TPredicate : struct, IFunc<T, bool>
         {
             public TSource Source;
-            public ValueFunc<T, bool> Predicate;
+            public ValueFunc<T, bool>.Reference<TPredicate> Predicate;
 
             public NativeList<T> Execute()
             {
@@ -50,9 +55,10 @@ namespace CareBoo.Blinq
             }
         }
 
-        public ValueSequence<T, WhereSequence> Where(ValueFunc<T, bool> predicate)
+        public ValueSequence<T, WhereSequence<TPredicate>> Where<TPredicate>(ValueFunc<T, bool>.Reference<TPredicate> predicate)
+            where TPredicate : struct, IFunc<T, bool>
         {
-            var newSequence = new WhereSequence { Source = source, Predicate = predicate };
+            var newSequence = new WhereSequence<TPredicate> { Source = source, Predicate = predicate };
             return Create(newSequence);
         }
     }

@@ -5,11 +5,12 @@ namespace CareBoo.Blinq
 {
     public partial struct ValueSequence<T, TSource>
     {
-        public struct SelectWithIndexSequence<TResult> : ISequence<TResult>
+        public struct SelectWithIndexSequence<TResult, TPredicate> : ISequence<TResult>
             where TResult : unmanaged, IEquatable<TResult>
+            where TPredicate : struct, IFunc<T, int, TResult>
         {
             public TSource Source;
-            public ValueFunc<T, int, TResult> Selector;
+            public ValueFunc<T, int, TResult>.Reference<TPredicate> Selector;
 
             public NativeList<TResult> Execute()
             {
@@ -25,18 +26,20 @@ namespace CareBoo.Blinq
             }
         }
 
-        public ValueSequence<TResult, SelectWithIndexSequence<TResult>> Select<TResult>(ValueFunc<T, int, TResult> selector)
+        public ValueSequence<TResult, SelectWithIndexSequence<TResult, TPredicate>> Select<TResult, TPredicate>(ValueFunc<T, int, TResult>.Reference<TPredicate> selector)
             where TResult : unmanaged, IEquatable<TResult>
+            where TPredicate : struct, IFunc<T, int, TResult>
         {
-            var newSequence = new SelectWithIndexSequence<TResult> { Source = source, Selector = selector };
-            return Create<TResult, SelectWithIndexSequence<TResult>>(newSequence);
+            var newSequence = new SelectWithIndexSequence<TResult, TPredicate> { Source = source, Selector = selector };
+            return Create<TResult, SelectWithIndexSequence<TResult, TPredicate>>(newSequence);
         }
 
-        public struct SelectSequence<TResult> : ISequence<TResult>
+        public struct SelectSequence<TResult, TPredicate> : ISequence<TResult>
             where TResult : unmanaged, IEquatable<TResult>
+            where TPredicate : struct, IFunc<T, TResult>
         {
             public TSource Source;
-            public ValueFunc<T, TResult> Selector;
+            public ValueFunc<T, TResult>.Reference<TPredicate> Selector;
 
             public NativeList<TResult> Execute()
             {
@@ -51,11 +54,12 @@ namespace CareBoo.Blinq
             }
         }
 
-        public ValueSequence<TResult, SelectSequence<TResult>> Select<TResult>(ValueFunc<T, TResult> selector)
+        public ValueSequence<TResult, SelectSequence<TResult, TPredicate>> Select<TResult, TPredicate>(ValueFunc<T, TResult>.Reference<TPredicate> selector)
             where TResult : unmanaged, IEquatable<TResult>
+            where TPredicate : struct, IFunc<T, TResult>
         {
-            var newSequence = new SelectSequence<TResult> { Source = source, Selector = selector };
-            return Create<TResult, SelectSequence<TResult>>(newSequence);
+            var newSequence = new SelectSequence<TResult, TPredicate> { Source = source, Selector = selector };
+            return Create<TResult, SelectSequence<TResult, TPredicate>>(newSequence);
         }
     }
 }
