@@ -8,7 +8,7 @@ namespace CareBoo.Blinq
         public static ValueSequence<TResult, ValueSequence<T, NativeArraySequence<T>>.ZipSequence<TSecondElement, TResult, TSecond, TResultSelector>> Zip<T, TSecondElement, TResult, TSecond, TResultSelector>(
             this ref NativeArray<T> source,
             TSecond secondSequence,
-            ValueFunc<T, TSecondElement, TResult>.Reference<TResultSelector> resultSelector
+            ValueFunc<T, TSecondElement, TResult>.Impl<TResultSelector> resultSelector
             )
             where T : unmanaged, IEquatable<T>
             where TSecondElement : struct

@@ -16,7 +16,7 @@ internal struct AnyJob<TPredicate> : IJob
     public NativeArray<int> Source;
 
     [ReadOnly]
-    public ValueFunc<int, bool>.Reference<TPredicate> Predicate;
+    public ValueFunc<int, bool>.Impl<TPredicate> Predicate;
 
     public void Execute()
     {

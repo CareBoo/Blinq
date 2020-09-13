@@ -14,7 +14,7 @@ namespace CareBoo.Blinq
         {
             public TSource Source;
             public TSecond Second;
-            public ValueFunc<T, TSecondElement, TResult>.Reference<TResultSelector> ResultSelector;
+            public ValueFunc<T, TSecondElement, TResult>.Impl<TResultSelector> ResultSelector;
 
             public NativeList<TResult> Execute()
             {
@@ -34,7 +34,7 @@ namespace CareBoo.Blinq
 
         public ValueSequence<TResult, ZipSequence<TSecondElement, TResult, TSecond, TResultSelector>> Zip<TSecondElement, TResult, TSecond, TResultSelector>(
             TSecond second,
-            ValueFunc<T, TSecondElement, TResult>.Reference<TResultSelector> resultSelector
+            ValueFunc<T, TSecondElement, TResult>.Impl<TResultSelector> resultSelector
             )
             where TSecondElement : struct
             where TResult : unmanaged, IEquatable<TResult>

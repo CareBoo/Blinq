@@ -15,7 +15,7 @@ internal struct SelectJob<TSelector> : IJob
     [ReadOnly]
     public NativeArray<int> Source;
     [ReadOnly]
-    public ValueFunc<int, long>.Reference<TSelector> Selector;
+    public ValueFunc<int, long>.Impl<TSelector> Selector;
 
     public void Execute()
     {

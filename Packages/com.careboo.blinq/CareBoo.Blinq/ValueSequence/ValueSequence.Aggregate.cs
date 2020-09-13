@@ -4,8 +4,8 @@
     {
         public TResult Aggregate<TAccumulate, TResult, TFunc, TResultSelector>(
             TAccumulate seed,
-            ValueFunc<TAccumulate, T, TAccumulate>.Reference<TFunc> func,
-            ValueFunc<TAccumulate, TResult>.Reference<TResultSelector> resultSelector
+            ValueFunc<TAccumulate, T, TAccumulate>.Impl<TFunc> func,
+            ValueFunc<TAccumulate, TResult>.Impl<TResultSelector> resultSelector
             )
             where TAccumulate : struct
             where TResult : struct
@@ -20,7 +20,7 @@
 
         public TAccumulate Aggregate<TAccumulate, TFunc>(
             TAccumulate seed,
-            ValueFunc<TAccumulate, T, TAccumulate>.Reference<TFunc> func
+            ValueFunc<TAccumulate, T, TAccumulate>.Impl<TFunc> func
             )
             where TAccumulate : struct
             where TFunc : struct, IFunc<TAccumulate, T, TAccumulate>
@@ -31,7 +31,7 @@
             return seed;
         }
 
-        public T Aggregate<TFunc>(ValueFunc<T, T, T>.Reference<TFunc> func)
+        public T Aggregate<TFunc>(ValueFunc<T, T, T>.Impl<TFunc> func)
             where TFunc : struct, IFunc<T, T, T>
         {
             var sourceList = source.Execute();
