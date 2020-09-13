@@ -43,7 +43,7 @@ namespace CareBoo.Blinq
     public struct ValueFunc<TResult>
         where TResult : struct
     {
-        public struct Reference<TFunc>
+        public struct Impl<TFunc>
             where TFunc : struct, IFunc<TResult>
         {
             readonly TFunc func;
@@ -53,16 +53,16 @@ namespace CareBoo.Blinq
                 return func.Invoke();
             }
 
-            internal Reference(TFunc func)
+            internal Impl(TFunc func)
             {
                 this.func = func;
             }
         }
 
-        public static Reference<TFunc> CreateReference<TFunc>(TFunc func = default)
+        public static Impl<TFunc> CreateImpl<TFunc>(TFunc func = default)
             where TFunc : struct, IFunc<TResult>
         {
-            return new Reference<TFunc>(func);
+            return new Impl<TFunc>(func);
         }
     }
 
@@ -70,7 +70,7 @@ namespace CareBoo.Blinq
         where T : struct
         where TResult : struct
     {
-        public struct Reference<TFunc>
+        public struct Impl<TFunc>
             where TFunc : struct, IFunc<T, TResult>
         {
             readonly TFunc func;
@@ -80,16 +80,16 @@ namespace CareBoo.Blinq
                 return func.Invoke(arg0);
             }
 
-            internal Reference(TFunc func)
+            internal Impl(TFunc func)
             {
                 this.func = func;
             }
         }
 
-        public static Reference<TFunc> CreateReference<TFunc>(TFunc func = default)
+        public static Impl<TFunc> CreateImpl<TFunc>(TFunc func = default)
             where TFunc : struct, IFunc<T, TResult>
         {
-            return new Reference<TFunc>(func);
+            return new Impl<TFunc>(func);
         }
     }
 
@@ -98,7 +98,7 @@ namespace CareBoo.Blinq
         where U : struct
         where TResult : struct
     {
-        public struct Reference<TFunc>
+        public struct Impl<TFunc>
             where TFunc : struct, IFunc<T, U, TResult>
         {
             readonly TFunc func;
@@ -108,16 +108,16 @@ namespace CareBoo.Blinq
                 return func.Invoke(arg0, arg1);
             }
 
-            internal Reference(TFunc func)
+            internal Impl(TFunc func)
             {
                 this.func = func;
             }
         }
 
-        public static Reference<TFunc> CreateReference<TFunc>(TFunc func = default)
+        public static Impl<TFunc> CreateImpl<TFunc>(TFunc func = default)
             where TFunc : struct, IFunc<T, U, TResult>
         {
-            return new Reference<TFunc>(func);
+            return new Impl<TFunc>(func);
         }
     }
 
@@ -127,7 +127,7 @@ namespace CareBoo.Blinq
         where V : struct
         where TResult : struct
     {
-        public struct Reference<TFunc>
+        public struct Impl<TFunc>
             where TFunc : struct, IFunc<T, U, V, TResult>
         {
             readonly TFunc func;
@@ -137,16 +137,16 @@ namespace CareBoo.Blinq
                 return func.Invoke(arg0, arg1, arg2);
             }
 
-            internal Reference(TFunc func)
+            internal Impl(TFunc func)
             {
                 this.func = func;
             }
         }
 
-        public static Reference<TFunc> CreateReference<TFunc>(TFunc func = default)
+        public static Impl<TFunc> CreateImpl<TFunc>(TFunc func = default)
             where TFunc : struct, IFunc<T, U, V, TResult>
         {
-            return new Reference<TFunc>(func);
+            return new Impl<TFunc>(func);
         }
     }
 }

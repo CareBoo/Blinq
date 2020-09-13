@@ -8,7 +8,7 @@ namespace CareBoo.Blinq
             where TPredicate : struct, IFunc<T, int, bool>
         {
             public TSource Source;
-            public ValueFunc<T, int, bool>.Reference<TPredicate> Predicate;
+            public ValueFunc<T, int, bool>.Impl<TPredicate> Predicate;
 
             public NativeList<T> Execute()
             {
@@ -26,7 +26,7 @@ namespace CareBoo.Blinq
         }
 
         public ValueSequence<T, WhereWithIndexSequence<TPredicate>> Where<TPredicate>(
-            ValueFunc<T, int, bool>.Reference<TPredicate> predicate
+            ValueFunc<T, int, bool>.Impl<TPredicate> predicate
             )
             where TPredicate : struct, IFunc<T, int, bool>
         {
@@ -38,7 +38,7 @@ namespace CareBoo.Blinq
             where TPredicate : struct, IFunc<T, bool>
         {
             public TSource Source;
-            public ValueFunc<T, bool>.Reference<TPredicate> Predicate;
+            public ValueFunc<T, bool>.Impl<TPredicate> Predicate;
 
             public NativeList<T> Execute()
             {
@@ -55,7 +55,7 @@ namespace CareBoo.Blinq
             }
         }
 
-        public ValueSequence<T, WhereSequence<TPredicate>> Where<TPredicate>(ValueFunc<T, bool>.Reference<TPredicate> predicate)
+        public ValueSequence<T, WhereSequence<TPredicate>> Where<TPredicate>(ValueFunc<T, bool>.Impl<TPredicate> predicate)
             where TPredicate : struct, IFunc<T, bool>
         {
             var newSequence = new WhereSequence<TPredicate> { Source = source, Predicate = predicate };

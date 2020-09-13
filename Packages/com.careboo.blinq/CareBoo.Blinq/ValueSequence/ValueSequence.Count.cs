@@ -2,7 +2,7 @@
 {
     public partial struct ValueSequence<T, TSource>
     {
-        public int Count<TPredicate>(ValueFunc<T, bool>.Reference<TPredicate> predicate)
+        public int Count<TPredicate>(ValueFunc<T, bool>.Impl<TPredicate> predicate)
             where TPredicate : struct, IFunc<T, bool>
         {
             var count = 0;

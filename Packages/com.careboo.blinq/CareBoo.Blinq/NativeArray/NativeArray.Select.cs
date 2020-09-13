@@ -7,7 +7,7 @@ namespace CareBoo.Blinq
     {
         public static ValueSequence<TResult, ValueSequence<T, NativeArraySequence<T>>.SelectWithIndexSequence<TResult, TPredicate>> Select<T, TResult, TPredicate>(
             this ref NativeArray<T> source,
-            ValueFunc<T, int, TResult>.Reference<TPredicate> selector
+            ValueFunc<T, int, TResult>.Impl<TPredicate> selector
             )
             where T : unmanaged, IEquatable<T>
             where TResult : unmanaged, IEquatable<TResult>
@@ -18,7 +18,7 @@ namespace CareBoo.Blinq
 
         public static ValueSequence<TResult, ValueSequence<T, NativeArraySequence<T>>.SelectSequence<TResult, TPredicate>> Select<T, TResult, TPredicate>(
             this ref NativeArray<T> source,
-            ValueFunc<T, TResult>.Reference<TPredicate> selector
+            ValueFunc<T, TResult>.Impl<TPredicate> selector
             )
             where T : unmanaged, IEquatable<T>
             where TResult : unmanaged, IEquatable<TResult>

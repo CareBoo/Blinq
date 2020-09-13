@@ -10,7 +10,7 @@ namespace CareBoo.Blinq
             where TPredicate : struct, IFunc<T, int, TResult>
         {
             public TSource Source;
-            public ValueFunc<T, int, TResult>.Reference<TPredicate> Selector;
+            public ValueFunc<T, int, TResult>.Impl<TPredicate> Selector;
 
             public NativeList<TResult> Execute()
             {
@@ -26,7 +26,7 @@ namespace CareBoo.Blinq
             }
         }
 
-        public ValueSequence<TResult, SelectWithIndexSequence<TResult, TPredicate>> Select<TResult, TPredicate>(ValueFunc<T, int, TResult>.Reference<TPredicate> selector)
+        public ValueSequence<TResult, SelectWithIndexSequence<TResult, TPredicate>> Select<TResult, TPredicate>(ValueFunc<T, int, TResult>.Impl<TPredicate> selector)
             where TResult : unmanaged, IEquatable<TResult>
             where TPredicate : struct, IFunc<T, int, TResult>
         {
@@ -39,7 +39,7 @@ namespace CareBoo.Blinq
             where TPredicate : struct, IFunc<T, TResult>
         {
             public TSource Source;
-            public ValueFunc<T, TResult>.Reference<TPredicate> Selector;
+            public ValueFunc<T, TResult>.Impl<TPredicate> Selector;
 
             public NativeList<TResult> Execute()
             {
@@ -54,7 +54,7 @@ namespace CareBoo.Blinq
             }
         }
 
-        public ValueSequence<TResult, SelectSequence<TResult, TPredicate>> Select<TResult, TPredicate>(ValueFunc<T, TResult>.Reference<TPredicate> selector)
+        public ValueSequence<TResult, SelectSequence<TResult, TPredicate>> Select<TResult, TPredicate>(ValueFunc<T, TResult>.Impl<TPredicate> selector)
             where TResult : unmanaged, IEquatable<TResult>
             where TPredicate : struct, IFunc<T, TResult>
         {

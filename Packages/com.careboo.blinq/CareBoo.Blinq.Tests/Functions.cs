@@ -3,29 +3,29 @@ using Unity.Mathematics;
 
 internal static class ValueFuncs
 {
-    public readonly static ValueFunc<int, bool>.Reference<Functions.EqualsOne> EqualsOne =
-        ValueFunc<int, bool>.CreateReference<Functions.EqualsOne>();
+    public readonly static ValueFunc<int, bool>.Impl<Functions.EqualsOne> EqualsOne =
+        ValueFunc<int, bool>.CreateImpl<Functions.EqualsOne>();
 
-    public readonly static ValueFunc<int, bool>.Reference<Functions.EqualsZero> EqualsZero =
-        ValueFunc<int, bool>.CreateReference<Functions.EqualsZero>();
+    public readonly static ValueFunc<int, bool>.Impl<Functions.EqualsZero> EqualsZero =
+        ValueFunc<int, bool>.CreateImpl<Functions.EqualsZero>();
 
-    public readonly static ValueFunc<int, int, bool>.Reference<Functions.EqualToIndex> EqualToIndex =
-        ValueFunc<int, int, bool>.CreateReference<Functions.EqualToIndex>();
+    public readonly static ValueFunc<int, int, bool>.Impl<Functions.EqualToIndex> EqualToIndex =
+        ValueFunc<int, int, bool>.CreateImpl<Functions.EqualToIndex>();
 
-    public readonly static ValueFunc<int, int, long>.Reference<Functions.AddToIndex> AddToIndex =
-        ValueFunc<int, int, long>.CreateReference<Functions.AddToIndex>();
+    public readonly static ValueFunc<int, int, long>.Impl<Functions.AddToIndex> AddToIndex =
+        ValueFunc<int, int, long>.CreateImpl<Functions.AddToIndex>();
 
-    public readonly static ValueFunc<int, int, int>.Reference<Functions.Sum> Sum =
-        ValueFunc<int, int, int>.CreateReference<Functions.Sum>();
+    public readonly static ValueFunc<int, int, int>.Impl<Functions.Sum> Sum =
+        ValueFunc<int, int, int>.CreateImpl<Functions.Sum>();
 
-    public readonly static ValueFunc<long, int, long>.Reference<Functions.LongSum> LongSum =
-        ValueFunc<long, int, long>.CreateReference<Functions.LongSum>();
+    public readonly static ValueFunc<long, int, long>.Impl<Functions.LongSum> LongSum =
+        ValueFunc<long, int, long>.CreateImpl<Functions.LongSum>();
 
-    public readonly static ValueFunc<long, double>.Reference<Functions.LongToDouble> LongToDouble =
-        ValueFunc<long, double>.CreateReference<Functions.LongToDouble>();
+    public readonly static ValueFunc<long, double>.Impl<Functions.LongToDouble> LongToDouble =
+        ValueFunc<long, double>.CreateImpl<Functions.LongToDouble>();
 
-    public readonly static ValueFunc<int, long>.Reference<Functions.IntToLong> IntToLong =
-        ValueFunc<int, long>.CreateReference<Functions.IntToLong>();
+    public readonly static ValueFunc<int, long>.Impl<Functions.IntToLong> IntToLong =
+        ValueFunc<int, long>.CreateImpl<Functions.IntToLong>();
 }
 
 internal static class Functions
