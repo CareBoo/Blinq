@@ -15,8 +15,8 @@ namespace CareBoo.Blinq
             )
             where TKey : struct, IEquatable<TKey>
             where TElement : struct
-            where TKeySelector : struct, IValueFunc<T, TKey>
-            where TElementSelector : struct, IValueFunc<T, TElement>
+            where TKeySelector : struct, IFunc<T, TKey>
+            where TElementSelector : struct, IFunc<T, TElement>
         {
             return new NativeHashMapJob<TKey, TElement, TKeySelector, TElementSelector>
             {
@@ -34,8 +34,8 @@ namespace CareBoo.Blinq
             )
             where TKey : struct, IEquatable<TKey>
             where TElement : struct
-            where TKeySelector : struct, IValueFunc<T, TKey>
-            where TElementSelector : struct, IValueFunc<T, TElement>
+            where TKeySelector : struct, IFunc<T, TKey>
+            where TElementSelector : struct, IFunc<T, TElement>
         {
             var output = new NativeHashMap<TKey, TElement>(0, allocator);
             var job = new NativeHashMapJob<TKey, TElement, TKeySelector, TElementSelector>
@@ -53,7 +53,7 @@ namespace CareBoo.Blinq
             NativeHashMap<TKey, T> output
             )
             where TKey : struct, IEquatable<TKey>
-            where TKeySelector : struct, IValueFunc<T, TKey>
+            where TKeySelector : struct, IFunc<T, TKey>
         {
             return new NativeHashMapJob<TKey, TKeySelector>
             {
@@ -68,7 +68,7 @@ namespace CareBoo.Blinq
             Allocator allocator
             )
             where TKey : struct, IEquatable<TKey>
-            where TKeySelector : struct, IValueFunc<T, TKey>
+            where TKeySelector : struct, IFunc<T, TKey>
         {
             var output = new NativeHashMap<TKey, T>(0, allocator);
             var job = new NativeHashMapJob<TKey, TKeySelector>
@@ -84,8 +84,8 @@ namespace CareBoo.Blinq
         public struct NativeHashMapJob<TKey, TElement, TKeySelector, TElementSelector> : IJob
             where TKey : struct, IEquatable<TKey>
             where TElement : struct
-            where TKeySelector : struct, IValueFunc<T, TKey>
-            where TElementSelector : struct, IValueFunc<T, TElement>
+            where TKeySelector : struct, IFunc<T, TKey>
+            where TElementSelector : struct, IFunc<T, TElement>
         {
             public ValueSequence<T, TSource> Source;
             public TKeySelector KeySelector;
@@ -103,7 +103,7 @@ namespace CareBoo.Blinq
         [BurstCompile]
         public struct NativeHashMapJob<TKey, TKeySelector> : IJob
             where TKey : struct, IEquatable<TKey>
-            where TKeySelector : struct, IValueFunc<T, TKey>
+            where TKeySelector : struct, IFunc<T, TKey>
         {
             public ValueSequence<T, TSource> Source;
             public TKeySelector KeySelector;

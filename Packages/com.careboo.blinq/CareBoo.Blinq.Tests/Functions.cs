@@ -1,58 +1,78 @@
 ﻿using CareBoo.Blinq;
-using Unity.Burst;
 using Unity.Mathematics;
 
 internal static class ValueFuncs
 {
-    public readonly static ValueFunc<int, bool> EqualsOne =
-        ValueFunc<int, bool>.Compile(Functions.EqualsOne);
+    public readonly static ValueFunc<int, bool>.Reference<Functions.EqualsOne> EqualsOne =
+        ValueFunc<int, bool>.CreateReference<Functions.EqualsOne>();
 
-    public readonly static ValueFunc<int, bool> EqualsZero =
-        ValueFunc<int, bool>.Compile(Functions.EqualsZero);
+    public readonly static ValueFunc<int, bool>.Reference<Functions.EqualsZero> EqualsZero =
+        ValueFunc<int, bool>.CreateReference<Functions.EqualsZero>();
 
-    public readonly static ValueFunc<int, int, bool> EqualToIndex =
-        ValueFunc<int, int, bool>.Compile(Functions.EqualToIndex);
+    public readonly static ValueFunc<int, int, bool>.Reference<Functions.EqualToIndex> EqualToIndex =
+        ValueFunc<int, int, bool>.CreateReference<Functions.EqualToIndex>();
 
-    public readonly static ValueFunc<int, int, long> AddToIndex =
-        ValueFunc<int, int, long>.Compile(Functions.AddToIndex);
+    public readonly static ValueFunc<int, int, long>.Reference<Functions.AddToIndex> AddToIndex =
+        ValueFunc<int, int, long>.CreateReference<Functions.AddToIndex>();
 
-    public readonly static ValueFunc<int, int, int> Sum =
-        ValueFunc<int, int, int>.Compile(Functions.Sum);
+    public readonly static ValueFunc<int, int, int>.Reference<Functions.Sum> Sum =
+        ValueFunc<int, int, int>.CreateReference<Functions.Sum>();
 
-    public readonly static ValueFunc<long, int, long> LongSum =
-        ValueFunc<long, int, long>.Compile(Functions.LongSum);
+    public readonly static ValueFunc<long, int, long>.Reference<Functions.LongSum> LongSum =
+        ValueFunc<long, int, long>.CreateReference<Functions.LongSum>();
 
-    public readonly static ValueFunc<long, double> LongToDouble =
-        ValueFunc<long, double>.Compile(Functions.LongToDouble);
+    public readonly static ValueFunc<long, double>.Reference<Functions.LongToDouble> LongToDouble =
+        ValueFunc<long, double>.CreateReference<Functions.LongToDouble>();
 
-    public readonly static ValueFunc<int, long> IntToLong =
-        ValueFunc<int, long>.Compile(Functions.IntToLong);
+    public readonly static ValueFunc<int, long>.Reference<Functions.IntToLong> IntToLong =
+        ValueFunc<int, long>.CreateReference<Functions.IntToLong>();
 }
 
-[BurstCompile]
 internal static class Functions
 {
-    [BurstCompile]
-    public static bool EqualsOne(int x) => x == 1;
+    public struct EqualsOne : IFunc<int, bool>
+    {
+        public bool Invoke(int x)
+        {
+            return x == 1;
+        }
+    }
 
-    [BurstCompile]
-    public static bool EqualsZero(int x) => x == 0;
+    public struct EqualsZero : IFunc<int, bool>
+    {
+        public bool Invoke(int x)
+        {
+            return x == 0;
+        }
+    }
 
-    [BurstCompile]
-    public static bool EqualToIndex(int x, int i) => x == i;
+    public struct EqualToIndex : IFunc<int, int, bool>
+    {
+        public bool Invoke(int x, int i) => x == i;
+    }
 
-    [BurstCompile]
-    public static long AddToIndex(int x, int i) => math.aslong(x) + math.aslong(i);
+    public struct AddToIndex : IFunc<int, int, long>
+    {
+        public long Invoke(int x, int i) => math.aslong(x) + math.aslong(i);
+    }
 
-    [BurstCompile]
-    public static int Sum(int acc, int x) => acc + x;
+    public struct Sum : IFunc<int, int, int>
+    {
+        public int Invoke(int acc, int x) => acc + x;
+    }
 
-    [BurstCompile]
-    public static long LongSum(long acc, int x) => acc + x;
+    public struct LongSum : IFunc<long, int, long>
+    {
+        public long Invoke(long acc, int x) => acc + x;
+    }
 
-    [BurstCompile]
-    public static double LongToDouble(long x) => math.asdouble(x);
+    public struct LongToDouble : IFunc<long, double>
+    {
+        public double Invoke(long x) => math.asdouble(x);
+    }
 
-    [BurstCompile]
-    public static long IntToLong(int x) => math.aslong(x);
+    public struct IntToLong : IFunc<int, long>
+    {
+        public long Invoke(int x) => math.aslong(x);
+    }
 }

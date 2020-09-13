@@ -2,7 +2,8 @@
 {
     public partial struct ValueSequence<T, TSource>
     {
-        public bool Any(ValueFunc<T, bool> predicate)
+        public bool Any<TPredicate>(ValueFunc<T, bool>.Reference<TPredicate> predicate)
+            where TPredicate : struct, IFunc<T, bool>
         {
             var sourceList = source.Execute();
             for (var i = 0; i < sourceList.Length; i++)

@@ -9,12 +9,13 @@ using static ValueFuncs;
 using CareBoo.Blinq;
 
 [BurstCompile]
-internal struct SelectJob : IJob
+internal struct SelectJob<TSelector> : IJob
+    where TSelector : struct, IFunc<int, long>
 {
     [ReadOnly]
     public NativeArray<int> Source;
     [ReadOnly]
-    public ValueFunc<int, long> Selector;
+    public ValueFunc<int, long>.Reference<TSelector> Selector;
 
     public void Execute()
     {
@@ -29,13 +30,13 @@ internal class SelectTest : BaseBlinqPerformanceTest
     [Category("Performance")]
     public void BlinqSelectNativeSequencePerformance()
     {
-        MeasureBlinq(() => new SelectJob { Source = source, Selector = IntToLong }.Run()).Run();
+        MeasureBlinq(() => new SelectJob<Functions.IntToLong> { Source = source, Selector = IntToLong }.Run()).Run();
     }
 
     [Test, Performance]
     [Category("Performance")]
     public void LinqSelectNativeSequencePerformance()
     {
-        MeasureLinq(() => Linq.ToList(Linq.Select(source, Functions.IntToLong))).Run();
+        MeasureLinq(() => Linq.ToList(Linq.Select(source, IntToLong.Invoke))).Run();
     }
 }

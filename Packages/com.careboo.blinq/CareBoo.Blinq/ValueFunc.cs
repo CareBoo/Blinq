@@ -1,21 +1,19 @@
-using Unity.Burst;
-
 namespace CareBoo.Blinq
 {
-    public interface IValueFunc<out TResult>
+    public interface IFunc<out TResult>
         where TResult : struct
     {
         TResult Invoke();
     }
 
-    public interface IValueFunc<in T, out TResult>
+    public interface IFunc<in T, out TResult>
         where T : struct
         where TResult : struct
     {
         TResult Invoke(T arg0);
     }
 
-    public interface IValueFunc<in T, in U, out TResult>
+    public interface IFunc<in T, in U, out TResult>
         where T : struct
         where U : struct
         where TResult : struct
@@ -23,7 +21,7 @@ namespace CareBoo.Blinq
         TResult Invoke(T arg0, U arg1);
     }
 
-    public interface IValueFunc<in T, in U, in V, out TResult>
+    public interface IFunc<in T, in U, in V, out TResult>
         where T : struct
         where U : struct
         where V : struct
@@ -32,7 +30,7 @@ namespace CareBoo.Blinq
         TResult Invoke(T arg0, U arg1, V arg2);
     }
 
-    public interface IValueFunc<in T, in U, in V, in W, out TResult>
+    public interface IFunc<in T, in U, in V, in W, out TResult>
         where T : struct
         where U : struct
         where V : struct
@@ -45,24 +43,26 @@ namespace CareBoo.Blinq
     public struct ValueFunc<TResult>
         where TResult : struct
     {
-        public delegate TResult Func();
-
-        readonly FunctionPointer<Func> functionPtr;
-
-        public ValueFunc(FunctionPointer<Func> functionPtr)
+        public struct Reference<TFunc>
+            where TFunc : struct, IFunc<TResult>
         {
-            this.functionPtr = functionPtr;
+            readonly TFunc func;
+
+            public TResult Invoke()
+            {
+                return func.Invoke();
+            }
+
+            internal Reference(TFunc func)
+            {
+                this.func = func;
+            }
         }
 
-        public TResult Invoke()
+        public static Reference<TFunc> CreateReference<TFunc>(TFunc func = default)
+            where TFunc : struct, IFunc<TResult>
         {
-            return functionPtr.Invoke();
-        }
-
-        public static ValueFunc<TResult> Compile(Func func)
-        {
-            var functionPtr = BurstCompiler.CompileFunctionPointer(func);
-            return new ValueFunc<TResult>(functionPtr);
+            return new Reference<TFunc>(func);
         }
     }
 
@@ -70,24 +70,26 @@ namespace CareBoo.Blinq
         where T : struct
         where TResult : struct
     {
-        public delegate TResult Func(T arg0);
-
-        readonly FunctionPointer<Func> functionPtr;
-
-        public ValueFunc(FunctionPointer<Func> functionPtr)
+        public struct Reference<TFunc>
+            where TFunc : struct, IFunc<T, TResult>
         {
-            this.functionPtr = functionPtr;
+            readonly TFunc func;
+
+            public TResult Invoke(T arg0)
+            {
+                return func.Invoke(arg0);
+            }
+
+            internal Reference(TFunc func)
+            {
+                this.func = func;
+            }
         }
 
-        public TResult Invoke(T arg0)
+        public static Reference<TFunc> CreateReference<TFunc>(TFunc func = default)
+            where TFunc : struct, IFunc<T, TResult>
         {
-            return functionPtr.Invoke(arg0);
-        }
-
-        public static ValueFunc<T, TResult> Compile(Func func)
-        {
-            var functionPtr = BurstCompiler.CompileFunctionPointer(func);
-            return new ValueFunc<T, TResult>(functionPtr);
+            return new Reference<TFunc>(func);
         }
     }
 
@@ -96,24 +98,26 @@ namespace CareBoo.Blinq
         where U : struct
         where TResult : struct
     {
-        public delegate TResult Func(T arg0, U arg1);
-
-        readonly FunctionPointer<Func> functionPtr;
-
-        public ValueFunc(FunctionPointer<Func> functionPtr)
+        public struct Reference<TFunc>
+            where TFunc : struct, IFunc<T, U, TResult>
         {
-            this.functionPtr = functionPtr;
+            readonly TFunc func;
+
+            public TResult Invoke(T arg0, U arg1)
+            {
+                return func.Invoke(arg0, arg1);
+            }
+
+            internal Reference(TFunc func)
+            {
+                this.func = func;
+            }
         }
 
-        public TResult Invoke(T arg0, U arg1)
+        public static Reference<TFunc> CreateReference<TFunc>(TFunc func = default)
+            where TFunc : struct, IFunc<T, U, TResult>
         {
-            return functionPtr.Invoke(arg0, arg1);
-        }
-
-        public static ValueFunc<T, U, TResult> Compile(Func func)
-        {
-            var functionPtr = BurstCompiler.CompileFunctionPointer(func);
-            return new ValueFunc<T, U, TResult>(functionPtr);
+            return new Reference<TFunc>(func);
         }
     }
 
@@ -123,61 +127,26 @@ namespace CareBoo.Blinq
         where V : struct
         where TResult : struct
     {
-        public delegate TResult Func(T arg0, U arg1, V arg2);
-
-        readonly FunctionPointer<Func> functionPtr;
-
-        public ValueFunc(FunctionPointer<Func> functionPtr)
+        public struct Reference<TFunc>
+            where TFunc : struct, IFunc<T, U, V, TResult>
         {
-            this.functionPtr = functionPtr;
+            readonly TFunc func;
+
+            public TResult Invoke(T arg0, U arg1, V arg2)
+            {
+                return func.Invoke(arg0, arg1, arg2);
+            }
+
+            internal Reference(TFunc func)
+            {
+                this.func = func;
+            }
         }
 
-        public TResult Invoke(T arg0, U arg1, V arg2)
+        public static Reference<TFunc> CreateReference<TFunc>(TFunc func = default)
+            where TFunc : struct, IFunc<T, U, V, TResult>
         {
-            return functionPtr.Invoke(arg0, arg1, arg2);
-        }
-
-        public static ValueFunc<T, U, V, TResult> Compile(Func func)
-        {
-            var functionPtr = BurstCompiler.CompileFunctionPointer(func);
-            return new ValueFunc<T, U, V, TResult>(functionPtr);
-        }
-    }
-
-    public static class ValueFuncCompiler
-    {
-        public static ValueFunc<TResult> Compile<TResult>(ValueFunc<TResult>.Func func)
-            where TResult : struct
-        {
-            var functionPtr = BurstCompiler.CompileFunctionPointer(func);
-            return new ValueFunc<TResult>(functionPtr);
-        }
-
-        public static ValueFunc<T, TResult> Compile<T, TResult>(ValueFunc<T, TResult>.Func func)
-            where T : struct
-            where TResult : struct
-        {
-            var functionPtr = BurstCompiler.CompileFunctionPointer(func);
-            return new ValueFunc<T, TResult>(functionPtr);
-        }
-
-        public static ValueFunc<T, U, TResult> Compile<T, U, TResult>(ValueFunc<T, U, TResult>.Func func)
-            where T : struct
-            where U : struct
-            where TResult : struct
-        {
-            var functionPtr = BurstCompiler.CompileFunctionPointer(func);
-            return new ValueFunc<T, U, TResult>(functionPtr);
-        }
-
-        public static ValueFunc<T, U, V, TResult> Compile<T, U, V, TResult>(ValueFunc<T, U, V, TResult>.Func func)
-            where T : struct
-            where U : struct
-            where V : struct
-            where TResult : struct
-        {
-            var functionPtr = BurstCompiler.CompileFunctionPointer(func);
-            return new ValueFunc<T, U, V, TResult>(functionPtr);
+            return new Reference<TFunc>(func);
         }
     }
 }

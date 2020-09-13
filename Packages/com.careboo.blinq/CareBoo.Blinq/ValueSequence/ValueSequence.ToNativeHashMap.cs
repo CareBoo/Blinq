@@ -14,8 +14,8 @@ namespace CareBoo.Blinq
             )
             where TKey : struct, IEquatable<TKey>
             where TElement : struct
-            where TKeySelector : struct, IValueFunc<T, TKey>
-            where TElementSelector : struct, IValueFunc<T, TElement>
+            where TKeySelector : struct, IFunc<T, TKey>
+            where TElementSelector : struct, IFunc<T, TElement>
         {
             var output = new NativeHashMap<TKey, TElement>(0, allocator);
             ToNativeHashMap(keySelector, elementSelector, output);
@@ -30,8 +30,8 @@ namespace CareBoo.Blinq
             )
             where TKey : struct, IEquatable<TKey>
             where TElement : struct
-            where TKeySelector : struct, IValueFunc<T, TKey>
-            where TElementSelector : struct, IValueFunc<T, TElement>
+            where TKeySelector : struct, IFunc<T, TKey>
+            where TElementSelector : struct, IFunc<T, TElement>
         {
             var list = Execute();
             output.Capacity = list.Length;
@@ -50,7 +50,7 @@ namespace CareBoo.Blinq
             Allocator allocator
             )
             where TKey : struct, IEquatable<TKey>
-            where TKeySelector : struct, IValueFunc<T, TKey>
+            where TKeySelector : struct, IFunc<T, TKey>
         {
             var output = new NativeHashMap<TKey, T>(0, allocator);
             ToNativeHashMap(keySelector, output);
@@ -63,7 +63,7 @@ namespace CareBoo.Blinq
             NativeHashMap<TKey, T> output
             )
             where TKey : struct, IEquatable<TKey>
-            where TKeySelector : struct, IValueFunc<T, TKey>
+            where TKeySelector : struct, IFunc<T, TKey>
         {
             var list = Execute();
             output.Capacity = list.Length;

@@ -6,7 +6,7 @@ namespace CareBoo.Blinq
     {
         public static int Count<T, TPredicate>(this ref NativeArray<T> source, TPredicate predicate = default)
             where T : struct
-            where TPredicate : struct, IValueFunc<T, bool>
+            where TPredicate : struct, IFunc<T, bool>
         {
             var count = 0;
             for (var i = 0; i < source.Length; i++)
