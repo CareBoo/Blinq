@@ -4,9 +4,9 @@ using NUnit.Framework;
 
 internal static class Utils
 {
-    public static (string exceptionMessage, T value) ExceptionAndValue<T>(Func<T> func)
+    public static (Exception exception, T value) ExceptionAndValue<T>(Func<T> func)
     {
-        string exceptionMessage = null;
+        Exception exception = null;
         T value = default;
         try
         {
@@ -14,17 +14,20 @@ internal static class Utils
         }
         catch (Exception ex)
         {
-            exceptionMessage = ex.Message;
+            exception = ex;
         }
-        return (exceptionMessage, value);
+        return (exception, value);
     }
 
     public static void AssertAreEqual<T>(
-        (string, T) expected,
-        (string, T) actual
+        (Exception, T) expected,
+        (Exception, T) actual
         )
     {
-        Assert.AreEqual(expected.Item1, actual.Item1);
+        if (expected.Item1 != null)
+            Assert.IsNotNull(actual.Item1);
+        else
+            Assert.IsNull(actual.Item1);
         Assert.AreEqual(expected.Item2, actual.Item2);
     }
 
