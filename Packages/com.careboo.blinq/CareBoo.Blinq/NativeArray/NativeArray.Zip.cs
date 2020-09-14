@@ -2,7 +2,7 @@
 
 namespace CareBoo.Blinq
 {
-    public static partial class NativeArrayExtensions
+    public static partial class Sequence
     {
         public static ValueSequence<TResult, ZipSequence<T, NativeArraySequence<T>, TSecondElement, TResult, TSecond, TResultSelector>> Zip<T, TSecondElement, TResult, TSecond, TResultSelector>(
             this ref NativeArray<T> source,

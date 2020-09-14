@@ -2,7 +2,7 @@
 using Linq = System.Linq.Enumerable;
 using static Utils;
 using Unity.Collections;
-using Blinq = CareBoo.Blinq.NativeArrayExtensions;
+using Blinq = CareBoo.Blinq.Sequence;
 
 internal class ElementAtTest
 {

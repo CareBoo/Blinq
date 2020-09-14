@@ -3,7 +3,7 @@ using Unity.Collections;
 
 namespace CareBoo.Blinq
 {
-    public static partial class NativeArrayExtensions
+    public static partial class Sequence
     {
         public static ValueSequence<T, UnionSequence<T, NativeArraySequence<T>, TSecond>> Union<T, TSecond>(
            this ref NativeArray<T> source,
