@@ -5,23 +5,25 @@ namespace CareBoo.Blinq
 {
     public static partial class NativeArrayExtensions
     {
-        public static ValueSequence<T, ValueSequence<T, NativeArraySequence<T>>.UnionSequence<TSecond>> Union<T, TSecond>(
+        public static ValueSequence<T, UnionSequence<T, NativeArraySequence<T>, TSecond>> Union<T, TSecond>(
            this ref NativeArray<T> source,
-           TSecond second
+           ValueSequence<T, TSecond> second
            )
            where T : unmanaged, IEquatable<T>
            where TSecond : struct, ISequence<T>
         {
-            return source.ToValueSequence().Union(second);
+            var seq = source.ToValueSequence();
+            return seq.Union(second);
         }
 
-        public static ValueSequence<T, ValueSequence<T, NativeArraySequence<T>>.UnionSequence<ValueSequence<T, NativeArraySequence<T>>>> Union<T>(
+        public static ValueSequence<T, UnionSequence<T, NativeArraySequence<T>, NativeArraySequence<T>>> Union<T>(
            this ref NativeArray<T> source,
            NativeArray<T> second
            )
            where T : unmanaged, IEquatable<T>
         {
-            return source.ToValueSequence().Union(second);
+            var seq = source.ToValueSequence();
+            return seq.Union(second);
         }
 
     }

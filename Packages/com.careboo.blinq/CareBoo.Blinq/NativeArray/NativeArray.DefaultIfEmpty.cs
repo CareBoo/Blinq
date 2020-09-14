@@ -5,13 +5,14 @@ namespace CareBoo.Blinq
 {
     public static partial class NativeArrayExtensions
     {
-        public static ValueSequence<T, ValueSequence<T, NativeArraySequence<T>>.DefaultIfEmptySequence> DefaultIfEmpty<T>(
+        public static ValueSequence<T, DefaultIfEmptySequence<T, NativeArraySequence<T>>> DefaultIfEmpty<T>(
             this ref NativeArray<T> source,
             T defaultVal = default
             )
-            where T : unmanaged, IEquatable<T>
+            where T : struct
         {
-            return source.ToValueSequence().DefaultIfEmpty(defaultVal);
+            var seq = source.ToValueSequence();
+            return seq.DefaultIfEmpty(defaultVal);
         }
     }
 }

@@ -1,12 +1,15 @@
 ﻿namespace CareBoo.Blinq
 {
-    public partial struct ValueSequence<T, TSource>
+    public static partial class ValueSequenceExtensions
     {
-        public TResult Aggregate<TAccumulate, TResult, TFunc, TResultSelector>(
+        public static TResult Aggregate<T, TSource, TAccumulate, TResult, TFunc, TResultSelector>(
+            this ref ValueSequence<T, TSource> source,
             TAccumulate seed,
             ValueFunc<TAccumulate, T, TAccumulate>.Impl<TFunc> func,
             ValueFunc<TAccumulate, TResult>.Impl<TResultSelector> resultSelector
             )
+            where T : struct
+            where TSource : struct, ISequence<T>
             where TAccumulate : struct
             where TResult : struct
             where TFunc : struct, IFunc<TAccumulate, T, TAccumulate>
@@ -18,10 +21,13 @@
             return resultSelector.Invoke(seed);
         }
 
-        public TAccumulate Aggregate<TAccumulate, TFunc>(
+        public static TAccumulate Aggregate<T, TSource, TAccumulate, TFunc>(
+            this ref ValueSequence<T, TSource> source,
             TAccumulate seed,
             ValueFunc<TAccumulate, T, TAccumulate>.Impl<TFunc> func
             )
+            where T : struct
+            where TSource : struct, ISequence<T>
             where TAccumulate : struct
             where TFunc : struct, IFunc<TAccumulate, T, TAccumulate>
         {
@@ -31,7 +37,12 @@
             return seed;
         }
 
-        public T Aggregate<TFunc>(ValueFunc<T, T, T>.Impl<TFunc> func)
+        public static T Aggregate<T, TSource, TFunc>(
+            this ref ValueSequence<T, TSource> source,
+            ValueFunc<T, T, T>.Impl<TFunc> func
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
             where TFunc : struct, IFunc<T, T, T>
         {
             var sourceList = source.Execute();

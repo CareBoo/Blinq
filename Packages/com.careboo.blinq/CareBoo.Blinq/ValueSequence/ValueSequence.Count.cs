@@ -1,8 +1,13 @@
 ﻿namespace CareBoo.Blinq
 {
-    public partial struct ValueSequence<T, TSource>
+    public static partial class ValueSequenceExtensions
     {
-        public int Count<TPredicate>(ValueFunc<T, bool>.Impl<TPredicate> predicate)
+        public static int Count<T, TSource, TPredicate>(
+            this ref ValueSequence<T, TSource> source,
+            ValueFunc<T, bool>.Impl<TPredicate> predicate
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
             where TPredicate : struct, IFunc<T, bool>
         {
             var count = 0;
@@ -13,7 +18,9 @@
             return count;
         }
 
-        public int Count()
+        public static int Count<T, TSource>(this ref ValueSequence<T, TSource> source)
+            where T : struct
+            where TSource : struct, ISequence<T>
         {
             var sourceList = source.Execute();
             return sourceList.Length;

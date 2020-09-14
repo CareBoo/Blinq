@@ -1,24 +1,22 @@
-﻿using System;
-using Unity.Collections;
+﻿using Unity.Collections;
 
 namespace CareBoo.Blinq
 {
     public static partial class NativeArrayExtensions
     {
-        public static ValueSequence<TResult, ValueSequence<T, NativeArraySequence<T>>.ZipSequence<TSecondElement, TResult, TSecond, TResultSelector>> Zip<T, TSecondElement, TResult, TSecond, TResultSelector>(
+        public static ValueSequence<TResult, ZipSequence<T, NativeArraySequence<T>, TSecondElement, TResult, TSecond, TResultSelector>> Zip<T, TSecondElement, TResult, TSecond, TResultSelector>(
             this ref NativeArray<T> source,
-            TSecond secondSequence,
+            ValueSequence<TSecondElement, TSecond> secondSequence,
             ValueFunc<T, TSecondElement, TResult>.Impl<TResultSelector> resultSelector
             )
-            where T : unmanaged, IEquatable<T>
+            where T : struct
             where TSecondElement : struct
-            where TResult : unmanaged, IEquatable<TResult>
+            where TResult : struct
             where TSecond : struct, ISequence<TSecondElement>
             where TResultSelector : struct, IFunc<T, TSecondElement, TResult>
         {
-            return source
-                .ToValueSequence()
-                .Zip(secondSequence, resultSelector);
+            var seq = source.ToValueSequence();
+            return seq.Zip(secondSequence, resultSelector);
         }
     }
 }

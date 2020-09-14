@@ -2,7 +2,7 @@
 using Linq = System.Linq.Enumerable;
 using static Utils;
 using Unity.Collections;
-using Blinq = CareBoo.Blinq.NativeArrayExtensions;
+using CareBoo.Blinq;
 
 internal class DefaultIfEmptyTest
 {
@@ -10,7 +10,7 @@ internal class DefaultIfEmptyTest
     public void BlinqShouldEqualLinqValueSequenceDefaultIfEmpty([ArrayValues] int[] sourceArr)
     {
         var sourceNativeArr = new NativeArray<int>(sourceArr, Allocator.Persistent);
-        var source = Blinq.ToValueSequence(ref sourceNativeArr);
+        var source = sourceNativeArr.ToValueSequence();
         var expected = ExceptionAndValue(() => Linq.ToArray(Linq.DefaultIfEmpty(source, 1)));
         var actual = ExceptionAndValue(() => Linq.ToArray(source.DefaultIfEmpty(1)));
         AssertAreEqual(expected, actual);
@@ -22,7 +22,7 @@ internal class DefaultIfEmptyTest
     {
         var source = new NativeArray<int>(sourceArr, Allocator.Persistent);
         var expected = ExceptionAndValue(() => Linq.ToArray(Linq.DefaultIfEmpty(source, 1)));
-        var actual = ExceptionAndValue(() => Linq.ToArray(Blinq.DefaultIfEmpty(ref source, 1)));
+        var actual = ExceptionAndValue(() => Linq.ToArray(source.DefaultIfEmpty(1)));
         AssertAreEqual(expected, actual);
         source.Dispose();
     }

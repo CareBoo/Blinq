@@ -1,22 +1,34 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace CareBoo.Blinq
 {
-    public partial struct ValueSequence<T, TSource>
+    public static partial class ValueSequenceExtensions
     {
-        public bool Contains(T item)
+        public static bool Contains<T, TSource>(
+            this ref ValueSequence<T, TSource> source,
+            T item
+            )
+            where T : struct, IEquatable<T>
+            where TSource : struct, ISequence<T>
         {
-            var sourceList = Execute();
+            var sourceList = source.Execute();
             for (var i = 0; i < sourceList.Length; i++)
                 if (sourceList[i].Equals(item))
                     return true;
             return false;
         }
 
-        public bool Contains<TComparer>(T item, TComparer comparer)
+        public static bool Contains<T, TSource, TComparer>(
+            this ref ValueSequence<T, TSource> source,
+            T item,
+            TComparer comparer
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
             where TComparer : struct, IEqualityComparer<T>
         {
-            var sourceList = Execute();
+            var sourceList = source.Execute();
             for (var i = 0; i < sourceList.Length; i++)
                 if (comparer.Equals(sourceList[i], item))
                     return true;

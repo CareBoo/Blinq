@@ -1,65 +1,79 @@
-﻿using System;
-using Unity.Collections;
+﻿using Unity.Collections;
 
 namespace CareBoo.Blinq
 {
-    public partial struct ValueSequence<T, TSource>
+    public static partial class ValueSequenceExtensions
     {
-        public struct SelectWithIndexSequence<TResult, TPredicate> : ISequence<TResult>
-            where TResult : unmanaged, IEquatable<TResult>
-            where TPredicate : struct, IFunc<T, int, TResult>
+        public static ValueSequence<TResult, SelectIndexSequence<T, TSource, TResult, TSelector>> Select<T, TSource, TResult, TSelector>(
+            this ref ValueSequence<T, TSource> source,
+            ValueFunc<T, int, TResult>.Impl<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TResult : struct
+            where TSelector : struct, IFunc<T, int, TResult>
         {
-            public TSource Source;
-            public ValueFunc<T, int, TResult>.Impl<TPredicate> Selector;
+            var seq = new SelectIndexSequence<T, TSource, TResult, TSelector> { Source = source.Source, Selector = selector };
+            return new ValueSequence<TResult, SelectIndexSequence<T, TSource, TResult, TSelector>>(seq);
+        }
 
-            public NativeList<TResult> Execute()
+        public static ValueSequence<TResult, SelectSequence<T, TSource, TResult, TSelector>> Select<T, TSource, TResult, TSelector>(
+            this ref ValueSequence<T, TSource> source,
+            ValueFunc<T, TResult>.Impl<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TResult : struct
+            where TSelector : struct, IFunc<T, TResult>
+        {
+            var seq = new SelectSequence<T, TSource, TResult, TSelector> { Source = source.Source, Selector = selector };
+            return new ValueSequence<TResult, SelectSequence<T, TSource, TResult, TSelector>>(seq);
+        }
+    }
+
+    public struct SelectIndexSequence<T, TSource, TResult, TSelector> : ISequence<TResult>
+        where T : struct
+        where TSource : struct, ISequence<T>
+        where TResult : struct
+        where TSelector : struct, IFunc<T, int, TResult>
+    {
+        public TSource Source;
+        public ValueFunc<T, int, TResult>.Impl<TSelector> Selector;
+
+        public NativeList<TResult> Execute()
+        {
+            var sourceList = Source.Execute();
+
+            var newList = new NativeList<TResult>(sourceList.Length, Allocator.Temp);
+            for (var i = 0; i < sourceList.Length; i++)
             {
-                var sourceList = Source.Execute();
-
-                var newList = new NativeList<TResult>(sourceList.Length, Allocator.Temp);
-                for (var i = 0; i < sourceList.Length; i++)
-                {
-                    newList.AddNoResize(Selector.Invoke(sourceList[i], i));
-                }
-                sourceList.Dispose();
-                return newList;
+                newList.AddNoResize(Selector.Invoke(sourceList[i], i));
             }
+            sourceList.Dispose();
+            return newList;
         }
+    }
 
-        public ValueSequence<TResult, SelectWithIndexSequence<TResult, TPredicate>> Select<TResult, TPredicate>(ValueFunc<T, int, TResult>.Impl<TPredicate> selector)
-            where TResult : unmanaged, IEquatable<TResult>
-            where TPredicate : struct, IFunc<T, int, TResult>
+    public struct SelectSequence<T, TSource, TResult, TSelector> : ISequence<TResult>
+        where T : struct
+        where TSource : struct, ISequence<T>
+        where TResult : struct
+        where TSelector : struct, IFunc<T, TResult>
+    {
+        public TSource Source;
+        public ValueFunc<T, TResult>.Impl<TSelector> Selector;
+
+        public NativeList<TResult> Execute()
         {
-            var newSequence = new SelectWithIndexSequence<TResult, TPredicate> { Source = source, Selector = selector };
-            return Create<TResult, SelectWithIndexSequence<TResult, TPredicate>>(newSequence);
-        }
+            var sourceList = Source.Execute();
 
-        public struct SelectSequence<TResult, TPredicate> : ISequence<TResult>
-            where TResult : unmanaged, IEquatable<TResult>
-            where TPredicate : struct, IFunc<T, TResult>
-        {
-            public TSource Source;
-            public ValueFunc<T, TResult>.Impl<TPredicate> Selector;
-
-            public NativeList<TResult> Execute()
+            var newList = new NativeList<TResult>(sourceList.Length, Allocator.Temp);
+            for (var i = 0; i < sourceList.Length; i++)
             {
-                var sourceList = Source.Execute();
-                var newList = new NativeList<TResult>(sourceList.Length, Allocator.Temp);
-                for (var i = 0; i < sourceList.Length; i++)
-                {
-                    newList.AddNoResize(Selector.Invoke(sourceList[i]));
-                }
-                sourceList.Dispose();
-                return newList;
+                newList.AddNoResize(Selector.Invoke(sourceList[i]));
             }
-        }
-
-        public ValueSequence<TResult, SelectSequence<TResult, TPredicate>> Select<TResult, TPredicate>(ValueFunc<T, TResult>.Impl<TPredicate> selector)
-            where TResult : unmanaged, IEquatable<TResult>
-            where TPredicate : struct, IFunc<T, TResult>
-        {
-            var newSequence = new SelectSequence<TResult, TPredicate> { Source = source, Selector = selector };
-            return Create<TResult, SelectSequence<TResult, TPredicate>>(newSequence);
+            sourceList.Dispose();
+            return newList;
         }
     }
 }

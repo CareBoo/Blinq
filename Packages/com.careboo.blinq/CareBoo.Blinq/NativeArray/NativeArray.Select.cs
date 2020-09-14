@@ -5,26 +5,28 @@ namespace CareBoo.Blinq
 {
     public static partial class NativeArrayExtensions
     {
-        public static ValueSequence<TResult, ValueSequence<T, NativeArraySequence<T>>.SelectWithIndexSequence<TResult, TPredicate>> Select<T, TResult, TPredicate>(
+        public static ValueSequence<TResult, SelectIndexSequence<T, NativeArraySequence<T>, TResult, TPredicate>> Select<T, TResult, TPredicate>(
             this ref NativeArray<T> source,
             ValueFunc<T, int, TResult>.Impl<TPredicate> selector
             )
-            where T : unmanaged, IEquatable<T>
-            where TResult : unmanaged, IEquatable<TResult>
+            where T : struct
+            where TResult : struct
             where TPredicate : struct, IFunc<T, int, TResult>
         {
-            return source.ToValueSequence().Select(selector);
+            var seq = source.ToValueSequence();
+            return seq.Select(selector);
         }
 
-        public static ValueSequence<TResult, ValueSequence<T, NativeArraySequence<T>>.SelectSequence<TResult, TPredicate>> Select<T, TResult, TPredicate>(
+        public static ValueSequence<TResult, SelectSequence<T, NativeArraySequence<T>, TResult, TPredicate>> Select<T, TResult, TPredicate>(
             this ref NativeArray<T> source,
             ValueFunc<T, TResult>.Impl<TPredicate> selector
             )
-            where T : unmanaged, IEquatable<T>
-            where TResult : unmanaged, IEquatable<TResult>
+            where T : struct
+            where TResult : struct
             where TPredicate : struct, IFunc<T, TResult>
         {
-            return source.ToValueSequence().Select(selector);
+            var seq = source.ToValueSequence();
+            return seq.Select(selector);
         }
     }
 }

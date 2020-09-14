@@ -6,7 +6,7 @@ using LinqEnumerable = System.Linq.Enumerable;
 internal static class EnumerableExtensions
 {
     public static NativeArray<T> ToNativeArray<T>(this IEnumerable<T> source, Allocator allocator)
-        where T : unmanaged
+        where T : struct
     {
         if (source == null) throw new ArgumentNullException(nameof(source));
 

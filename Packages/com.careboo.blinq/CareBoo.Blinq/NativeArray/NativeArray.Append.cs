@@ -5,10 +5,11 @@ namespace CareBoo.Blinq
 {
     public static partial class NativeArrayExtensions
     {
-        public static ValueSequence<T, ValueSequence<T, NativeArraySequence<T>>.AppendSequence> Append<T>(this ref NativeArray<T> source, T item)
-            where T : unmanaged, IEquatable<T>
+        public static ValueSequence<T, AppendSequence<T, NativeArraySequence<T>>> Append<T>(this ref NativeArray<T> source, T item)
+            where T : struct
         {
-            return source.ToValueSequence().Append(item);
+            var seq = source.ToValueSequence();
+            return seq.Append(item);
         }
     }
 }
