@@ -1,3 +1,10 @@
+# [1.0.0-preview.14](https://github.com/CareBoo/Blinq/compare/v1.0.0-preview.13...v1.0.0-preview.14) (2020-09-14)
+
+
+### Features
+
+* :sparkles: Implement Distinct ([f44d7a8](https://github.com/CareBoo/Blinq/commit/f44d7a893493dca3b7477eae77a200a0fec55656)), closes [#6](https://github.com/CareBoo/Blinq/issues/6)
+
 # [1.0.0-preview.13](https://github.com/CareBoo/Blinq/compare/v1.0.0-preview.12...v1.0.0-preview.13) (2020-09-14)
 
 
