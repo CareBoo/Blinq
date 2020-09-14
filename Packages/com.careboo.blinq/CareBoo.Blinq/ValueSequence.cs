@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using Unity.Burst;
 using Unity.Collections;
+using Unity.Jobs;
 
 namespace CareBoo.Blinq
 {
@@ -12,7 +11,6 @@ namespace CareBoo.Blinq
         NativeList<T> Execute();
     }
 
-    [BurstCompile]
     public struct ValueSequence<T, TSource>
         : IEnumerable<T>
         , ISequence<T>
@@ -29,6 +27,21 @@ namespace CareBoo.Blinq
         public NativeList<T> Execute()
         {
             return Source.Execute();
+        }
+
+        public NativeList<T> RunExecute()
+        {
+            var output = new NativeList<T>(Allocator.Persistent);
+            var job = new SequenceExecuteJob<T, TSource> { Source = Source, Output = output };
+            job.Run();
+            return output;
+        }
+
+        public SequenceExecuteJobHandle<T> ScheduleExecute()
+        {
+            var output = new NativeList<T>(Allocator.Persistent);
+            var job = new SequenceExecuteJob<T, TSource> { Source = Source, Output = output };
+            return new SequenceExecuteJobHandle<T>(job.Schedule(), output);
         }
 
         public NativeArray<T>.Enumerator GetEnumerator()
