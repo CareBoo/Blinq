@@ -1,3 +1,10 @@
+# [1.0.0-preview.15](https://github.com/CareBoo/Blinq/compare/v1.0.0-preview.14...v1.0.0-preview.15) (2020-09-14)
+
+
+### Features
+
+* :sparkles: Implement ElementAt and ElementAtOrDefault ([f63a2df](https://github.com/CareBoo/Blinq/commit/f63a2dfe7f32c790a54d1e3138559f0aaef2a4a3)), closes [#7](https://github.com/CareBoo/Blinq/issues/7)
+
 # [1.0.0-preview.14](https://github.com/CareBoo/Blinq/compare/v1.0.0-preview.13...v1.0.0-preview.14) (2020-09-14)
 
 
