@@ -1,6 +1,6 @@
 ﻿namespace CareBoo.Blinq
 {
-    public static partial class ValueSequenceExtensions
+    public static partial class Sequence
     {
         public static TResult Aggregate<T, TSource, TAccumulate, TResult, TFunc, TResultSelector>(
             this ref ValueSequence<T, TSource> source,

@@ -1,6 +1,6 @@
 ﻿namespace CareBoo.Blinq
 {
-    public static partial class ValueSequenceExtensions
+    public static partial class Sequence
     {
         public static int Count<T, TSource, TPredicate>(
             this ref ValueSequence<T, TSource> source,

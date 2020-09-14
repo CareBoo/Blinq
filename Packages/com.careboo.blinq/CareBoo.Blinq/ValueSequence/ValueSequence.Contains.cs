@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace CareBoo.Blinq
 {
-    public static partial class ValueSequenceExtensions
+    public static partial class Sequence
     {
         public static bool Contains<T, TSource>(
             this ref ValueSequence<T, TSource> source,

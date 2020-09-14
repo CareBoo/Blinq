@@ -31,7 +31,7 @@ namespace CareBoo.Blinq
         }
     }
 
-    public static partial class ValueSequenceExtensions
+    public static partial class Sequence
     {
         public static ValueSequence<TResult, ZipSequence<T, TSource, TSecondElement, TResult, TSecond, TResultSelector>> Zip<T, TSource, TSecondElement, TResult, TSecond, TResultSelector>(
             this ref ValueSequence<T, TSource> source,
