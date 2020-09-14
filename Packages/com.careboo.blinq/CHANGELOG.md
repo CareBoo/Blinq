@@ -1,3 +1,17 @@
+# [1.0.0-preview.17](https://github.com/CareBoo/Blinq/compare/v1.0.0-preview.16...v1.0.0-preview.17) (2020-09-14)
+
+
+### Bug Fixes
+
+* :bug: Fix issue when single predicate matches ([83883c0](https://github.com/CareBoo/Blinq/commit/83883c02742dc747965ef667f7c57735471e8c54))
+
+
+### Features
+
+* :sparkles: Implement First and FirstOrDefault ([da6bc53](https://github.com/CareBoo/Blinq/commit/da6bc535d42b37f3f6cb1754bb1093786d5c3474)), closes [#10](https://github.com/CareBoo/Blinq/issues/10)
+* :sparkles: Implement Last and LastOrDefault ([31db989](https://github.com/CareBoo/Blinq/commit/31db9893a26e3f8eafd4096d9acf97f11feefd06)), closes [#15](https://github.com/CareBoo/Blinq/issues/15)
+* :sparkles: Implement Single and SingleOrDefault ([cc397a5](https://github.com/CareBoo/Blinq/commit/cc397a50610d763db88512d6c020f1e6c787fd7e)), closes [#25](https://github.com/CareBoo/Blinq/issues/25)
+
 # [1.0.0-preview.16](https://github.com/CareBoo/Blinq/compare/v1.0.0-preview.15...v1.0.0-preview.16) (2020-09-14)
 
 
