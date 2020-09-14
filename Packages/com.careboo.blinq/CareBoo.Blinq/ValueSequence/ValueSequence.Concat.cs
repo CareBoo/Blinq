@@ -2,7 +2,7 @@
 
 namespace CareBoo.Blinq
 {
-    public static partial class ValueSequenceExtensions
+    public static partial class Sequence
     {
         public static ValueSequence<T, ConcatSequence<T, TSource, TSecond>> Concat<T, TSource, TSecond>(
             this ref ValueSequence<T, TSource> source,
