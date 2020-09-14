@@ -17,7 +17,7 @@ namespace CareBoo.Blinq
             {
                 var val = source[i];
                 if (predicate.Invoke(val))
-                    if (set.Add(val))
+                    if (!set.Add(val))
                         throw Error.MoreThanOneMatch();
             }
             var iter = set.GetEnumerator();
@@ -39,7 +39,7 @@ namespace CareBoo.Blinq
             {
                 var val = source[i];
                 if (predicate.Invoke(val))
-                    if (set.Add(val))
+                    if (!set.Add(val))
                         throw Error.MoreThanOneMatch();
             }
             var iter = set.GetEnumerator();
