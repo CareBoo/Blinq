@@ -2,7 +2,7 @@
 
 namespace CareBoo.Blinq
 {
-    public static partial class NativeArrayExtensions
+    public static partial class Sequence
     {
         public static TResult Aggregate<T, TAccumulate, TResult, TFunc, TResultSelector>(
             this ref NativeArray<T> source,

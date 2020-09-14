@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using Unity.Collections;
 using static ValueFuncs;
-using Blinq = CareBoo.Blinq.NativeArrayExtensions;
+using Blinq = CareBoo.Blinq.Sequence;
 using Linq = System.Linq.Enumerable;
 using static Utils;
 

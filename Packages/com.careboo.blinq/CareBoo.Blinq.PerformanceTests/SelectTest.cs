@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using Unity.PerformanceTesting;
 using Linq = System.Linq.Enumerable;
-using Blinq = CareBoo.Blinq.NativeArrayExtensions;
+using Blinq = CareBoo.Blinq.Sequence;
 using Unity.Jobs;
 using Unity.Burst;
 using Unity.Collections;

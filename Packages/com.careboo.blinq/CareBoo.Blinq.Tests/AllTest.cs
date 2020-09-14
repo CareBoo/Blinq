@@ -3,7 +3,7 @@ using Linq = System.Linq.Enumerable;
 using static Utils;
 using static ValueFuncs;
 using Unity.Collections;
-using Blinq = CareBoo.Blinq.NativeArrayExtensions;
+using Blinq = CareBoo.Blinq.Sequence;
 
 internal class AllTest
 {

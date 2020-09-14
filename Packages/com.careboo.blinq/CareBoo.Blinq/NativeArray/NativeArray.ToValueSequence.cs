@@ -17,7 +17,7 @@ namespace CareBoo.Blinq
         }
     }
 
-    public static partial class NativeArrayExtensions
+    public static partial class Sequence
     {
         public static ValueSequence<T, NativeArraySequence<T>> ToValueSequence<T>(this ref NativeArray<T> nativeArray)
             where T : struct

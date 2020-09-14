@@ -1,11 +1,11 @@
 ﻿using NUnit.Framework;
 using Unity.Collections;
-using Blinq = CareBoo.Blinq.NativeArrayExtensions;
+using Blinq = CareBoo.Blinq.Sequence;
 using Linq = System.Linq.Enumerable;
 using static Utils;
 using static ValueFuncs;
 using CareBoo.Blinq;
-using static CareBoo.Blinq.NativeArrayExtensions;
+using static CareBoo.Blinq.Sequence;
 
 internal class ZipTest
 {

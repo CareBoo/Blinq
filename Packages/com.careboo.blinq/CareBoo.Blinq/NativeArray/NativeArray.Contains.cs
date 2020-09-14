@@ -4,7 +4,7 @@ using Unity.Collections;
 
 namespace CareBoo.Blinq
 {
-    public static partial class NativeArrayExtensions
+    public static partial class Sequence
     {
         public static bool Contains<T, TComparer>(this ref NativeArray<T> source, T item, TComparer comparer)
             where T : struct

@@ -2,7 +2,7 @@
 
 namespace CareBoo.Blinq
 {
-    public static partial class NativeArrayExtensions
+    public static partial class Sequence
     {
         public static bool Any<T, TPredicate>(
             this ref NativeArray<T> source,
