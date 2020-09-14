@@ -1,3 +1,13 @@
+# [1.0.0-preview.16](https://github.com/CareBoo/Blinq/compare/v1.0.0-preview.15...v1.0.0-preview.16) (2020-09-14)
+
+
+### Features
+
+* :sparkles: Implement Conversion for NativeArray ([654e5cd](https://github.com/CareBoo/Blinq/commit/654e5cd3489d5e39ab72d57d18869c052c11f2bb))
+* :sparkles: Implement Sequence.Empty ([ed2f9e1](https://github.com/CareBoo/Blinq/commit/ed2f9e15f5889ad3bde20aa211f2c03e308a9810)), closes [#8](https://github.com/CareBoo/Blinq/issues/8)
+* :sparkles: Implement Sequence.Range ([b43345d](https://github.com/CareBoo/Blinq/commit/b43345d72644d5eff7926cd62b66c9032c61e750)), closes [#20](https://github.com/CareBoo/Blinq/issues/20)
+* :sparkles: Implement Sequence.Repeat ([3d7ce42](https://github.com/CareBoo/Blinq/commit/3d7ce42cd32163f3d3a691fb19dca5ef0a38dfca)), closes [#21](https://github.com/CareBoo/Blinq/issues/21)
+
 # [1.0.0-preview.15](https://github.com/CareBoo/Blinq/compare/v1.0.0-preview.14...v1.0.0-preview.15) (2020-09-14)
 
 
