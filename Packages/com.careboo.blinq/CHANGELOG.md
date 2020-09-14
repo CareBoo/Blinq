@@ -1,3 +1,11 @@
+# [1.0.0-preview.13](https://github.com/CareBoo/Blinq/compare/v1.0.0-preview.12...v1.0.0-preview.13) (2020-09-14)
+
+
+### Features
+
+* :sparkles: Add Job-API methods to ValueSequence ([3d1f775](https://github.com/CareBoo/Blinq/commit/3d1f77565bd4ef5c536e04743bca899c88d4b4b9))
+* :sparkles: Reimpl ToNative* extension methods ([fab1b10](https://github.com/CareBoo/Blinq/commit/fab1b1007df5f4eb0a50924e102fc48fcd9b7ad9))
+
 # [1.0.0-preview.12](https://github.com/CareBoo/Blinq/compare/v1.0.0-preview.11...v1.0.0-preview.12) (2020-09-10)
 
 
