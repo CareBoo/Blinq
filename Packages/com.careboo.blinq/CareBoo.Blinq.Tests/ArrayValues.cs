@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Linq;
 using NUnit.Framework;
 
 [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = true, Inherited = false)]
@@ -16,18 +17,9 @@ internal class ArrayValues
     {
         get
         {
-            yield return Range(0, 10);
-            yield return Range(0, 0);
+            yield return Enumerable.Range(0, 10).ToArray();
+            yield return Enumerable.Range(0, 0).ToArray();
+            yield return Enumerable.Range(0, 10).Concat(Enumerable.Range(0, 10)).ToArray();
         }
-    }
-
-    private static int[] Range(int start, int count)
-    {
-        var arr = new int[count];
-        for (var i = 0; i < count; i++)
-        {
-            arr[i] = start + i;
-        }
-        return arr;
     }
 }
