@@ -1,8 +1,13 @@
 ﻿namespace CareBoo.Blinq
 {
-    public partial struct ValueSequence<T, TSource>
+    public static partial class ValueSequenceExtensions
     {
-        public bool All<TPredicate>(ValueFunc<T, bool>.Impl<TPredicate> predicate)
+        public static bool All<T, TSource, TPredicate>(
+            this ref ValueSequence<T, TSource> source,
+            ValueFunc<T, bool>.Impl<TPredicate> predicate
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
             where TPredicate : struct, IFunc<T, bool>
         {
             var sourceList = source.Execute();
@@ -11,5 +16,6 @@
                     return false;
             return true;
         }
+
     }
 }

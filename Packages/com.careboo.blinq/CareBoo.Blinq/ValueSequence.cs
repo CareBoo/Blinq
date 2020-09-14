@@ -13,35 +13,22 @@ namespace CareBoo.Blinq
     }
 
     [BurstCompile]
-    public partial struct ValueSequence<T, TSource>
+    public struct ValueSequence<T, TSource>
         : IEnumerable<T>
         , ISequence<T>
-        where T : unmanaged, IEquatable<T>
+        where T : struct
         where TSource : struct, ISequence<T>
     {
-        readonly TSource source;
-
-        public static ValueSequence<T, TSequence> Create<TSequence>(TSequence seq)
-            where TSequence : struct, ISequence<T>
-        {
-            return new ValueSequence<T, TSequence>(seq);
-        }
-
-        public static ValueSequence<TResult, TSequence> Create<TResult, TSequence>(TSequence seq)
-            where TResult : unmanaged, IEquatable<TResult>
-            where TSequence : struct, ISequence<TResult>
-        {
-            return new ValueSequence<TResult, TSequence>(seq);
-        }
+        public readonly TSource Source;
 
         public ValueSequence(TSource source)
         {
-            this.source = source;
+            Source = source;
         }
 
         public NativeList<T> Execute()
         {
-            return source.Execute();
+            return Source.Execute();
         }
 
         public NativeArray<T>.Enumerator GetEnumerator()
