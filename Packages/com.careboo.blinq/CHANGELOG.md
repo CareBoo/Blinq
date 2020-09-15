@@ -1,3 +1,12 @@
+# [1.0.0-preview.19](https://github.com/CareBoo/Blinq/compare/v1.0.0-preview.18...v1.0.0-preview.19) (2020-09-15)
+
+
+### Features
+
+* :sparkles: Implement Except ([2ed72b6](https://github.com/CareBoo/Blinq/commit/2ed72b6055d4994769da09e1a14adc7b601fa789)), closes [#9](https://github.com/CareBoo/Blinq/issues/9)
+* :sparkles: Implement Intersect ([4d092c3](https://github.com/CareBoo/Blinq/commit/4d092c314b972ffe131d3c3803c9708e6f9986fa)), closes [#13](https://github.com/CareBoo/Blinq/issues/13)
+* :sparkles: Implement Join ([81451a5](https://github.com/CareBoo/Blinq/commit/81451a52d8051837f97e523cd1dabbff8b3f27d4)), closes [#14](https://github.com/CareBoo/Blinq/issues/14)
+
 # [1.0.0-preview.18](https://github.com/CareBoo/Blinq/compare/v1.0.0-preview.17...v1.0.0-preview.18) (2020-09-15)
 
 
