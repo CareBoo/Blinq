@@ -1,3 +1,22 @@
+# [1.0.0-preview.18](https://github.com/CareBoo/Blinq/compare/v1.0.0-preview.17...v1.0.0-preview.18) (2020-09-15)
+
+
+### Bug Fixes
+
+* :bug: Fix Count using incorrect ValueFunc API ([a3849f8](https://github.com/CareBoo/Blinq/commit/a3849f86515ee9156794e810d94c2bf56a84abdd))
+* :bug: Fix dispose in Count ([4d4e36e](https://github.com/CareBoo/Blinq/commit/4d4e36e16ae2d723aab621eae940b9534ffd5a49))
+
+
+### Features
+
+* :sparkles: Implement LongCount ([b4eff80](https://github.com/CareBoo/Blinq/commit/b4eff80359175266ddf4c01ffe78227b5e1bafc8)), closes [#16](https://github.com/CareBoo/Blinq/issues/16)
+* :sparkles: Implement OrderBy and OrderByDescending ([e15f42e](https://github.com/CareBoo/Blinq/commit/e15f42ebf82fba6cd3c9bf0e1f45fc5e3c7607a6)), closes [#18](https://github.com/CareBoo/Blinq/issues/18)
+* :sparkles: Implement Prepend ([35ec722](https://github.com/CareBoo/Blinq/commit/35ec7226839b8a7f3ac41464b8bc0d1d88578a80)), closes [#19](https://github.com/CareBoo/Blinq/issues/19)
+* :sparkles: Implement Reverse ([204fab5](https://github.com/CareBoo/Blinq/commit/204fab58d9b4483a72a00b6e760d16f53b1fd414)), closes [#22](https://github.com/CareBoo/Blinq/issues/22)
+* :sparkles: Implement SequenceEqual ([706d21a](https://github.com/CareBoo/Blinq/commit/706d21af4bba1d78b02c57637b2e70f74e600d8e)), closes [#24](https://github.com/CareBoo/Blinq/issues/24)
+* :sparkles: Implement Skip and SkipWhile ([e3b459a](https://github.com/CareBoo/Blinq/commit/e3b459a3c4a4b8bfda55bbdad37f2398abba754a)), closes [#26](https://github.com/CareBoo/Blinq/issues/26)
+* :sparkles: Implement Take and TakeWhile ([f2b9a9f](https://github.com/CareBoo/Blinq/commit/f2b9a9fa3564057fc0e41a5b7a5d3bc122cc9997)), closes [#28](https://github.com/CareBoo/Blinq/issues/28)
+
 # [1.0.0-preview.17](https://github.com/CareBoo/Blinq/compare/v1.0.0-preview.16...v1.0.0-preview.17) (2020-09-14)
 
 
