@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using Linq = System.Linq.Enumerable;
 using static Utils;
+using static ValueFuncs;
 using Unity.Collections;
 using Blinq = CareBoo.Blinq.Sequence;
 using CareBoo.Blinq;
@@ -50,65 +51,48 @@ internal class OrderByTest
         AssertAreEqual(expected, actual);
         sourceNativeArr.Dispose();
     }
+}
 
-    public static readonly ValueFunc<Order, int>.Impl<SelectFirstImpl> SelectFirst =
-        ValueFunc<Order, int>.CreateImpl<SelectFirstImpl>();
+internal struct Order : IEquatable<Order>
+{
+    public int First;
+    public int Second;
 
-    public static readonly ValueFunc<Order, int>.Impl<SelectSecondImpl> SelectSecond =
-        ValueFunc<Order, int>.CreateImpl<SelectSecondImpl>();
-
-
-    public struct Order : IEquatable<Order>
+    public Order(int first, int second)
     {
-        public int First;
-        public int Second;
-
-        public Order(int first, int second)
-        {
-            First = first;
-            Second = second;
-        }
-
-        public bool Equals(Order other)
-        {
-            return other.First == First && other.Second == Second;
-        }
+        First = first;
+        Second = second;
     }
 
-    internal class OrderValuesAttribute : ValueSourceAttribute
+    public bool Equals(Order other)
     {
-        public OrderValuesAttribute() : base(typeof(OrderValues), nameof(OrderValues.Values)) { }
+        return other.First == First && other.Second == Second;
     }
+}
 
-    internal class OrderValues
+internal class OrderValuesAttribute : ValueSourceAttribute
+{
+    public OrderValuesAttribute() : base(typeof(OrderValues), nameof(OrderValues.Values)) { }
+}
+
+internal class OrderValues
+{
+    public static IEnumerable Values
     {
-        public static IEnumerable Values
+        get
         {
-            get
-            {
-                yield return Range(3);
-                yield return Linq.ToArray(Linq.Concat(Range(2), Range(2)));
-                yield return Range(2);
-            }
-        }
-
-        static Order[] Range(int length)
-        {
-            var orders = new Order[length * length];
-            for (var i = 0; i < length; i++)
-                for (var j = 0; j < length; j++)
-                    orders[length * i + j] = new Order(i, j);
-            return orders;
+            yield return Range(3);
+            yield return Linq.ToArray(Linq.Concat(Range(2), Range(2)));
+            yield return Range(2);
         }
     }
 
-    public struct SelectFirstImpl : IFunc<Order, int>
+    static Order[] Range(int length)
     {
-        public int Invoke(Order x) => x.First;
-    }
-
-    public struct SelectSecondImpl : IFunc<Order, int>
-    {
-        public int Invoke(Order x) => x.Second;
+        var orders = new Order[length * length];
+        for (var i = 0; i < length; i++)
+            for (var j = 0; j < length; j++)
+                orders[length * i + j] = new Order(i, j);
+        return orders;
     }
 }

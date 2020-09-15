@@ -29,10 +29,26 @@ internal static class ValueFuncs
 
     public readonly static ValueFunc<int, long>.Impl<Functions.IntToLong> IntToLong =
         ValueFunc<int, long>.CreateImpl<Functions.IntToLong>();
+
+    public static readonly ValueFunc<Order, int>.Impl<Functions.SelectFirst> SelectFirst =
+        ValueFunc<Order, int>.CreateImpl<Functions.SelectFirst>();
+
+    public static readonly ValueFunc<Order, int>.Impl<Functions.SelectSecond> SelectSecond =
+        ValueFunc<Order, int>.CreateImpl<Functions.SelectSecond>();
 }
 
 internal static class Functions
 {
+    public struct SelectFirst : IFunc<Order, int>
+    {
+        public int Invoke(Order x) => x.First;
+    }
+
+    public struct SelectSecond : IFunc<Order, int>
+    {
+        public int Invoke(Order x) => x.Second;
+    }
+
     public struct ReturnSelf : IFunc<int, int>
     {
         public int Invoke(int x) => x;
