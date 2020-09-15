@@ -3,6 +3,15 @@ using Unity.Mathematics;
 
 internal static class ValueFuncs
 {
+    public readonly static ValueFunc<JoinA, int>.Impl<Functions.JoinAKeySelector> JoinAKeySelector =
+        ValueFunc<JoinA, int>.CreateImpl<Functions.JoinAKeySelector>();
+
+    public readonly static ValueFunc<JoinB, int>.Impl<Functions.JoinBKeySelector> JoinBKeySelector =
+        ValueFunc<JoinB, int>.CreateImpl<Functions.JoinBKeySelector>();
+
+    public readonly static ValueFunc<JoinA, JoinB, JointAB>.Impl<Functions.JointABSelector> JointABSelector =
+        ValueFunc<JoinA, JoinB, JointAB>.CreateImpl<Functions.JointABSelector>();
+
     public readonly static ValueFunc<int, int>.Impl<Functions.ReturnSelf> ReturnSelf =
         ValueFunc<int, int>.CreateImpl<Functions.ReturnSelf>();
 
@@ -39,6 +48,21 @@ internal static class ValueFuncs
 
 internal static class Functions
 {
+    public struct JoinAKeySelector : IFunc<JoinA, int>
+    {
+        public int Invoke(JoinA x) => x.Id;
+    }
+
+    public struct JoinBKeySelector : IFunc<JoinB, int>
+    {
+        public int Invoke(JoinB x) => x.Id;
+    }
+
+    public struct JointABSelector : IFunc<JoinA, JoinB, JointAB>
+    {
+        public JointAB Invoke(JoinA a, JoinB b) => new JointAB { ValA = a.Val, ValB = b.Val };
+    }
+
     public struct SelectFirst : IFunc<Order, int>
     {
         public int Invoke(Order x) => x.First;
