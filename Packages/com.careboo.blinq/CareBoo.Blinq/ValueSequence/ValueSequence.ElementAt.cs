@@ -3,7 +3,7 @@
     public static partial class Sequence
     {
         public static T ElementAt<T, TSource>(
-            this ref ValueSequence<T, TSource> source,
+            this ValueSequence<T, TSource> source,
             int index
             )
             where T : struct
@@ -14,7 +14,7 @@
         }
 
         public static T ElementAtOrDefault<T, TSource>(
-            this ref ValueSequence<T, TSource> source,
+            this ValueSequence<T, TSource> source,
             int index,
             T defaultVal = default
             )

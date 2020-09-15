@@ -12,8 +12,7 @@ namespace CareBoo.Blinq
            where T : unmanaged, IEquatable<T>
            where TSecond : struct, ISequence<T>
         {
-            var seq = source.ToValueSequence();
-            return seq.Union(second);
+            return source.ToValueSequence().Union(second);
         }
 
         public static ValueSequence<T, UnionSequence<T, NativeArraySequence<T>, NativeArraySequence<T>>> Union<T>(
@@ -22,8 +21,7 @@ namespace CareBoo.Blinq
            )
            where T : unmanaged, IEquatable<T>
         {
-            var seq = source.ToValueSequence();
-            return seq.Union(second);
+            return source.ToValueSequence().Union(second);
         }
 
     }

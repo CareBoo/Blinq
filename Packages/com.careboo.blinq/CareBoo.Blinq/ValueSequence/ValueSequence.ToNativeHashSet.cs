@@ -6,7 +6,7 @@ namespace CareBoo.Blinq
     public static partial class Sequence
     {
         public static NativeHashSet<T> ToNativeHashSet<T, TSource>(
-            this ref ValueSequence<T, TSource> source,
+            this ValueSequence<T, TSource> source,
             Allocator allocator
             )
             where T : unmanaged, IEquatable<T>

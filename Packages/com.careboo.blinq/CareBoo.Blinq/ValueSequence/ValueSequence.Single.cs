@@ -6,7 +6,7 @@ namespace CareBoo.Blinq
     public static partial class Sequence
     {
         public static T Single<T, TSource, TPredicate>(
-            this ref ValueSequence<T, TSource> source,
+            this ValueSequence<T, TSource> source,
             ValueFunc<T, bool>.Impl<TPredicate> predicate
             )
             where T : unmanaged, IEquatable<T>
@@ -29,7 +29,7 @@ namespace CareBoo.Blinq
         }
 
         public static T SingleOrDefault<T, TSource, TPredicate>(
-            this ref ValueSequence<T, TSource> source,
+            this ValueSequence<T, TSource> source,
             ValueFunc<T, bool>.Impl<TPredicate> predicate,
             T defaultVal = default
             )
@@ -53,7 +53,7 @@ namespace CareBoo.Blinq
         }
 
         public static T Single<T, TSource>(
-            this ref ValueSequence<T, TSource> source
+            this ValueSequence<T, TSource> source
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -67,7 +67,7 @@ namespace CareBoo.Blinq
         }
 
         public static T SingleOrDefault<T, TSource>(
-            this ref ValueSequence<T, TSource> source,
+            this ValueSequence<T, TSource> source,
             T defaultVal = default
             )
             where T : struct

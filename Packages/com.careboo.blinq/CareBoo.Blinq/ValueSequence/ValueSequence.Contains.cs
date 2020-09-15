@@ -6,7 +6,7 @@ namespace CareBoo.Blinq
     public static partial class Sequence
     {
         public static bool Contains<T, TSource>(
-            this ref ValueSequence<T, TSource> source,
+            this ValueSequence<T, TSource> source,
             T item
             )
             where T : struct, IEquatable<T>
@@ -20,7 +20,7 @@ namespace CareBoo.Blinq
         }
 
         public static bool Contains<T, TSource, TComparer>(
-            this ref ValueSequence<T, TSource> source,
+            this ValueSequence<T, TSource> source,
             T item,
             TComparer comparer
             )

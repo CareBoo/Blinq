@@ -5,7 +5,7 @@ namespace CareBoo.Blinq
     public static partial class Sequence
     {
         public static ValueSequence<TResult, SelectIndexSequence<T, TSource, TResult, TSelector>> Select<T, TSource, TResult, TSelector>(
-            this ref ValueSequence<T, TSource> source,
+            this ValueSequence<T, TSource> source,
             ValueFunc<T, int, TResult>.Impl<TSelector> selector
             )
             where T : struct
@@ -18,7 +18,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueSequence<TResult, SelectSequence<T, TSource, TResult, TSelector>> Select<T, TSource, TResult, TSelector>(
-            this ref ValueSequence<T, TSource> source,
+            this ValueSequence<T, TSource> source,
             ValueFunc<T, TResult>.Impl<TSelector> selector
             )
             where T : struct

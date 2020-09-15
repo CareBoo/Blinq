@@ -12,8 +12,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TPredicate : struct, IFunc<T, int, bool>
         {
-            var seq = source.ToValueSequence();
-            return seq.Where(predicate);
+            return source.ToValueSequence().Where(predicate);
         }
 
         public static ValueSequence<T, WhereSequence<T, NativeArraySequence<T>, TPredicate>> Where<T, TPredicate>(
@@ -23,8 +22,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TPredicate : struct, IFunc<T, bool>
         {
-            var seq = source.ToValueSequence();
-            return seq.Where(predicate);
+            return source.ToValueSequence().Where(predicate);
         }
     }
 }

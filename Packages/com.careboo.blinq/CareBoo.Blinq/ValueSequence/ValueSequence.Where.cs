@@ -5,7 +5,7 @@ namespace CareBoo.Blinq
     public static partial class Sequence
     {
         public static ValueSequence<T, WhereIndexSequence<T, TSource, TPredicate>> Where<T, TSource, TPredicate>(
-            this ref ValueSequence<T, TSource> source,
+            this ValueSequence<T, TSource> source,
             ValueFunc<T, int, bool>.Impl<TPredicate> predicate
             )
             where T : struct
@@ -17,7 +17,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueSequence<T, WhereSequence<T, TSource, TPredicate>> Where<T, TSource, TPredicate>(
-            this ref ValueSequence<T, TSource> source,
+            this ValueSequence<T, TSource> source,
             ValueFunc<T, bool>.Impl<TPredicate> predicate
             )
             where T : struct
