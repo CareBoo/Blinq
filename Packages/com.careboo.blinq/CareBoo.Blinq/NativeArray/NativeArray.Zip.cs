@@ -15,8 +15,7 @@ namespace CareBoo.Blinq
             where TSecond : struct, ISequence<TSecondElement>
             where TResultSelector : struct, IFunc<T, TSecondElement, TResult>
         {
-            var seq = source.ToValueSequence();
-            return seq.Zip(secondSequence, resultSelector);
+            return source.ToValueSequence().Zip(secondSequence, resultSelector);
         }
     }
 }

@@ -6,7 +6,7 @@ namespace CareBoo.Blinq
     public static partial class Sequence
     {
         public static ValueSequence<T, UnionSequence<T, TSource, TSecond>> Union<T, TSource, TSecond>(
-            this ref ValueSequence<T, TSource> source,
+            this ValueSequence<T, TSource> source,
             ValueSequence<T, TSecond> second
             )
             where T : unmanaged, IEquatable<T>
@@ -18,7 +18,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueSequence<T, UnionSequence<T, TSource, NativeArraySequence<T>>> Union<T, TSource>(
-            this ref ValueSequence<T, TSource> source,
+            this ValueSequence<T, TSource> source,
             NativeArray<T> second
             )
             where T : unmanaged, IEquatable<T>

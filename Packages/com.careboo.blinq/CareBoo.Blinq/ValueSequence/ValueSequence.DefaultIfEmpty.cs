@@ -5,7 +5,7 @@ namespace CareBoo.Blinq
     public static partial class Sequence
     {
         public static ValueSequence<T, DefaultIfEmptySequence<T, TSource>> DefaultIfEmpty<T, TSource>(
-            this ref ValueSequence<T, TSource> source,
+            this ValueSequence<T, TSource> source,
             T defaultVal = default
             )
             where T : struct

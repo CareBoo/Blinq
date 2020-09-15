@@ -5,7 +5,7 @@ namespace CareBoo.Blinq
     public static partial class Sequence
     {
         public static ValueSequence<T, ConcatSequence<T, TSource, TSecond>> Concat<T, TSource, TSecond>(
-            this ref ValueSequence<T, TSource> source,
+            this ValueSequence<T, TSource> source,
             TSecond second
             )
             where T : struct

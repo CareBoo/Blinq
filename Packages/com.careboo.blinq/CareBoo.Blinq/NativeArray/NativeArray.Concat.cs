@@ -1,5 +1,4 @@
-﻿using System;
-using Unity.Collections;
+﻿using Unity.Collections;
 
 namespace CareBoo.Blinq
 {
@@ -12,8 +11,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSecond : struct, ISequence<T>
         {
-            var seq = source.ToValueSequence();
-            return seq.Concat(second);
+            return source.ToValueSequence().Concat(second);
         }
     }
 }

@@ -3,7 +3,7 @@
     public static partial class Sequence
     {
         public static bool All<T, TSource, TPredicate>(
-            this ref ValueSequence<T, TSource> source,
+            this ValueSequence<T, TSource> source,
             ValueFunc<T, bool>.Impl<TPredicate> predicate
             )
             where T : struct

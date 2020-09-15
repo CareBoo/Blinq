@@ -1,5 +1,4 @@
-﻿using System;
-using Unity.Collections;
+﻿using Unity.Collections;
 
 namespace CareBoo.Blinq
 {
@@ -8,8 +7,7 @@ namespace CareBoo.Blinq
         public static ValueSequence<T, AppendSequence<T, NativeArraySequence<T>>> Append<T>(this ref NativeArray<T> source, T item)
             where T : struct
         {
-            var seq = source.ToValueSequence();
-            return seq.Append(item);
+            return source.ToValueSequence().Append(item);
         }
     }
 }

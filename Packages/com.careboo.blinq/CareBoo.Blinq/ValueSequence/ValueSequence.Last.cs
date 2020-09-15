@@ -3,7 +3,7 @@
     public static partial class Sequence
     {
         public static T Last<T, TSource, TPredicate>(
-            this ref ValueSequence<T, TSource> source,
+            this ValueSequence<T, TSource> source,
             ValueFunc<T, bool>.Impl<TPredicate> predicate
             )
             where T : struct
@@ -21,7 +21,7 @@
         }
 
         public static T LastOrDefault<T, TSource, TPredicate>(
-            this ref ValueSequence<T, TSource> source,
+            this ValueSequence<T, TSource> source,
             ValueFunc<T, bool>.Impl<TPredicate> predicate,
             T defaultVal = default
             )
@@ -40,7 +40,7 @@
         }
 
         public static T Last<T, TSource>(
-            this ref ValueSequence<T, TSource> source
+            this ValueSequence<T, TSource> source
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -50,7 +50,7 @@
         }
 
         public static T LastOrDefault<T, TSource>(
-            this ref ValueSequence<T, TSource> source,
+            this ValueSequence<T, TSource> source,
             T defaultVal = default
             )
             where T : struct

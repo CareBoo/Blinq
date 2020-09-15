@@ -1,5 +1,4 @@
-﻿using System;
-using Unity.Collections;
+﻿using Unity.Collections;
 
 namespace CareBoo.Blinq
 {
@@ -11,8 +10,7 @@ namespace CareBoo.Blinq
             )
             where T : struct
         {
-            var seq = source.ToValueSequence();
-            return seq.DefaultIfEmpty(defaultVal);
+            return source.ToValueSequence().DefaultIfEmpty(defaultVal);
         }
     }
 }

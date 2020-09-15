@@ -3,7 +3,7 @@
     public static partial class Sequence
     {
         public static TResult Aggregate<T, TSource, TAccumulate, TResult, TFunc, TResultSelector>(
-            this ref ValueSequence<T, TSource> source,
+            this ValueSequence<T, TSource> source,
             TAccumulate seed,
             ValueFunc<TAccumulate, T, TAccumulate>.Impl<TFunc> func,
             ValueFunc<TAccumulate, TResult>.Impl<TResultSelector> resultSelector
@@ -22,7 +22,7 @@
         }
 
         public static TAccumulate Aggregate<T, TSource, TAccumulate, TFunc>(
-            this ref ValueSequence<T, TSource> source,
+            this ValueSequence<T, TSource> source,
             TAccumulate seed,
             ValueFunc<TAccumulate, T, TAccumulate>.Impl<TFunc> func
             )
@@ -38,7 +38,7 @@
         }
 
         public static T Aggregate<T, TSource, TFunc>(
-            this ref ValueSequence<T, TSource> source,
+            this ValueSequence<T, TSource> source,
             ValueFunc<T, T, T>.Impl<TFunc> func
             )
             where T : struct

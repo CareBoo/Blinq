@@ -1,5 +1,4 @@
-﻿using System;
-using Unity.Collections;
+﻿using Unity.Collections;
 
 namespace CareBoo.Blinq
 {
@@ -13,8 +12,7 @@ namespace CareBoo.Blinq
             where TResult : struct
             where TPredicate : struct, IFunc<T, int, TResult>
         {
-            var seq = source.ToValueSequence();
-            return seq.Select(selector);
+            return source.ToValueSequence().Select(selector);
         }
 
         public static ValueSequence<TResult, SelectSequence<T, NativeArraySequence<T>, TResult, TPredicate>> Select<T, TResult, TPredicate>(
@@ -25,8 +23,7 @@ namespace CareBoo.Blinq
             where TResult : struct
             where TPredicate : struct, IFunc<T, TResult>
         {
-            var seq = source.ToValueSequence();
-            return seq.Select(selector);
+            return source.ToValueSequence().Select(selector);
         }
     }
 }
