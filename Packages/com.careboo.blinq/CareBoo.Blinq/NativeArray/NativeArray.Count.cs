@@ -4,7 +4,10 @@ namespace CareBoo.Blinq
 {
     public static partial class Sequence
     {
-        public static int Count<T, TPredicate>(this ref NativeArray<T> source, TPredicate predicate = default)
+        public static int Count<T, TPredicate>(
+            this ref NativeArray<T> source,
+            ValueFunc<T, bool>.Impl<TPredicate> predicate
+            )
             where T : struct
             where TPredicate : struct, IFunc<T, bool>
         {
