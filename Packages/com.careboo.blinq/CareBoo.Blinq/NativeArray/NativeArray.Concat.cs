@@ -13,5 +13,14 @@ namespace CareBoo.Blinq
         {
             return source.ToValueSequence().Concat(second);
         }
+
+        public static ValueSequence<T, ConcatSequence<T, NativeArraySequence<T>, NativeArraySequence<T>>> Concat<T>(
+            this ref NativeArray<T> source,
+            NativeArray<T> second
+            )
+            where T : struct
+        {
+            return source.ToValueSequence().Concat(second);
+        }
     }
 }

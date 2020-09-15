@@ -3,6 +3,9 @@ using Unity.Mathematics;
 
 internal static class ValueFuncs
 {
+    public readonly static ValueFunc<int, int>.Impl<Functions.ReturnSelf> ReturnSelf =
+        ValueFunc<int, int>.CreateImpl<Functions.ReturnSelf>();
+
     public readonly static ValueFunc<int, bool>.Impl<Functions.EqualsOne> EqualsOne =
         ValueFunc<int, bool>.CreateImpl<Functions.EqualsOne>();
 
@@ -30,6 +33,11 @@ internal static class ValueFuncs
 
 internal static class Functions
 {
+    public struct ReturnSelf : IFunc<int, int>
+    {
+        public int Invoke(int x) => x;
+    }
+
     public struct EqualsOne : IFunc<int, bool>
     {
         public bool Invoke(int x)
