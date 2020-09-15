@@ -68,6 +68,8 @@ internal struct Order : IEquatable<Order>
     {
         return other.First == First && other.Second == Second;
     }
+
+    public override string ToString() => $"Order({First},{Second})";
 }
 
 internal class OrderValuesAttribute : ValueSourceAttribute
