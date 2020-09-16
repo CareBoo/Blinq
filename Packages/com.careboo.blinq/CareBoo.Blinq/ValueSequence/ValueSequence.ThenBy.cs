@@ -15,9 +15,9 @@ namespace CareBoo.Blinq
             where TKey : struct, IComparable<TKey>
             where TKeySelector : struct, IFunc<T, TKey>
         {
-            var keyComparer = new KeyComparer<T, TKey, TKeySelector, DefaultComparer<TKey>>(keySelector);
-            var seq = new ThenBySequence<T, TSource, KeyComparer<T, TKey, TKeySelector, DefaultComparer<TKey>>>(source.Source, keyComparer);
-            return new ValueSequence<T, ThenBySequence<T, TSource, KeyComparer<T, TKey, TKeySelector, DefaultComparer<TKey>>>>(seq);
+            var keyComparer = KeyComparer.New(keySelector, default(DefaultComparer<TKey>));
+            var seq = ThenBySequence<T>.New(source.Source, keyComparer);
+            return ValueSequence<T>.New(seq);
         }
 
         public static ValueSequence<T, ThenBySequence<T, TSource, KeyComparer<T, TKey, TKeySelector, TComparer>>> ThenBy<T, TSource, TKey, TKeySelector, TComparer>(
@@ -31,9 +31,9 @@ namespace CareBoo.Blinq
             where TKeySelector : struct, IFunc<T, TKey>
             where TComparer : struct, IComparer<TKey>
         {
-            var keyComparer = new KeyComparer<T, TKey, TKeySelector, TComparer>(keySelector, comparer);
-            var seq = new ThenBySequence<T, TSource, KeyComparer<T, TKey, TKeySelector, TComparer>>(source.Source, keyComparer);
-            return new ValueSequence<T, ThenBySequence<T, TSource, KeyComparer<T, TKey, TKeySelector, TComparer>>>(seq);
+            var keyComparer = KeyComparer.New(keySelector, comparer);
+            var seq = ThenBySequence<T>.New(source.Source, keyComparer);
+            return ValueSequence<T>.New(seq);
         }
     }
 
@@ -49,7 +49,7 @@ namespace CareBoo.Blinq
         public ThenBySequence(TSource source, TComparer comparer)
         {
             this.source = source;
-            this.comparer = new ThenByComparer<T, TSource, TComparer>(source, comparer);
+            this.comparer = ThenByComparer<T>.New(source, comparer);
         }
 
         public int Compare(T x, T y)
@@ -67,6 +67,17 @@ namespace CareBoo.Blinq
         public NativeList<T> ExecuteUnordered()
         {
             return source.ExecuteUnordered();
+        }
+    }
+
+    public static class ThenBySequence<T>
+        where T : struct
+    {
+        public static ThenBySequence<T, TSource, TComparer> New<TSource, TComparer>(TSource source, TComparer comparer)
+            where TSource : struct, IOrderedSequence<T>
+            where TComparer : struct, IComparer<T>
+        {
+            return new ThenBySequence<T, TSource, TComparer>(source, comparer);
         }
     }
 
@@ -90,6 +101,20 @@ namespace CareBoo.Blinq
             if (firstComparison != 0) return firstComparison;
 
             return secondComparer.Compare(x, y);
+        }
+    }
+
+    public static class ThenByComparer<T>
+        where T : struct
+    {
+        public static ThenByComparer<T, TFirstComparer, TSecondComparer> New<TFirstComparer, TSecondComparer>(
+            TFirstComparer firstComparer,
+            TSecondComparer secondComparer
+            )
+            where TFirstComparer : struct, IComparer<T>
+            where TSecondComparer : struct, IComparer<T>
+        {
+            return new ThenByComparer<T, TFirstComparer, TSecondComparer>(firstComparer, secondComparer);
         }
     }
 }

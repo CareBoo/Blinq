@@ -53,4 +53,14 @@ namespace CareBoo.Blinq
             return GetEnumerator();
         }
     }
+
+    public static class ValueSequence<T>
+        where T : struct
+    {
+        public static ValueSequence<T, TSource> New<TSource>(TSource source)
+            where TSource : struct, ISequence<T>
+        {
+            return new ValueSequence<T, TSource>(source);
+        }
+    }
 }

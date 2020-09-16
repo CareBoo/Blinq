@@ -54,4 +54,14 @@ namespace CareBoo.Blinq
             return comparer.Compare(y, x);
         }
     }
+
+    public static class Descending<T>
+        where T : struct
+    {
+        public static Descending<T, TComparer> New<TComparer>(TComparer comparer)
+            where TComparer : struct, IComparer<T>
+        {
+            return new Descending<T, TComparer>(comparer);
+        }
+    }
 }
