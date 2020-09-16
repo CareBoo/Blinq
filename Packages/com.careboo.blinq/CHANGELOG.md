@@ -1,3 +1,11 @@
+# [1.0.0-preview.20](https://github.com/CareBoo/Blinq/compare/v1.0.0-preview.19...v1.0.0-preview.20) (2020-09-16)
+
+
+### Features
+
+* :sparkles: Add IOrderedSequence interface ([d118a54](https://github.com/CareBoo/Blinq/commit/d118a54b07a8e1d3f21f18a96a99c0e6a11df2b5))
+* :sparkles: Implement ThenBy ([9f9d50a](https://github.com/CareBoo/Blinq/commit/9f9d50a6fff4bbc7e97551117a5c42cf7d2b831c)), closes [#29](https://github.com/CareBoo/Blinq/issues/29)
+
 # [1.0.0-preview.19](https://github.com/CareBoo/Blinq/compare/v1.0.0-preview.18...v1.0.0-preview.19) (2020-09-15)
 
 
