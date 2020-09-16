@@ -8,15 +8,6 @@ using CareBoo.Blinq;
 
 internal class ThenByTest
 {
-    [Test, Parallelizable]
-    public void BlinqShouldEqualLinqNativeArrayThenBy([OrderValues] Order[] sourceArr)
-    {
-        var source = new NativeArray<Order>(sourceArr, Allocator.Persistent);
-        var expected = ExceptionAndValue(() => Linq.ToArray(Linq.ThenBy(Linq.OrderBy(source, SelectSecond.Invoke), SelectFirst.Invoke)));
-        var actual = ExceptionAndValue(() => Linq.ToArray(Blinq.ThenBy(Blinq.OrderBy(ref source, SelectSecond), SelectFirst)));
-        AssertAreEqual(expected, actual);
-        source.Dispose();
-    }
 
     [Test, Parallelizable]
     public void BlinqShouldEqualLinqValueSequenceThenBy([OrderValues] Order[] sourceArr)
@@ -27,16 +18,6 @@ internal class ThenByTest
         var actual = ExceptionAndValue(() => Linq.ToArray(Blinq.ThenBy(Blinq.OrderBy(source, SelectSecond), SelectFirst)));
         AssertAreEqual(expected, actual);
         sourceNativeArr.Dispose();
-    }
-
-    [Test, Parallelizable]
-    public void BlinqShouldEqualLinqNativeArrayThenByDescending([OrderValues] Order[] sourceArr)
-    {
-        var source = new NativeArray<Order>(sourceArr, Allocator.Persistent);
-        var expected = ExceptionAndValue(() => Linq.ToArray(Linq.ThenByDescending(Linq.OrderBy(source, SelectFirst.Invoke), SelectSecond.Invoke)));
-        var actual = ExceptionAndValue(() => Linq.ToArray(Blinq.ThenByDescending(Blinq.OrderBy(ref source, SelectFirst), SelectSecond)));
-        AssertAreEqual(expected, actual);
-        source.Dispose();
     }
 
     [Test, Parallelizable]
