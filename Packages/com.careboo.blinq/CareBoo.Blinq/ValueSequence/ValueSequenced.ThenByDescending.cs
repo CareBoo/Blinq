@@ -5,30 +5,36 @@ namespace CareBoo.Blinq
 {
     public static partial class Sequence
     {
-        public static ValueSequence<T, OrderByDescendingSequence<T, TSource, TKey, TKeySelector>> ThenByDescending<T, TSource, TKey, TKeySelector>(
+        public static ValueSequence<T, ThenBySequence<T, TSource, Descending<T, KeyComparer<T, TKey, TKeySelector, DefaultComparer<TKey>>>>> ThenByDescending<T, TSource, TKey, TKeySelector>(
             this ValueSequence<T, TSource> source,
             ValueFunc<T, TKey>.Impl<TKeySelector> keySelector
             )
             where T : struct
-            where TSource : struct, ISequence<T>
+            where TSource : struct, IOrderedSequence<T>
             where TKey : struct, IComparable<TKey>
             where TKeySelector : struct, IFunc<T, TKey>
         {
-            return source.OrderByDescending(keySelector);
+            var keyComparer = new KeyComparer<T, TKey, TKeySelector, DefaultComparer<TKey>>(keySelector);
+            var descending = new Descending<T, KeyComparer<T, TKey, TKeySelector, DefaultComparer<TKey>>>(keyComparer);
+            var seq = new ThenBySequence<T, TSource, Descending<T, KeyComparer<T, TKey, TKeySelector, DefaultComparer<TKey>>>>(source.Source, descending);
+            return new ValueSequence<T, ThenBySequence<T, TSource, Descending<T, KeyComparer<T, TKey, TKeySelector, DefaultComparer<TKey>>>>>(seq);
         }
 
-        public static ValueSequence<T, OrderByComparerDescendingSequence<T, TSource, TKey, TKeySelector, TComparer>> ThenByDescending<T, TSource, TKey, TKeySelector, TComparer>(
+        public static ValueSequence<T, ThenBySequence<T, TSource, Descending<T, KeyComparer<T, TKey, TKeySelector, TComparer>>>> ThenByDescending<T, TSource, TKey, TKeySelector, TComparer>(
             this ValueSequence<T, TSource> source,
             ValueFunc<T, TKey>.Impl<TKeySelector> keySelector,
             TComparer comparer
             )
             where T : struct
-            where TSource : struct, ISequence<T>
+            where TSource : struct, IOrderedSequence<T>
             where TKey : struct
             where TKeySelector : struct, IFunc<T, TKey>
             where TComparer : struct, IComparer<TKey>
         {
-            return source.OrderByDescending(keySelector, comparer);
+            var keyComparer = new KeyComparer<T, TKey, TKeySelector, TComparer>(keySelector, comparer);
+            var descending = new Descending<T, KeyComparer<T, TKey, TKeySelector, TComparer>>(keyComparer);
+            var seq = new ThenBySequence<T, TSource, Descending<T, KeyComparer<T, TKey, TKeySelector, TComparer>>>(source.Source, descending);
+            return new ValueSequence<T, ThenBySequence<T, TSource, Descending<T, KeyComparer<T, TKey, TKeySelector, TComparer>>>>(seq);
         }
     }
 }
