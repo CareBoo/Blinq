@@ -35,7 +35,8 @@ namespace CareBoo.Blinq
         }
     }
 
-    public struct OrderBySequence<T, TSource, TKey, TKeySelector> : ISequence<T>
+    public struct OrderBySequence<T, TSource, TKey, TKeySelector>
+        : IOrderedSequence<T, KeyComparer<T, TKey, TKeySelector>>
         where T : struct
         where TSource : struct, ISequence<T>
         where TKey : struct, IComparable<TKey>
@@ -47,13 +48,19 @@ namespace CareBoo.Blinq
         public NativeList<T> Execute()
         {
             var list = Source.Execute();
-            var comparer = new KeyComparer<T, TKey, TKeySelector> { KeySelector = KeySelector };
+            var comparer = GetComparer();
             list.Sort(comparer);
             return list;
         }
+
+        public KeyComparer<T, TKey, TKeySelector> GetComparer()
+        {
+            return new KeyComparer<T, TKey, TKeySelector> { KeySelector = KeySelector };
+        }
     }
 
-    public struct OrderByComparerSequence<T, TSource, TKey, TKeySelector, TComparer> : ISequence<T>
+    public struct OrderByComparerSequence<T, TSource, TKey, TKeySelector, TComparer>
+        : IOrderedSequence<T, KeyComparer<T, TKey, TKeySelector, TComparer>>
         where T : struct
         where TSource : struct, ISequence<T>
         where TKey : struct
@@ -67,9 +74,14 @@ namespace CareBoo.Blinq
         public NativeList<T> Execute()
         {
             var list = Source.Execute();
-            var comparer = new KeyComparer<T, TKey, TKeySelector, TComparer> { KeySelector = KeySelector, Comparer = Comparer };
+            var comparer = GetComparer();
             list.Sort(comparer);
             return list;
+        }
+
+        public KeyComparer<T, TKey, TKeySelector, TComparer> GetComparer()
+        {
+            return new KeyComparer<T, TKey, TKeySelector, TComparer> { KeySelector = KeySelector, Comparer = Comparer };
         }
     }
 

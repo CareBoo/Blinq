@@ -5,12 +5,6 @@ using Unity.Jobs;
 
 namespace CareBoo.Blinq
 {
-    public interface ISequence<T>
-        where T : struct
-    {
-        NativeList<T> Execute();
-    }
-
     public struct ValueSequence<T, TSource>
         : IEnumerable<T>
         , ISequence<T>

@@ -35,7 +35,8 @@ namespace CareBoo.Blinq
         }
     }
 
-    public struct OrderByDescendingSequence<T, TSource, TKey, TKeySelector> : ISequence<T>
+    public struct OrderByDescendingSequence<T, TSource, TKey, TKeySelector>
+        : IOrderedSequence<T, Descending<T, KeyComparer<T, TKey, TKeySelector>>>
         where T : struct
         where TSource : struct, ISequence<T>
         where TKey : struct, IComparable<TKey>
@@ -47,14 +48,20 @@ namespace CareBoo.Blinq
         public NativeList<T> Execute()
         {
             var list = Source.Execute();
-            var comparer = new KeyComparer<T, TKey, TKeySelector> { KeySelector = KeySelector };
-            var descending = new Descending<T, KeyComparer<T, TKey, TKeySelector>> { Comparer = comparer };
-            list.Sort(descending);
+            var comparer = GetComparer();
+            list.Sort(comparer);
             return list;
+        }
+
+        public Descending<T, KeyComparer<T, TKey, TKeySelector>> GetComparer()
+        {
+            var comparer = new KeyComparer<T, TKey, TKeySelector> { KeySelector = KeySelector };
+            return new Descending<T, KeyComparer<T, TKey, TKeySelector>> { Comparer = comparer };
         }
     }
 
-    public struct OrderByComparerDescendingSequence<T, TSource, TKey, TKeySelector, TComparer> : ISequence<T>
+    public struct OrderByComparerDescendingSequence<T, TSource, TKey, TKeySelector, TComparer>
+        : IOrderedSequence<T, Descending<T, KeyComparer<T, TKey, TKeySelector, TComparer>>>
         where T : struct
         where TSource : struct, ISequence<T>
         where TKey : struct
@@ -68,10 +75,15 @@ namespace CareBoo.Blinq
         public NativeList<T> Execute()
         {
             var list = Source.Execute();
-            var comparer = new KeyComparer<T, TKey, TKeySelector, TComparer> { KeySelector = KeySelector, Comparer = Comparer };
-            var descending = new Descending<T, KeyComparer<T, TKey, TKeySelector, TComparer>> { Comparer = comparer };
-            list.Sort(descending);
+            var comparer = GetComparer();
+            list.Sort(comparer);
             return list;
+        }
+
+        public Descending<T, KeyComparer<T, TKey, TKeySelector, TComparer>> GetComparer()
+        {
+            var comparer = new KeyComparer<T, TKey, TKeySelector, TComparer> { KeySelector = KeySelector, Comparer = Comparer };
+            return new Descending<T, KeyComparer<T, TKey, TKeySelector, TComparer>> { Comparer = comparer };
         }
     }
 
