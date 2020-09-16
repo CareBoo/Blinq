@@ -6,7 +6,7 @@ namespace CareBoo.Blinq
 {
     public static partial class Sequence
     {
-        public static ValueSequence<T, OrderByDescendingSequence<T, NativeArraySequence<T>, TKey, TKeySelector>> OrderByDescending<T, TKey, TKeySelector>(
+        public static ValueSequence<T, OrderBySequence<T, NativeArraySequence<T>, Descending<T, KeyComparer<T, TKey, TKeySelector, DefaultComparer<TKey>>>>> OrderByDescending<T, TKey, TKeySelector>(
             this ref NativeArray<T> source,
             ValueFunc<T, TKey>.Impl<TKeySelector> keySelector
             )
@@ -17,7 +17,7 @@ namespace CareBoo.Blinq
             return source.ToValueSequence().OrderByDescending(keySelector);
         }
 
-        public static ValueSequence<T, OrderByComparerDescendingSequence<T, NativeArraySequence<T>, TKey, TKeySelector, TComparer>> OrderByDescending<T, TKey, TKeySelector, TComparer>(
+        public static ValueSequence<T, OrderBySequence<T, NativeArraySequence<T>, Descending<T, KeyComparer<T, TKey, TKeySelector, TComparer>>>> OrderByDescending<T, TKey, TKeySelector, TComparer>(
             this ref NativeArray<T> source,
             ValueFunc<T, TKey>.Impl<TKeySelector> keySelector,
             TComparer comparer

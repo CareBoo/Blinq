@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
+using Unity.Collections;
 
 namespace CareBoo.Blinq
 {
-    public interface IOrderedSequence<T, TComparer>
+    public interface IOrderedSequence<T>
         : ISequence<T>
+        , IComparer<T>
         where T : struct
-        where TComparer : struct, IComparer<T>
     {
-        TComparer GetComparer();
+        NativeList<T> ExecuteUnordered();
     }
 }
