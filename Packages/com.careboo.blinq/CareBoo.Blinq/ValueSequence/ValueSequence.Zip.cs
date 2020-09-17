@@ -36,17 +36,17 @@ namespace CareBoo.Blinq
 
         public NativeList<TResult> Execute()
         {
-            var source = Source.Execute();
-            var second = Second.Execute();
-            var length = math.min(source.Length, second.Length);
-            var result = new NativeList<TResult>(length, Allocator.Temp);
-            for (var i = 0; i < length; i++)
+            using (var source = Source.Execute())
+            using (var second = Second.Execute())
             {
-                result.AddNoResize(ResultSelector.Invoke(source[i], second[i]));
+                var length = math.min(source.Length, second.Length);
+                var result = new NativeList<TResult>(length, Allocator.Temp);
+                for (var i = 0; i < length; i++)
+                {
+                    result.AddNoResize(ResultSelector.Invoke(source[i], second[i]));
+                }
+                return result;
             }
-            source.Dispose();
-            second.Dispose();
-            return result;
         }
     }
 }
