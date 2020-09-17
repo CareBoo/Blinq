@@ -1,3 +1,15 @@
+# [1.0.0-preview.22](https://github.com/CareBoo/Blinq/compare/v1.0.0-preview.21...v1.0.0-preview.22) (2020-09-17)
+
+
+### Bug Fixes
+
+* :bug: Fix NativeArray.Join API ([1d49715](https://github.com/CareBoo/Blinq/commit/1d497154018ffc3bf88fbc241d51b2e468500545))
+
+
+### Features
+
+* :sparkles: Implement GroupJoin ([3a20703](https://github.com/CareBoo/Blinq/commit/3a207038a4ad4008e28671d8c347676616abc345)), closes [#12](https://github.com/CareBoo/Blinq/issues/12)
+
 # [1.0.0-preview.21](https://github.com/CareBoo/Blinq/compare/v1.0.0-preview.20...v1.0.0-preview.21) (2020-09-17)
 
 
