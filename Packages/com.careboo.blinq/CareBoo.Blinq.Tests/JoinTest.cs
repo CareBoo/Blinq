@@ -59,7 +59,7 @@ internal class JoinTest
         var outer = new NativeArray<JoinA>(outerArr, Allocator.Persistent);
         var inner = new NativeArray<JoinB>(innerArr, Allocator.Persistent);
         var expected = ExceptionAndValue(() => Linq.ToArray(Linq.Join(outer, inner, JoinAKeySelector.Invoke, JoinBKeySelector.Invoke, JointABSelector.Invoke)));
-        var actual = ExceptionAndValue(() => Linq.ToArray(Blinq.Join(outer, inner, JoinAKeySelector, JoinBKeySelector, JointABSelector)));
+        var actual = ExceptionAndValue(() => Linq.ToArray(Blinq.Join(ref outer, inner, JoinAKeySelector, JoinBKeySelector, JointABSelector)));
         AssertAreEqual(expected, actual);
         outer.Dispose();
         inner.Dispose();
