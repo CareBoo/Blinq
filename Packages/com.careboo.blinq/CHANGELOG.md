@@ -1,3 +1,10 @@
+# [1.0.0-preview.21](https://github.com/CareBoo/Blinq/compare/v1.0.0-preview.20...v1.0.0-preview.21) (2020-09-17)
+
+
+### Features
+
+* :sparkles: Implement SelectMany ([43aaa5b](https://github.com/CareBoo/Blinq/commit/43aaa5b1858a17336728484bd47d342922f3ef23)), closes [#23](https://github.com/CareBoo/Blinq/issues/23)
+
 # [1.0.0-preview.20](https://github.com/CareBoo/Blinq/compare/v1.0.0-preview.19...v1.0.0-preview.20) (2020-09-16)
 
 
