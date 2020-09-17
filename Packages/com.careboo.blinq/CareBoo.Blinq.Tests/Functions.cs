@@ -13,6 +13,9 @@ internal static class ValueFuncs
     public readonly static ValueFunc<JoinA, JoinB, JointAB>.Impl<Functions.JointABSelector> JointABSelector =
         ValueFunc<JoinA, JoinB, JointAB>.CreateImpl<Functions.JointABSelector>();
 
+    public readonly static ValueFunc<JoinA, NativeArray<JoinB>, int>.Impl<Functions.GroupJoinABSelector> GroupJoinABSelector =
+        ValueFunc<JoinA, NativeArray<JoinB>, int>.CreateImpl<Functions.GroupJoinABSelector>();
+
     public readonly static ValueFunc<int, int>.Impl<Functions.ReturnSelf> ReturnSelf =
         ValueFunc<int, int>.CreateImpl<Functions.ReturnSelf>();
 
@@ -68,6 +71,11 @@ internal static class Functions
     public struct JointABSelector : IFunc<JoinA, JoinB, JointAB>
     {
         public JointAB Invoke(JoinA a, JoinB b) => new JointAB { ValA = a.Val, ValB = b.Val };
+    }
+
+    public struct GroupJoinABSelector : IFunc<JoinA, NativeArray<JoinB>, int>
+    {
+        public int Invoke(JoinA a, NativeArray<JoinB> bArr) => bArr.Length;
     }
 
     public struct SelectFirst : IFunc<Order, int>
