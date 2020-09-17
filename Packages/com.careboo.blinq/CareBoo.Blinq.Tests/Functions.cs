@@ -1,4 +1,5 @@
 ﻿using CareBoo.Blinq;
+using Unity.Collections;
 using Unity.Mathematics;
 
 internal static class ValueFuncs
@@ -44,6 +45,12 @@ internal static class ValueFuncs
 
     public static readonly ValueFunc<Order, int>.Impl<Functions.SelectSecond> SelectSecond =
         ValueFunc<Order, int>.CreateImpl<Functions.SelectSecond>();
+
+    public static readonly ValueFunc<int, NativeArray<int>>.Impl<Functions.RepeatAmount> RepeatAmount =
+        ValueFunc<int, NativeArray<int>>.CreateImpl<Functions.RepeatAmount>();
+
+    public static readonly ValueFunc<int, int, NativeArray<int>>.Impl<Functions.RepeatAmountPlusIndex> RepeatAmountPlusIndex =
+        ValueFunc<int, int, NativeArray<int>>.CreateImpl<Functions.RepeatAmountPlusIndex>();
 }
 
 internal static class Functions
@@ -122,5 +129,27 @@ internal static class Functions
     public struct IntToLong : IFunc<int, long>
     {
         public long Invoke(int x) => math.aslong(x);
+    }
+
+    public struct RepeatAmount : IFunc<int, NativeArray<int>>
+    {
+        public NativeArray<int> Invoke(int x)
+        {
+            var arr = new NativeArray<int>(x, Allocator.Temp);
+            for (var i = 0; i < x; i++)
+                arr[i] = x;
+            return arr;
+        }
+    }
+
+    public struct RepeatAmountPlusIndex : IFunc<int, int, NativeArray<int>>
+    {
+        public NativeArray<int> Invoke(int x, int index)
+        {
+            var arr = new NativeArray<int>(x, Allocator.Temp);
+            for (var i = 0; i < x; i++)
+                arr[i] = x + index;
+            return arr;
+        }
     }
 }
