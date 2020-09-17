@@ -12,7 +12,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
         {
             var seq = new TakeSequence<T, TSource> { Source = source.Source, Count = count };
-            return new ValueSequence<T, TakeSequence<T, TSource>>(seq);
+            return ValueSequence<T>.New(seq);
         }
     }
 

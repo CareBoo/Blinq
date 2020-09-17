@@ -13,7 +13,7 @@ namespace CareBoo.Blinq
             where TPredicate : struct, IFunc<T, int, bool>
         {
             var seq = new TakeWhileIndexSequence<T, TSource, TPredicate> { Source = source.Source, Predicate = predicate };
-            return new ValueSequence<T, TakeWhileIndexSequence<T, TSource, TPredicate>>(seq);
+            return ValueSequence<T>.New(seq);
         }
 
         public static ValueSequence<T, TakeWhileSequence<T, TSource, TPredicate>> TakeWhile<T, TSource, TPredicate>(
@@ -25,7 +25,7 @@ namespace CareBoo.Blinq
             where TPredicate : struct, IFunc<T, bool>
         {
             var seq = new TakeWhileSequence<T, TSource, TPredicate> { Source = source.Source, Predicate = predicate };
-            return new ValueSequence<T, TakeWhileSequence<T, TSource, TPredicate>>(seq);
+            return ValueSequence<T>.New(seq);
         }
     }
 

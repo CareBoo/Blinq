@@ -13,7 +13,7 @@ namespace CareBoo.Blinq
             where TPredicate : struct, IFunc<T, int, bool>
         {
             var seq = new WhereIndexSequence<T, TSource, TPredicate> { Source = source.Source, Predicate = predicate };
-            return new ValueSequence<T, WhereIndexSequence<T, TSource, TPredicate>>(seq);
+            return ValueSequence<T>.New(seq);
         }
 
         public static ValueSequence<T, WhereSequence<T, TSource, TPredicate>> Where<T, TSource, TPredicate>(
@@ -25,7 +25,7 @@ namespace CareBoo.Blinq
             where TPredicate : struct, IFunc<T, bool>
         {
             var seq = new WhereSequence<T, TSource, TPredicate> { Source = source.Source, Predicate = predicate };
-            return new ValueSequence<T, WhereSequence<T, TSource, TPredicate>>(seq);
+            return ValueSequence<T>.New(seq);
         }
     }
 

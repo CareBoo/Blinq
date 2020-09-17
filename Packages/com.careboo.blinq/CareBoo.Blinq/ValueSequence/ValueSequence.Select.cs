@@ -14,7 +14,7 @@ namespace CareBoo.Blinq
             where TSelector : struct, IFunc<T, int, TResult>
         {
             var seq = new SelectIndexSequence<T, TSource, TResult, TSelector> { Source = source.Source, Selector = selector };
-            return new ValueSequence<TResult, SelectIndexSequence<T, TSource, TResult, TSelector>>(seq);
+            return ValueSequence<TResult>.New(seq);
         }
 
         public static ValueSequence<TResult, SelectSequence<T, TSource, TResult, TSelector>> Select<T, TSource, TResult, TSelector>(
@@ -27,7 +27,7 @@ namespace CareBoo.Blinq
             where TSelector : struct, IFunc<T, TResult>
         {
             var seq = new SelectSequence<T, TSource, TResult, TSelector> { Source = source.Source, Selector = selector };
-            return new ValueSequence<TResult, SelectSequence<T, TSource, TResult, TSelector>>(seq);
+            return ValueSequence<TResult>.New(seq);
         }
     }
 

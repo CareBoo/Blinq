@@ -7,7 +7,7 @@ namespace CareBoo.Blinq
         public static ValueSequence<int, RangeSequence> Range(int start, int count)
         {
             var seq = new RangeSequence { Start = start, Count = count };
-            return new ValueSequence<int, RangeSequence>(seq);
+            return ValueSequence<int>.New(seq);
         }
     }
 

@@ -12,7 +12,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
         {
             var seq = new DefaultIfEmptySequence<T, TSource> { Source = source.Source, Default = defaultVal };
-            return new ValueSequence<T, DefaultIfEmptySequence<T, TSource>>(seq);
+            return ValueSequence<T>.New(seq);
         }
     }
 

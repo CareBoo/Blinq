@@ -13,7 +13,7 @@ namespace CareBoo.Blinq
             where TSecond : struct, ISequence<T>
         {
             var newSequence = new ConcatSequence<T, TSource, TSecond> { Source = source.Source, Second = second };
-            return new ValueSequence<T, ConcatSequence<T, TSource, TSecond>>(newSequence);
+            return ValueSequence<T>.New(newSequence);
         }
 
         public static ValueSequence<T, ConcatSequence<T, TSource, NativeArraySequence<T>>> Concat<T, TSource>(
@@ -24,7 +24,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
         {
             var newSequence = new ConcatSequence<T, TSource, NativeArraySequence<T>> { Source = source.Source, Second = second.ToValueSequence().Source };
-            return new ValueSequence<T, ConcatSequence<T, TSource, NativeArraySequence<T>>>(newSequence);
+            return ValueSequence<T>.New(newSequence);
         }
 
     }

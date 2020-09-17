@@ -3,6 +3,25 @@ using Unity.Mathematics;
 
 namespace CareBoo.Blinq
 {
+    public static partial class Sequence
+    {
+        public static ValueSequence<TResult, ZipSequence<T, TSource, TSecondElement, TResult, TSecond, TResultSelector>> Zip<T, TSource, TSecondElement, TResult, TSecond, TResultSelector>(
+            this ValueSequence<T, TSource> source,
+            ValueSequence<TSecondElement, TSecond> second,
+            ValueFunc<T, TSecondElement, TResult>.Impl<TResultSelector> resultSelector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSecondElement : struct
+            where TResult : struct
+            where TSecond : struct, ISequence<TSecondElement>
+            where TResultSelector : struct, IFunc<T, TSecondElement, TResult>
+        {
+            var seq = new ZipSequence<T, TSource, TSecondElement, TResult, TSecond, TResultSelector> { Source = source.Source, Second = second.Source, ResultSelector = resultSelector };
+            return ValueSequence<TResult>.New(seq);
+        }
+    }
+
     public struct ZipSequence<T, TSource, TSecondElement, TResult, TSecond, TResultSelector> : ISequence<TResult>
         where T : struct
         where TSource : struct, ISequence<T>
@@ -29,25 +48,5 @@ namespace CareBoo.Blinq
             second.Dispose();
             return result;
         }
-    }
-
-    public static partial class Sequence
-    {
-        public static ValueSequence<TResult, ZipSequence<T, TSource, TSecondElement, TResult, TSecond, TResultSelector>> Zip<T, TSource, TSecondElement, TResult, TSecond, TResultSelector>(
-            this ValueSequence<T, TSource> source,
-            ValueSequence<TSecondElement, TSecond> second,
-            ValueFunc<T, TSecondElement, TResult>.Impl<TResultSelector> resultSelector
-            )
-            where T : struct
-            where TSource : struct, ISequence<T>
-            where TSecondElement : struct
-            where TResult : struct
-            where TSecond : struct, ISequence<TSecondElement>
-            where TResultSelector : struct, IFunc<T, TSecondElement, TResult>
-        {
-            var seq = new ZipSequence<T, TSource, TSecondElement, TResult, TSecond, TResultSelector> { Source = source.Source, Second = second.Source, ResultSelector = resultSelector };
-            return new ValueSequence<TResult, ZipSequence<T, TSource, TSecondElement, TResult, TSecond, TResultSelector>>(seq);
-        }
-
     }
 }
