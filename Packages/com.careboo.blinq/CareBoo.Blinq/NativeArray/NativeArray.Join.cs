@@ -6,7 +6,7 @@ namespace CareBoo.Blinq
     public static partial class Sequence
     {
         public static ValueSequence<TResult, JoinSequence<TOuter, NativeArraySequence<TOuter>, TInner, TInnerSequence, TKey, TOuterKeySelector, TInnerKeySelector, TResult, TResultSelector>> Join<TOuter, TInner, TInnerSequence, TKey, TOuterKeySelector, TInnerKeySelector, TResult, TResultSelector>(
-            this NativeArray<TOuter> outer,
+            this ref NativeArray<TOuter> outer,
             ValueSequence<TInner, TInnerSequence> inner,
             ValueFunc<TOuter, TKey>.Impl<TOuterKeySelector> outerKeySelector,
             ValueFunc<TInner, TKey>.Impl<TInnerKeySelector> innerKeySelector,
@@ -25,7 +25,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueSequence<TResult, JoinSequence<TOuter, NativeArraySequence<TOuter>, TInner, NativeArraySequence<TInner>, TKey, TOuterKeySelector, TInnerKeySelector, TResult, TResultSelector>> Join<TOuter, TInner, TKey, TOuterKeySelector, TInnerKeySelector, TResult, TResultSelector>(
-            this NativeArray<TOuter> outer,
+            this ref NativeArray<TOuter> outer,
             NativeArray<TInner> inner,
             ValueFunc<TOuter, TKey>.Impl<TOuterKeySelector> outerKeySelector,
             ValueFunc<TInner, TKey>.Impl<TInnerKeySelector> innerKeySelector,
