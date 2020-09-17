@@ -13,7 +13,7 @@ namespace CareBoo.Blinq
             where TPredicate : struct, IFunc<T, int, bool>
         {
             var seq = new SkipWhileIndexSequence<T, TSource, TPredicate> { Source = source.Source, Predicate = predicate };
-            return new ValueSequence<T, SkipWhileIndexSequence<T, TSource, TPredicate>>(seq);
+            return ValueSequence<T>.New(seq);
         }
 
         public static ValueSequence<T, SkipWhileSequence<T, TSource, TPredicate>> SkipWhile<T, TSource, TPredicate>(
@@ -25,7 +25,7 @@ namespace CareBoo.Blinq
             where TPredicate : struct, IFunc<T, bool>
         {
             var seq = new SkipWhileSequence<T, TSource, TPredicate> { Source = source.Source, Predicate = predicate };
-            return new ValueSequence<T, SkipWhileSequence<T, TSource, TPredicate>>(seq);
+            return ValueSequence<T>.New(seq);
         }
     }
 

@@ -11,7 +11,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
         {
             var seq = new ReverseSequence<T, TSource> { Source = source.Source };
-            return new ValueSequence<T, ReverseSequence<T, TSource>>(seq);
+            return ValueSequence<T>.New(seq);
         }
     }
 

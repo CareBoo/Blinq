@@ -14,7 +14,7 @@ namespace CareBoo.Blinq
             where TSecond : struct, ISequence<T>
         {
             var seq = new IntersectSequence<T, TSource, TSecond> { Source = source.Source, Second = second.Source };
-            return new ValueSequence<T, IntersectSequence<T, TSource, TSecond>>(seq);
+            return ValueSequence<T>.New(seq);
         }
 
         public static ValueSequence<T, IntersectSequence<T, TSource, NativeArraySequence<T>>> Intersect<T, TSource>(

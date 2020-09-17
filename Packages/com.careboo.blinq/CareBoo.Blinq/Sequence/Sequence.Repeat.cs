@@ -8,7 +8,7 @@ namespace CareBoo.Blinq
             where T : struct
         {
             var seq = new RepeatSequence<T> { Element = element, Count = count };
-            return new ValueSequence<T, RepeatSequence<T>>(seq);
+            return ValueSequence<T>.New(seq);
         }
     }
 
