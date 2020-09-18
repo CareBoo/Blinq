@@ -1,3 +1,12 @@
+# [1.0.0-preview.23](https://github.com/CareBoo/Blinq/compare/v1.0.0-preview.22...v1.0.0-preview.23) (2020-09-18)
+
+
+### Features
+
+* :sparkles: Implement Average ([34e4b73](https://github.com/CareBoo/Blinq/commit/34e4b73ad94d5b719912fcd63031f445aae81307)), closes [#3](https://github.com/CareBoo/Blinq/issues/3)
+* :sparkles: Implement MaxMin ([8e803fe](https://github.com/CareBoo/Blinq/commit/8e803fe4a09b3a63d78501eb3809501a774804d8)), closes [#17](https://github.com/CareBoo/Blinq/issues/17)
+* :sparkles: Implement Sum ([872e64e](https://github.com/CareBoo/Blinq/commit/872e64ed60112a74b078c7d30337ce869bbf5fad)), closes [#27](https://github.com/CareBoo/Blinq/issues/27)
+
 # [1.0.0-preview.22](https://github.com/CareBoo/Blinq/compare/v1.0.0-preview.21...v1.0.0-preview.22) (2020-09-17)
 
 
