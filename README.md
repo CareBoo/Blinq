@@ -38,13 +38,5 @@ var selected = myArray.Select(selector);
 
 ### GroupBy
 
-Blinq is using `NativeList` as an interface for executing queries, so there isn't a safe way to return lists of lists, which affects a subset of the `GroupBy` API. The TL;DR is that the `GroupBy` API that returns `IGrouping` isn't supported at the moment.
+Blinq is using `NativeList` as an interface for executing queries, so there isn't a safe way to return lists of lists, which affects a subset of the `GroupBy` API. The TL;DR is that the `GroupBy` API returning `IGrouping` isn't supported at the moment.
 
-Future Updates
---------------
-
-- Lambda support
-- Full GroupBy API
-- Parallel support
-- Executing queries using Job API
-- Performance Tests for all APIs
