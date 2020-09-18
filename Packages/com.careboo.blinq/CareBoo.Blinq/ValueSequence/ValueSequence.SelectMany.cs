@@ -36,7 +36,7 @@ namespace CareBoo.Blinq
             return ValueSequence<TResult>.New(seq);
         }
 
-        public static ValueSequence<TResult, SelectManySequence<T, TSource, TResult, TResult, TSelector, NoneResultSelector<T, TResult>>> SelectMany<T, TSource, TResult, TSelector>(
+        public static ValueSequence<TResult, SelectManySequence<T, TSource, TResult, TResult, TSelector, RightSelector<T, TResult>>> SelectMany<T, TSource, TResult, TSelector>(
             this ValueSequence<T, TSource> source,
             ValueFunc<T, NativeArray<TResult>>.Impl<TSelector> selector
             )
@@ -45,11 +45,11 @@ namespace CareBoo.Blinq
             where TResult : struct
             where TSelector : struct, IFunc<T, NativeArray<TResult>>
         {
-            var seq = SelectManySequence.New(source.Source, selector, ValueFunc<T, TResult, TResult>.CreateImpl<NoneResultSelector<T, TResult>>());
+            var seq = SelectManySequence.New(source.Source, selector, UtilFunctions.RightSelector<T, TResult>());
             return ValueSequence<TResult>.New(seq);
         }
 
-        public static ValueSequence<TResult, SelectManyIndexSequence<T, TSource, TResult, TResult, TSelector, NoneResultSelector<T, TResult>>> SelectMany<T, TSource, TResult, TSelector>(
+        public static ValueSequence<TResult, SelectManyIndexSequence<T, TSource, TResult, TResult, TSelector, RightSelector<T, TResult>>> SelectMany<T, TSource, TResult, TSelector>(
             this ValueSequence<T, TSource> source,
             ValueFunc<T, int, NativeArray<TResult>>.Impl<TSelector> selector
             )
@@ -58,7 +58,7 @@ namespace CareBoo.Blinq
             where TResult : struct
             where TSelector : struct, IFunc<T, int, NativeArray<TResult>>
         {
-            var seq = SelectManySequence.New(source.Source, selector, ValueFunc<T, TResult, TResult>.CreateImpl<NoneResultSelector<T, TResult>>());
+            var seq = SelectManySequence.New(source.Source, selector, UtilFunctions.RightSelector<T, TResult>());
             return ValueSequence<TResult>.New(seq);
         }
     }
@@ -201,17 +201,6 @@ namespace CareBoo.Blinq
             where TResultSelector : struct, IFunc<T, TCollection, TResult>
         {
             return new SelectManyIndexSequence<T, TSource, TCollection, TResult, TCollectionSelector, TResultSelector>(source, collectionSelector, resultSelector);
-        }
-    }
-
-    public struct NoneResultSelector<T, TResult>
-        : IFunc<T, TResult, TResult>
-        where T : struct
-        where TResult : struct
-    {
-        public TResult Invoke(T arg0, TResult arg1)
-        {
-            return arg1;
         }
     }
 }
