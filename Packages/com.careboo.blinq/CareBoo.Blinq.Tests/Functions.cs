@@ -4,6 +4,9 @@ using Unity.Mathematics;
 
 internal static class ValueFuncs
 {
+    public static ValueFunc<T, T>.Impl<Functions.SelectSelf<T>> SelectSelf<T>() where T : struct =>
+        ValueFunc<T, T>.CreateImpl<Functions.SelectSelf<T>>();
+
     public readonly static ValueFunc<JoinA, int>.Impl<Functions.JoinAKeySelector> JoinAKeySelector =
         ValueFunc<JoinA, int>.CreateImpl<Functions.JoinAKeySelector>();
 
@@ -58,6 +61,12 @@ internal static class ValueFuncs
 
 internal static class Functions
 {
+    public struct SelectSelf<T> : IFunc<T, T>
+        where T : struct
+    {
+        public T Invoke(T x) => x;
+    }
+
     public struct JoinAKeySelector : IFunc<JoinA, int>
     {
         public int Invoke(JoinA x) => x.Id;
