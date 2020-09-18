@@ -32,7 +32,7 @@ namespace CareBoo.Blinq
             return source.ToValueSequence().SelectMany(collectionSelector, resultSelector);
         }
 
-        public static ValueSequence<TResult, SelectManySequence<T, NativeArraySequence<T>, TResult, TResult, TSelector, NoneResultSelector<T, TResult>>> SelectMany<T, TResult, TSelector>(
+        public static ValueSequence<TResult, SelectManySequence<T, NativeArraySequence<T>, TResult, TResult, TSelector, RightSelector<T, TResult>>> SelectMany<T, TResult, TSelector>(
             this ref NativeArray<T> source,
             ValueFunc<T, NativeArray<TResult>>.Impl<TSelector> selector
             )
@@ -43,7 +43,7 @@ namespace CareBoo.Blinq
             return source.ToValueSequence().SelectMany(selector);
         }
 
-        public static ValueSequence<TResult, SelectManyIndexSequence<T, NativeArraySequence<T>, TResult, TResult, TSelector, NoneResultSelector<T, TResult>>> SelectMany<T, TResult, TSelector>(
+        public static ValueSequence<TResult, SelectManyIndexSequence<T, NativeArraySequence<T>, TResult, TResult, TSelector, RightSelector<T, TResult>>> SelectMany<T, TResult, TSelector>(
             this ref NativeArray<T> source,
             ValueFunc<T, int, NativeArray<TResult>>.Impl<TSelector> selector
             )
