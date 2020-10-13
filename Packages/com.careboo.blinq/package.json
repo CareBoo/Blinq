@@ -1,18 +1,18 @@
 {
-  "name": "com.careboo.blinq",
-  "displayName": "Blinq",
-  "version": "1.0.0-preview.23",
-  "unity": "2020.1",
-  "description": "Adds Burst-compatible, LINQ extension methods like Select, Where, and Any to `NativeArray`.",
-  "dependencies": {
-    "com.unity.collections": "0.12.0-preview.13"
-  },
-  "repository": {
-    "type": "git",
-    "url": "ssh://git@github.com/CareBoo/Blinq.git",
-    "directory": "Packages/com.careboo.blinq"
-  },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com/@careboo"
-  }
+    "name": "com.careboo.blinq",
+    "displayName": "Blinq",
+    "version": "1.0.0-preview.24",
+    "unity": "2020.1",
+    "description": "Adds Burst-compatible, LINQ extension methods like Select, Where, and Any to `NativeArray`.",
+    "dependencies": {
+        "com.unity.collections": "0.12.0-preview.13"
+    },
+    "repository": {
+        "type": "git",
+        "url": "ssh://git@github.com/CareBoo/Blinq.git",
+        "directory": "Packages/com.careboo.blinq"
+    },
+    "publishConfig": {
+        "registry": "https://npm.pkg.github.com/@careboo"
+    }
 }

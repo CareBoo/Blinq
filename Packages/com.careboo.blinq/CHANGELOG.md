@@ -1,3 +1,10 @@
+# [1.0.0-preview.24](https://github.com/CareBoo/Blinq/compare/v1.0.0-preview.23...v1.0.0-preview.24) (2020-09-18)
+
+
+### Features
+
+* :sparkles: Implement subset of GroupBy ([220b62c](https://github.com/CareBoo/Blinq/commit/220b62c284f2a443d0a11612d291c5c9abdab342)), closes [#11](https://github.com/CareBoo/Blinq/issues/11)
+
 # [1.0.0-preview.23](https://github.com/CareBoo/Blinq/compare/v1.0.0-preview.22...v1.0.0-preview.23) (2020-09-18)
 
 

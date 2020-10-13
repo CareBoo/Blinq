@@ -1,13 +1,5 @@
 {
   "dependencies": {
-    "com.careboo.blinq": {
-      "version": "file:com.careboo.blinq",
-      "depth": 0,
-      "source": "embedded",
-      "dependencies": {
-        "com.unity.collections": "0.12.0-preview.13"
-      }
-    },
     "com.unity.burst": {
       "version": "1.3.9",
       "depth": 0,
