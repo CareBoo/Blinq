@@ -14,7 +14,7 @@ jobs:
     steps:
     - name: Request manual activation file
       id: getManualLicenseFile
-      uses: webbertakken/unity-request-manual-activation-file@v1
+      uses: webbertakken/unity-request-manual-activation-file@v1.1
       with:
         unityVersion: ${{ github.event.inputs.unityVersion }}
     - name: Expose as artifact

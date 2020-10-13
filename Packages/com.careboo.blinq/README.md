@@ -17,18 +17,18 @@ The Package Manager is a work in progress for Unity. Because of that, your packa
   ├── CHANGELOG.md
   ├── Third Party Notices.md
   ├── Editor
-  │   ├── CareBoo.BLinq.Editor.asmdef
+  │   ├── CareBoo.Blinq.Editor.asmdef
   │   └── EditorExample.cs
   ├── Runtime
-  │   ├── CareBoo.BLinq.asmdef
+  │   ├── CareBoo.Blinq.asmdef
   │   └── RuntimeExample.cs
   ├── Tests
   │   ├── .tests.json
   │   ├── Editor
-  │   │   ├── CareBoo.BLinq.Editor.Tests.asmdef
+  │   │   ├── CareBoo.Blinq.Editor.Tests.asmdef
   │   │   └── EditorExampleTest.cs
   │   └── Runtime
-  │        ├── CareBoo.BLinq.Tests.asmdef
+  │        ├── CareBoo.Blinq.Tests.asmdef
   │        └── RuntimeExampleTest.cs
   ├── Samples
   │   └── Example
@@ -42,7 +42,7 @@ The Package Manager is a work in progress for Unity. Because of that, your packa
 ## Develop your package
 Package development works best within the Unity Editor.  Here's how to get started:
 
-1. Enter your package name. The name you choose should contain your default organization followed by the name you typed. For example: `CareBoo.BLinq`.
+1. Enter your package name. The name you choose should contain your default organization followed by the name you typed. For example: `CareBoo.Blinq`.
 
 2. [Enter the information](#FillOutFields) for your package in the `package.json` file.
 
@@ -101,17 +101,17 @@ Use these conventions for naming and storing your assembly definition files to e
 
 * Store Editor-specific code under a root editor assembly definition file:
 
-  `Editor/CareBoo.BLinq.Editor.asmdef`
+  `Editor/CareBoo.Blinq.Editor.asmdef`
 
 * Store runtime-specific code under a root runtime assembly definition file:
 
-  `Runtime/CareBoo.BLinq.asmdef`
+  `Runtime/CareBoo.Blinq.asmdef`
 
 * Configure related test assemblies for your editor and runtime scripts:
 
-  `Tests/Editor/CareBoo.BLinq.Editor.Tests.asmdef`
+  `Tests/Editor/CareBoo.Blinq.Editor.Tests.asmdef`
 
-  `Tests/Runtime/CareBoo.BLinq.Tests.asmdef`
+  `Tests/Runtime/CareBoo.Blinq.Tests.asmdef`
 
 To get a more general view of a recommended package folder layout, see [Package layout](https://docs.unity3d.com/Manual/cus-layout.html).
 

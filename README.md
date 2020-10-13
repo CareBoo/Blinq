@@ -1,10 +1,42 @@
-# UPMTemplate
+Blinq
+=====
 
-Unity Package Manager Template Repository
+Burst-Compatible, deferred, stack-allocated LINQ extensions for `NativeArray`.
 
-## Setup
+Installation
+------------
 
-1. Initialize the package with the organization name and the package name by running the `Initialize Package` action.
-2. Setup your Unity License file using the `Acquire Unity Activation File`.
-3. Add the license file as a secret to your account or the project, with the name `UNITY_LICENSE_2019_4`.
-4. If you'd like to customize the GitHub workflows even further, please check out [unity-ci](https://unity-ci.com/docs)
+This project can be installed as a UPM package. The easiest way to install it right now is using the [GitHub Package Registry](https://forum.unity.com/threads/using-github-packages-registry-with-unity-package-manager.861076/). Support for OpenUPM will be available in the future, so check back often!
+
+Differences with Linq
+---------------------
+
+Blinq aims to be as similar to Linq as possible, but there are some major differences.
+
+### Delegates
+
+The Burst compiler doesn't support C# delegates. To get around this issue, Blinq requires you to create structs that implement the `IFunc` interface.
+
+```cs
+/*--- Using Linq ---*/
+var selected = myArray.Select(val => val.Item);
+
+/*--- Using Blinq ---*/
+
+// Must define a struct that implements IFunc first...
+public struct MySelector : IFunc<MyVal, int>
+{
+    public int Invoke(MyVal val) => val.Item;
+}
+
+// Then we have to create a ValueFunc referencing our struct
+var selector = ValueFunc<MyVal, int>.CreateImpl<MySelector>();
+
+// Now we can finally call ``Select``
+var selected = myArray.Select(selector);
+```
+
+### GroupBy
+
+Blinq is using `NativeList` as an interface for executing queries, so there isn't a safe way to return lists of lists, which affects a subset of the `GroupBy` API. The TL;DR is that the `GroupBy` API returning `IGrouping` isn't supported at the moment.
+
