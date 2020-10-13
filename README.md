@@ -1,12 +1,14 @@
 Blinq
 =====
 
-Burst-Compatible, deferred, stack-allocated LINQ extensions for `NativeArray`.
+Burst Compatible, deferred, stack-allocated LINQ extensions for `NativeArray`.
 
 Installation
 ------------
 
-This project can be installed as a UPM package. The easiest way to install it right now is using the [GitHub Package Registry](https://forum.unity.com/threads/using-github-packages-registry-with-unity-package-manager.861076/). Support for OpenUPM will be available in the future, so check back often!
+This project can be installed as a UPM package. The easiest way to install it right now is using the [OpenUPM](https://openupm.com/packages/com.careboo.blinq/).
+
+Currently, support for the Github Package Registry is broken. See this thread [here](https://forum.unity.com/threads/unable-to-publish-upm-packages-to-github-package-repo-as-of-07-10-2020.985268/#post-6409311) for more information.
 
 Differences with Linq
 ---------------------
@@ -36,7 +38,8 @@ var selector = ValueFunc<MyVal, int>.CreateImpl<MySelector>();
 var selected = myArray.Select(selector);
 ```
 
+Current work is being made to allow burstable lambdas in the [Burst.Delegates](https://github.com/CareBoo/Burst.Delegates) project (WIP).
+
 ### GroupBy
 
-Blinq is using `NativeList` as an interface for executing queries, so there isn't a safe way to return lists of lists, which affects a subset of the `GroupBy` API. The TL;DR is that the `GroupBy` API returning `IGrouping` isn't supported at the moment.
-
+`GroupBy` API returning `IGrouping` isn't supported at the moment.
