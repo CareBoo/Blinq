@@ -7,6 +7,8 @@ using Unity.Burst;
 using Unity.Collections;
 using static ValueFuncs;
 using CareBoo.Blinq;
+using System.Collections.Generic;
+using System;
 
 [BurstCompile]
 internal struct SelectJob<TSelector> : IJob
@@ -25,18 +27,11 @@ internal struct SelectJob<TSelector> : IJob
 
 internal class SelectTest : BaseBlinqPerformanceTest
 {
-
     [Test, Performance]
     [Category("Performance")]
-    public void BlinqSelectNativeSequencePerformance()
+    public void SelectNativeSequencePerformance()
     {
         MeasureBlinq(() => new SelectJob<Functions.IntToLong> { Source = source, Selector = IntToLong }.Run()).Run();
-    }
-
-    [Test, Performance]
-    [Category("Performance")]
-    public void LinqSelectNativeSequencePerformance()
-    {
         MeasureLinq(() => Linq.ToList(Linq.Select(source, IntToLong.Invoke))).Run();
     }
 }
