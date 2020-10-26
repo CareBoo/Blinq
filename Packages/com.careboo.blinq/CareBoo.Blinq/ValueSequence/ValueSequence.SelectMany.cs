@@ -1,4 +1,5 @@
 ﻿using Unity.Collections;
+using CareBoo.Burst.Delegates;
 
 namespace CareBoo.Blinq
 {
@@ -6,8 +7,8 @@ namespace CareBoo.Blinq
     {
         public static ValueSequence<TResult, SelectManySequence<T, TSource, TCollection, TResult, TCollectionSelector, TResultSelector>> SelectMany<T, TSource, TCollection, TResult, TCollectionSelector, TResultSelector>(
             this ValueSequence<T, TSource> source,
-            ValueFunc<T, NativeArray<TCollection>>.Impl<TCollectionSelector> collectionSelector,
-            ValueFunc<T, TCollection, TResult>.Impl<TResultSelector> resultSelector
+            ValueFunc<T, NativeArray<TCollection>>.Struct<TCollectionSelector> collectionSelector,
+            ValueFunc<T, TCollection, TResult>.Struct<TResultSelector> resultSelector
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -22,8 +23,8 @@ namespace CareBoo.Blinq
 
         public static ValueSequence<TResult, SelectManyIndexSequence<T, TSource, TCollection, TResult, TCollectionSelector, TResultSelector>> SelectMany<T, TSource, TCollection, TResult, TCollectionSelector, TResultSelector>(
             this ValueSequence<T, TSource> source,
-            ValueFunc<T, int, NativeArray<TCollection>>.Impl<TCollectionSelector> collectionSelector,
-            ValueFunc<T, TCollection, TResult>.Impl<TResultSelector> resultSelector
+            ValueFunc<T, int, NativeArray<TCollection>>.Struct<TCollectionSelector> collectionSelector,
+            ValueFunc<T, TCollection, TResult>.Struct<TResultSelector> resultSelector
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -38,7 +39,7 @@ namespace CareBoo.Blinq
 
         public static ValueSequence<TResult, SelectManySequence<T, TSource, TResult, TResult, TSelector, RightSelector<T, TResult>>> SelectMany<T, TSource, TResult, TSelector>(
             this ValueSequence<T, TSource> source,
-            ValueFunc<T, NativeArray<TResult>>.Impl<TSelector> selector
+            ValueFunc<T, NativeArray<TResult>>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -51,7 +52,7 @@ namespace CareBoo.Blinq
 
         public static ValueSequence<TResult, SelectManyIndexSequence<T, TSource, TResult, TResult, TSelector, RightSelector<T, TResult>>> SelectMany<T, TSource, TResult, TSelector>(
             this ValueSequence<T, TSource> source,
-            ValueFunc<T, int, NativeArray<TResult>>.Impl<TSelector> selector
+            ValueFunc<T, int, NativeArray<TResult>>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -73,13 +74,13 @@ namespace CareBoo.Blinq
         where TResultSelector : struct, IFunc<T, TCollection, TResult>
     {
         readonly TSource source;
-        readonly ValueFunc<T, NativeArray<TCollection>>.Impl<TCollectionSelector> collectionSelector;
-        readonly ValueFunc<T, TCollection, TResult>.Impl<TResultSelector> resultSelector;
+        readonly ValueFunc<T, NativeArray<TCollection>>.Struct<TCollectionSelector> collectionSelector;
+        readonly ValueFunc<T, TCollection, TResult>.Struct<TResultSelector> resultSelector;
 
         public SelectManySequence(
             TSource source,
-            ValueFunc<T, NativeArray<TCollection>>.Impl<TCollectionSelector> collectionSelector,
-            ValueFunc<T, TCollection, TResult>.Impl<TResultSelector> resultSelector
+            ValueFunc<T, NativeArray<TCollection>>.Struct<TCollectionSelector> collectionSelector,
+            ValueFunc<T, TCollection, TResult>.Struct<TResultSelector> resultSelector
             )
         {
             this.source = source;
@@ -127,13 +128,13 @@ namespace CareBoo.Blinq
         where TResultSelector : struct, IFunc<T, TCollection, TResult>
     {
         readonly TSource source;
-        readonly ValueFunc<T, int, NativeArray<TCollection>>.Impl<TCollectionSelector> collectionSelector;
-        readonly ValueFunc<T, TCollection, TResult>.Impl<TResultSelector> resultSelector;
+        readonly ValueFunc<T, int, NativeArray<TCollection>>.Struct<TCollectionSelector> collectionSelector;
+        readonly ValueFunc<T, TCollection, TResult>.Struct<TResultSelector> resultSelector;
 
         public SelectManyIndexSequence(
             TSource source,
-            ValueFunc<T, int, NativeArray<TCollection>>.Impl<TCollectionSelector> collectionSelector,
-            ValueFunc<T, TCollection, TResult>.Impl<TResultSelector> resultSelector
+            ValueFunc<T, int, NativeArray<TCollection>>.Struct<TCollectionSelector> collectionSelector,
+            ValueFunc<T, TCollection, TResult>.Struct<TResultSelector> resultSelector
             )
         {
             this.source = source;
@@ -175,8 +176,8 @@ namespace CareBoo.Blinq
     {
         public static SelectManySequence<T, TSource, TCollection, TResult, TCollectionSelector, TResultSelector> New<T, TSource, TCollection, TResult, TCollectionSelector, TResultSelector>(
             TSource source,
-            ValueFunc<T, NativeArray<TCollection>>.Impl<TCollectionSelector> collectionSelector,
-            ValueFunc<T, TCollection, TResult>.Impl<TResultSelector> resultSelector
+            ValueFunc<T, NativeArray<TCollection>>.Struct<TCollectionSelector> collectionSelector,
+            ValueFunc<T, TCollection, TResult>.Struct<TResultSelector> resultSelector
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -190,8 +191,8 @@ namespace CareBoo.Blinq
 
         public static SelectManyIndexSequence<T, TSource, TCollection, TResult, TCollectionSelector, TResultSelector> New<T, TSource, TCollection, TResult, TCollectionSelector, TResultSelector>(
             TSource source,
-            ValueFunc<T, int, NativeArray<TCollection>>.Impl<TCollectionSelector> collectionSelector,
-            ValueFunc<T, TCollection, TResult>.Impl<TResultSelector> resultSelector
+            ValueFunc<T, int, NativeArray<TCollection>>.Struct<TCollectionSelector> collectionSelector,
+            ValueFunc<T, TCollection, TResult>.Struct<TResultSelector> resultSelector
             )
             where T : struct
             where TSource : struct, ISequence<T>

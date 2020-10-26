@@ -13,6 +13,7 @@
 
 using Unity.Collections;
 using Unity.Mathematics;
+using CareBoo.Burst.Delegates;
 
 namespace CareBoo.Blinq
 {
@@ -45,7 +46,7 @@ foreach (string TYPE in TYPES)
 
         public static <#=TYPE_FULL#> Sum<T, TSelector>(
             this ref NativeArray<T> source,
-            ValueFunc<T, <#=TYPE_FULL#>>.Impl<TSelector> selector
+            ValueFunc<T, <#=TYPE_FULL#>>.Struct<TSelector> selector
             )
             where T : struct
             where TSelector : struct, IFunc<T, <#=TYPE_FULL#>>

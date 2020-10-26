@@ -1,5 +1,6 @@
 ﻿using Unity.Collections;
 using Unity.Mathematics;
+using CareBoo.Burst.Delegates;
 
 namespace CareBoo.Blinq
 {
@@ -8,7 +9,7 @@ namespace CareBoo.Blinq
         public static ValueSequence<TResult, ZipSequence<T, TSource, TSecondElement, TResult, TSecond, TResultSelector>> Zip<T, TSource, TSecondElement, TResult, TSecond, TResultSelector>(
             this ValueSequence<T, TSource> source,
             ValueSequence<TSecondElement, TSecond> second,
-            ValueFunc<T, TSecondElement, TResult>.Impl<TResultSelector> resultSelector
+            ValueFunc<T, TSecondElement, TResult>.Struct<TResultSelector> resultSelector
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -32,7 +33,7 @@ namespace CareBoo.Blinq
     {
         public TSource Source;
         public TSecond Second;
-        public ValueFunc<T, TSecondElement, TResult>.Impl<TResultSelector> ResultSelector;
+        public ValueFunc<T, TSecondElement, TResult>.Struct<TResultSelector> ResultSelector;
 
         public NativeList<TResult> Execute()
         {

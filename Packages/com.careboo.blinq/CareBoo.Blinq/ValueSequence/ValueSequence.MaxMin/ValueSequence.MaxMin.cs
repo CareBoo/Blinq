@@ -1,4 +1,5 @@
 using System;
+using CareBoo.Burst.Delegates;
 
 namespace CareBoo.Blinq
 {
@@ -6,7 +7,7 @@ namespace CareBoo.Blinq
     {
         public static TResult Max<T, TSource, TResult, TSelector>(
             this ValueSequence<T, TSource> source,
-            ValueFunc<T, TResult>.Impl<TSelector> selector
+            ValueFunc<T, TResult>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -49,7 +50,7 @@ namespace CareBoo.Blinq
 
         public static TResult Min<T, TSource, TResult, TSelector>(
             this ValueSequence<T, TSource> source,
-            ValueFunc<T, TResult>.Impl<TSelector> selector
+            ValueFunc<T, TResult>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>

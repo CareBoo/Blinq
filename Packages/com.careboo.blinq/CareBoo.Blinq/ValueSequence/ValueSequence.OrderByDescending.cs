@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using CareBoo.Burst.Delegates;
 
 namespace CareBoo.Blinq
 {
@@ -7,7 +8,7 @@ namespace CareBoo.Blinq
     {
         public static ValueSequence<T, OrderBySequence<T, TSource, Descending<T, KeyComparer<T, TKey, TKeySelector, DefaultComparer<TKey>>>>> OrderByDescending<T, TSource, TKey, TKeySelector>(
             this ValueSequence<T, TSource> source,
-            ValueFunc<T, TKey>.Impl<TKeySelector> keySelector
+            ValueFunc<T, TKey>.Struct<TKeySelector> keySelector
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -22,7 +23,7 @@ namespace CareBoo.Blinq
 
         public static ValueSequence<T, OrderBySequence<T, TSource, Descending<T, KeyComparer<T, TKey, TKeySelector, TComparer>>>> OrderByDescending<T, TSource, TKey, TKeySelector, TComparer>(
             this ValueSequence<T, TSource> source,
-            ValueFunc<T, TKey>.Impl<TKeySelector> keySelector,
+            ValueFunc<T, TKey>.Struct<TKeySelector> keySelector,
             TComparer comparer
             )
             where T : struct

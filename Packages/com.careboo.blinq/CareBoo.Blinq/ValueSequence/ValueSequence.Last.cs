@@ -1,10 +1,12 @@
-﻿namespace CareBoo.Blinq
+﻿using CareBoo.Burst.Delegates;
+
+namespace CareBoo.Blinq
 {
     public static partial class Sequence
     {
         public static T Last<T, TSource, TPredicate>(
             this ValueSequence<T, TSource> source,
-            ValueFunc<T, bool>.Impl<TPredicate> predicate
+            ValueFunc<T, bool>.Struct<TPredicate> predicate
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -22,7 +24,7 @@
 
         public static T LastOrDefault<T, TSource, TPredicate>(
             this ValueSequence<T, TSource> source,
-            ValueFunc<T, bool>.Impl<TPredicate> predicate,
+            ValueFunc<T, bool>.Struct<TPredicate> predicate,
             T defaultVal = default
             )
             where T : struct

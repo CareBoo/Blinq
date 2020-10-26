@@ -1,5 +1,5 @@
-﻿using System;
-using Unity.Collections;
+﻿using Unity.Collections;
+using CareBoo.Burst.Delegates;
 
 namespace CareBoo.Blinq
 {
@@ -7,7 +7,7 @@ namespace CareBoo.Blinq
     {
         public static ValueSequence<T, WhereIndexSequence<T, NativeArraySequence<T>, TPredicate>> Where<T, TPredicate>(
             this ref NativeArray<T> source,
-            ValueFunc<T, int, bool>.Impl<TPredicate> predicate
+            ValueFunc<T, int, bool>.Struct<TPredicate> predicate
             )
             where T : struct
             where TPredicate : struct, IFunc<T, int, bool>
@@ -17,7 +17,7 @@ namespace CareBoo.Blinq
 
         public static ValueSequence<T, WhereSequence<T, NativeArraySequence<T>, TPredicate>> Where<T, TPredicate>(
             this ref NativeArray<T> source,
-            ValueFunc<T, bool>.Impl<TPredicate> predicate
+            ValueFunc<T, bool>.Struct<TPredicate> predicate
             )
             where T : struct
             where TPredicate : struct, IFunc<T, bool>

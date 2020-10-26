@@ -1,4 +1,5 @@
 ﻿using Unity.Collections;
+using CareBoo.Burst.Delegates;
 
 namespace CareBoo.Blinq
 {
@@ -6,7 +7,7 @@ namespace CareBoo.Blinq
     {
         public static ValueSequence<TResult, SelectIndexSequence<T, NativeArraySequence<T>, TResult, TPredicate>> Select<T, TResult, TPredicate>(
             this ref NativeArray<T> source,
-            ValueFunc<T, int, TResult>.Impl<TPredicate> selector
+            ValueFunc<T, int, TResult>.Struct<TPredicate> selector
             )
             where T : struct
             where TResult : struct
@@ -17,7 +18,7 @@ namespace CareBoo.Blinq
 
         public static ValueSequence<TResult, SelectSequence<T, NativeArraySequence<T>, TResult, TPredicate>> Select<T, TResult, TPredicate>(
             this ref NativeArray<T> source,
-            ValueFunc<T, TResult>.Impl<TPredicate> selector
+            ValueFunc<T, TResult>.Struct<TPredicate> selector
             )
             where T : struct
             where TResult : struct

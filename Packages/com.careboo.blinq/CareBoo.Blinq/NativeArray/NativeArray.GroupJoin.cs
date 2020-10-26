@@ -1,5 +1,6 @@
 ﻿using System;
 using Unity.Collections;
+using CareBoo.Burst.Delegates;
 
 namespace CareBoo.Blinq
 {
@@ -8,9 +9,9 @@ namespace CareBoo.Blinq
         public static ValueSequence<TResult, GroupJoinSequence<TOuter, NativeArraySequence<TOuter>, TInner, TInnerSequence, TKey, TOuterKeySelector, TInnerKeySelector, TResult, TResultSelector>> GroupJoin<TOuter, TInner, TInnerSequence, TKey, TOuterKeySelector, TInnerKeySelector, TResult, TResultSelector>(
             this ref NativeArray<TOuter> outer,
             ValueSequence<TInner, TInnerSequence> inner,
-            ValueFunc<TOuter, TKey>.Impl<TOuterKeySelector> outerKeySelector,
-            ValueFunc<TInner, TKey>.Impl<TInnerKeySelector> innerKeySelector,
-            ValueFunc<TOuter, NativeArray<TInner>, TResult>.Impl<TResultSelector> resultSelector
+            ValueFunc<TOuter, TKey>.Struct<TOuterKeySelector> outerKeySelector,
+            ValueFunc<TInner, TKey>.Struct<TInnerKeySelector> innerKeySelector,
+            ValueFunc<TOuter, NativeArray<TInner>, TResult>.Struct<TResultSelector> resultSelector
             )
             where TOuter : struct
             where TInner : struct
@@ -27,9 +28,9 @@ namespace CareBoo.Blinq
         public static ValueSequence<TResult, GroupJoinSequence<TOuter, NativeArraySequence<TOuter>, TInner, NativeArraySequence<TInner>, TKey, TOuterKeySelector, TInnerKeySelector, TResult, TResultSelector>> GroupJoin<TOuter, TInner, TKey, TOuterKeySelector, TInnerKeySelector, TResult, TResultSelector>(
             this ref NativeArray<TOuter> outer,
             NativeArray<TInner> inner,
-            ValueFunc<TOuter, TKey>.Impl<TOuterKeySelector> outerKeySelector,
-            ValueFunc<TInner, TKey>.Impl<TInnerKeySelector> innerKeySelector,
-            ValueFunc<TOuter, NativeArray<TInner>, TResult>.Impl<TResultSelector> resultSelector
+            ValueFunc<TOuter, TKey>.Struct<TOuterKeySelector> outerKeySelector,
+            ValueFunc<TInner, TKey>.Struct<TInnerKeySelector> innerKeySelector,
+            ValueFunc<TOuter, NativeArray<TInner>, TResult>.Struct<TResultSelector> resultSelector
             )
             where TOuter : struct
             where TInner : struct

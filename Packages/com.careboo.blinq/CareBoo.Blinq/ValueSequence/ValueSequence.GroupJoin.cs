@@ -1,5 +1,6 @@
 ﻿using System;
 using Unity.Collections;
+using CareBoo.Burst.Delegates;
 
 namespace CareBoo.Blinq
 {
@@ -8,9 +9,9 @@ namespace CareBoo.Blinq
         public static ValueSequence<TResult, GroupJoinSequence<TOuter, TOuterSequence, TInner, TInnerSequence, TKey, TOuterKeySelector, TInnerKeySelector, TResult, TResultSelector>> GroupJoin<TOuter, TOuterSequence, TInner, TInnerSequence, TKey, TOuterKeySelector, TInnerKeySelector, TResult, TResultSelector>(
             this ValueSequence<TOuter, TOuterSequence> outer,
             ValueSequence<TInner, TInnerSequence> inner,
-            ValueFunc<TOuter, TKey>.Impl<TOuterKeySelector> outerKeySelector,
-            ValueFunc<TInner, TKey>.Impl<TInnerKeySelector> innerKeySelector,
-            ValueFunc<TOuter, NativeArray<TInner>, TResult>.Impl<TResultSelector> resultSelector
+            ValueFunc<TOuter, TKey>.Struct<TOuterKeySelector> outerKeySelector,
+            ValueFunc<TInner, TKey>.Struct<TInnerKeySelector> innerKeySelector,
+            ValueFunc<TOuter, NativeArray<TInner>, TResult>.Struct<TResultSelector> resultSelector
             )
             where TOuter : struct
             where TOuterSequence : struct, ISequence<TOuter>
@@ -29,9 +30,9 @@ namespace CareBoo.Blinq
         public static ValueSequence<TResult, GroupJoinSequence<TOuter, TOuterSequence, TInner, NativeArraySequence<TInner>, TKey, TOuterKeySelector, TInnerKeySelector, TResult, TResultSelector>> GroupJoin<TOuter, TOuterSequence, TInner, TKey, TOuterKeySelector, TInnerKeySelector, TResult, TResultSelector>(
             this ValueSequence<TOuter, TOuterSequence> outer,
             NativeArray<TInner> inner,
-            ValueFunc<TOuter, TKey>.Impl<TOuterKeySelector> outerKeySelector,
-            ValueFunc<TInner, TKey>.Impl<TInnerKeySelector> innerKeySelector,
-            ValueFunc<TOuter, NativeArray<TInner>, TResult>.Impl<TResultSelector> resultSelector
+            ValueFunc<TOuter, TKey>.Struct<TOuterKeySelector> outerKeySelector,
+            ValueFunc<TInner, TKey>.Struct<TInnerKeySelector> innerKeySelector,
+            ValueFunc<TOuter, NativeArray<TInner>, TResult>.Struct<TResultSelector> resultSelector
             )
             where TOuter : struct
             where TOuterSequence : struct, ISequence<TOuter>
@@ -61,16 +62,16 @@ namespace CareBoo.Blinq
     {
         readonly TOuterSequence outer;
         readonly TInnerSequence inner;
-        readonly ValueFunc<TOuter, TKey>.Impl<TOuterKeySelector> outerKeySelector;
-        readonly ValueFunc<TInner, TKey>.Impl<TInnerKeySelector> innerKeySelector;
-        readonly ValueFunc<TOuter, NativeArray<TInner>, TResult>.Impl<TResultSelector> resultSelector;
+        readonly ValueFunc<TOuter, TKey>.Struct<TOuterKeySelector> outerKeySelector;
+        readonly ValueFunc<TInner, TKey>.Struct<TInnerKeySelector> innerKeySelector;
+        readonly ValueFunc<TOuter, NativeArray<TInner>, TResult>.Struct<TResultSelector> resultSelector;
 
         public GroupJoinSequence(
             TOuterSequence outer,
             TInnerSequence inner,
-            ValueFunc<TOuter, TKey>.Impl<TOuterKeySelector> outerKeySelector,
-            ValueFunc<TInner, TKey>.Impl<TInnerKeySelector> innerKeySelector,
-            ValueFunc<TOuter, NativeArray<TInner>, TResult>.Impl<TResultSelector> resultSelector
+            ValueFunc<TOuter, TKey>.Struct<TOuterKeySelector> outerKeySelector,
+            ValueFunc<TInner, TKey>.Struct<TInnerKeySelector> innerKeySelector,
+            ValueFunc<TOuter, NativeArray<TInner>, TResult>.Struct<TResultSelector> resultSelector
             )
         {
             this.outer = outer;
@@ -127,9 +128,9 @@ namespace CareBoo.Blinq
         public static GroupJoinSequence<TOuter, TOuterSequence, TInner, TInnerSequence, TKey, TOuterKeySelector, TInnerKeySelector, TResult, TResultSelector> New<TOuter, TOuterSequence, TInner, TInnerSequence, TKey, TOuterKeySelector, TInnerKeySelector, TResult, TResultSelector>(
             TOuterSequence outer,
             TInnerSequence inner,
-            ValueFunc<TOuter, TKey>.Impl<TOuterKeySelector> outerKeySelector,
-            ValueFunc<TInner, TKey>.Impl<TInnerKeySelector> innerKeySelector,
-            ValueFunc<TOuter, NativeArray<TInner>, TResult>.Impl<TResultSelector> resultSelector
+            ValueFunc<TOuter, TKey>.Struct<TOuterKeySelector> outerKeySelector,
+            ValueFunc<TInner, TKey>.Struct<TInnerKeySelector> innerKeySelector,
+            ValueFunc<TOuter, NativeArray<TInner>, TResult>.Struct<TResultSelector> resultSelector
             )
             where TOuter : struct
             where TOuterSequence : struct, ISequence<TOuter>

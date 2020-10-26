@@ -5,8 +5,8 @@ using Blinq = CareBoo.Blinq.Sequence;
 using static ValueFuncs;
 using Unity.Burst;
 using Unity.Collections;
-using CareBoo.Blinq;
 using Unity.Jobs;
+using CareBoo.Burst.Delegates;
 
 [BurstCompile]
 internal struct AnyJob<TPredicate> : IJob
@@ -16,7 +16,7 @@ internal struct AnyJob<TPredicate> : IJob
     public NativeArray<int> Source;
 
     [ReadOnly]
-    public ValueFunc<int, bool>.Impl<TPredicate> Predicate;
+    public ValueFunc<int, bool>.Struct<TPredicate> Predicate;
 
     public void Execute()
     {
