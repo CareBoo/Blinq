@@ -1,3 +1,15 @@
+# [2.0.0-preview.1](https://github.com/CareBoo/Blinq/compare/v1.0.0...v2.0.0-preview.1) (2020-10-26)
+
+
+### Features
+
+* :sparkles: Use `Burst.Delegates` ValueFuncs ([3207cdb](https://github.com/CareBoo/Blinq/commit/3207cdbaa9261a4081d72b57e3ba7a8881c4ed58)), closes [#55](https://github.com/CareBoo/Blinq/issues/55)
+
+
+### BREAKING CHANGES
+
+* ValueFunc API is now implemented by a package
+
 # 1.0.0 (2020-10-13)
 
 
