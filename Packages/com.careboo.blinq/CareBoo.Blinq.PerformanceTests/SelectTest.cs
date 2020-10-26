@@ -6,9 +6,7 @@ using Unity.Jobs;
 using Unity.Burst;
 using Unity.Collections;
 using static ValueFuncs;
-using CareBoo.Blinq;
-using System.Collections.Generic;
-using System;
+using CareBoo.Burst.Delegates;
 
 [BurstCompile]
 internal struct SelectJob<TSelector> : IJob
@@ -17,7 +15,7 @@ internal struct SelectJob<TSelector> : IJob
     [ReadOnly]
     public NativeArray<int> Source;
     [ReadOnly]
-    public ValueFunc<int, long>.Impl<TSelector> Selector;
+    public ValueFunc<int, long>.Struct<TSelector> Selector;
 
     public void Execute()
     {

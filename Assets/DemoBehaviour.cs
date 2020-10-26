@@ -2,6 +2,7 @@
 using UnityEngine;
 using CareBoo.Blinq;
 using Unity.Collections;
+using CareBoo.Burst.Delegates;
 
 public class DemoBehaviour : MonoBehaviour
 {
@@ -11,7 +12,7 @@ public class DemoBehaviour : MonoBehaviour
         [ReadOnly]
         public NativeArray<int> Source;
 
-        public ValueFunc<int, long>.Impl<TSelector> Selector;
+        public ValueFunc<int, long>.Struct<TSelector> Selector;
 
         [WriteOnly]
         public NativeArray<long> Output;
@@ -37,7 +38,7 @@ public class DemoBehaviour : MonoBehaviour
     void Start()
     {
         var output = new NativeArray<long>(source.Length, Allocator.Persistent);
-        var job = new SelectJob<AddOne> { Source = source, Selector = ValueFunc<int, long>.CreateImpl<AddOne>(), Output = output };
+        var job = new SelectJob<AddOne> { Source = source, Selector = ValueFunc<int, long>.New<AddOne>(), Output = output };
         job.Run();
         Debug.Log($"output: ({string.Join(",", output)})");
         output.Dispose();

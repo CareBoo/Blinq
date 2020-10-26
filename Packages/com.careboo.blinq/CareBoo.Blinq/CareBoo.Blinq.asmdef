@@ -3,7 +3,8 @@
     "references": [
         "Unity.Burst",
         "Unity.Collections",
-        "Unity.Mathematics"
+        "Unity.Mathematics",
+        "CareBoo.Burst.Delegates"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -12,6 +12,7 @@
 //------------------------------------------------------------------------------
 
 using Unity.Collections;
+using CareBoo.Burst.Delegates;
 
 namespace CareBoo.Blinq
 {
@@ -52,7 +53,7 @@ foreach (string TYPE_FULL in TYPES)
 
         public static <#=TYPE_FULL#> Max<T, TSelector>(
             this ref NativeArray<T> source,
-            ValueFunc<T, <#=TYPE_FULL#>>.Impl<TSelector> selector
+            ValueFunc<T, <#=TYPE_FULL#>>.Struct<TSelector> selector
             )
             where T : struct
             where TSelector : struct, IFunc<T, <#=TYPE_FULL#>>
@@ -71,7 +72,7 @@ foreach (string TYPE_FULL in TYPES)
 
         public static <#=TYPE_FULL#> Min<T, TSelector>(
             this ref NativeArray<T> source,
-            ValueFunc<T, <#=TYPE_FULL#>>.Impl<TSelector> selector
+            ValueFunc<T, <#=TYPE_FULL#>>.Struct<TSelector> selector
             )
             where T : struct
             where TSelector : struct, IFunc<T, <#=TYPE_FULL#>>

@@ -1,4 +1,5 @@
 ﻿using Unity.Collections;
+using CareBoo.Burst.Delegates;
 
 namespace CareBoo.Blinq
 {
@@ -7,8 +8,8 @@ namespace CareBoo.Blinq
         public static TResult Aggregate<T, TAccumulate, TResult, TFunc, TResultSelector>(
             this ref NativeArray<T> source,
             TAccumulate seed,
-            ValueFunc<TAccumulate, T, TAccumulate>.Impl<TFunc> func,
-            ValueFunc<TAccumulate, TResult>.Impl<TResultSelector> resultSelector
+            ValueFunc<TAccumulate, T, TAccumulate>.Struct<TFunc> func,
+            ValueFunc<TAccumulate, TResult>.Struct<TResultSelector> resultSelector
             )
             where T : struct
             where TAccumulate : struct
@@ -24,7 +25,7 @@ namespace CareBoo.Blinq
         public static TAccumulate Aggregate<T, TAccumulate, TFunc>(
             this ref NativeArray<T> source,
             TAccumulate seed,
-            ValueFunc<TAccumulate, T, TAccumulate>.Impl<TFunc> func
+            ValueFunc<TAccumulate, T, TAccumulate>.Struct<TFunc> func
             )
             where T : struct
             where TAccumulate : struct
@@ -37,7 +38,7 @@ namespace CareBoo.Blinq
 
         public static T Aggregate<T, TFunc>(
             this ref NativeArray<T> source,
-            ValueFunc<T, T, T>.Impl<TFunc> func
+            ValueFunc<T, T, T>.Struct<TFunc> func
             )
             where T : struct
             where TFunc : struct, IFunc<T, T, T>

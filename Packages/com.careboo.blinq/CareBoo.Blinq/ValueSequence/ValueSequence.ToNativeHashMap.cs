@@ -1,5 +1,6 @@
 ﻿using System;
 using Unity.Collections;
+using CareBoo.Burst.Delegates;
 
 namespace CareBoo.Blinq
 {
@@ -7,8 +8,8 @@ namespace CareBoo.Blinq
     {
         public static NativeHashMap<TKey, TElement> ToNativeHashMap<T, TSource, TKey, TElement, TKeySelector, TElementSelector>(
             this ValueSequence<T, TSource> source,
-            ValueFunc<T, TKey>.Impl<TKeySelector> keySelector,
-            ValueFunc<T, TElement>.Impl<TElementSelector> elementSelector,
+            ValueFunc<T, TKey>.Struct<TKeySelector> keySelector,
+            ValueFunc<T, TElement>.Struct<TElementSelector> elementSelector,
             Allocator allocator
             )
             where T : struct
@@ -32,7 +33,7 @@ namespace CareBoo.Blinq
 
         public static NativeHashMap<TKey, T> ToNativeHashMap<T, TSource, TKey, TKeySelector>(
             this ValueSequence<T, TSource> source,
-            ValueFunc<T, TKey>.Impl<TKeySelector> keySelector,
+            ValueFunc<T, TKey>.Struct<TKeySelector> keySelector,
             Allocator allocator
             )
             where T : struct

@@ -4,7 +4,7 @@ using NUnit.Framework;
 using Unity.Collections;
 using Linq = System.Linq.Enumerable;
 using Blinq = CareBoo.Blinq.Sequence;
-using CareBoo.Blinq;
+using CareBoo.Burst.Delegates;
 
 internal class GroupByTest
 {
@@ -13,8 +13,8 @@ internal class GroupByTest
         public int Invoke(int arg0, NativeMultiHashMap<int, int> arg1) => arg0 + arg1.CountValuesForKey(arg0);
     }
 
-    internal readonly static ValueFunc<int, NativeMultiHashMap<int, int>, int>.Impl<SelectGroupingFunc> SelectGrouping =
-        ValueFunc<int, NativeMultiHashMap<int, int>, int>.CreateImpl<SelectGroupingFunc>();
+    internal readonly static ValueFunc<int, NativeMultiHashMap<int, int>, int>.Struct<SelectGroupingFunc> SelectGrouping =
+        ValueFunc<int, NativeMultiHashMap<int, int>, int>.New<SelectGroupingFunc>();
 
     [Test, Parallelizable]
     public void BlinqShouldEqualLinqNativeArrayGroupBy([ArrayValues] int[] sourceArr)
