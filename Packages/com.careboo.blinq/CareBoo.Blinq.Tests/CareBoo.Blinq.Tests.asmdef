@@ -6,7 +6,8 @@
         "UnityEditor.TestRunner",
         "Unity.Collections",
         "Unity.Burst",
-        "Unity.Mathematics"
+        "Unity.Mathematics",
+        "CareBoo.Burst.Delegates"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

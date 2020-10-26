@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Unity.Collections;
+using CareBoo.Burst.Delegates;
 
 namespace CareBoo.Blinq
 {
@@ -8,7 +9,7 @@ namespace CareBoo.Blinq
     {
         public static ValueSequence<T, OrderBySequence<T, NativeArraySequence<T>, KeyComparer<T, TKey, TKeySelector, DefaultComparer<TKey>>>> OrderBy<T, TKey, TKeySelector>(
             this ref NativeArray<T> source,
-            ValueFunc<T, TKey>.Impl<TKeySelector> keySelector
+            ValueFunc<T, TKey>.Struct<TKeySelector> keySelector
             )
             where T : struct
             where TKey : struct, IComparable<TKey>
@@ -19,7 +20,7 @@ namespace CareBoo.Blinq
 
         public static ValueSequence<T, OrderBySequence<T, NativeArraySequence<T>, KeyComparer<T, TKey, TKeySelector, TComparer>>> OrderBy<T, TKey, TKeySelector, TComparer>(
             this ref NativeArray<T> source,
-            ValueFunc<T, TKey>.Impl<TKeySelector> keySelector,
+            ValueFunc<T, TKey>.Struct<TKeySelector> keySelector,
             TComparer comparer
             )
             where T : struct

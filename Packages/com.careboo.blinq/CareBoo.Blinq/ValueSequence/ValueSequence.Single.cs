@@ -1,5 +1,6 @@
 ﻿using System;
 using Unity.Collections;
+using CareBoo.Burst.Delegates;
 
 namespace CareBoo.Blinq
 {
@@ -7,7 +8,7 @@ namespace CareBoo.Blinq
     {
         public static T Single<T, TSource, TPredicate>(
             this ValueSequence<T, TSource> source,
-            ValueFunc<T, bool>.Impl<TPredicate> predicate
+            ValueFunc<T, bool>.Struct<TPredicate> predicate
             )
             where T : unmanaged, IEquatable<T>
             where TSource : struct, ISequence<T>
@@ -30,7 +31,7 @@ namespace CareBoo.Blinq
 
         public static T SingleOrDefault<T, TSource, TPredicate>(
             this ValueSequence<T, TSource> source,
-            ValueFunc<T, bool>.Impl<TPredicate> predicate,
+            ValueFunc<T, bool>.Struct<TPredicate> predicate,
             T defaultVal = default
             )
             where T : unmanaged, IEquatable<T>

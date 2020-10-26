@@ -1,10 +1,12 @@
-﻿namespace CareBoo.Blinq
+﻿using CareBoo.Burst.Delegates;
+
+namespace CareBoo.Blinq
 {
     public static partial class Sequence
     {
         public static int Count<T, TSource, TPredicate>(
             this ValueSequence<T, TSource> source,
-            ValueFunc<T, bool>.Impl<TPredicate> predicate
+            ValueFunc<T, bool>.Struct<TPredicate> predicate
             )
             where T : struct
             where TSource : struct, ISequence<T>

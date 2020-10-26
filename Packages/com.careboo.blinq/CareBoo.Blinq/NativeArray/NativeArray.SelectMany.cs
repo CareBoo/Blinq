@@ -1,4 +1,5 @@
 ﻿using Unity.Collections;
+using CareBoo.Burst.Delegates;
 
 namespace CareBoo.Blinq
 {
@@ -6,8 +7,8 @@ namespace CareBoo.Blinq
     {
         public static ValueSequence<TResult, SelectManySequence<T, NativeArraySequence<T>, TCollection, TResult, TCollectionSelector, TResultSelector>> SelectMany<T, TCollection, TResult, TCollectionSelector, TResultSelector>(
             this ref NativeArray<T> source,
-            ValueFunc<T, NativeArray<TCollection>>.Impl<TCollectionSelector> collectionSelector,
-            ValueFunc<T, TCollection, TResult>.Impl<TResultSelector> resultSelector
+            ValueFunc<T, NativeArray<TCollection>>.Struct<TCollectionSelector> collectionSelector,
+            ValueFunc<T, TCollection, TResult>.Struct<TResultSelector> resultSelector
             )
             where T : struct
             where TCollection : struct
@@ -20,8 +21,8 @@ namespace CareBoo.Blinq
 
         public static ValueSequence<TResult, SelectManyIndexSequence<T, NativeArraySequence<T>, TCollection, TResult, TCollectionSelector, TResultSelector>> SelectMany<T, TCollection, TResult, TCollectionSelector, TResultSelector>(
             this ref NativeArray<T> source,
-            ValueFunc<T, int, NativeArray<TCollection>>.Impl<TCollectionSelector> collectionSelector,
-            ValueFunc<T, TCollection, TResult>.Impl<TResultSelector> resultSelector
+            ValueFunc<T, int, NativeArray<TCollection>>.Struct<TCollectionSelector> collectionSelector,
+            ValueFunc<T, TCollection, TResult>.Struct<TResultSelector> resultSelector
             )
             where T : struct
             where TCollection : struct
@@ -34,7 +35,7 @@ namespace CareBoo.Blinq
 
         public static ValueSequence<TResult, SelectManySequence<T, NativeArraySequence<T>, TResult, TResult, TSelector, RightSelector<T, TResult>>> SelectMany<T, TResult, TSelector>(
             this ref NativeArray<T> source,
-            ValueFunc<T, NativeArray<TResult>>.Impl<TSelector> selector
+            ValueFunc<T, NativeArray<TResult>>.Struct<TSelector> selector
             )
             where T : struct
             where TResult : struct
@@ -45,7 +46,7 @@ namespace CareBoo.Blinq
 
         public static ValueSequence<TResult, SelectManyIndexSequence<T, NativeArraySequence<T>, TResult, TResult, TSelector, RightSelector<T, TResult>>> SelectMany<T, TResult, TSelector>(
             this ref NativeArray<T> source,
-            ValueFunc<T, int, NativeArray<TResult>>.Impl<TSelector> selector
+            ValueFunc<T, int, NativeArray<TResult>>.Struct<TSelector> selector
             )
             where T : struct
             where TResult : struct

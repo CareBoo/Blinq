@@ -1,62 +1,62 @@
-﻿using CareBoo.Blinq;
-using Unity.Collections;
+﻿using Unity.Collections;
 using Unity.Mathematics;
+using CareBoo.Burst.Delegates;
 
 internal static class ValueFuncs
 {
-    public static ValueFunc<T, T>.Impl<Functions.SelectSelf<T>> SelectSelf<T>() where T : struct =>
-        ValueFunc<T, T>.CreateImpl<Functions.SelectSelf<T>>();
+    public static ValueFunc<T, T>.Struct<Functions.SelectSelf<T>> SelectSelf<T>() where T : struct =>
+        ValueFunc<T, T>.New<Functions.SelectSelf<T>>();
 
-    public readonly static ValueFunc<JoinA, int>.Impl<Functions.JoinAKeySelector> JoinAKeySelector =
-        ValueFunc<JoinA, int>.CreateImpl<Functions.JoinAKeySelector>();
+    public readonly static ValueFunc<JoinA, int>.Struct<Functions.JoinAKeySelector> JoinAKeySelector =
+        ValueFunc<JoinA, int>.New<Functions.JoinAKeySelector>();
 
-    public readonly static ValueFunc<JoinB, int>.Impl<Functions.JoinBKeySelector> JoinBKeySelector =
-        ValueFunc<JoinB, int>.CreateImpl<Functions.JoinBKeySelector>();
+    public readonly static ValueFunc<JoinB, int>.Struct<Functions.JoinBKeySelector> JoinBKeySelector =
+        ValueFunc<JoinB, int>.New<Functions.JoinBKeySelector>();
 
-    public readonly static ValueFunc<JoinA, JoinB, JointAB>.Impl<Functions.JointABSelector> JointABSelector =
-        ValueFunc<JoinA, JoinB, JointAB>.CreateImpl<Functions.JointABSelector>();
+    public readonly static ValueFunc<JoinA, JoinB, JointAB>.Struct<Functions.JointABSelector> JointABSelector =
+        ValueFunc<JoinA, JoinB, JointAB>.New<Functions.JointABSelector>();
 
-    public readonly static ValueFunc<JoinA, NativeArray<JoinB>, int>.Impl<Functions.GroupJoinABSelector> GroupJoinABSelector =
-        ValueFunc<JoinA, NativeArray<JoinB>, int>.CreateImpl<Functions.GroupJoinABSelector>();
+    public readonly static ValueFunc<JoinA, NativeArray<JoinB>, int>.Struct<Functions.GroupJoinABSelector> GroupJoinABSelector =
+        ValueFunc<JoinA, NativeArray<JoinB>, int>.New<Functions.GroupJoinABSelector>();
 
-    public readonly static ValueFunc<int, int>.Impl<Functions.ReturnSelf> ReturnSelf =
-        ValueFunc<int, int>.CreateImpl<Functions.ReturnSelf>();
+    public readonly static ValueFunc<int, int>.Struct<Functions.ReturnSelf> ReturnSelf =
+        ValueFunc<int, int>.New<Functions.ReturnSelf>();
 
-    public readonly static ValueFunc<int, bool>.Impl<Functions.EqualsOne> EqualsOne =
-        ValueFunc<int, bool>.CreateImpl<Functions.EqualsOne>();
+    public readonly static ValueFunc<int, bool>.Struct<Functions.EqualsOne> EqualsOne =
+        ValueFunc<int, bool>.New<Functions.EqualsOne>();
 
-    public readonly static ValueFunc<int, bool>.Impl<Functions.EqualsZero> EqualsZero =
-        ValueFunc<int, bool>.CreateImpl<Functions.EqualsZero>();
+    public readonly static ValueFunc<int, bool>.Struct<Functions.EqualsZero> EqualsZero =
+        ValueFunc<int, bool>.New<Functions.EqualsZero>();
 
-    public readonly static ValueFunc<int, int, bool>.Impl<Functions.EqualToIndex> EqualToIndex =
-        ValueFunc<int, int, bool>.CreateImpl<Functions.EqualToIndex>();
+    public readonly static ValueFunc<int, int, bool>.Struct<Functions.EqualToIndex> EqualToIndex =
+        ValueFunc<int, int, bool>.New<Functions.EqualToIndex>();
 
-    public readonly static ValueFunc<int, int, long>.Impl<Functions.AddToIndex> AddToIndex =
-        ValueFunc<int, int, long>.CreateImpl<Functions.AddToIndex>();
+    public readonly static ValueFunc<int, int, long>.Struct<Functions.AddToIndex> AddToIndex =
+        ValueFunc<int, int, long>.New<Functions.AddToIndex>();
 
-    public readonly static ValueFunc<int, int, int>.Impl<Functions.Sum> Sum =
-        ValueFunc<int, int, int>.CreateImpl<Functions.Sum>();
+    public readonly static ValueFunc<int, int, int>.Struct<Functions.Sum> Sum =
+        ValueFunc<int, int, int>.New<Functions.Sum>();
 
-    public readonly static ValueFunc<long, int, long>.Impl<Functions.LongSum> LongSum =
-        ValueFunc<long, int, long>.CreateImpl<Functions.LongSum>();
+    public readonly static ValueFunc<long, int, long>.Struct<Functions.LongSum> LongSum =
+        ValueFunc<long, int, long>.New<Functions.LongSum>();
 
-    public readonly static ValueFunc<long, double>.Impl<Functions.LongToDouble> LongToDouble =
-        ValueFunc<long, double>.CreateImpl<Functions.LongToDouble>();
+    public readonly static ValueFunc<long, double>.Struct<Functions.LongToDouble> LongToDouble =
+        ValueFunc<long, double>.New<Functions.LongToDouble>();
 
-    public readonly static ValueFunc<int, long>.Impl<Functions.IntToLong> IntToLong =
-        ValueFunc<int, long>.CreateImpl<Functions.IntToLong>();
+    public readonly static ValueFunc<int, long>.Struct<Functions.IntToLong> IntToLong =
+        ValueFunc<int, long>.New<Functions.IntToLong>();
 
-    public static readonly ValueFunc<Order, int>.Impl<Functions.SelectFirst> SelectFirst =
-        ValueFunc<Order, int>.CreateImpl<Functions.SelectFirst>();
+    public static readonly ValueFunc<Order, int>.Struct<Functions.SelectFirst> SelectFirst =
+        ValueFunc<Order, int>.New<Functions.SelectFirst>();
 
-    public static readonly ValueFunc<Order, int>.Impl<Functions.SelectSecond> SelectSecond =
-        ValueFunc<Order, int>.CreateImpl<Functions.SelectSecond>();
+    public static readonly ValueFunc<Order, int>.Struct<Functions.SelectSecond> SelectSecond =
+        ValueFunc<Order, int>.New<Functions.SelectSecond>();
 
-    public static readonly ValueFunc<int, NativeArray<int>>.Impl<Functions.RepeatAmount> RepeatAmount =
-        ValueFunc<int, NativeArray<int>>.CreateImpl<Functions.RepeatAmount>();
+    public static readonly ValueFunc<int, NativeArray<int>>.Struct<Functions.RepeatAmount> RepeatAmount =
+        ValueFunc<int, NativeArray<int>>.New<Functions.RepeatAmount>();
 
-    public static readonly ValueFunc<int, int, NativeArray<int>>.Impl<Functions.RepeatAmountPlusIndex> RepeatAmountPlusIndex =
-        ValueFunc<int, int, NativeArray<int>>.CreateImpl<Functions.RepeatAmountPlusIndex>();
+    public static readonly ValueFunc<int, int, NativeArray<int>>.Struct<Functions.RepeatAmountPlusIndex> RepeatAmountPlusIndex =
+        ValueFunc<int, int, NativeArray<int>>.New<Functions.RepeatAmountPlusIndex>();
 }
 
 internal static class Functions

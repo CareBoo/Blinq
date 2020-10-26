@@ -32,7 +32,7 @@ public struct MySelector : IFunc<MyVal, int>
 }
 
 // Then we have to create a ValueFunc referencing our struct
-var selector = ValueFunc<MyVal, int>.CreateImpl<MySelector>();
+var selector = ValueFunc<MyVal, int>.New<MySelector>();
 
 // Now we can finally call ``Select``
 var selected = myArray.Select(selector);

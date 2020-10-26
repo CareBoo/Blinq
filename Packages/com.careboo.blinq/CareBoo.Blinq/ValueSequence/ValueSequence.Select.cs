@@ -1,4 +1,5 @@
 ﻿using Unity.Collections;
+using CareBoo.Burst.Delegates;
 
 namespace CareBoo.Blinq
 {
@@ -6,7 +7,7 @@ namespace CareBoo.Blinq
     {
         public static ValueSequence<TResult, SelectIndexSequence<T, TSource, TResult, TSelector>> Select<T, TSource, TResult, TSelector>(
             this ValueSequence<T, TSource> source,
-            ValueFunc<T, int, TResult>.Impl<TSelector> selector
+            ValueFunc<T, int, TResult>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -19,7 +20,7 @@ namespace CareBoo.Blinq
 
         public static ValueSequence<TResult, SelectSequence<T, TSource, TResult, TSelector>> Select<T, TSource, TResult, TSelector>(
             this ValueSequence<T, TSource> source,
-            ValueFunc<T, TResult>.Impl<TSelector> selector
+            ValueFunc<T, TResult>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -38,7 +39,7 @@ namespace CareBoo.Blinq
         where TSelector : struct, IFunc<T, int, TResult>
     {
         public TSource Source;
-        public ValueFunc<T, int, TResult>.Impl<TSelector> Selector;
+        public ValueFunc<T, int, TResult>.Struct<TSelector> Selector;
 
         public NativeList<TResult> Execute()
         {
@@ -61,7 +62,7 @@ namespace CareBoo.Blinq
         where TSelector : struct, IFunc<T, TResult>
     {
         public TSource Source;
-        public ValueFunc<T, TResult>.Impl<TSelector> Selector;
+        public ValueFunc<T, TResult>.Struct<TSelector> Selector;
 
         public NativeList<TResult> Execute()
         {

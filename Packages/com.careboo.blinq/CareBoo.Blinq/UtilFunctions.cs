@@ -1,25 +1,27 @@
-﻿namespace CareBoo.Blinq
+﻿using CareBoo.Burst.Delegates;
+
+namespace CareBoo.Blinq
 {
     public static class UtilFunctions
     {
-        public static ValueFunc<T, TResult, TResult>.Impl<RightSelector<T, TResult>> RightSelector<T, TResult>()
+        public static ValueFunc<T, TResult, TResult>.Struct<RightSelector<T, TResult>> RightSelector<T, TResult>()
             where T : struct
             where TResult : struct
         {
-            return ValueFunc<T, TResult, TResult>.CreateImpl<RightSelector<T, TResult>>();
+            return ValueFunc<T, TResult, TResult>.New<RightSelector<T, TResult>>();
         }
 
-        public static ValueFunc<T, TResult, T>.Impl<LeftSelector<T, TResult>> LeftSelector<T, TResult>()
+        public static ValueFunc<T, TResult, T>.Struct<LeftSelector<T, TResult>> LeftSelector<T, TResult>()
             where T : struct
             where TResult : struct
         {
-            return ValueFunc<T, TResult, T>.CreateImpl<LeftSelector<T, TResult>>();
+            return ValueFunc<T, TResult, T>.New<LeftSelector<T, TResult>>();
         }
 
-        public static ValueFunc<T, T>.Impl<SameSelector<T>> SameSelector<T>()
+        public static ValueFunc<T, T>.Struct<SameSelector<T>> SameSelector<T>()
             where T : struct
         {
-            return ValueFunc<T, T>.CreateImpl<SameSelector<T>>();
+            return ValueFunc<T, T>.New<SameSelector<T>>();
         }
     }
 }

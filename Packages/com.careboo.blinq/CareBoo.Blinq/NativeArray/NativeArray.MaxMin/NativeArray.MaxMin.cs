@@ -1,5 +1,6 @@
 using System;
 using Unity.Collections;
+using CareBoo.Burst.Delegates;
 
 namespace CareBoo.Blinq
 {
@@ -7,7 +8,7 @@ namespace CareBoo.Blinq
     {
         public static TResult Max<T, TResult, TSelector>(
             this ref NativeArray<T> source,
-            ValueFunc<T, TResult>.Impl<TSelector> selector
+            ValueFunc<T, TResult>.Struct<TSelector> selector
             )
             where T : struct
             where TResult : struct, IComparable<TResult>
@@ -40,7 +41,7 @@ namespace CareBoo.Blinq
 
         public static TResult Min<T, TResult, TSelector>(
             ref NativeArray<T> source,
-            ValueFunc<T, TResult>.Impl<TSelector> selector
+            ValueFunc<T, TResult>.Struct<TSelector> selector
             )
             where T : struct
             where TResult : struct, IComparable<TResult>

@@ -1,4 +1,6 @@
-﻿namespace CareBoo.Blinq
+﻿using CareBoo.Burst.Delegates;
+
+namespace CareBoo.Blinq
 {
     public struct RightSelector<T, TResult>
         : IFunc<T, TResult, TResult>

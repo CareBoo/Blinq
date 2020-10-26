@@ -1,12 +1,14 @@
-﻿namespace CareBoo.Blinq
+﻿using CareBoo.Burst.Delegates;
+
+namespace CareBoo.Blinq
 {
     public static partial class Sequence
     {
         public static TResult Aggregate<T, TSource, TAccumulate, TResult, TFunc, TResultSelector>(
             this ValueSequence<T, TSource> source,
             TAccumulate seed,
-            ValueFunc<TAccumulate, T, TAccumulate>.Impl<TFunc> func,
-            ValueFunc<TAccumulate, TResult>.Impl<TResultSelector> resultSelector
+            ValueFunc<TAccumulate, T, TAccumulate>.Struct<TFunc> func,
+            ValueFunc<TAccumulate, TResult>.Struct<TResultSelector> resultSelector
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -24,7 +26,7 @@
         public static TAccumulate Aggregate<T, TSource, TAccumulate, TFunc>(
             this ValueSequence<T, TSource> source,
             TAccumulate seed,
-            ValueFunc<TAccumulate, T, TAccumulate>.Impl<TFunc> func
+            ValueFunc<TAccumulate, T, TAccumulate>.Struct<TFunc> func
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -39,7 +41,7 @@
 
         public static T Aggregate<T, TSource, TFunc>(
             this ValueSequence<T, TSource> source,
-            ValueFunc<T, T, T>.Impl<TFunc> func
+            ValueFunc<T, T, T>.Struct<TFunc> func
             )
             where T : struct
             where TSource : struct, ISequence<T>

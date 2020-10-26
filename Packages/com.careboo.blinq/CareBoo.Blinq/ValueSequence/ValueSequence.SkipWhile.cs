@@ -1,4 +1,5 @@
 ﻿using Unity.Collections;
+using CareBoo.Burst.Delegates;
 
 namespace CareBoo.Blinq
 {
@@ -6,7 +7,7 @@ namespace CareBoo.Blinq
     {
         public static ValueSequence<T, SkipWhileIndexSequence<T, TSource, TPredicate>> SkipWhile<T, TSource, TPredicate>(
             this ValueSequence<T, TSource> source,
-            ValueFunc<T, int, bool>.Impl<TPredicate> predicate
+            ValueFunc<T, int, bool>.Struct<TPredicate> predicate
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -18,7 +19,7 @@ namespace CareBoo.Blinq
 
         public static ValueSequence<T, SkipWhileSequence<T, TSource, TPredicate>> SkipWhile<T, TSource, TPredicate>(
             this ValueSequence<T, TSource> source,
-            ValueFunc<T, bool>.Impl<TPredicate> predicate
+            ValueFunc<T, bool>.Struct<TPredicate> predicate
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -35,7 +36,7 @@ namespace CareBoo.Blinq
         where TPredicate : struct, IFunc<T, int, bool>
     {
         public TSource Source;
-        public ValueFunc<T, int, bool>.Impl<TPredicate> Predicate;
+        public ValueFunc<T, int, bool>.Struct<TPredicate> Predicate;
 
         public NativeList<T> Execute()
         {
@@ -57,7 +58,7 @@ namespace CareBoo.Blinq
         where TPredicate : struct, IFunc<T, bool>
     {
         public TSource Source;
-        public ValueFunc<T, bool>.Impl<TPredicate> Predicate;
+        public ValueFunc<T, bool>.Struct<TPredicate> Predicate;
 
         public NativeList<T> Execute()
         {

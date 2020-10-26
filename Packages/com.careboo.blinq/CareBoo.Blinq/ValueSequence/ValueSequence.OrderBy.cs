@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using Unity.Collections;
-
+using CareBoo.Burst.Delegates;
 namespace CareBoo.Blinq
 {
     public static partial class Sequence
     {
         public static ValueSequence<T, OrderBySequence<T, TSource, KeyComparer<T, TKey, TKeySelector, DefaultComparer<TKey>>>> OrderBy<T, TSource, TKey, TKeySelector>(
             this ValueSequence<T, TSource> source,
-            ValueFunc<T, TKey>.Impl<TKeySelector> keySelector
+            ValueFunc<T, TKey>.Struct<TKeySelector> keySelector
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -22,7 +22,7 @@ namespace CareBoo.Blinq
 
         public static ValueSequence<T, OrderBySequence<T, TSource, KeyComparer<T, TKey, TKeySelector, TComparer>>> OrderBy<T, TSource, TKey, TKeySelector, TComparer>(
             this ValueSequence<T, TSource> source,
-            ValueFunc<T, TKey>.Impl<TKeySelector> keySelector,
+            ValueFunc<T, TKey>.Struct<TKeySelector> keySelector,
             TComparer comparer
             )
             where T : struct
@@ -99,11 +99,11 @@ namespace CareBoo.Blinq
         where TKeySelector : struct, IFunc<T, TKey>
         where TComparer : struct, IComparer<TKey>
     {
-        readonly ValueFunc<T, TKey>.Impl<TKeySelector> keySelector;
+        readonly ValueFunc<T, TKey>.Struct<TKeySelector> keySelector;
         readonly TComparer comparer;
 
         public KeyComparer(
-            ValueFunc<T, TKey>.Impl<TKeySelector> keySelector,
+            ValueFunc<T, TKey>.Struct<TKeySelector> keySelector,
             TComparer comparer
             )
         {
@@ -122,7 +122,7 @@ namespace CareBoo.Blinq
     public static class KeyComparer
     {
         public static KeyComparer<T, TKey, TKeySelector, TComparer> New<T, TKey, TKeySelector, TComparer>(
-            ValueFunc<T, TKey>.Impl<TKeySelector> keySelector,
+            ValueFunc<T, TKey>.Struct<TKeySelector> keySelector,
             TComparer comparer
             )
             where T : struct

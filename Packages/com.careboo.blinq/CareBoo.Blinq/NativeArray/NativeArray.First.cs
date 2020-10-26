@@ -1,4 +1,5 @@
 ﻿using Unity.Collections;
+using CareBoo.Burst.Delegates;
 
 namespace CareBoo.Blinq
 {
@@ -6,7 +7,7 @@ namespace CareBoo.Blinq
     {
         public static T First<T, TPredicate>(
             this ref NativeArray<T> source,
-            ValueFunc<T, bool>.Impl<TPredicate> predicate
+            ValueFunc<T, bool>.Struct<TPredicate> predicate
             )
             where T : struct
             where TPredicate : struct, IFunc<T, bool>
@@ -22,7 +23,7 @@ namespace CareBoo.Blinq
 
         public static T FirstOrDefault<T, TPredicate>(
             this ref NativeArray<T> source,
-            ValueFunc<T, bool>.Impl<TPredicate> predicate,
+            ValueFunc<T, bool>.Struct<TPredicate> predicate,
             T defaultVal = default
             )
             where T : struct
