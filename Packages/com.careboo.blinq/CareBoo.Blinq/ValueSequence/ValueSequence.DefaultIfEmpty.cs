@@ -1,4 +1,5 @@
-﻿using Unity.Collections;
+﻿using System.Collections;
+using Unity.Collections;
 
 namespace CareBoo.Blinq
 {
@@ -21,12 +22,40 @@ namespace CareBoo.Blinq
         where TSource : struct, ISequence<T>
     {
         public TSource Source;
-
         public T Default;
 
-        public NativeList<T> Execute()
+        bool currentIndex;
+
+        public T Current => currentIndex
+            ? Default
+            : Source;
+
+        object IEnumerator.Current => Current;
+
+        public void Dispose()
         {
-            var sourceList = Source.Execute();
+            Source.Dispose();
+        }
+
+        public bool MoveNext()
+        {
+            if (Source.MoveNext())
+                return true;
+            if (currentIndex)
+                return false;
+            currentIndex = true;
+            return true;
+        }
+
+        public void Reset()
+        {
+            Source.Reset();
+            currentIndex = false;
+        }
+
+        public NativeList<T> ToList()
+        {
+            var sourceList = Source.ToList();
             if (sourceList.Length == 0)
                 sourceList.Add(Default);
             return sourceList;

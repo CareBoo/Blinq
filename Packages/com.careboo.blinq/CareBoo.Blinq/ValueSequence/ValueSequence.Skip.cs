@@ -23,9 +23,9 @@ namespace CareBoo.Blinq
         public TSource Source;
         public int Count;
 
-        public NativeList<T> Execute()
+        public NativeList<T> ToList()
         {
-            var list = Source.Execute();
+            var list = Source.ToList();
             if (Count < list.Length)
                 list.RemoveRangeWithBeginEnd(0, Count);
             else

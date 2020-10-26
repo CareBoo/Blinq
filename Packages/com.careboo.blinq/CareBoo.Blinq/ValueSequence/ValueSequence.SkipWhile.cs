@@ -1,5 +1,6 @@
-﻿using Unity.Collections;
+using Unity.Collections;
 using CareBoo.Burst.Delegates;
+using System.Collections;
 
 namespace CareBoo.Blinq
 {
@@ -38,9 +39,39 @@ namespace CareBoo.Blinq
         public TSource Source;
         public ValueFunc<T, int, bool>.Struct<TPredicate> Predicate;
 
-        public NativeList<T> Execute()
+        int currentIndex;
+
+        public T Current => Source.Current;
+
+        object IEnumerator.Current => Current;
+
+        public void Dispose()
         {
-            var list = Source.Execute();
+            Source.Dispose();
+        }
+
+        public bool MoveNext()
+        {
+            if (currentIndex > 0)
+                return Source.MoveNext();
+            var isNext = Source.MoveNext();
+            while (isNext && Predicate.Invoke(Source.Current, currentIndex))
+            {
+                currentIndex += 1;
+                isNext = Source.MoveNext();
+            }
+            return isNext;
+        }
+
+        public void Reset()
+        {
+            currentIndex = default;
+            Source.Reset();
+        }
+
+        public NativeList<T> ToList()
+        {
+            var list = Source.ToList();
             for (var i = 0; i < list.Length; i++)
                 if (!Predicate.Invoke(list[i], i))
                 {
@@ -60,9 +91,37 @@ namespace CareBoo.Blinq
         public TSource Source;
         public ValueFunc<T, bool>.Struct<TPredicate> Predicate;
 
-        public NativeList<T> Execute()
+        bool currentIndex;
+
+        public T Current => Source.Current;
+
+        object IEnumerator.Current => Current;
+
+        public void Dispose()
         {
-            var list = Source.Execute();
+            Source.Dispose();
+        }
+
+        public bool MoveNext()
+        {
+            if (currentIndex)
+                return Source.MoveNext();
+            currentIndex = true;
+            var isNext = Source.MoveNext();
+            while (isNext && Predicate.Invoke(Source.Current))
+                isNext = Source.MoveNext();
+            return isNext;
+        }
+
+        public void Reset()
+        {
+            currentIndex = default;
+            Source.Reset();
+        }
+
+        public NativeList<T> ToList()
+        {
+            var list = Source.ToList();
             for (var i = 0; i < list.Length; i++)
                 if (!Predicate.Invoke(list[i]))
                 {

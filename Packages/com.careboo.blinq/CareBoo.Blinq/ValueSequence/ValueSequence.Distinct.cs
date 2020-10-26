@@ -22,9 +22,9 @@ namespace CareBoo.Blinq
     {
         public TSource Source;
 
-        public NativeList<T> Execute()
+        public NativeList<T> ToList()
         {
-            var list = Source.Execute();
+            var list = Source.ToList();
             var set = new NativeHashSet<T>(list.Length, Allocator.Temp);
             for (var i = 0; i < list.Length; i++)
                 if (!set.Add(list[i]))

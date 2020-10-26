@@ -18,7 +18,7 @@ namespace CareBoo.Blinq
         public T Element;
         public int Count;
 
-        public NativeList<T> Execute()
+        public NativeList<T> ToList()
         {
             var list = new NativeList<T>(Count, Allocator.Temp);
             for (var i = 0; i < Count; i++)

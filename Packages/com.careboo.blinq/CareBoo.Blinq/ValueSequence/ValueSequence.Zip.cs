@@ -35,10 +35,10 @@ namespace CareBoo.Blinq
         public TSecond Second;
         public ValueFunc<T, TSecondElement, TResult>.Struct<TResultSelector> ResultSelector;
 
-        public NativeList<TResult> Execute()
+        public NativeList<TResult> ToList()
         {
-            using (var source = Source.Execute())
-            using (var second = Second.Execute())
+            using (var source = Source.ToList())
+            using (var second = Second.ToList())
             {
                 var length = math.min(source.Length, second.Length);
                 var result = new NativeList<TResult>(length, Allocator.Temp);

@@ -1,4 +1,5 @@
-﻿using Unity.Collections;
+﻿using System.Collections;
+using Unity.Collections;
 
 namespace CareBoo.Blinq
 {
@@ -16,7 +17,28 @@ namespace CareBoo.Blinq
         public int Start;
         public int Count;
 
-        public NativeList<int> Execute()
+        int currentIndex;
+
+        public int Current => Start + currentIndex - 1;
+
+        object IEnumerator.Current => Current;
+
+        public void Dispose()
+        {
+        }
+
+        public bool MoveNext()
+        {
+            currentIndex += 1;
+            return currentIndex <= Count;
+        }
+
+        public void Reset()
+        {
+            currentIndex = 0;
+        }
+
+        public NativeList<int> ToList()
         {
             var list = new NativeList<int>(Count, Allocator.Temp);
             for (var i = 0; i < Count; i++)

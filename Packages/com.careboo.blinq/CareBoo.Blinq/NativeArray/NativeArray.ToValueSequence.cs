@@ -8,7 +8,7 @@ namespace CareBoo.Blinq
     {
         public NativeArray<T> Source;
 
-        public NativeList<T> Execute()
+        public NativeList<T> ToList()
         {
             var list = new NativeList<T>(Source.Length, Allocator.Temp);
             for (var i = 0; i < Source.Length; i++)

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Unity.Collections;
 using CareBoo.Burst.Delegates;
@@ -44,30 +45,63 @@ namespace CareBoo.Blinq
         where TSource : struct, IOrderedSequence<T>
         where TComparer : struct, IComparer<T>
     {
-        readonly TSource source;
-        readonly ThenByComparer<T, TSource, TComparer> comparer;
+        readonly TSource Source;
+        readonly ThenByComparer<T, TSource, TComparer> Comparer;
+
+        int currentIndex;
+        NativeList<T> list;
+
+        public T Current => list[currentIndex];
+
+        object IEnumerator.Current => Current;
 
         public ThenBySequence(TSource source, TComparer comparer)
         {
-            this.source = source;
-            this.comparer = ThenByComparer<T>.New(source, comparer);
+            Source = source;
+            Comparer = ThenByComparer<T>.New(source, comparer);
+            currentIndex = default;
+            list = default;
         }
 
         public int Compare(T x, T y)
         {
-            return comparer.Compare(x, y);
+            return Comparer.Compare(x, y);
         }
 
-        public NativeList<T> Execute()
+        public NativeList<T> ToList()
         {
-            var unordered = ExecuteUnordered();
+            var unordered = ToUnorderedList();
             unordered.Sort(this);
             return unordered;
         }
 
-        public NativeList<T> ExecuteUnordered()
+        public NativeList<T> ToUnorderedList()
         {
-            return source.ExecuteUnordered();
+            return Source.ToUnorderedList();
+        }
+
+        public bool MoveNext()
+        {
+            if (!list.IsCreated)
+                list = ToList();
+            else
+                currentIndex += 1;
+            return currentIndex < list.Length;
+        }
+
+        public void Reset()
+        {
+            if (list.IsCreated)
+                list.Dispose();
+            list = default;
+            currentIndex = default;
+        }
+
+        public void Dispose()
+        {
+            if (list.IsCreated)
+                list.Dispose();
+            Source.Dispose();
         }
     }
 

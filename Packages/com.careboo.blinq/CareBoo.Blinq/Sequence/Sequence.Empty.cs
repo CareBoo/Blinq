@@ -1,4 +1,5 @@
-﻿using Unity.Collections;
+﻿using System.Collections;
+using Unity.Collections;
 
 namespace CareBoo.Blinq
 {
@@ -15,7 +16,24 @@ namespace CareBoo.Blinq
     public struct EmptySequence<T> : ISequence<T>
         where T : struct
     {
-        public NativeList<T> Execute()
+        public T Current => default;
+
+        object IEnumerator.Current => Current;
+
+        public void Dispose()
+        {
+        }
+
+        public bool MoveNext()
+        {
+            return false;
+        }
+
+        public void Reset()
+        {
+        }
+
+        public NativeList<T> ToList()
         {
             return new NativeList<T>(Allocator.Temp);
         }

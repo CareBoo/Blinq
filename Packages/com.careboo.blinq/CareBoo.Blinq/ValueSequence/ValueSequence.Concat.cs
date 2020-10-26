@@ -1,4 +1,5 @@
-﻿using Unity.Collections;
+﻿using System.Collections;
+using Unity.Collections;
 
 namespace CareBoo.Blinq
 {
@@ -26,7 +27,6 @@ namespace CareBoo.Blinq
             var newSequence = new ConcatSequence<T, TSource, NativeArraySequence<T>> { Source = source.Source, Second = second.ToValueSequence().Source };
             return ValueSequence<T>.New(newSequence);
         }
-
     }
 
     public struct ConcatSequence<T, TSource, TSecond> : ISequence<T>
@@ -37,10 +37,40 @@ namespace CareBoo.Blinq
         public TSource Source;
         public TSecond Second;
 
-        public NativeList<T> Execute()
+        bool currentIndex;
+
+        public T Current => currentIndex
+            ? Second.Current
+            : Source.Current;
+
+        object IEnumerator.Current => Current;
+
+        public void Dispose()
         {
-            var first = Source.Execute();
-            var second = Second.Execute();
+
+            Source.Dispose();
+            Second.Dispose();
+        }
+
+        public bool MoveNext()
+        {
+            if (!Source.MoveNext())
+            {
+                currentIndex = true;
+                return Second.MoveNext();
+            }
+            return true;
+        }
+
+        public void Reset()
+        {
+            currentIndex = false;
+        }
+
+        public NativeList<T> ToList()
+        {
+            var first = Source.ToList();
+            var second = Second.ToList();
             first.AddRange(second);
             second.Dispose();
             return first;

@@ -38,9 +38,9 @@ namespace CareBoo.Blinq
         public TSource Source;
         public ValueFunc<T, int, bool>.Struct<TPredicate> Predicate;
 
-        public NativeList<T> Execute()
+        public NativeList<T> ToList()
         {
-            var sourceList = Source.Execute();
+            var sourceList = Source.ToList();
             for (var i = 0; i < sourceList.Length; i++)
             {
                 if (!Predicate.Invoke(sourceList[i], i))
@@ -61,9 +61,9 @@ namespace CareBoo.Blinq
         public TSource Source;
         public ValueFunc<T, bool>.Struct<TPredicate> Predicate;
 
-        public NativeList<T> Execute()
+        public NativeList<T> ToList()
         {
-            var sourceList = Source.Execute();
+            var sourceList = Source.ToList();
             for (var i = 0; i < sourceList.Length; i++)
             {
                 if (!Predicate.Invoke(sourceList[i]))

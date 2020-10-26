@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Unity.Collections;
 using CareBoo.Burst.Delegates;
@@ -43,30 +44,63 @@ namespace CareBoo.Blinq
         where TSource : struct, ISequence<T>
         where TComparer : struct, IComparer<T>
     {
-        readonly TSource source;
-        readonly TComparer comparer;
+        readonly TSource Source;
+        readonly TComparer Comparer;
+
+        int currentIndex;
+        NativeList<T> list;
+
+        public T Current => list[currentIndex];
+
+        object IEnumerator.Current => Current;
 
         public OrderBySequence(TSource source, TComparer comparer)
         {
-            this.source = source;
-            this.comparer = comparer;
+            Source = source;
+            Comparer = comparer;
+            currentIndex = default;
+            list = default;
         }
 
         public int Compare(T x, T y)
         {
-            return comparer.Compare(x, y);
+            return Comparer.Compare(x, y);
         }
 
-        public NativeList<T> Execute()
+        public NativeList<T> ToList()
         {
-            var unordered = ExecuteUnordered();
-            unordered.Sort(this);
-            return unordered;
+            var list = ToUnorderedList();
+            list.Sort(this);
+            return list;
         }
 
-        public NativeList<T> ExecuteUnordered()
+        public NativeList<T> ToUnorderedList()
         {
-            return source.Execute();
+            return Source.ToList();
+        }
+
+        public bool MoveNext()
+        {
+            if (!list.IsCreated)
+                list = ToList();
+            else
+                currentIndex += 1;
+            return currentIndex < list.Length;
+        }
+
+        public void Reset()
+        {
+            if (list.IsCreated)
+                list.Dispose();
+            list = default;
+            currentIndex = default;
+        }
+
+        public void Dispose()
+        {
+            if (list.IsCreated)
+                list.Dispose();
+            Source.Dispose();
         }
     }
 

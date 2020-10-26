@@ -41,9 +41,9 @@ namespace CareBoo.Blinq
         public TSource Source;
         public ValueFunc<T, int, TResult>.Struct<TSelector> Selector;
 
-        public NativeList<TResult> Execute()
+        public NativeList<TResult> ToList()
         {
-            var sourceList = Source.Execute();
+            var sourceList = Source.ToList();
 
             var newList = new NativeList<TResult>(sourceList.Length, Allocator.Temp);
             for (var i = 0; i < sourceList.Length; i++)
@@ -64,9 +64,9 @@ namespace CareBoo.Blinq
         public TSource Source;
         public ValueFunc<T, TResult>.Struct<TSelector> Selector;
 
-        public NativeList<TResult> Execute()
+        public NativeList<TResult> ToList()
         {
-            var sourceList = Source.Execute();
+            var sourceList = Source.ToList();
 
             var newList = new NativeList<TResult>(sourceList.Length, Allocator.Temp);
             for (var i = 0; i < sourceList.Length; i++)

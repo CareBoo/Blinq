@@ -1,4 +1,5 @@
-﻿using Unity.Collections;
+﻿using System.Collections;
+using Unity.Collections;
 
 namespace CareBoo.Blinq
 {
@@ -23,9 +24,36 @@ namespace CareBoo.Blinq
         public TSource Source;
         public T Item;
 
-        public NativeList<T> Execute()
+        byte currentIndex;
+
+        public T Current => currentIndex > 1
+            ? Source.Current
+            : Item;
+
+        object IEnumerator.Current => throw new System.NotImplementedException();
+
+        public void Dispose()
         {
-            using (var sourceList = Source.Execute())
+            Source.Dispose();
+        }
+
+        public bool MoveNext()
+        {
+            if (currentIndex > 1)
+                return Source.MoveNext();
+            currentIndex += 1;
+            return true;
+        }
+
+        public void Reset()
+        {
+            Source.Reset();
+            currentIndex = 0;
+        }
+
+        public NativeList<T> ToList()
+        {
+            using (var sourceList = Source.ToList())
             {
                 var list = new NativeList<T>(sourceList.Length + 1, Allocator.Temp);
                 list.AddNoResize(Item);

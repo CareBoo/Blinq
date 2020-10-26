@@ -7,7 +7,6 @@ namespace CareBoo.Blinq
 {
     public struct ValueSequence<T, TSource>
         : IEnumerable<T>
-        , ISequence<T>
         where T : struct
         where TSource : struct, ISequence<T>
     {
@@ -20,7 +19,7 @@ namespace CareBoo.Blinq
 
         public NativeList<T> Execute()
         {
-            return Source.Execute();
+            return Source.ToList();
         }
 
         public NativeList<T> RunExecute()
@@ -38,9 +37,9 @@ namespace CareBoo.Blinq
             return new SequenceExecuteJobHandle<T>(job.Schedule(), output);
         }
 
-        public NativeArray<T>.Enumerator GetEnumerator()
+        public SequenceEnumerator<T, TSource> GetEnumerator()
         {
-            return Execute().GetEnumerator();
+            return Source;
         }
 
         IEnumerator<T> IEnumerable<T>.GetEnumerator()

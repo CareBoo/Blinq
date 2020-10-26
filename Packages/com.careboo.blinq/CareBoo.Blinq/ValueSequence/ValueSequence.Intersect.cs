@@ -36,10 +36,10 @@ namespace CareBoo.Blinq
         public TSource Source;
         public TSecond Second;
 
-        public NativeList<T> Execute()
+        public NativeList<T> ToList()
         {
-            using (var sourceList = Source.Execute())
-            using (var secondList = Second.Execute())
+            using (var sourceList = Source.ToList())
+            using (var secondList = Second.ToList())
             using (var sourceSet = new NativeHashSet<T>(sourceList.Length, Allocator.Temp))
             using (var secondSet = new NativeHashSet<T>(secondList.Length, Allocator.Temp))
             {

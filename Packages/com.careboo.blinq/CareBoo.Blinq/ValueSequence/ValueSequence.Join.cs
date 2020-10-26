@@ -66,10 +66,10 @@ namespace CareBoo.Blinq
         public ValueFunc<TInner, TKey>.Struct<TInnerKeySelector> InnerKeySelector;
         public ValueFunc<TOuter, TInner, TResult>.Struct<TResultSelector> ResultSelector;
 
-        public NativeList<TResult> Execute()
+        public NativeList<TResult> ToList()
         {
-            using (var outer = Outer.Execute())
-            using (var inner = Inner.Execute())
+            using (var outer = Outer.ToList())
+            using (var inner = Inner.ToList())
             using (var outerHashMap = new NativeHashMap<TKey, TOuter>(outer.Length, Allocator.Temp))
             {
                 var resultList = new NativeList<TResult>(inner.Length, Allocator.Temp);

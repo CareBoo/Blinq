@@ -71,9 +71,9 @@ namespace CareBoo.Blinq
             this.resultSelector = resultSelector;
         }
 
-        public NativeList<TResult> Execute()
+        public NativeList<TResult> ToList()
         {
-            using (var srcList = source.Execute())
+            using (var srcList = source.ToList())
             using (var groupMap = new NativeMultiHashMap<TKey, TElement>(srcList.Length, Allocator.Temp))
             {
                 return Execute(srcList, groupMap);

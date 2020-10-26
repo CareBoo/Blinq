@@ -81,10 +81,10 @@ namespace CareBoo.Blinq
             this.resultSelector = resultSelector;
         }
 
-        public NativeList<TResult> Execute()
+        public NativeList<TResult> ToList()
         {
-            using (var outerList = outer.Execute())
-            using (var innerList = inner.Execute())
+            using (var outerList = outer.ToList())
+            using (var innerList = inner.ToList())
             using (var groupMap = new NativeMultiHashMap<TKey, TInner>(innerList.Length, Allocator.Temp))
             {
                 return Execute(outerList, innerList, groupMap);
