@@ -37,7 +37,7 @@ namespace CareBoo.Blinq
             return new SequenceExecuteJobHandle<T>(job.Schedule(), output);
         }
 
-        public SequenceEnumerator<T, TSource> GetEnumerator()
+        public TSource GetEnumerator()
         {
             return Source;
         }

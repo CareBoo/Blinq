@@ -1,5 +1,6 @@
 ﻿using Unity.Collections;
 using CareBoo.Burst.Delegates;
+using System.Collections;
 
 namespace CareBoo.Blinq
 {
@@ -38,6 +39,34 @@ namespace CareBoo.Blinq
         public TSource Source;
         public ValueFunc<T, int, bool>.Struct<TPredicate> Predicate;
 
+        int currentIndex;
+
+        public T Current => Source.Current;
+
+        object IEnumerator.Current => Current;
+
+        public void Dispose()
+        {
+            Source.Dispose();
+        }
+
+        public bool MoveNext()
+        {
+            if (currentIndex < 0)
+                return false;
+            currentIndex += 1;
+            var hasNext = Source.MoveNext() && Predicate.Invoke(Source.Current, currentIndex - 1);
+            if (!hasNext)
+                currentIndex = -1;
+            return hasNext;
+        }
+
+        public void Reset()
+        {
+            Source.Reset();
+            currentIndex = 0;
+        }
+
         public NativeList<T> ToList()
         {
             var list = Source.ToList();
@@ -58,6 +87,32 @@ namespace CareBoo.Blinq
     {
         public TSource Source;
         public ValueFunc<T, bool>.Struct<TPredicate> Predicate;
+
+        bool currentIndex;
+
+        public T Current => Source.Current;
+
+        object IEnumerator.Current => Current;
+
+        public void Dispose()
+        {
+            Source.Dispose();
+        }
+
+        public bool MoveNext()
+        {
+            if (currentIndex)
+                return false;
+            var hasNext = Source.MoveNext() && Predicate.Invoke(Source.Current);
+            currentIndex = !hasNext;
+            return hasNext;
+        }
+
+        public void Reset()
+        {
+            Source.Reset();
+            currentIndex = false;
+        }
 
         public NativeList<T> ToList()
         {

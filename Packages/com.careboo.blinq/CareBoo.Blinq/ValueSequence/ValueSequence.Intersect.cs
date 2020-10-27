@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using Unity.Collections;
 
 namespace CareBoo.Blinq
@@ -35,6 +36,45 @@ namespace CareBoo.Blinq
     {
         public TSource Source;
         public TSecond Second;
+
+        private NativeHashSet<T> set;
+
+        public T Current => Second.Current;
+
+        object IEnumerator.Current => Current;
+
+        public void Dispose()
+        {
+            Source.Dispose();
+            Second.Dispose();
+            if (set.IsCreated)
+                set.Dispose();
+        }
+
+        public bool MoveNext()
+        {
+            if (!set.IsCreated)
+            {
+                var sourceList = Source.ToList();
+                set = new NativeHashSet<T>(sourceList.Length, Allocator.Persistent);
+                for (var i = 0; i < sourceList.Length; i++)
+                    set.Add(sourceList[i]);
+            }
+            while (Second.MoveNext())
+                if (set.Contains(Second.Current))
+                    return true;
+            return false;
+        }
+
+        public void Reset()
+        {
+            if (set.IsCreated)
+                set.Dispose();
+            set = default;
+            Source.Reset();
+            Second.Reset();
+            Current = default;
+        }
 
         public NativeList<T> ToList()
         {

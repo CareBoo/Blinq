@@ -88,6 +88,25 @@ namespace CareBoo.Blinq
         public TSource Source;
         public ValueFunc<T, TResult>.Struct<TSelector> Selector;
 
+        public TResult Current => Selector.Invoke(Source.Current);
+
+        object IEnumerator.Current => Current;
+
+        public void Dispose()
+        {
+            Source.Dispose();
+        }
+
+        public bool MoveNext()
+        {
+            return Source.MoveNext();
+        }
+
+        public void Reset()
+        {
+            Source.Reset();
+        }
+
         public NativeList<TResult> ToList()
         {
             var sourceList = Source.ToList();
