@@ -36,14 +36,4 @@ namespace CareBoo.Blinq
             return output;
         }
     }
-
-    internal static class SequenceExecuteJobExtensions
-    {
-        internal static SequenceExecuteJobHandle<T> Schedule<T, TSource>(this SequenceExecuteJob<T, TSource> job, NativeList<T> output)
-            where T : struct
-            where TSource : struct, ISequence<T>
-        {
-            return new SequenceExecuteJobHandle<T>(job.Schedule(), output);
-        }
-    }
 }
