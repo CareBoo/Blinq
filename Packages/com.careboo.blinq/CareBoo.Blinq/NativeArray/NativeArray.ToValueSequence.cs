@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Collections;
 using Unity.Collections;
 
 namespace CareBoo.Blinq
@@ -7,6 +7,28 @@ namespace CareBoo.Blinq
         where T : struct
     {
         public NativeArray<T> Source;
+
+        private int currentIndex;
+
+        public T Current => Source[currentIndex - 1];
+
+        object IEnumerator.Current => Current;
+
+        public void Dispose()
+        {
+            Source.Dispose();
+        }
+
+        public bool MoveNext()
+        {
+            currentIndex += 1;
+            return currentIndex <= Source.Length;
+        }
+
+        public void Reset()
+        {
+            currentIndex = 0;
+        }
 
         public NativeList<T> ToList()
         {

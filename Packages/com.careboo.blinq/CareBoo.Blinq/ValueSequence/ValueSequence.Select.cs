@@ -1,5 +1,6 @@
 ﻿using Unity.Collections;
 using CareBoo.Burst.Delegates;
+using System.Collections;
 
 namespace CareBoo.Blinq
 {
@@ -40,6 +41,29 @@ namespace CareBoo.Blinq
     {
         public TSource Source;
         public ValueFunc<T, int, TResult>.Struct<TSelector> Selector;
+
+        private int currentIndex;
+
+        public TResult Current => Selector.Invoke(Source.Current, currentIndex - 1);
+
+        object IEnumerator.Current => Current;
+
+        public void Dispose()
+        {
+            Source.Dispose();
+        }
+
+        public bool MoveNext()
+        {
+            currentIndex += 1;
+            return Source.MoveNext();
+        }
+
+        public void Reset()
+        {
+            currentIndex = 0;
+            Source.Reset();
+        }
 
         public NativeList<TResult> ToList()
         {
