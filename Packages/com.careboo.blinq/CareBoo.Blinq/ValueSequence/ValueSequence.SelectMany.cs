@@ -1,5 +1,6 @@
 ﻿using Unity.Collections;
 using CareBoo.Burst.Delegates;
+using System.Collections;
 
 namespace CareBoo.Blinq
 {
@@ -77,6 +78,9 @@ namespace CareBoo.Blinq
         readonly ValueFunc<T, NativeArray<TCollection>>.Struct<TCollectionSelector> collectionSelector;
         readonly ValueFunc<T, TCollection, TResult>.Struct<TResultSelector> resultSelector;
 
+        NativeArray<TCollection> currentCollection;
+        NativeArray<TCollection>.Enumerator currentEnumerator;
+
         public SelectManySequence(
             TSource source,
             ValueFunc<T, NativeArray<TCollection>>.Struct<TCollectionSelector> collectionSelector,
@@ -86,6 +90,44 @@ namespace CareBoo.Blinq
             this.source = source;
             this.collectionSelector = collectionSelector;
             this.resultSelector = resultSelector;
+            currentCollection = default;
+            currentEnumerator = default;
+        }
+
+        public TResult Current => resultSelector.Invoke(source.Current, currentEnumerator.Current);
+
+        object IEnumerator.Current => Current;
+
+        public void Dispose()
+        {
+            if (currentCollection.IsCreated)
+                currentCollection.Dispose();
+            currentCollection = default;
+            currentEnumerator = default;
+            source.Dispose();
+        }
+
+        public bool MoveNext()
+        {
+            while (!currentEnumerator.MoveNext())
+            {
+                if (!source.MoveNext())
+                    return false;
+                if (currentCollection.IsCreated)
+                    currentCollection.Dispose();
+                currentCollection = collectionSelector.Invoke(source.Current);
+                currentEnumerator = currentCollection.GetEnumerator();
+            }
+            return true;
+        }
+
+        public void Reset()
+        {
+            if (currentCollection.IsCreated)
+                currentCollection.Dispose();
+            currentCollection = default;
+            currentEnumerator = default;
+            source.Reset();
         }
 
         public NativeList<TResult> ToList()
@@ -131,6 +173,10 @@ namespace CareBoo.Blinq
         readonly ValueFunc<T, int, NativeArray<TCollection>>.Struct<TCollectionSelector> collectionSelector;
         readonly ValueFunc<T, TCollection, TResult>.Struct<TResultSelector> resultSelector;
 
+        int currentIndex;
+        NativeArray<TCollection> currentCollection;
+        NativeArray<TCollection>.Enumerator currentEnumerator;
+
         public SelectManyIndexSequence(
             TSource source,
             ValueFunc<T, int, NativeArray<TCollection>>.Struct<TCollectionSelector> collectionSelector,
@@ -140,6 +186,47 @@ namespace CareBoo.Blinq
             this.source = source;
             this.collectionSelector = collectionSelector;
             this.resultSelector = resultSelector;
+            currentIndex = -1;
+            currentCollection = default;
+            currentEnumerator = default;
+        }
+
+        public TResult Current => resultSelector.Invoke(source.Current, currentEnumerator.Current);
+
+        object IEnumerator.Current => Current;
+
+        public void Dispose()
+        {
+            if (currentCollection.IsCreated)
+                currentCollection.Dispose();
+            currentCollection = default;
+            currentEnumerator = default;
+            source.Dispose();
+        }
+
+        public bool MoveNext()
+        {
+            while (!currentEnumerator.MoveNext())
+            {
+                if (!source.MoveNext())
+                    return false;
+                currentIndex += 1;
+                if (currentCollection.IsCreated)
+                    currentCollection.Dispose();
+                currentCollection = collectionSelector.Invoke(source.Current, currentIndex);
+                currentEnumerator = currentCollection.GetEnumerator();
+            }
+            return true;
+        }
+
+        public void Reset()
+        {
+            if (currentCollection.IsCreated)
+                currentCollection.Dispose();
+            currentCollection = default;
+            currentEnumerator = default;
+            currentIndex = -1;
+            source.Reset();
         }
 
         public NativeList<TResult> ToList()

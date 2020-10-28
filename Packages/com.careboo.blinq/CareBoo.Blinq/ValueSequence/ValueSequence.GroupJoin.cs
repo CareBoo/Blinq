@@ -1,6 +1,7 @@
 ﻿using System;
 using Unity.Collections;
 using CareBoo.Burst.Delegates;
+using System.Collections;
 
 namespace CareBoo.Blinq
 {
@@ -66,6 +67,9 @@ namespace CareBoo.Blinq
         readonly ValueFunc<TInner, TKey>.Struct<TInnerKeySelector> innerKeySelector;
         readonly ValueFunc<TOuter, NativeArray<TInner>, TResult>.Struct<TResultSelector> resultSelector;
 
+        NativeList<TInner> currentInners;
+        NativeList<TInner> remainingInners;
+
         public GroupJoinSequence(
             TOuterSequence outer,
             TInnerSequence inner,
@@ -79,6 +83,60 @@ namespace CareBoo.Blinq
             this.outerKeySelector = outerKeySelector;
             this.innerKeySelector = innerKeySelector;
             this.resultSelector = resultSelector;
+            currentInners = default;
+            remainingInners = default;
+        }
+
+        public TResult Current => resultSelector.Invoke(outer.Current, currentInners);
+
+        object IEnumerator.Current => Current;
+
+        public void Dispose()
+        {
+            if (remainingInners.IsCreated)
+                remainingInners.Dispose();
+            outer.Dispose();
+            inner.Dispose();
+        }
+
+        public bool MoveNext()
+        {
+            if (!outer.MoveNext())
+                return false;
+
+            if (!remainingInners.IsCreated)
+                using (var innerList = inner.ToList())
+                {
+                    remainingInners = new NativeList<TInner>(innerList.Length, Allocator.Persistent);
+                    remainingInners.AddRangeNoResize(innerList);
+                }
+
+            var currentOuter = outer.Current;
+            var outerKey = outerKeySelector.Invoke(currentOuter);
+            if (currentInners.IsCreated)
+                currentInners.Dispose();
+            currentInners = new NativeList<TInner>(remainingInners.Length, Allocator.Persistent);
+            for (var i = 0; i < remainingInners.Length; i++)
+            {
+                var currentInner = remainingInners[i];
+                var innerKey = innerKeySelector.Invoke(currentInner);
+                if (outerKey.Equals(innerKey))
+                {
+                    currentInners.Add(currentInner);
+                    remainingInners.RemoveAt(i);
+                    i--;
+                }
+            }
+            return true;
+        }
+
+        public void Reset()
+        {
+            if (remainingInners.IsCreated)
+                remainingInners.Dispose();
+            remainingInners = default;
+            outer.Reset();
+            inner.Reset();
         }
 
         public NativeList<TResult> ToList()
