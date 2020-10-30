@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using Unity.Collections;
 
 namespace CareBoo.Blinq
@@ -36,20 +37,60 @@ namespace CareBoo.Blinq
         public TSource Source;
         public TSecond Second;
 
+        NativeHashSet<T> union;
+
+        public T Current { get; private set; }
+
+        object IEnumerator.Current => Current;
+
+        public void Dispose()
+        {
+            Source.Dispose();
+            Second.Dispose();
+            if (union.IsCreated)
+                union.Dispose();
+        }
+
+        public bool MoveNext()
+        {
+            if (!union.IsCreated)
+                union = new NativeHashSet<T>(0, Allocator.Persistent);
+            while (Source.MoveNext())
+            {
+                Current = Source.Current;
+                if (union.Add(Current))
+                    return true;
+            }
+            while (Second.MoveNext())
+            {
+                Current = Second.Current;
+                if (union.Add(Current))
+                    return true;
+            }
+            return false;
+        }
+
+        public void Reset()
+        {
+            if (union.IsCreated)
+                union.Dispose();
+            union = default;
+            Current = default;
+        }
+
         public NativeList<T> ToList()
         {
             var sourceList = Source.ToList();
-            var secondList = Second.ToList();
-            var set = new NativeHashSet<T>(sourceList.Length + secondList.Length, Allocator.Temp);
-            for (var i = 0; i < sourceList.Length; i++)
-                set.Add(sourceList[i]);
-            for (var i = 0; i < secondList.Length; i++)
-                set.Add(secondList[i]);
-            var setArr = set.ToNativeArray(Allocator.Temp);
-            sourceList.CopyFrom(setArr);
-            secondList.Dispose();
-            set.Dispose();
-            setArr.Dispose();
+            using (var secondList = Second.ToList())
+            using (var set = new NativeHashSet<T>(sourceList.Length + secondList.Length, Allocator.Temp))
+            {
+                for (var i = 0; i < sourceList.Length; i++)
+                    set.Add(sourceList[i]);
+                for (var i = 0; i < secondList.Length; i++)
+                    set.Add(secondList[i]);
+                using (var setArr = set.ToNativeArray(Allocator.Temp))
+                    sourceList.CopyFrom(setArr);
+            }
             return sourceList;
         }
     }
