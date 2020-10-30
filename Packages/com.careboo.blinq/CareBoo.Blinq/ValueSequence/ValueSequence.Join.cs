@@ -1,6 +1,7 @@
 ﻿using System;
 using Unity.Collections;
 using CareBoo.Burst.Delegates;
+using System.Collections;
 
 namespace CareBoo.Blinq
 {
@@ -65,6 +66,60 @@ namespace CareBoo.Blinq
         public ValueFunc<TOuter, TKey>.Struct<TOuterKeySelector> OuterKeySelector;
         public ValueFunc<TInner, TKey>.Struct<TInnerKeySelector> InnerKeySelector;
         public ValueFunc<TOuter, TInner, TResult>.Struct<TResultSelector> ResultSelector;
+
+        NativeHashMap<TKey, TOuter> map;
+        NativeHashMap<TKey, TOuter>.Enumerator mapEnumerator;
+
+        public TResult Current { get; private set; }
+
+        object IEnumerator.Current => Current;
+
+        public void Dispose()
+        {
+            Outer.Dispose();
+            Inner.Dispose();
+            if (map.IsCreated)
+                map.Dispose();
+        }
+
+        public bool MoveNext()
+        {
+            if (!map.IsCreated)
+                using (var outer = Outer.ToList())
+                {
+                    map = new NativeHashMap<TKey, TOuter>(outer.Length, Allocator.Persistent);
+                    for (var i = 0; i < outer.Length; i++)
+                    {
+                        var val = outer[i];
+                        var key = OuterKeySelector.Invoke(val);
+                        map.Add(key, val);
+                    }
+                    mapEnumerator = map.GetEnumerator();
+                }
+
+            while (mapEnumerator.MoveNext())
+                while (Inner.MoveNext())
+                {
+                    var innerVal = Inner.Current;
+                    var key = InnerKeySelector.Invoke(innerVal);
+                    if (map.TryGetValue(key, out var outerVal))
+                    {
+                        Current = ResultSelector.Invoke(outerVal, innerVal);
+                        return true;
+                    }
+                }
+            return false;
+        }
+
+        public void Reset()
+        {
+            if (map.IsCreated)
+                map.Dispose();
+            map = default;
+            mapEnumerator = default;
+            Outer.Reset();
+            Inner.Reset();
+        }
 
         public NativeList<TResult> ToList()
         {
