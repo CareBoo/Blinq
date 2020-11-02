@@ -1,6 +1,7 @@
 ﻿using Unity.Collections;
 using CareBoo.Burst.Delegates;
 using System.Collections;
+using System;
 
 namespace CareBoo.Blinq
 {
@@ -100,8 +101,7 @@ namespace CareBoo.Blinq
 
         public void Dispose()
         {
-            if (currentCollection.IsCreated)
-                currentCollection.Dispose();
+            currentCollection.Dispose();
             currentCollection = default;
             currentEnumerator = default;
             source.Dispose();
@@ -113,8 +113,7 @@ namespace CareBoo.Blinq
             {
                 if (!source.MoveNext())
                     return false;
-                if (currentCollection.IsCreated)
-                    currentCollection.Dispose();
+                currentCollection.Dispose();
                 currentCollection = collectionSelector.Invoke(source.Current);
                 currentEnumerator = currentCollection.GetEnumerator();
             }
@@ -123,11 +122,7 @@ namespace CareBoo.Blinq
 
         public void Reset()
         {
-            if (currentCollection.IsCreated)
-                currentCollection.Dispose();
-            currentCollection = default;
-            currentEnumerator = default;
-            source.Reset();
+            throw new NotSupportedException();
         }
 
         public NativeList<TResult> ToList()
@@ -197,8 +192,7 @@ namespace CareBoo.Blinq
 
         public void Dispose()
         {
-            if (currentCollection.IsCreated)
-                currentCollection.Dispose();
+            currentCollection.Dispose();
             currentCollection = default;
             currentEnumerator = default;
             source.Dispose();
@@ -211,8 +205,7 @@ namespace CareBoo.Blinq
                 if (!source.MoveNext())
                     return false;
                 currentIndex += 1;
-                if (currentCollection.IsCreated)
-                    currentCollection.Dispose();
+                currentCollection.Dispose();
                 currentCollection = collectionSelector.Invoke(source.Current, currentIndex);
                 currentEnumerator = currentCollection.GetEnumerator();
             }
@@ -221,12 +214,7 @@ namespace CareBoo.Blinq
 
         public void Reset()
         {
-            if (currentCollection.IsCreated)
-                currentCollection.Dispose();
-            currentCollection = default;
-            currentEnumerator = default;
-            currentIndex = -1;
-            source.Reset();
+            throw new NotSupportedException();
         }
 
         public NativeList<TResult> ToList()

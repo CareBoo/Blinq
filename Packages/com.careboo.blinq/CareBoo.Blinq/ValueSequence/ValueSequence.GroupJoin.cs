@@ -92,9 +92,9 @@ namespace CareBoo.Blinq
 
         public void Dispose()
         {
-            if (innerMap.IsCreated)
-                innerMap.Dispose();
-            innerMap = default;
+            outer.Dispose();
+            inner.Dispose();
+            innerMap.Dispose();
         }
 
         public bool MoveNext()

@@ -47,8 +47,7 @@ namespace CareBoo.Blinq
         {
             Source.Dispose();
             Second.Dispose();
-            if (union.IsCreated)
-                union.Dispose();
+            union.Dispose();
         }
 
         public bool MoveNext()
@@ -72,10 +71,7 @@ namespace CareBoo.Blinq
 
         public void Reset()
         {
-            if (union.IsCreated)
-                union.Dispose();
-            union = default;
-            Current = default;
+            throw new NotSupportedException();
         }
 
         public NativeList<T> ToList()

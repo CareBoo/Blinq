@@ -55,6 +55,8 @@ namespace CareBoo.Blinq
 
         public void Dispose()
         {
+            source.Dispose();
+            second.Dispose();
         }
 
         public bool MoveNext()

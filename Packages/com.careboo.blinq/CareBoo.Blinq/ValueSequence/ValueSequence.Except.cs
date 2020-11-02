@@ -52,9 +52,9 @@ namespace CareBoo.Blinq
 
         public void Dispose()
         {
-            if (set.IsCreated)
-                set.Dispose();
-            set = default;
+            source.Dispose();
+            second.Dispose();
+            set.Dispose();
         }
 
         public bool MoveNext()

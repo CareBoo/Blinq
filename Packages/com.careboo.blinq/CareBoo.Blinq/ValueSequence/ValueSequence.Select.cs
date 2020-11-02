@@ -1,6 +1,7 @@
 ﻿using Unity.Collections;
 using CareBoo.Burst.Delegates;
 using System.Collections;
+using System;
 
 namespace CareBoo.Blinq
 {
@@ -15,7 +16,7 @@ namespace CareBoo.Blinq
             where TResult : struct
             where TSelector : struct, IFunc<T, int, TResult>
         {
-            var seq = new SelectIndexSequence<T, TSource, TResult, TSelector> { Source = source.Source, Selector = selector };
+            var seq = new SelectIndexSequence<T, TSource, TResult, TSelector>(source.Source, selector);
             return ValueSequence<TResult>.New(seq);
         }
 
@@ -28,7 +29,7 @@ namespace CareBoo.Blinq
             where TResult : struct
             where TSelector : struct, IFunc<T, TResult>
         {
-            var seq = new SelectSequence<T, TSource, TResult, TSelector> { Source = source.Source, Selector = selector };
+            var seq = new SelectSequence<T, TSource, TResult, TSelector>(source.Source, selector);
             return ValueSequence<TResult>.New(seq);
         }
     }
@@ -39,41 +40,44 @@ namespace CareBoo.Blinq
         where TResult : struct
         where TSelector : struct, IFunc<T, int, TResult>
     {
-        public TSource Source;
-        public ValueFunc<T, int, TResult>.Struct<TSelector> Selector;
+        readonly TSource source;
+        readonly ValueFunc<T, int, TResult>.Struct<TSelector> selector;
 
-        private int currentIndex;
+        int currentIndex;
 
-        public TResult Current => Selector.Invoke(Source.Current, currentIndex - 1);
+        public SelectIndexSequence(TSource source, ValueFunc<T, int, TResult>.Struct<TSelector> selector)
+        {
+            this.source = source;
+            this.selector = selector;
+            currentIndex = -1;
+        }
+
+        public TResult Current => selector.Invoke(source.Current, currentIndex);
 
         object IEnumerator.Current => Current;
 
         public void Dispose()
         {
-            Source.Dispose();
         }
 
         public bool MoveNext()
         {
             currentIndex += 1;
-            return Source.MoveNext();
+            return source.MoveNext();
         }
 
         public void Reset()
         {
-            currentIndex = 0;
-            Source.Reset();
+            throw new NotSupportedException();
         }
 
         public NativeList<TResult> ToList()
         {
-            var sourceList = Source.ToList();
+            var sourceList = source.ToList();
 
             var newList = new NativeList<TResult>(sourceList.Length, Allocator.Temp);
             for (var i = 0; i < sourceList.Length; i++)
-            {
-                newList.AddNoResize(Selector.Invoke(sourceList[i], i));
-            }
+                newList.AddNoResize(selector.Invoke(sourceList[i], i));
             sourceList.Dispose();
             return newList;
         }
@@ -85,37 +89,41 @@ namespace CareBoo.Blinq
         where TResult : struct
         where TSelector : struct, IFunc<T, TResult>
     {
-        public TSource Source;
-        public ValueFunc<T, TResult>.Struct<TSelector> Selector;
+        public TSource source;
+        public ValueFunc<T, TResult>.Struct<TSelector> selector;
 
-        public TResult Current => Selector.Invoke(Source.Current);
+        public SelectSequence(TSource source, ValueFunc<T, TResult>.Struct<TSelector> selector)
+        {
+            this.source = source;
+            this.selector = selector;
+        }
+
+        public TResult Current => selector.Invoke(source.Current);
 
         object IEnumerator.Current => Current;
 
         public void Dispose()
         {
-            Source.Dispose();
+            source.Dispose();
         }
 
         public bool MoveNext()
         {
-            return Source.MoveNext();
+            return source.MoveNext();
         }
 
         public void Reset()
         {
-            Source.Reset();
+            throw new NotSupportedException();
         }
 
         public NativeList<TResult> ToList()
         {
-            var sourceList = Source.ToList();
+            var sourceList = source.ToList();
 
             var newList = new NativeList<TResult>(sourceList.Length, Allocator.Temp);
             for (var i = 0; i < sourceList.Length; i++)
-            {
-                newList.AddNoResize(Selector.Invoke(sourceList[i]));
-            }
+                newList.AddNoResize(selector.Invoke(sourceList[i]));
             sourceList.Dispose();
             return newList;
         }

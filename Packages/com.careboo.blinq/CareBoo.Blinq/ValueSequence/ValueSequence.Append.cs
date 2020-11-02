@@ -42,6 +42,7 @@ namespace CareBoo.Blinq
 
         public void Dispose()
         {
+            source.Dispose();
         }
 
         public bool MoveNext()

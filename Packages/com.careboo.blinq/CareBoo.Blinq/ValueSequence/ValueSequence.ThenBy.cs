@@ -91,16 +91,12 @@ namespace CareBoo.Blinq
 
         public void Reset()
         {
-            if (list.IsCreated)
-                list.Dispose();
-            list = default;
-            currentIndex = default;
+            throw new NotSupportedException();
         }
 
         public void Dispose()
         {
-            if (list.IsCreated)
-                list.Dispose();
+            list.Dispose();
             Source.Dispose();
         }
     }
