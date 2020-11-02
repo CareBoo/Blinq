@@ -14,8 +14,10 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSecond : struct, ISequence<T>
         {
-            var newSequence = new ConcatSequence<T, TSource, TSecond>(source.Source, second.Source);
-            return ValueSequence<T>.New(newSequence);
+            var sourceSeq = source.GetEnumerator();
+            var secondSeq = second.GetEnumerator();
+            var newSequence = new ConcatSequence<T, TSource, TSecond>(ref sourceSeq, ref secondSeq);
+            return ValueSequence<T>.New(ref newSequence);
         }
 
         public static ValueSequence<T, ConcatSequence<T, TSource, NativeArraySequence<T>>> Concat<T, TSource>(
@@ -25,8 +27,10 @@ namespace CareBoo.Blinq
             where T : struct
             where TSource : struct, ISequence<T>
         {
-            var newSequence = new ConcatSequence<T, TSource, NativeArraySequence<T>>(source.Source, second.ToValueSequence().Source);
-            return ValueSequence<T>.New(newSequence);
+            var sourceSeq = source.GetEnumerator();
+            var secondSeq = second.ToValueSequence().GetEnumerator();
+            var newSequence = new ConcatSequence<T, TSource, NativeArraySequence<T>>(ref sourceSeq, ref secondSeq);
+            return ValueSequence<T>.New(ref newSequence);
         }
     }
 
@@ -40,7 +44,7 @@ namespace CareBoo.Blinq
 
         bool currentIndex;
 
-        public ConcatSequence(TSource source, TSecond second)
+        public ConcatSequence(ref TSource source, ref TSecond second)
         {
             this.source = source;
             this.second = second;

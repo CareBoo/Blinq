@@ -8,13 +8,14 @@ namespace CareBoo.Blinq
     {
         public static ValueSequence<T, AppendSequence<T, TSource>> Append<T, TSource>(
             this ValueSequence<T, TSource> source,
-            T item
+            in T item
             )
             where T : struct
             where TSource : struct, ISequence<T>
         {
-            var seq = new AppendSequence<T, TSource>(source.Source, item);
-            return ValueSequence<T>.New(seq);
+            var sourceSeq = source.GetEnumerator();
+            var seq = new AppendSequence<T, TSource>(ref sourceSeq, in item);
+            return ValueSequence<T>.New(ref seq);
         }
     }
 
@@ -22,12 +23,12 @@ namespace CareBoo.Blinq
         where T : struct
         where TSource : struct, ISequence<T>
     {
-        readonly TSource source;
+        TSource source;
         readonly T item;
 
         int currentIndex;
 
-        public AppendSequence(TSource source, T item)
+        public AppendSequence(ref TSource source, in T item)
         {
             this.source = source;
             this.item = item;

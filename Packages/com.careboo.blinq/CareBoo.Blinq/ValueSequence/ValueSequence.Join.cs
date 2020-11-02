@@ -8,7 +8,7 @@ namespace CareBoo.Blinq
     public static partial class Sequence
     {
         public static ValueSequence<TResult, JoinSequence<TOuter, TOuterSequence, TInner, TInnerSequence, TKey, TOuterKeySelector, TInnerKeySelector, TResult, TResultSelector>> Join<TOuter, TOuterSequence, TInner, TInnerSequence, TKey, TOuterKeySelector, TInnerKeySelector, TResult, TResultSelector>(
-            this ValueSequence<TOuter, TOuterSequence> outer,
+            this ref ValueSequence<TOuter, TOuterSequence> outer,
             ValueSequence<TInner, TInnerSequence> inner,
             ValueFunc<TOuter, TKey>.Struct<TOuterKeySelector> outerKeySelector,
             ValueFunc<TInner, TKey>.Struct<TInnerKeySelector> innerKeySelector,
@@ -24,12 +24,14 @@ namespace CareBoo.Blinq
             where TResult : struct
             where TResultSelector : struct, IFunc<TOuter, TInner, TResult>
         {
-            var seq = JoinSequence.New(outer.Source, inner.Source, outerKeySelector, innerKeySelector, resultSelector);
-            return ValueSequence<TResult>.New(seq);
+            var outerSeq = outer.GetEnumerator();
+            var innerSeq = inner.GetEnumerator();
+            var seq = JoinSequence.New(ref outerSeq, ref innerSeq, outerKeySelector, innerKeySelector, resultSelector);
+            return ValueSequence<TResult>.New(ref seq);
         }
 
         public static ValueSequence<TResult, JoinSequence<TOuter, TOuterSequence, TInner, NativeArraySequence<TInner>, TKey, TOuterKeySelector, TInnerKeySelector, TResult, TResultSelector>> Join<TOuter, TOuterSequence, TInner, TKey, TOuterKeySelector, TInnerKeySelector, TResult, TResultSelector>(
-            this ValueSequence<TOuter, TOuterSequence> outer,
+            this ref ValueSequence<TOuter, TOuterSequence> outer,
             NativeArray<TInner> inner,
             ValueFunc<TOuter, TKey>.Struct<TOuterKeySelector> outerKeySelector,
             ValueFunc<TInner, TKey>.Struct<TInnerKeySelector> innerKeySelector,
@@ -44,8 +46,10 @@ namespace CareBoo.Blinq
             where TResult : struct
             where TResultSelector : struct, IFunc<TOuter, TInner, TResult>
         {
-            var seq = JoinSequence.New(outer.Source, inner.ToValueSequence().Source, outerKeySelector, innerKeySelector, resultSelector);
-            return ValueSequence<TResult>.New(seq);
+            var outerSeq = outer.GetEnumerator();
+            var innerSeq = inner.ToValueSequence().GetEnumerator();
+            var seq = JoinSequence.New(ref outerSeq, ref innerSeq, outerKeySelector, innerKeySelector, resultSelector);
+            return ValueSequence<TResult>.New(ref seq);
         }
     }
 
@@ -61,18 +65,18 @@ namespace CareBoo.Blinq
         where TResult : struct
         where TResultSelector : struct, IFunc<TOuter, TInner, TResult>
     {
-        public TOuterSequence outer;
-        public TInnerSequence inner;
-        public ValueFunc<TOuter, TKey>.Struct<TOuterKeySelector> outerKeySelector;
-        public ValueFunc<TInner, TKey>.Struct<TInnerKeySelector> innerKeySelector;
-        public ValueFunc<TOuter, TInner, TResult>.Struct<TResultSelector> resultSelector;
+        readonly ValueFunc<TOuter, TKey>.Struct<TOuterKeySelector> outerKeySelector;
+        readonly ValueFunc<TInner, TKey>.Struct<TInnerKeySelector> innerKeySelector;
+        readonly ValueFunc<TOuter, TInner, TResult>.Struct<TResultSelector> resultSelector;
 
+        TOuterSequence outer;
+        TInnerSequence inner;
         NativeHashMap<TKey, TOuter> map;
         NativeHashMap<TKey, TOuter>.Enumerator mapEnumerator;
 
         public JoinSequence(
-            TOuterSequence outer,
-            TInnerSequence inner,
+            ref TOuterSequence outer,
+            ref TInnerSequence inner,
             ValueFunc<TOuter, TKey>.Struct<TOuterKeySelector> outerKeySelector,
             ValueFunc<TInner, TKey>.Struct<TInnerKeySelector> innerKeySelector,
             ValueFunc<TOuter, TInner, TResult>.Struct<TResultSelector> resultSelector
@@ -164,8 +168,8 @@ namespace CareBoo.Blinq
     public static class JoinSequence
     {
         public static JoinSequence<TOuter, TOuterSequence, TInner, TInnerSequence, TKey, TOuterKeySelector, TInnerKeySelector, TResult, TResultSelector> New<TOuter, TOuterSequence, TInner, TInnerSequence, TKey, TOuterKeySelector, TInnerKeySelector, TResult, TResultSelector>(
-            TOuterSequence outer,
-            TInnerSequence inner,
+            ref TOuterSequence outer,
+            ref TInnerSequence inner,
             ValueFunc<TOuter, TKey>.Struct<TOuterKeySelector> outerKeySelector,
             ValueFunc<TInner, TKey>.Struct<TInnerKeySelector> innerKeySelector,
             ValueFunc<TOuter, TInner, TResult>.Struct<TResultSelector> resultSelector
@@ -181,13 +185,13 @@ namespace CareBoo.Blinq
             where TResultSelector : struct, IFunc<TOuter, TInner, TResult>
         {
             return new JoinSequence<TOuter, TOuterSequence, TInner, TInnerSequence, TKey, TOuterKeySelector, TInnerKeySelector, TResult, TResultSelector>
-            {
-                outer = outer,
-                inner = inner,
-                outerKeySelector = outerKeySelector,
-                innerKeySelector = innerKeySelector,
-                resultSelector = resultSelector
-            };
+            (
+                ref outer,
+                ref inner,
+                outerKeySelector,
+                innerKeySelector,
+                resultSelector
+            );
         }
     }
 }

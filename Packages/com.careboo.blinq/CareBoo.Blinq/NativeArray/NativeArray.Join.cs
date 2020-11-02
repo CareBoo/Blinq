@@ -22,7 +22,8 @@ namespace CareBoo.Blinq
             where TResult : struct
             where TResultSelector : struct, IFunc<TOuter, TInner, TResult>
         {
-            return outer.ToValueSequence().Join(inner, outerKeySelector, innerKeySelector, resultSelector);
+            var outerSeq = outer.ToValueSequence();
+            return outerSeq.Join(inner, outerKeySelector, innerKeySelector, resultSelector);
         }
 
         public static ValueSequence<TResult, JoinSequence<TOuter, NativeArraySequence<TOuter>, TInner, NativeArraySequence<TInner>, TKey, TOuterKeySelector, TInnerKeySelector, TResult, TResultSelector>> Join<TOuter, TInner, TKey, TOuterKeySelector, TInnerKeySelector, TResult, TResultSelector>(
@@ -40,7 +41,8 @@ namespace CareBoo.Blinq
             where TResult : struct
             where TResultSelector : struct, IFunc<TOuter, TInner, TResult>
         {
-            return outer.ToValueSequence().Join(inner, outerKeySelector, innerKeySelector, resultSelector);
+            var outerSeq = outer.ToValueSequence();
+            return outerSeq.Join(inner, outerKeySelector, innerKeySelector, resultSelector);
         }
     }
 

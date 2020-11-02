@@ -22,8 +22,9 @@ namespace CareBoo.Blinq
             where TResult : struct
             where TResultSelector : struct, IFunc<TKey, NativeMultiHashMap<TKey, TElement>, TResult>
         {
-            var seq = GroupBySequence.New(source.Source, keySelector, elementSelector, resultSelector);
-            return ValueSequence<TResult>.New(seq);
+            var sourceSeq = source.GetEnumerator();
+            var seq = GroupBySequence.New(ref sourceSeq, keySelector, elementSelector, resultSelector);
+            return ValueSequence<TResult>.New(ref seq);
         }
 
         public static ValueSequence<TResult, GroupBySequence<T, TSource, TKey, TKeySelector, T, SameSelector<T>, TResult, TResultSelector>> GroupBy<T, TSource, TKey, TKeySelector, TResult, TResultSelector>(
@@ -54,11 +55,11 @@ namespace CareBoo.Blinq
         where TResult : struct
         where TResultSelector : struct, IFunc<TKey, NativeMultiHashMap<TKey, TElement>, TResult>
     {
-        readonly TSource source;
         readonly ValueFunc<T, TKey>.Struct<TKeySelector> keySelector;
         readonly ValueFunc<T, TElement>.Struct<TElementSelector> elementSelector;
         readonly ValueFunc<TKey, NativeMultiHashMap<TKey, TElement>, TResult>.Struct<TResultSelector> resultSelector;
 
+        TSource source;
         NativeList<TResult> resultList;
         NativeArray<TResult>.Enumerator resultListEnum;
 
@@ -67,7 +68,7 @@ namespace CareBoo.Blinq
         object IEnumerator.Current => Current;
 
         public GroupBySequence(
-            TSource source,
+            ref TSource source,
             ValueFunc<T, TKey>.Struct<TKeySelector> keySelector,
             ValueFunc<T, TElement>.Struct<TElementSelector> elementSelector,
             ValueFunc<TKey, NativeMultiHashMap<TKey, TElement>, TResult>.Struct<TResultSelector> resultSelector
@@ -150,7 +151,7 @@ namespace CareBoo.Blinq
     public static class GroupBySequence
     {
         public static GroupBySequence<T, TSource, TKey, TKeySelector, TElement, TElementSelector, TResult, TResultSelector> New<T, TSource, TKey, TKeySelector, TElement, TElementSelector, TResult, TResultSelector>(
-            TSource source,
+            ref TSource source,
             ValueFunc<T, TKey>.Struct<TKeySelector> keySelector,
             ValueFunc<T, TElement>.Struct<TElementSelector> elementSelector,
             ValueFunc<TKey, NativeMultiHashMap<TKey, TElement>, TResult>.Struct<TResultSelector> resultSelector
@@ -164,7 +165,7 @@ namespace CareBoo.Blinq
             where TResult : struct
             where TResultSelector : struct, IFunc<TKey, NativeMultiHashMap<TKey, TElement>, TResult>
         {
-            return new GroupBySequence<T, TSource, TKey, TKeySelector, TElement, TElementSelector, TResult, TResultSelector>(source, keySelector, elementSelector, resultSelector);
+            return new GroupBySequence<T, TSource, TKey, TKeySelector, TElement, TElementSelector, TResult, TResultSelector>(ref source, keySelector, elementSelector, resultSelector);
         }
     }
 }

@@ -13,8 +13,9 @@ namespace CareBoo.Blinq
             where T : struct
             where TSource : struct, ISequence<T>
         {
-            var seq = new DefaultIfEmptySequence<T, TSource>(source.Source, defaultVal);
-            return ValueSequence<T>.New(seq);
+            var sourceSeq = source.GetEnumerator();
+            var seq = new DefaultIfEmptySequence<T, TSource>(ref sourceSeq, in defaultVal);
+            return ValueSequence<T>.New(ref seq);
         }
     }
 
@@ -22,12 +23,12 @@ namespace CareBoo.Blinq
         where T : struct
         where TSource : struct, ISequence<T>
     {
-        readonly TSource source;
+        TSource source;
         readonly T defaultVal;
 
         int currentIndex;
 
-        public DefaultIfEmptySequence(TSource source, T defaultVal)
+        public DefaultIfEmptySequence(ref TSource source, in T defaultVal)
         {
             this.source = source;
             this.defaultVal = defaultVal;

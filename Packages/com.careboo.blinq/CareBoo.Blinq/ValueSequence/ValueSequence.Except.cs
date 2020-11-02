@@ -7,19 +7,21 @@ namespace CareBoo.Blinq
     public static partial class Sequence
     {
         public static ValueSequence<T, ExceptSequence<T, TSource, TSecond>> Except<T, TSource, TSecond>(
-            this ValueSequence<T, TSource> source,
+            this ref ValueSequence<T, TSource> source,
             ValueSequence<T, TSecond> second
             )
             where T : unmanaged, IEquatable<T>
             where TSource : struct, ISequence<T>
             where TSecond : struct, ISequence<T>
         {
-            var seq = new ExceptSequence<T, TSource, TSecond>(source.Source, second.Source);
-            return ValueSequence<T>.New(seq);
+            var sourceSeq = source.GetEnumerator();
+            var secondSeq = second.GetEnumerator();
+            var seq = new ExceptSequence<T, TSource, TSecond>(ref sourceSeq, ref secondSeq);
+            return ValueSequence<T>.New(ref seq);
         }
 
         public static ValueSequence<T, ExceptSequence<T, TSource, NativeArraySequence<T>>> Except<T, TSource>(
-            this ValueSequence<T, TSource> source,
+            this ref ValueSequence<T, TSource> source,
             NativeArray<T> second
             )
             where T : unmanaged, IEquatable<T>
@@ -39,7 +41,7 @@ namespace CareBoo.Blinq
 
         NativeHashSet<T> set;
 
-        public ExceptSequence(TSource source, TSecond second)
+        public ExceptSequence(ref TSource source, ref TSecond second)
         {
             this.source = source;
             this.second = second;

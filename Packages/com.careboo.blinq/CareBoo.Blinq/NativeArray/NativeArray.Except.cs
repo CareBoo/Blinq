@@ -12,7 +12,8 @@ namespace CareBoo.Blinq
             where T : unmanaged, IEquatable<T>
             where TSecond : struct, ISequence<T>
         {
-            return source.ToValueSequence().Except(second);
+            var sourceSeq = source.ToValueSequence();
+            return sourceSeq.Except(second);
         }
 
         public static ValueSequence<T, ExceptSequence<T, NativeArraySequence<T>, NativeArraySequence<T>>> Except<T>(
@@ -21,7 +22,8 @@ namespace CareBoo.Blinq
             )
             where T : unmanaged, IEquatable<T>
         {
-            return source.ToValueSequence().Except(second);
+            var sourceSeq = source.ToValueSequence();
+            return sourceSeq.Except(second);
         }
     }
 }

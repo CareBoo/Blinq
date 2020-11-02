@@ -12,7 +12,8 @@ namespace CareBoo.Blinq
            where T : unmanaged, IEquatable<T>
            where TSecond : struct, ISequence<T>
         {
-            return source.ToValueSequence().Intersect(second);
+            var sourceSeq = source.ToValueSequence();
+            return sourceSeq.Intersect(second);
         }
 
         public static ValueSequence<T, IntersectSequence<T, NativeArraySequence<T>, NativeArraySequence<T>>> Intersect<T>(
@@ -21,7 +22,8 @@ namespace CareBoo.Blinq
            )
            where T : unmanaged, IEquatable<T>
         {
-            return source.ToValueSequence().Intersect(second);
+            var sourceSeq = source.ToValueSequence();
+            return sourceSeq.Intersect(ref second);
         }
     }
 }

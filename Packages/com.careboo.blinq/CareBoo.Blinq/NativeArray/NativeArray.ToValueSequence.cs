@@ -49,7 +49,7 @@ namespace CareBoo.Blinq
             where T : struct
         {
             var newSequence = new NativeArraySequence<T>(nativeArray);
-            return ValueSequence<T>.New(newSequence);
+            return ValueSequence<T>.New(ref newSequence);
         }
     }
 }

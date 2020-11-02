@@ -7,20 +7,22 @@ namespace CareBoo.Blinq
     public static partial class Sequence
     {
         public static ValueSequence<T, IntersectSequence<T, TSource, TSecond>> Intersect<T, TSource, TSecond>(
-            this ValueSequence<T, TSource> source,
-            ValueSequence<T, TSecond> second
+            this ref ValueSequence<T, TSource> source,
+            in ValueSequence<T, TSecond> second
             )
             where T : unmanaged, IEquatable<T>
             where TSource : struct, ISequence<T>
             where TSecond : struct, ISequence<T>
         {
-            var seq = new IntersectSequence<T, TSource, TSecond>(source.Source, second.Source);
-            return ValueSequence<T>.New(seq);
+            var sourceSeq = source.GetEnumerator();
+            var secondSeq = second.GetEnumerator();
+            var seq = new IntersectSequence<T, TSource, TSecond>(ref sourceSeq, ref secondSeq);
+            return ValueSequence<T>.New(ref seq);
         }
 
         public static ValueSequence<T, IntersectSequence<T, TSource, NativeArraySequence<T>>> Intersect<T, TSource>(
-            this ValueSequence<T, TSource> source,
-            NativeArray<T> second
+            this ref ValueSequence<T, TSource> source,
+            ref NativeArray<T> second
             )
             where T : unmanaged, IEquatable<T>
             where TSource : struct, ISequence<T>
@@ -34,12 +36,11 @@ namespace CareBoo.Blinq
         where TSource : struct, ISequence<T>
         where TSecond : struct, ISequence<T>
     {
-        readonly TSource source;
-        readonly TSecond second;
+        TSource source;
+        TSecond second;
+        NativeHashSet<T> set;
 
-        private NativeHashSet<T> set;
-
-        public IntersectSequence(TSource source, TSecond second)
+        public IntersectSequence(ref TSource source, ref TSecond second)
         {
             this.source = source;
             this.second = second;

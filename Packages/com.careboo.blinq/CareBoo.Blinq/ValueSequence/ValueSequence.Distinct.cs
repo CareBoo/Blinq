@@ -12,8 +12,9 @@ namespace CareBoo.Blinq
             where T : unmanaged, IEquatable<T>
             where TSource : struct, ISequence<T>
         {
-            var seq = new DistinctSequence<T, TSource>(source.Source);
-            return ValueSequence<T>.New(seq);
+            var sourceSeq = source.GetEnumerator();
+            var seq = new DistinctSequence<T, TSource>(ref sourceSeq);
+            return ValueSequence<T>.New(ref seq);
         }
     }
 
@@ -21,11 +22,11 @@ namespace CareBoo.Blinq
         where T : unmanaged, IEquatable<T>
         where TSource : struct, ISequence<T>
     {
-        readonly TSource source;
+        TSource source;
 
         NativeHashSet<T> set;
 
-        public DistinctSequence(TSource source)
+        public DistinctSequence(ref TSource source)
         {
             this.source = source;
             set = default;
