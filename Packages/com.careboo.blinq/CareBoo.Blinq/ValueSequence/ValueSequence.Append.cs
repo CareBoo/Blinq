@@ -25,13 +25,13 @@ namespace CareBoo.Blinq
         readonly TSource source;
         readonly T item;
 
-        byte currentIndex;
+        int currentIndex;
 
         public AppendSequence(TSource source, T item)
         {
             this.source = source;
             this.item = item;
-            currentIndex = default;
+            currentIndex = 0;
         }
 
         public T Current => currentIndex > 0
@@ -51,7 +51,8 @@ namespace CareBoo.Blinq
                 return false;
             if (source.MoveNext())
                 return true;
-            currentIndex += 1;
+            if (currentIndex < 2)
+                currentIndex += 1;
             return true;
         }
 

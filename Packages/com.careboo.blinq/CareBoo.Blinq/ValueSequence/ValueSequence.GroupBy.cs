@@ -1,6 +1,7 @@
 ﻿using System;
 using Unity.Collections;
 using CareBoo.Burst.Delegates;
+using System.Collections;
 
 namespace CareBoo.Blinq
 {
@@ -58,6 +59,13 @@ namespace CareBoo.Blinq
         readonly ValueFunc<T, TElement>.Struct<TElementSelector> elementSelector;
         readonly ValueFunc<TKey, NativeMultiHashMap<TKey, TElement>, TResult>.Struct<TResultSelector> resultSelector;
 
+        NativeList<TResult> resultList;
+        NativeArray<TResult>.Enumerator resultListEnum;
+
+        public TResult Current => resultListEnum.Current;
+
+        object IEnumerator.Current => Current;
+
         public GroupBySequence(
             TSource source,
             ValueFunc<T, TKey>.Struct<TKeySelector> keySelector,
@@ -69,7 +77,10 @@ namespace CareBoo.Blinq
             this.keySelector = keySelector;
             this.elementSelector = elementSelector;
             this.resultSelector = resultSelector;
+            resultList = default;
+            resultListEnum = default;
         }
+
 
         public NativeList<TResult> ToList()
         {
@@ -103,7 +114,6 @@ namespace CareBoo.Blinq
         {
             using (var keysArr = groupMap.GetKeyArray(Allocator.Temp))
             using (var keySet = new NativeHashSet<TKey>(keysArr.Length, Allocator.Temp))
-            {
                 for (var i = 0; i < keysArr.Length; i++)
                 {
                     var key = keysArr[i];
@@ -113,7 +123,27 @@ namespace CareBoo.Blinq
                         results.Add(result);
                     }
                 }
+        }
+
+        public bool MoveNext()
+        {
+            if (!resultList.IsCreated)
+            {
+                resultList = ToList();
+                resultListEnum = resultList.GetEnumerator();
             }
+            return resultListEnum.MoveNext();
+        }
+
+        public void Reset()
+        {
+            throw new NotSupportedException();
+        }
+
+        public void Dispose()
+        {
+            source.Dispose();
+            resultList.Dispose();
         }
     }
 

@@ -1,5 +1,7 @@
 ﻿using Unity.Collections;
 using CareBoo.Burst.Delegates;
+using System.Collections;
+using System;
 
 namespace CareBoo.Blinq
 {
@@ -13,7 +15,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TPredicate : struct, IFunc<T, int, bool>
         {
-            var seq = new WhereIndexSequence<T, TSource, TPredicate> { Source = source.Source, Predicate = predicate };
+            var seq = new WhereIndexSequence<T, TSource, TPredicate>(source.Source, predicate);
             return ValueSequence<T>.New(seq);
         }
 
@@ -25,7 +27,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TPredicate : struct, IFunc<T, bool>
         {
-            var seq = new WhereSequence<T, TSource, TPredicate> { Source = source.Source, Predicate = predicate };
+            var seq = new WhereSequence<T, TSource, TPredicate>(source.Source, predicate);
             return ValueSequence<T>.New(seq);
         }
     }
@@ -35,20 +37,52 @@ namespace CareBoo.Blinq
         where TSource : struct, ISequence<T>
         where TPredicate : struct, IFunc<T, int, bool>
     {
-        public TSource Source;
-        public ValueFunc<T, int, bool>.Struct<TPredicate> Predicate;
+        readonly TSource source;
+        readonly ValueFunc<T, int, bool>.Struct<TPredicate> predicate;
+
+        int currentIndex;
+
+        public WhereIndexSequence(TSource source, ValueFunc<T, int, bool>.Struct<TPredicate> predicate)
+        {
+            this.source = source;
+            this.predicate = predicate;
+            currentIndex = -1;
+        }
+
+        public T Current => source.Current;
+
+        object IEnumerator.Current => Current;
+
+        public void Dispose()
+        {
+            source.Dispose();
+        }
+
+        public bool MoveNext()
+        {
+            while (source.MoveNext())
+            {
+                currentIndex += 1;
+                if (predicate.Invoke(source.Current, currentIndex))
+                    return true;
+            }
+            return false;
+        }
+
+        public void Reset()
+        {
+            throw new NotSupportedException();
+        }
 
         public NativeList<T> ToList()
         {
-            var sourceList = Source.ToList();
+            var sourceList = source.ToList();
             for (var i = 0; i < sourceList.Length; i++)
-            {
-                if (!Predicate.Invoke(sourceList[i], i))
+                if (!predicate.Invoke(sourceList[i], i))
                 {
                     sourceList.RemoveAt(i);
                     i--;
                 }
-            }
             return sourceList;
         }
     }
@@ -58,20 +92,46 @@ namespace CareBoo.Blinq
         where TSource : struct, ISequence<T>
         where TPredicate : struct, IFunc<T, bool>
     {
-        public TSource Source;
-        public ValueFunc<T, bool>.Struct<TPredicate> Predicate;
+        readonly TSource source;
+        readonly ValueFunc<T, bool>.Struct<TPredicate> predicate;
+
+        public WhereSequence(TSource source, ValueFunc<T, bool>.Struct<TPredicate> predicate)
+        {
+            this.source = source;
+            this.predicate = predicate;
+        }
+
+        public T Current => source.Current;
+
+        object IEnumerator.Current => Current;
+
+        public void Dispose()
+        {
+            source.Dispose();
+        }
+
+        public bool MoveNext()
+        {
+            while (source.MoveNext())
+                if (predicate.Invoke(source.Current))
+                    return true;
+            return false;
+        }
+
+        public void Reset()
+        {
+            throw new NotSupportedException();
+        }
 
         public NativeList<T> ToList()
         {
-            var sourceList = Source.ToList();
+            var sourceList = source.ToList();
             for (var i = 0; i < sourceList.Length; i++)
-            {
-                if (!Predicate.Invoke(sourceList[i]))
+                if (!predicate.Invoke(sourceList[i]))
                 {
                     sourceList.RemoveAt(i);
                     i--;
                 }
-            }
             return sourceList;
         }
     }

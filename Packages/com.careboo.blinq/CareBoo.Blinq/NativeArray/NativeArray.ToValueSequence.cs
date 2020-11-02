@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using Unity.Collections;
 
 namespace CareBoo.Blinq
@@ -6,35 +7,38 @@ namespace CareBoo.Blinq
     public struct NativeArraySequence<T> : ISequence<T>
         where T : struct
     {
-        public NativeArray<T> Source;
+        readonly NativeArray<T> source;
+        readonly NativeArray<T>.Enumerator sourceEnum;
 
-        private int currentIndex;
+        public NativeArraySequence(NativeArray<T> source)
+        {
+            this.source = source;
+            sourceEnum = source.GetEnumerator();
+        }
 
-        public T Current => Source[currentIndex - 1];
+        public T Current => sourceEnum.Current;
 
         object IEnumerator.Current => Current;
 
         public void Dispose()
         {
-            Source.Dispose();
         }
 
         public bool MoveNext()
         {
-            currentIndex += 1;
-            return currentIndex <= Source.Length;
+            return sourceEnum.MoveNext();
         }
 
         public void Reset()
         {
-            currentIndex = 0;
+            throw new NotSupportedException();
         }
 
         public NativeList<T> ToList()
         {
-            var list = new NativeList<T>(Source.Length, Allocator.Temp);
-            for (var i = 0; i < Source.Length; i++)
-                list.AddNoResize(Source[i]);
+            var list = new NativeList<T>(source.Length, Allocator.Temp);
+            for (var i = 0; i < source.Length; i++)
+                list.AddNoResize(source[i]);
             return list;
         }
     }
@@ -44,7 +48,7 @@ namespace CareBoo.Blinq
         public static ValueSequence<T, NativeArraySequence<T>> ToValueSequence<T>(this ref NativeArray<T> nativeArray)
             where T : struct
         {
-            var newSequence = new NativeArraySequence<T> { Source = nativeArray };
+            var newSequence = new NativeArraySequence<T>(nativeArray);
             return ValueSequence<T>.New(newSequence);
         }
     }

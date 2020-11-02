@@ -8,13 +8,13 @@ namespace CareBoo.Blinq
     {
         public static ValueSequence<T, ConcatSequence<T, TSource, TSecond>> Concat<T, TSource, TSecond>(
             this ValueSequence<T, TSource> source,
-            TSecond second
+            ValueSequence<T, TSecond> second
             )
             where T : struct
             where TSource : struct, ISequence<T>
             where TSecond : struct, ISequence<T>
         {
-            var newSequence = new ConcatSequence<T, TSource, TSecond>(source.Source, second);
+            var newSequence = new ConcatSequence<T, TSource, TSecond>(source.Source, second.Source);
             return ValueSequence<T>.New(newSequence);
         }
 
