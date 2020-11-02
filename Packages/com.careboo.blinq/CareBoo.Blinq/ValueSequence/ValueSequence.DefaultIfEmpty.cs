@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using Unity.Collections;
 
 namespace CareBoo.Blinq
@@ -12,7 +13,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSource : struct, ISequence<T>
         {
-            var seq = new DefaultIfEmptySequence<T, TSource> { Source = source.Source, Default = defaultVal };
+            var seq = new DefaultIfEmptySequence<T, TSource>(source.Source, defaultVal);
             return ValueSequence<T>.New(seq);
         }
     }
@@ -21,43 +22,53 @@ namespace CareBoo.Blinq
         where T : struct
         where TSource : struct, ISequence<T>
     {
-        public TSource Source;
-        public T Default;
+        readonly TSource source;
+        readonly T defaultVal;
 
-        bool currentIndex;
+        int currentIndex;
 
-        public T Current => currentIndex
-            ? Default
-            : Source;
+        public DefaultIfEmptySequence(TSource source, T defaultVal)
+        {
+            this.source = source;
+            this.defaultVal = defaultVal;
+            currentIndex = 0;
+        }
+
+        public T Current => currentIndex == 1
+            ? defaultVal
+            : source.Current;
 
         object IEnumerator.Current => Current;
 
         public void Dispose()
         {
-            Source.Dispose();
         }
 
         public bool MoveNext()
         {
-            if (Source.MoveNext())
+            if (currentIndex == 0)
+            {
+                if (source.MoveNext())
+                    currentIndex = 2;
+                else
+                    currentIndex = 1;
                 return true;
-            if (currentIndex)
-                return false;
-            currentIndex = true;
-            return true;
+            }
+            else if (currentIndex == 1)
+                currentIndex = 2;
+            return source.MoveNext();
         }
 
         public void Reset()
         {
-            Source.Reset();
-            currentIndex = false;
+            throw new NotSupportedException();
         }
 
         public NativeList<T> ToList()
         {
-            var sourceList = Source.ToList();
+            var sourceList = source.ToList();
             if (sourceList.Length == 0)
-                sourceList.Add(Default);
+                sourceList.Add(defaultVal);
             return sourceList;
         }
     }

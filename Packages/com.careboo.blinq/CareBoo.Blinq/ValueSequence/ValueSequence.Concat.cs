@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using Unity.Collections;
 
 namespace CareBoo.Blinq
@@ -13,7 +14,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSecond : struct, ISequence<T>
         {
-            var newSequence = new ConcatSequence<T, TSource, TSecond> { Source = source.Source, Second = second };
+            var newSequence = new ConcatSequence<T, TSource, TSecond>(source.Source, second);
             return ValueSequence<T>.New(newSequence);
         }
 
@@ -24,7 +25,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSource : struct, ISequence<T>
         {
-            var newSequence = new ConcatSequence<T, TSource, NativeArraySequence<T>> { Source = source.Source, Second = second.ToValueSequence().Source };
+            var newSequence = new ConcatSequence<T, TSource, NativeArraySequence<T>>(source.Source, second.ToValueSequence().Source);
             return ValueSequence<T>.New(newSequence);
         }
     }
@@ -34,43 +35,47 @@ namespace CareBoo.Blinq
         where TSource : struct, ISequence<T>
         where TSecond : struct, ISequence<T>
     {
-        public TSource Source;
-        public TSecond Second;
+        readonly TSource source;
+        readonly TSecond second;
 
         bool currentIndex;
 
+        public ConcatSequence(TSource source, TSecond second)
+        {
+            this.source = source;
+            this.second = second;
+            currentIndex = false;
+        }
+
         public T Current => currentIndex
-            ? Second.Current
-            : Source.Current;
+            ? second.Current
+            : source.Current;
 
         object IEnumerator.Current => Current;
 
         public void Dispose()
         {
-
-            Source.Dispose();
-            Second.Dispose();
         }
 
         public bool MoveNext()
         {
-            if (!Source.MoveNext())
+            if (!source.MoveNext())
             {
                 currentIndex = true;
-                return Second.MoveNext();
+                return second.MoveNext();
             }
             return true;
         }
 
         public void Reset()
         {
-            currentIndex = false;
+            throw new NotSupportedException();
         }
 
         public NativeList<T> ToList()
         {
-            var first = Source.ToList();
-            var second = Second.ToList();
+            var first = source.ToList();
+            var second = this.second.ToList();
             first.AddRange(second);
             second.Dispose();
             return first;

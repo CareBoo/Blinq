@@ -12,7 +12,7 @@ namespace CareBoo.Blinq
             where T : unmanaged, IEquatable<T>
             where TSource : struct, ISequence<T>
         {
-            var seq = new DistinctSequence<T, TSource> { Source = source.Source };
+            var seq = new DistinctSequence<T, TSource>(source.Source);
             return ValueSequence<T>.New(seq);
         }
     }
@@ -21,17 +21,22 @@ namespace CareBoo.Blinq
         where T : unmanaged, IEquatable<T>
         where TSource : struct, ISequence<T>
     {
-        public TSource Source;
-
-        public T Current => Source.Current;
+        readonly TSource source;
 
         NativeHashSet<T> set;
+
+        public DistinctSequence(TSource source)
+        {
+            this.source = source;
+            set = default;
+        }
+
+        public T Current => source.Current;
 
         object IEnumerator.Current => Current;
 
         public void Dispose()
         {
-            Source.Dispose();
             if (set.IsCreated)
                 set.Dispose();
             set = default;
@@ -41,23 +46,20 @@ namespace CareBoo.Blinq
         {
             if (!set.IsCreated)
                 set = new NativeHashSet<T>(1, Allocator.Persistent);
-            while (Source.MoveNext())
-                if (set.Add(Source.Current))
+            while (source.MoveNext())
+                if (set.Add(source.Current))
                     return true;
             return false;
         }
 
         public void Reset()
         {
-            Source.Reset();
-            if (set.IsCreated)
-                set.Dispose();
-            set = default;
+            throw new NotSupportedException();
         }
 
         public NativeList<T> ToList()
         {
-            var list = Source.ToList();
+            var list = source.ToList();
             using (var tempSet = new NativeHashSet<T>(list.Length, Allocator.Temp))
             {
                 for (var i = 0; i < list.Length; i++)

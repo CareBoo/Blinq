@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using Unity.Collections;
 
 namespace CareBoo.Blinq
@@ -12,7 +13,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSource : struct, ISequence<T>
         {
-            var seq = new AppendSequence<T, TSource> { Source = source.Source, Item = item };
+            var seq = new AppendSequence<T, TSource>(source.Source, item);
             return ValueSequence<T>.New(seq);
         }
     }
@@ -21,27 +22,33 @@ namespace CareBoo.Blinq
         where T : struct
         where TSource : struct, ISequence<T>
     {
-        public TSource Source;
-        public T Item;
+        readonly TSource source;
+        readonly T item;
 
         byte currentIndex;
 
+        public AppendSequence(TSource source, T item)
+        {
+            this.source = source;
+            this.item = item;
+            currentIndex = default;
+        }
+
         public T Current => currentIndex > 0
-            ? Item
-            : Source.Current;
+            ? item
+            : source.Current;
 
         object IEnumerator.Current => Current;
 
         public void Dispose()
         {
-            Source.Dispose();
         }
 
         public bool MoveNext()
         {
             if (currentIndex > 1)
                 return false;
-            if (Source.MoveNext())
+            if (source.MoveNext())
                 return true;
             currentIndex += 1;
             return true;
@@ -49,14 +56,13 @@ namespace CareBoo.Blinq
 
         public void Reset()
         {
-            Source.Reset();
-            currentIndex = 0;
+            throw new NotSupportedException();
         }
 
         public NativeList<T> ToList()
         {
-            var sourceList = Source.ToList();
-            sourceList.Add(Item);
+            var sourceList = source.ToList();
+            sourceList.Add(item);
             return sourceList;
         }
     }

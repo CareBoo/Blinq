@@ -67,8 +67,7 @@ namespace CareBoo.Blinq
         readonly ValueFunc<TInner, TKey>.Struct<TInnerKeySelector> innerKeySelector;
         readonly ValueFunc<TOuter, NativeArray<TInner>, TResult>.Struct<TResultSelector> resultSelector;
 
-        NativeList<TInner> currentInners;
-        NativeList<TInner> remainingInners;
+        NativeMultiHashMap<TKey, TInner> innerMap;
 
         public GroupJoinSequence(
             TOuterSequence outer,
@@ -83,20 +82,19 @@ namespace CareBoo.Blinq
             this.outerKeySelector = outerKeySelector;
             this.innerKeySelector = innerKeySelector;
             this.resultSelector = resultSelector;
-            currentInners = default;
-            remainingInners = default;
+            innerMap = default;
+            Current = default;
         }
 
-        public TResult Current => resultSelector.Invoke(outer.Current, currentInners);
+        public TResult Current { get; private set; }
 
         object IEnumerator.Current => Current;
 
         public void Dispose()
         {
-            if (remainingInners.IsCreated)
-                remainingInners.Dispose();
-            outer.Dispose();
-            inner.Dispose();
+            if (innerMap.IsCreated)
+                innerMap.Dispose();
+            innerMap = default;
         }
 
         public bool MoveNext()
@@ -104,39 +102,24 @@ namespace CareBoo.Blinq
             if (!outer.MoveNext())
                 return false;
 
-            if (!remainingInners.IsCreated)
+            if (!innerMap.IsCreated)
                 using (var innerList = inner.ToList())
                 {
-                    remainingInners = new NativeList<TInner>(innerList.Length, Allocator.Persistent);
-                    remainingInners.AddRangeNoResize(innerList);
+                    innerMap = new NativeMultiHashMap<TKey, TInner>(innerList.Length, Allocator.Persistent);
+                    for (var i = 0; i < innerList.Length; i++)
+                        innerMap.Add(innerKeySelector.Invoke(innerList[i]), innerList[i]);
                 }
 
             var currentOuter = outer.Current;
-            var outerKey = outerKeySelector.Invoke(currentOuter);
-            if (currentInners.IsCreated)
-                currentInners.Dispose();
-            currentInners = new NativeList<TInner>(remainingInners.Length, Allocator.Persistent);
-            for (var i = 0; i < remainingInners.Length; i++)
-            {
-                var currentInner = remainingInners[i];
-                var innerKey = innerKeySelector.Invoke(currentInner);
-                if (outerKey.Equals(innerKey))
-                {
-                    currentInners.Add(currentInner);
-                    remainingInners.RemoveAt(i);
-                    i--;
-                }
-            }
+            var key = outerKeySelector.Invoke(currentOuter);
+            using (var innerGroup = GetInnerGroup(key, innerMap))
+                Current = resultSelector.Invoke(currentOuter, innerGroup);
             return true;
         }
 
         public void Reset()
         {
-            if (remainingInners.IsCreated)
-                remainingInners.Dispose();
-            remainingInners = default;
-            outer.Reset();
-            inner.Reset();
+            throw new NotSupportedException();
         }
 
         public NativeList<TResult> ToList()

@@ -14,7 +14,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSecond : struct, ISequence<T>
         {
-            var seq = new ExceptSequence<T, TSource, TSecond> { Source = source.Source, Second = second.Source };
+            var seq = new ExceptSequence<T, TSource, TSecond>(source.Source, second.Source);
             return ValueSequence<T>.New(seq);
         }
 
@@ -34,58 +34,66 @@ namespace CareBoo.Blinq
         where TSource : struct, ISequence<T>
         where TSecond : struct, ISequence<T>
     {
-        public TSource Source;
-        public TSecond Second;
+        public TSource source;
+        public TSecond second;
 
         NativeHashSet<T> set;
 
-        public T Current => Source.Current;
+        public ExceptSequence(TSource source, TSecond second)
+        {
+            this.source = source;
+            this.second = second;
+            set = default;
+        }
+
+        public T Current => source.Current;
 
         object IEnumerator.Current => Current;
 
         public void Dispose()
         {
-            Source.Dispose();
-            Second.Dispose();
+            if (set.IsCreated)
+                set.Dispose();
+            set = default;
         }
 
         public bool MoveNext()
         {
             if (!set.IsCreated)
             {
-                using (var secondList = Second.ToList())
+                using (var secondList = second.ToList())
                 {
                     set = new NativeHashSet<T>(secondList.Length, Allocator.Persistent);
                     for (var i = 0; i < secondList.Length; i++)
                         set.Add(secondList[i]);
                 }
             }
-            while (Source.MoveNext())
-                if (!set.Contains(Source.Current))
+            while (source.MoveNext())
+                if (!set.Contains(source.Current))
                     return true;
             return false;
         }
 
         public void Reset()
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
         public NativeList<T> ToList()
         {
-            var source = Source.ToList();
-            using (var second = Second.ToList())
-            using (var secondSet = new NativeHashSet<T>(second.Length, Allocator.Temp))
+            var sourceList = source.ToList();
+            using (var secondList = second.ToList())
+            using (var secondSet = new NativeHashSet<T>(secondList.Length, Allocator.Temp))
             {
-                for (var i = 0; i < second.Length; i++)
-                    secondSet.Add(second[i]);
-                for (var i = 0; i < source.Length; i++)
-                    if (!secondSet.Add(source[i]))
+                for (var i = 0; i < secondList.Length; i++)
+                    secondSet.Add(secondList[i]);
+                for (var i = 0; i < sourceList.Length; i++)
+                    if (!secondSet.Add(sourceList[i]))
                     {
-                        source.RemoveAt(i);
+                        sourceList.RemoveAt(i);
                         i--;
                     }
-                return source;
+                return sourceList;
             }
         }
     }
