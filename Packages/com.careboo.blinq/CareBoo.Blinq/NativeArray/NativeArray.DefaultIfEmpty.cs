@@ -10,7 +10,8 @@ namespace CareBoo.Blinq
             )
             where T : struct
         {
-            return source.ToValueSequence().DefaultIfEmpty(defaultVal);
+            var sourceSeq = source.ToValueSequence();
+            return sourceSeq.DefaultIfEmpty(defaultVal);
         }
     }
 }

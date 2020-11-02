@@ -7,14 +7,15 @@ namespace CareBoo.Blinq
     public static partial class Sequence
     {
         public static ValueSequence<T, PrependSequence<T, TSource>> Prepend<T, TSource>(
-            this ValueSequence<T, TSource> source,
-            T item
+            this in ValueSequence<T, TSource> source,
+            in T item
             )
             where T : struct
             where TSource : struct, ISequence<T>
         {
-            var seq = new PrependSequence<T, TSource>(source.Source, item);
-            return ValueSequence<T>.New(seq);
+            var sourceSeq = source.GetEnumerator();
+            var seq = new PrependSequence<T, TSource>(ref sourceSeq, in item);
+            return ValueSequence<T>.New(ref seq);
         }
     }
 
@@ -22,12 +23,11 @@ namespace CareBoo.Blinq
         where T : struct
         where TSource : struct, ISequence<T>
     {
-        readonly TSource source;
+        TSource source;
         readonly T item;
-
         int currentIndex;
 
-        public PrependSequence(TSource source, T item)
+        public PrependSequence(ref TSource source, in T item)
         {
             this.source = source;
             this.item = item;

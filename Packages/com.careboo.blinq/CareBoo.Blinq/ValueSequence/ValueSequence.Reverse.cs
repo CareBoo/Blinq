@@ -7,13 +7,14 @@ namespace CareBoo.Blinq
     public static partial class Sequence
     {
         public static ValueSequence<T, ReverseSequence<T, TSource>> Reverse<T, TSource>(
-            this ValueSequence<T, TSource> source
+            this ref ValueSequence<T, TSource> source
             )
             where T : struct
             where TSource : struct, ISequence<T>
         {
-            var seq = new ReverseSequence<T, TSource>(source.Source);
-            return ValueSequence<T>.New(seq);
+            var sourceSeq = source.GetEnumerator();
+            var seq = new ReverseSequence<T, TSource>(ref sourceSeq);
+            return ValueSequence<T>.New(ref seq);
         }
     }
 
@@ -21,12 +22,12 @@ namespace CareBoo.Blinq
         where T : struct
         where TSource : struct, ISequence<T>
     {
-        readonly TSource source;
+        TSource source;
 
         int currentIndex;
         NativeList<T> sourceList;
 
-        public ReverseSequence(TSource source)
+        public ReverseSequence(ref TSource source)
         {
             this.source = source;
             currentIndex = 0;

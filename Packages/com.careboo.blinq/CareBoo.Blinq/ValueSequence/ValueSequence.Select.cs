@@ -8,29 +8,31 @@ namespace CareBoo.Blinq
     public static partial class Sequence
     {
         public static ValueSequence<TResult, SelectIndexSequence<T, TSource, TResult, TSelector>> Select<T, TSource, TResult, TSelector>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, int, TResult>.Struct<TSelector> selector
+            this ref ValueSequence<T, TSource> source,
+            in ValueFunc<T, int, TResult>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>
             where TResult : struct
             where TSelector : struct, IFunc<T, int, TResult>
         {
-            var seq = new SelectIndexSequence<T, TSource, TResult, TSelector>(source.Source, selector);
-            return ValueSequence<TResult>.New(seq);
+            var sourceSeq = source.GetEnumerator();
+            var seq = new SelectIndexSequence<T, TSource, TResult, TSelector>(ref sourceSeq, in selector);
+            return ValueSequence<TResult>.New(ref seq);
         }
 
         public static ValueSequence<TResult, SelectSequence<T, TSource, TResult, TSelector>> Select<T, TSource, TResult, TSelector>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, TResult>.Struct<TSelector> selector
+            this ref ValueSequence<T, TSource> source,
+            in ValueFunc<T, TResult>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>
             where TResult : struct
             where TSelector : struct, IFunc<T, TResult>
         {
-            var seq = new SelectSequence<T, TSource, TResult, TSelector>(source.Source, selector);
-            return ValueSequence<TResult>.New(seq);
+            var sourceSeq = source.GetEnumerator();
+            var seq = new SelectSequence<T, TSource, TResult, TSelector>(ref sourceSeq, in selector);
+            return ValueSequence<TResult>.New(ref seq);
         }
     }
 
@@ -40,12 +42,12 @@ namespace CareBoo.Blinq
         where TResult : struct
         where TSelector : struct, IFunc<T, int, TResult>
     {
-        readonly TSource source;
+        TSource source;
         readonly ValueFunc<T, int, TResult>.Struct<TSelector> selector;
 
         int currentIndex;
 
-        public SelectIndexSequence(TSource source, ValueFunc<T, int, TResult>.Struct<TSelector> selector)
+        public SelectIndexSequence(ref TSource source, in ValueFunc<T, int, TResult>.Struct<TSelector> selector)
         {
             this.source = source;
             this.selector = selector;
@@ -89,10 +91,10 @@ namespace CareBoo.Blinq
         where TResult : struct
         where TSelector : struct, IFunc<T, TResult>
     {
-        public TSource source;
-        public ValueFunc<T, TResult>.Struct<TSelector> selector;
+        TSource source;
+        readonly ValueFunc<T, TResult>.Struct<TSelector> selector;
 
-        public SelectSequence(TSource source, ValueFunc<T, TResult>.Struct<TSelector> selector)
+        public SelectSequence(ref TSource source, in ValueFunc<T, TResult>.Struct<TSelector> selector)
         {
             this.source = source;
             this.selector = selector;

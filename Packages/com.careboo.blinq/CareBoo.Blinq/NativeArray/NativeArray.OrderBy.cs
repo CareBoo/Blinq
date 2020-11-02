@@ -9,26 +9,28 @@ namespace CareBoo.Blinq
     {
         public static ValueSequence<T, OrderBySequence<T, NativeArraySequence<T>, KeyComparer<T, TKey, TKeySelector, DefaultComparer<TKey>>>> OrderBy<T, TKey, TKeySelector>(
             this ref NativeArray<T> source,
-            ValueFunc<T, TKey>.Struct<TKeySelector> keySelector
+            in ValueFunc<T, TKey>.Struct<TKeySelector> keySelector
             )
             where T : struct
             where TKey : struct, IComparable<TKey>
             where TKeySelector : struct, IFunc<T, TKey>
         {
-            return source.ToValueSequence().OrderBy(keySelector);
+            var sourceSeq = source.ToValueSequence();
+            return sourceSeq.OrderBy(in keySelector);
         }
 
         public static ValueSequence<T, OrderBySequence<T, NativeArraySequence<T>, KeyComparer<T, TKey, TKeySelector, TComparer>>> OrderBy<T, TKey, TKeySelector, TComparer>(
             this ref NativeArray<T> source,
-            ValueFunc<T, TKey>.Struct<TKeySelector> keySelector,
-            TComparer comparer
+            in ValueFunc<T, TKey>.Struct<TKeySelector> keySelector,
+            in TComparer comparer
             )
             where T : struct
             where TKey : struct
             where TKeySelector : struct, IFunc<T, TKey>
             where TComparer : struct, IComparer<TKey>
         {
-            return source.ToValueSequence().OrderBy(keySelector, comparer);
+            var sourceSeq = source.ToValueSequence();
+            return sourceSeq.OrderBy(in keySelector, in comparer);
         }
     }
 }

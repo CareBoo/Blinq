@@ -7,7 +7,8 @@ namespace CareBoo.Blinq
         public static ValueSequence<T, AppendSequence<T, NativeArraySequence<T>>> Append<T>(this ref NativeArray<T> source, T item)
             where T : struct
         {
-            return source.ToValueSequence().Append(item);
+            var sourceSeq = source.ToValueSequence();
+            return sourceSeq.Append(item);
         }
     }
 }

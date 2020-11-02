@@ -7,14 +7,15 @@ namespace CareBoo.Blinq
     public static partial class Sequence
     {
         public static ValueSequence<T, SkipSequence<T, TSource>> Skip<T, TSource>(
-            this ValueSequence<T, TSource> source,
-            int count
+            this ref ValueSequence<T, TSource> source,
+            in int count
             )
             where T : struct
             where TSource : struct, ISequence<T>
         {
-            var seq = new SkipSequence<T, TSource> { Source = source.Source, Count = count };
-            return ValueSequence<T>.New(seq);
+            var sourceSeq = source.GetEnumerator();
+            var seq = new SkipSequence<T, TSource>(ref sourceSeq, count);
+            return ValueSequence<T>.New(ref seq);
         }
     }
 
@@ -22,25 +23,32 @@ namespace CareBoo.Blinq
         where T : struct
         where TSource : struct, ISequence<T>
     {
-        public TSource Source;
-        public int Count;
+        TSource source;
+        int count;
 
-        public T Current => Source.Current;
+        public SkipSequence(ref TSource source, int count)
+        {
+            this.source = source;
+            this.count = count;
+        }
+
+        public T Current => source.Current;
 
         object IEnumerator.Current => Current;
 
         public void Dispose()
         {
+            source.Dispose();
         }
 
         public bool MoveNext()
         {
-            while (Count > 0)
+            while (count > 0)
             {
-                Count -= 1;
-                Source.MoveNext();
+                count -= 1;
+                source.MoveNext();
             }
-            return Source.MoveNext();
+            return source.MoveNext();
         }
 
         public void Reset()
@@ -50,9 +58,9 @@ namespace CareBoo.Blinq
 
         public NativeList<T> ToList()
         {
-            var list = Source.ToList();
-            if (Count < list.Length)
-                list.RemoveRangeWithBeginEnd(0, Count);
+            var list = source.ToList();
+            if (count < list.Length)
+                list.RemoveRangeWithBeginEnd(0, count);
             else
                 list.Clear();
             return list;

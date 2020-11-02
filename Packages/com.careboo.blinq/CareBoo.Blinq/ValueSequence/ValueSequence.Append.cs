@@ -7,7 +7,7 @@ namespace CareBoo.Blinq
     public static partial class Sequence
     {
         public static ValueSequence<T, AppendSequence<T, TSource>> Append<T, TSource>(
-            this ValueSequence<T, TSource> source,
+            this ref ValueSequence<T, TSource> source,
             in T item
             )
             where T : struct

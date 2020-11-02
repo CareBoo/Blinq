@@ -9,7 +9,8 @@ namespace CareBoo.Blinq
             )
             where T : struct
         {
-            return source.ToValueSequence().Reverse();
+            var sourceSeq = source.ToValueSequence();
+            return sourceSeq.Reverse();
         }
     }
 }

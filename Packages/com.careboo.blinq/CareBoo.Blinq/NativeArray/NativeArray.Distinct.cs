@@ -10,7 +10,8 @@ namespace CareBoo.Blinq
             )
             where T : unmanaged, IEquatable<T>
         {
-            return source.ToValueSequence().Distinct();
+            var sourceSeq = source.ToValueSequence();
+            return sourceSeq.Distinct();
         }
     }
 }

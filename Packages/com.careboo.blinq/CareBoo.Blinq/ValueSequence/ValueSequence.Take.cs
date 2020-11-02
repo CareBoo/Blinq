@@ -7,14 +7,15 @@ namespace CareBoo.Blinq
     public static partial class Sequence
     {
         public static ValueSequence<T, TakeSequence<T, TSource>> Take<T, TSource>(
-            this ValueSequence<T, TSource> source,
-            int count
+            this ref ValueSequence<T, TSource> source,
+            in int count
             )
             where T : struct
             where TSource : struct, ISequence<T>
         {
-            var seq = new TakeSequence<T, TSource>(source.Source, count);
-            return ValueSequence<T>.New(seq);
+            var sourceSeq = source.GetEnumerator();
+            var seq = new TakeSequence<T, TSource>(ref sourceSeq, count);
+            return ValueSequence<T>.New(ref seq);
         }
     }
 
@@ -22,11 +23,10 @@ namespace CareBoo.Blinq
         where T : struct
         where TSource : struct, ISequence<T>
     {
-        readonly TSource source;
-
+        TSource source;
         int count;
 
-        public TakeSequence(TSource source, int count)
+        public TakeSequence(ref TSource source, int count)
         {
             this.source = source;
             this.count = count;

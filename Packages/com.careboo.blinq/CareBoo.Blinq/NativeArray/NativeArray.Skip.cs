@@ -6,11 +6,12 @@ namespace CareBoo.Blinq
     {
         public static ValueSequence<T, SkipSequence<T, NativeArraySequence<T>>> Skip<T>(
             this ref NativeArray<T> source,
-            int count
+            in int count
             )
             where T : struct
         {
-            return source.ToValueSequence().Skip(count);
+            var sourceSeq = source.ToValueSequence();
+            return sourceSeq.Skip(in count);
         }
     }
 }

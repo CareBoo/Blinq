@@ -16,7 +16,8 @@ namespace CareBoo.Blinq
             where TCollectionSelector : struct, IFunc<T, NativeArray<TCollection>>
             where TResultSelector : struct, IFunc<T, TCollection, TResult>
         {
-            return source.ToValueSequence().SelectMany(collectionSelector, resultSelector);
+            var sourceSeq = source.ToValueSequence();
+            return sourceSeq.SelectMany(collectionSelector, resultSelector);
         }
 
         public static ValueSequence<TResult, SelectManyIndexSequence<T, NativeArraySequence<T>, TCollection, TResult, TCollectionSelector, TResultSelector>> SelectMany<T, TCollection, TResult, TCollectionSelector, TResultSelector>(
@@ -30,7 +31,8 @@ namespace CareBoo.Blinq
             where TCollectionSelector : struct, IFunc<T, int, NativeArray<TCollection>>
             where TResultSelector : struct, IFunc<T, TCollection, TResult>
         {
-            return source.ToValueSequence().SelectMany(collectionSelector, resultSelector);
+            var sourceSeq = source.ToValueSequence();
+            return sourceSeq.SelectMany(collectionSelector, resultSelector);
         }
 
         public static ValueSequence<TResult, SelectManySequence<T, NativeArraySequence<T>, TResult, TResult, TSelector, RightSelector<T, TResult>>> SelectMany<T, TResult, TSelector>(
@@ -41,7 +43,8 @@ namespace CareBoo.Blinq
             where TResult : struct
             where TSelector : struct, IFunc<T, NativeArray<TResult>>
         {
-            return source.ToValueSequence().SelectMany(selector);
+            var sourceSeq = source.ToValueSequence();
+            return sourceSeq.SelectMany(selector);
         }
 
         public static ValueSequence<TResult, SelectManyIndexSequence<T, NativeArraySequence<T>, TResult, TResult, TSelector, RightSelector<T, TResult>>> SelectMany<T, TResult, TSelector>(
@@ -52,7 +55,8 @@ namespace CareBoo.Blinq
             where TResult : struct
             where TSelector : struct, IFunc<T, int, NativeArray<TResult>>
         {
-            return source.ToValueSequence().SelectMany(selector);
+            var sourceSeq = source.ToValueSequence();
+            return sourceSeq.SelectMany(selector);
         }
     }
 }
