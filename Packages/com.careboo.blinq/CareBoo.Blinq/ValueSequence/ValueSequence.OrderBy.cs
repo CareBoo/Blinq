@@ -44,27 +44,27 @@ namespace CareBoo.Blinq
         where TSource : struct, ISequence<T>
         where TComparer : struct, IComparer<T>
     {
-        readonly TSource Source;
-        readonly TComparer Comparer;
+        readonly TSource source;
+        readonly TComparer comparer;
 
         int currentIndex;
         NativeList<T> list;
+
+        public OrderBySequence(TSource source, TComparer comparer)
+        {
+            this.source = source;
+            this.comparer = comparer;
+            currentIndex = -1;
+            list = default;
+        }
 
         public T Current => list[currentIndex];
 
         object IEnumerator.Current => Current;
 
-        public OrderBySequence(TSource source, TComparer comparer)
-        {
-            Source = source;
-            Comparer = comparer;
-            currentIndex = default;
-            list = default;
-        }
-
         public int Compare(T x, T y)
         {
-            return Comparer.Compare(x, y);
+            return comparer.Compare(x, y);
         }
 
         public NativeList<T> ToList()
@@ -76,31 +76,26 @@ namespace CareBoo.Blinq
 
         public NativeList<T> ToUnorderedList()
         {
-            return Source.ToList();
+            return source.ToList();
         }
 
         public bool MoveNext()
         {
             if (!list.IsCreated)
                 list = ToList();
-            else
-                currentIndex += 1;
+            currentIndex += 1;
             return currentIndex < list.Length;
         }
 
         public void Reset()
         {
-            if (list.IsCreated)
-                list.Dispose();
-            list = default;
-            currentIndex = default;
+            throw new NotSupportedException();
         }
 
         public void Dispose()
         {
             if (list.IsCreated)
                 list.Dispose();
-            Source.Dispose();
         }
     }
 

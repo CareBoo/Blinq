@@ -61,14 +61,32 @@ namespace CareBoo.Blinq
         where TResult : struct
         where TResultSelector : struct, IFunc<TOuter, TInner, TResult>
     {
-        public TOuterSequence Outer;
-        public TInnerSequence Inner;
-        public ValueFunc<TOuter, TKey>.Struct<TOuterKeySelector> OuterKeySelector;
-        public ValueFunc<TInner, TKey>.Struct<TInnerKeySelector> InnerKeySelector;
-        public ValueFunc<TOuter, TInner, TResult>.Struct<TResultSelector> ResultSelector;
+        public TOuterSequence outer;
+        public TInnerSequence inner;
+        public ValueFunc<TOuter, TKey>.Struct<TOuterKeySelector> outerKeySelector;
+        public ValueFunc<TInner, TKey>.Struct<TInnerKeySelector> innerKeySelector;
+        public ValueFunc<TOuter, TInner, TResult>.Struct<TResultSelector> resultSelector;
 
         NativeHashMap<TKey, TOuter> map;
         NativeHashMap<TKey, TOuter>.Enumerator mapEnumerator;
+
+        public JoinSequence(
+            TOuterSequence outer,
+            TInnerSequence inner,
+            ValueFunc<TOuter, TKey>.Struct<TOuterKeySelector> outerKeySelector,
+            ValueFunc<TInner, TKey>.Struct<TInnerKeySelector> innerKeySelector,
+            ValueFunc<TOuter, TInner, TResult>.Struct<TResultSelector> resultSelector
+            )
+        {
+            this.outer = outer;
+            this.inner = inner;
+            this.outerKeySelector = outerKeySelector;
+            this.innerKeySelector = innerKeySelector;
+            this.resultSelector = resultSelector;
+            map = default;
+            mapEnumerator = default;
+            Current = default;
+        }
 
         public TResult Current { get; private set; }
 
@@ -76,8 +94,6 @@ namespace CareBoo.Blinq
 
         public void Dispose()
         {
-            Outer.Dispose();
-            Inner.Dispose();
             if (map.IsCreated)
                 map.Dispose();
         }
@@ -85,26 +101,26 @@ namespace CareBoo.Blinq
         public bool MoveNext()
         {
             if (!map.IsCreated)
-                using (var outer = Outer.ToList())
+                using (var outerList = outer.ToList())
                 {
-                    map = new NativeHashMap<TKey, TOuter>(outer.Length, Allocator.Persistent);
-                    for (var i = 0; i < outer.Length; i++)
+                    map = new NativeHashMap<TKey, TOuter>(outerList.Length, Allocator.Persistent);
+                    for (var i = 0; i < outerList.Length; i++)
                     {
-                        var val = outer[i];
-                        var key = OuterKeySelector.Invoke(val);
+                        var val = outerList[i];
+                        var key = outerKeySelector.Invoke(val);
                         map.Add(key, val);
                     }
                     mapEnumerator = map.GetEnumerator();
                 }
 
             while (mapEnumerator.MoveNext())
-                while (Inner.MoveNext())
+                while (inner.MoveNext())
                 {
-                    var innerVal = Inner.Current;
-                    var key = InnerKeySelector.Invoke(innerVal);
+                    var innerVal = inner.Current;
+                    var key = innerKeySelector.Invoke(innerVal);
                     if (map.TryGetValue(key, out var outerVal))
                     {
-                        Current = ResultSelector.Invoke(outerVal, innerVal);
+                        Current = resultSelector.Invoke(outerVal, innerVal);
                         return true;
                     }
                 }
@@ -113,34 +129,29 @@ namespace CareBoo.Blinq
 
         public void Reset()
         {
-            if (map.IsCreated)
-                map.Dispose();
-            map = default;
-            mapEnumerator = default;
-            Outer.Reset();
-            Inner.Reset();
+            throw new NotSupportedException();
         }
 
         public NativeList<TResult> ToList()
         {
-            using (var outer = Outer.ToList())
-            using (var inner = Inner.ToList())
-            using (var outerHashMap = new NativeHashMap<TKey, TOuter>(outer.Length, Allocator.Temp))
+            using (var outerList = outer.ToList())
+            using (var innerList = inner.ToList())
+            using (var outerHashMap = new NativeHashMap<TKey, TOuter>(outerList.Length, Allocator.Temp))
             {
-                var resultList = new NativeList<TResult>(inner.Length, Allocator.Temp);
-                for (var i = 0; i < outer.Length; i++)
+                var resultList = new NativeList<TResult>(innerList.Length, Allocator.Temp);
+                for (var i = 0; i < outerList.Length; i++)
                 {
-                    var val = outer[i];
-                    var key = OuterKeySelector.Invoke(val);
+                    var val = outerList[i];
+                    var key = outerKeySelector.Invoke(val);
                     outerHashMap.Add(key, val);
                 }
-                for (var i = 0; i < inner.Length; i++)
+                for (var i = 0; i < innerList.Length; i++)
                 {
-                    var innerVal = inner[i];
-                    var key = InnerKeySelector.Invoke(innerVal);
+                    var innerVal = innerList[i];
+                    var key = innerKeySelector.Invoke(innerVal);
                     if (outerHashMap.TryGetValue(key, out var outerVal))
                     {
-                        var result = ResultSelector.Invoke(outerVal, innerVal);
+                        var result = resultSelector.Invoke(outerVal, innerVal);
                         resultList.AddNoResize(result);
                     }
                 }
@@ -170,11 +181,11 @@ namespace CareBoo.Blinq
         {
             return new JoinSequence<TOuter, TOuterSequence, TInner, TInnerSequence, TKey, TOuterKeySelector, TInnerKeySelector, TResult, TResultSelector>
             {
-                Outer = outer,
-                Inner = inner,
-                OuterKeySelector = outerKeySelector,
-                InnerKeySelector = innerKeySelector,
-                ResultSelector = resultSelector
+                outer = outer,
+                inner = inner,
+                outerKeySelector = outerKeySelector,
+                innerKeySelector = innerKeySelector,
+                resultSelector = resultSelector
             };
         }
     }
