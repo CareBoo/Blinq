@@ -7,7 +7,7 @@ using CareBoo.Blinq;
 
 internal class SequenceEqualTest
 {
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqNativeArraySequenceEqualArray([ArrayValues] int[] sourceArr, [ArrayValues] int[] secondArr)
     {
         var sourceNativeArr = new NativeArray<int>(sourceArr, Allocator.Persistent);
@@ -19,7 +19,7 @@ internal class SequenceEqualTest
         secondNativeArr.Dispose();
     }
 
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqValueSequenceEqualArray([ArrayValues] int[] sourceArr, [ArrayValues] int[] secondArr)
     {
         var sourceNativeArr = new NativeArray<int>(sourceArr, Allocator.Persistent);
@@ -32,7 +32,7 @@ internal class SequenceEqualTest
         secondNativeArr.Dispose();
     }
 
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqNativeArraySequenceEqualSequence([ArrayValues] int[] sourceArr, [ArrayValues] int[] secondArr)
     {
         var sourceNativeArr = new NativeArray<int>(sourceArr, Allocator.Persistent);
@@ -45,7 +45,7 @@ internal class SequenceEqualTest
         secondNativeArr.Dispose();
     }
 
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqValueSequenceEqualSequence([ArrayValues] int[] sourceArr, [ArrayValues] int[] secondArr)
     {
         var sourceNativeArr = new NativeArray<int>(sourceArr, Allocator.Persistent);

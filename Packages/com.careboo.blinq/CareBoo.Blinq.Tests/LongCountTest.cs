@@ -8,7 +8,7 @@ using CareBoo.Blinq;
 
 internal class LongCountTest
 {
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqNativeArraySequenceLongCount([ArrayValues] int[] sourceArr)
     {
         var sourceNativeArr = new NativeArray<int>(sourceArr, Allocator.Persistent);
@@ -18,7 +18,7 @@ internal class LongCountTest
         sourceNativeArr.Dispose();
     }
 
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqValueSequenceLongCount([ArrayValues] int[] sourceArr)
     {
         var sourceNativeArr = new NativeArray<int>(sourceArr, Allocator.Persistent);
@@ -29,7 +29,7 @@ internal class LongCountTest
         sourceNativeArr.Dispose();
     }
 
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqNativeArraySequenceLongCountPredicate([ArrayValues] int[] sourceArr)
     {
         var sourceNativeArr = new NativeArray<int>(sourceArr, Allocator.Persistent);
@@ -39,7 +39,7 @@ internal class LongCountTest
         sourceNativeArr.Dispose();
     }
 
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqValueSequenceLongCountPredicate([ArrayValues] int[] sourceArr)
     {
         var sourceNativeArr = new NativeArray<int>(sourceArr, Allocator.Persistent);

@@ -7,7 +7,7 @@ using CareBoo.Blinq;
 
 internal class AppendTest
 {
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqNativeArrayAppend([ArrayValues] int[] sourceArr)
     {
         int item = 1;
@@ -18,7 +18,7 @@ internal class AppendTest
         source.Dispose();
     }
 
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqValueSequenceAppend([ArrayValues] int[] sourceArr)
     {
         int item = 1;

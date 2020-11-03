@@ -50,7 +50,7 @@ internal class JoinBValues
 
 internal class JoinTest
 {
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqNativeArrayJoinNativeArray(
         [ValueSource(typeof(JoinAValues), nameof(JoinAValues.Values))] JoinA[] outerArr,
         [ValueSource(typeof(JoinBValues), nameof(JoinBValues.Values))] JoinB[] innerArr

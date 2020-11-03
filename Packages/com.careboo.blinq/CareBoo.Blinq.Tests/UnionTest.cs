@@ -6,7 +6,7 @@ using Blinq = CareBoo.Blinq.Sequence;
 
 internal class UnionTest
 {
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqNativeArrayUnion([ArrayValues] int[] sourceArr, [ArrayValues] int[] secondArr)
     {
         var source = new NativeArray<int>(sourceArr, Allocator.Persistent);

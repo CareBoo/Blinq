@@ -6,7 +6,7 @@ using Blinq = CareBoo.Blinq.Sequence;
 
 internal class ElementAtTest
 {
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqNativeArrayElementAt([ArrayValues] int[] sourceArr)
     {
         var index = 10;
@@ -17,7 +17,7 @@ internal class ElementAtTest
         source.Dispose();
     }
 
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqNativeArrayElementAtOrDefault([ArrayValues] int[] sourceArr)
     {
         var index = 10;

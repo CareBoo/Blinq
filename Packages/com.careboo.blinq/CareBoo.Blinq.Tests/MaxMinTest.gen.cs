@@ -36,7 +36,7 @@ internal partial class MaxMinTest
         }
     }
 
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqNativeArrayMax_int(
         [ValueSource(typeof(Values_int), nameof(Values_int.Values))] int[] sourceArr
         )
@@ -47,7 +47,7 @@ internal partial class MaxMinTest
         srcNativeArray.Dispose();
     }
 
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqNativeArrayMaxSelector_int(
         [ValueSource(typeof(Values_int), nameof(Values_int.Values))] int[] sourceArr
         )
@@ -58,7 +58,7 @@ internal partial class MaxMinTest
         srcNativeArray.Dispose();
     }
 
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqNativeArrayMin_int(
         [ValueSource(typeof(Values_int), nameof(Values_int.Values))] int[] sourceArr
         )
@@ -69,7 +69,7 @@ internal partial class MaxMinTest
         srcNativeArray.Dispose();
     }
 
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqNativeArrayMinSelector_int(
         [ValueSource(typeof(Values_int), nameof(Values_int.Values))] int[] sourceArr
         )
@@ -95,7 +95,7 @@ internal partial class MaxMinTest
         }
     }
 
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqNativeArrayMax_float(
         [ValueSource(typeof(Values_float), nameof(Values_float.Values))] float[] sourceArr
         )
@@ -106,7 +106,7 @@ internal partial class MaxMinTest
         srcNativeArray.Dispose();
     }
 
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqNativeArrayMaxSelector_float(
         [ValueSource(typeof(Values_float), nameof(Values_float.Values))] float[] sourceArr
         )
@@ -117,7 +117,7 @@ internal partial class MaxMinTest
         srcNativeArray.Dispose();
     }
 
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqNativeArrayMin_float(
         [ValueSource(typeof(Values_float), nameof(Values_float.Values))] float[] sourceArr
         )
@@ -128,7 +128,7 @@ internal partial class MaxMinTest
         srcNativeArray.Dispose();
     }
 
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqNativeArrayMinSelector_float(
         [ValueSource(typeof(Values_float), nameof(Values_float.Values))] float[] sourceArr
         )
@@ -154,7 +154,7 @@ internal partial class MaxMinTest
         }
     }
 
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqNativeArrayMax_double(
         [ValueSource(typeof(Values_double), nameof(Values_double.Values))] double[] sourceArr
         )
@@ -165,7 +165,7 @@ internal partial class MaxMinTest
         srcNativeArray.Dispose();
     }
 
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqNativeArrayMaxSelector_double(
         [ValueSource(typeof(Values_double), nameof(Values_double.Values))] double[] sourceArr
         )
@@ -176,7 +176,7 @@ internal partial class MaxMinTest
         srcNativeArray.Dispose();
     }
 
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqNativeArrayMin_double(
         [ValueSource(typeof(Values_double), nameof(Values_double.Values))] double[] sourceArr
         )
@@ -187,7 +187,7 @@ internal partial class MaxMinTest
         srcNativeArray.Dispose();
     }
 
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqNativeArrayMinSelector_double(
         [ValueSource(typeof(Values_double), nameof(Values_double.Values))] double[] sourceArr
         )

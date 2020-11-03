@@ -10,7 +10,7 @@ using System;
 
 internal class OrderByTest
 {
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqNativeArrayOrderBy([OrderValues] Order[] sourceArr)
     {
         var source = new NativeArray<Order>(sourceArr, Allocator.Persistent);
@@ -20,7 +20,7 @@ internal class OrderByTest
         source.Dispose();
     }
 
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqValueSequenceOrderBy([OrderValues] Order[] sourceArr)
     {
         var sourceNativeArr = new NativeArray<Order>(sourceArr, Allocator.Persistent);
@@ -31,7 +31,7 @@ internal class OrderByTest
         sourceNativeArr.Dispose();
     }
 
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqNativeArrayOrderByDescending([OrderValues] Order[] sourceArr)
     {
         var source = new NativeArray<Order>(sourceArr, Allocator.Persistent);
@@ -41,7 +41,7 @@ internal class OrderByTest
         source.Dispose();
     }
 
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqValueSequenceOrderByDescending([OrderValues] Order[] sourceArr)
     {
         var sourceNativeArr = new NativeArray<Order>(sourceArr, Allocator.Persistent);

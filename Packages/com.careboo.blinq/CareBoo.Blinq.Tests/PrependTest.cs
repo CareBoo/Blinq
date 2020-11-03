@@ -7,7 +7,7 @@ using CareBoo.Blinq;
 
 internal class PrependTest
 {
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqNativeArrayPrepend([ArrayValues] int[] sourceArr)
     {
         int item = 1;
@@ -18,7 +18,7 @@ internal class PrependTest
         source.Dispose();
     }
 
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqValueSequencePrepend([ArrayValues] int[] sourceArr)
     {
         int item = 1;

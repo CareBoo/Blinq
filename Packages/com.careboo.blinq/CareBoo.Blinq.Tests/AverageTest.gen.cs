@@ -35,7 +35,7 @@ internal class AverageTest
         }
     }
 
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqNativeArrayAverage_int(
         [ValueSource(typeof(Values_int), nameof(Values_int.Values))] int[] sourceArr
         )
@@ -46,7 +46,7 @@ internal class AverageTest
         srcNativeArray.Dispose();
     }
 
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqNativeArrayAverageSelector_int(
         [ValueSource(typeof(Values_int), nameof(Values_int.Values))] int[] sourceArr
         )
@@ -71,7 +71,7 @@ internal class AverageTest
         }
     }
 
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqNativeArrayAverage_float(
         [ValueSource(typeof(Values_float), nameof(Values_float.Values))] float[] sourceArr
         )
@@ -82,7 +82,7 @@ internal class AverageTest
         srcNativeArray.Dispose();
     }
 
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqNativeArrayAverageSelector_float(
         [ValueSource(typeof(Values_float), nameof(Values_float.Values))] float[] sourceArr
         )
@@ -107,7 +107,7 @@ internal class AverageTest
         }
     }
 
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqNativeArrayAverage_double(
         [ValueSource(typeof(Values_double), nameof(Values_double.Values))] double[] sourceArr
         )
@@ -118,7 +118,7 @@ internal class AverageTest
         srcNativeArray.Dispose();
     }
 
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqNativeArrayAverageSelector_double(
         [ValueSource(typeof(Values_double), nameof(Values_double.Values))] double[] sourceArr
         )

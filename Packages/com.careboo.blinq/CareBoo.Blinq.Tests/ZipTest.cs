@@ -9,7 +9,7 @@ using static CareBoo.Blinq.Sequence;
 
 internal class ZipTest
 {
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqNativeArrayZip([ArrayValues] int[] sourceArr, [ArrayValues] int[] secondArr)
     {
         var source = new NativeArray<int>(sourceArr, Allocator.Persistent);

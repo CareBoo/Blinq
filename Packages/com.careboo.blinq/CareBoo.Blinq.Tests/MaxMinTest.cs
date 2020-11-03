@@ -27,7 +27,7 @@ internal partial class MaxMinTest
         }
     }
 
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqNativeArrayMaxComparable([ArrayValues] int[] sourceArr)
     {
         var arr = Linq.ToArray(Linq.Select(sourceArr, (i) => (Comparable)i));
@@ -37,7 +37,7 @@ internal partial class MaxMinTest
         srcNativeArray.Dispose();
     }
 
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqNativeArrayMaxComparableSelector([ArrayValues] int[] sourceArr)
     {
         var arr = Linq.ToArray(Linq.Select(sourceArr, (i) => (Comparable)i));
@@ -47,7 +47,7 @@ internal partial class MaxMinTest
         srcNativeArray.Dispose();
     }
 
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqNativeArrayMinComparable([ArrayValues] int[] sourceArr)
     {
         var arr = Linq.ToArray(Linq.Select(sourceArr, (i) => (Comparable)i));
@@ -57,7 +57,7 @@ internal partial class MaxMinTest
         srcNativeArray.Dispose();
     }
 
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqNativeArrayMinComparableSelector([ArrayValues] int[] sourceArr)
     {
         var arr = Linq.ToArray(Linq.Select(sourceArr, (i) => (Comparable)i));

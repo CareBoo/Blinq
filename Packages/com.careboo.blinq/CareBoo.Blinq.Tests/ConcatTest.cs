@@ -7,7 +7,7 @@ using CareBoo.Blinq;
 
 internal class ConcatTest
 {
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqNativeArrayAppendArray([ArrayValues] int[] sourceArr, [ArrayValues] int[] secondArr)
     {
         var source = new NativeArray<int>(sourceArr, Allocator.Persistent);
@@ -19,7 +19,7 @@ internal class ConcatTest
         second.Dispose();
     }
 
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqValueSequenceAppendArray([ArrayValues] int[] sourceArr, [ArrayValues] int[] secondArr)
     {
         var sourceNativeArr = new NativeArray<int>(sourceArr, Allocator.Persistent);
@@ -32,7 +32,7 @@ internal class ConcatTest
         second.Dispose();
     }
 
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqNativeArrayAppendSequence([ArrayValues] int[] sourceArr, [ArrayValues] int[] secondArr)
     {
         var source = new NativeArray<int>(sourceArr, Allocator.Persistent);
@@ -45,7 +45,7 @@ internal class ConcatTest
         secondNativeArr.Dispose();
     }
 
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqValueSequenceAppendSequence([ArrayValues] int[] sourceArr, [ArrayValues] int[] secondArr)
     {
         var sourceNativeArr = new NativeArray<int>(sourceArr, Allocator.Persistent);

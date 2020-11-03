@@ -38,7 +38,7 @@ internal class GroupJoinTest
         return Linq.Count(innerEnum);
     }
 
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqNativeArrayJoinNativeArray(
         [ValueSource(typeof(GroupJoinOuterValues), nameof(GroupJoinOuterValues.Values))] JoinA[] outerArr,
         [ValueSource(typeof(GroupJoinInnerValues), nameof(GroupJoinInnerValues.Values))] JoinB[] innerArr

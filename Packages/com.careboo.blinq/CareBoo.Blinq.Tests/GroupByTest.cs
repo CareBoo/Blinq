@@ -16,7 +16,7 @@ internal class GroupByTest
     internal readonly static ValueFunc<int, NativeMultiHashMap<int, int>, int>.Struct<SelectGroupingFunc> SelectGrouping =
         ValueFunc<int, NativeMultiHashMap<int, int>, int>.New<SelectGroupingFunc>();
 
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqNativeArrayGroupBy([ArrayValues] int[] sourceArr)
     {
         var source = new NativeArray<int>(sourceArr, Allocator.Persistent);

@@ -35,7 +35,7 @@ internal class SumTest
         }
     }
 
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqNativeArraySum_int(
         [ValueSource(typeof(Values_int), nameof(Values_int.Values))] int[] sourceArr
         )
@@ -46,7 +46,7 @@ internal class SumTest
         srcNativeArray.Dispose();
     }
 
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqNativeArraySumSelector_int(
         [ValueSource(typeof(Values_int), nameof(Values_int.Values))] int[] sourceArr
         )
@@ -71,7 +71,7 @@ internal class SumTest
         }
     }
 
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqNativeArraySum_float(
         [ValueSource(typeof(Values_float), nameof(Values_float.Values))] float[] sourceArr
         )
@@ -82,7 +82,7 @@ internal class SumTest
         srcNativeArray.Dispose();
     }
 
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqNativeArraySumSelector_float(
         [ValueSource(typeof(Values_float), nameof(Values_float.Values))] float[] sourceArr
         )
@@ -107,7 +107,7 @@ internal class SumTest
         }
     }
 
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqNativeArraySum_double(
         [ValueSource(typeof(Values_double), nameof(Values_double.Values))] double[] sourceArr
         )
@@ -118,7 +118,7 @@ internal class SumTest
         srcNativeArray.Dispose();
     }
 
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqNativeArraySumSelector_double(
         [ValueSource(typeof(Values_double), nameof(Values_double.Values))] double[] sourceArr
         )

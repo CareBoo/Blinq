@@ -40,7 +40,7 @@ foreach (string TYPE_FULL in TYPES)
         }
     }
 
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqNativeArrayMax_<#=TYPE_FULL#>(
         [ValueSource(typeof(Values_<#=TYPE_FULL#>), nameof(Values_<#=TYPE_FULL#>.Values))] <#=TYPE_FULL#>[] sourceArr
         )
@@ -51,7 +51,7 @@ foreach (string TYPE_FULL in TYPES)
         srcNativeArray.Dispose();
     }
 
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqNativeArrayMaxSelector_<#=TYPE_FULL#>(
         [ValueSource(typeof(Values_<#=TYPE_FULL#>), nameof(Values_<#=TYPE_FULL#>.Values))] <#=TYPE_FULL#>[] sourceArr
         )
@@ -62,7 +62,7 @@ foreach (string TYPE_FULL in TYPES)
         srcNativeArray.Dispose();
     }
 
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqNativeArrayMin_<#=TYPE_FULL#>(
         [ValueSource(typeof(Values_<#=TYPE_FULL#>), nameof(Values_<#=TYPE_FULL#>.Values))] <#=TYPE_FULL#>[] sourceArr
         )
@@ -73,7 +73,7 @@ foreach (string TYPE_FULL in TYPES)
         srcNativeArray.Dispose();
     }
 
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqNativeArrayMinSelector_<#=TYPE_FULL#>(
         [ValueSource(typeof(Values_<#=TYPE_FULL#>), nameof(Values_<#=TYPE_FULL#>.Values))] <#=TYPE_FULL#>[] sourceArr
         )
