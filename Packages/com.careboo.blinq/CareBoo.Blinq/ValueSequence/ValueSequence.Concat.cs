@@ -39,8 +39,8 @@ namespace CareBoo.Blinq
         where TSource : struct, ISequence<T>
         where TSecond : struct, ISequence<T>
     {
-        readonly TSource source;
-        readonly TSecond second;
+        TSource source;
+        TSecond second;
 
         bool currentIndex;
 

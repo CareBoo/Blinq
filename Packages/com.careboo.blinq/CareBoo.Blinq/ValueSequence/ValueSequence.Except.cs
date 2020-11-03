@@ -36,8 +36,8 @@ namespace CareBoo.Blinq
         where TSource : struct, ISequence<T>
         where TSecond : struct, ISequence<T>
     {
-        public TSource source;
-        public TSecond second;
+        TSource source;
+        TSecond second;
 
         NativeHashSet<T> set;
 
@@ -71,7 +71,7 @@ namespace CareBoo.Blinq
                 }
             }
             while (source.MoveNext())
-                if (!set.Contains(source.Current))
+                if (set.Add(source.Current))
                     return true;
             return false;
         }

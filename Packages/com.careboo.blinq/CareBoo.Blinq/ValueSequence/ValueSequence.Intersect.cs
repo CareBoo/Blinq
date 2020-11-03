@@ -38,13 +38,15 @@ namespace CareBoo.Blinq
     {
         TSource source;
         TSecond second;
-        NativeHashSet<T> set;
+        NativeHashSet<T> intersection;
+        NativeHashSet<T> added;
 
         public IntersectSequence(ref TSource source, ref TSecond second)
         {
             this.source = source;
             this.second = second;
-            set = default;
+            intersection = default;
+            added = default;
         }
 
         public T Current => second.Current;
@@ -55,20 +57,25 @@ namespace CareBoo.Blinq
         {
             source.Dispose();
             second.Dispose();
-            set.Dispose();
+            if (intersection.IsCreated)
+                intersection.Dispose();
+            if (added.IsCreated)
+                added.Dispose();
         }
 
         public bool MoveNext()
         {
-            if (!set.IsCreated)
+            if (!intersection.IsCreated)
             {
                 var sourceList = source.ToList();
-                set = new NativeHashSet<T>(sourceList.Length, Allocator.Persistent);
+                intersection = new NativeHashSet<T>(sourceList.Length, Allocator.Persistent);
                 for (var i = 0; i < sourceList.Length; i++)
-                    set.Add(sourceList[i]);
+                    intersection.Add(sourceList[i]);
             }
+            if (!added.IsCreated)
+                added = new NativeHashSet<T>(0, Allocator.Persistent);
             while (second.MoveNext())
-                if (set.Contains(second.Current))
+                if (intersection.Contains(second.Current) && added.Add(second.Current))
                     return true;
             return false;
         }

@@ -19,16 +19,17 @@ namespace CareBoo.Blinq
             where TKeySelector : struct, IFunc<T, TKey>
             where TElementSelector : struct, IFunc<T, TElement>
         {
-            var list = source.Execute();
-            var result = new NativeHashMap<TKey, TElement>(list.Length, allocator);
-            for (var i = 0; i < list.Length; i++)
+            using (var list = source.Execute())
             {
-                var key = keySelector.Invoke(list[i]);
-                var val = elementSelector.Invoke(list[i]);
-                result.Add(key, val);
+                var result = new NativeHashMap<TKey, TElement>(list.Length, allocator);
+                for (var i = 0; i < list.Length; i++)
+                {
+                    var key = keySelector.Invoke(list[i]);
+                    var val = elementSelector.Invoke(list[i]);
+                    result.Add(key, val);
+                }
+                return result;
             }
-            list.Dispose();
-            return result;
         }
 
         public static NativeHashMap<TKey, T> ToNativeHashMap<T, TSource, TKey, TKeySelector>(
@@ -41,16 +42,17 @@ namespace CareBoo.Blinq
             where TKey : struct, IEquatable<TKey>
             where TKeySelector : struct, IFunc<T, TKey>
         {
-            var list = source.Execute();
-            var result = new NativeHashMap<TKey, T>(list.Length, allocator);
-            for (var i = 0; i < list.Length; i++)
+            using (var list = source.Execute())
             {
-                var key = keySelector.Invoke(list[i]);
-                var val = list[i];
-                result.Add(key, val);
+                var result = new NativeHashMap<TKey, T>(list.Length, allocator);
+                for (var i = 0; i < list.Length; i++)
+                {
+                    var key = keySelector.Invoke(list[i]);
+                    var val = list[i];
+                    result.Add(key, val);
+                }
+                return result;
             }
-            list.Dispose();
-            return result;
         }
     }
 }

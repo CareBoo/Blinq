@@ -11,10 +11,8 @@ namespace CareBoo.Blinq
             where T : struct
             where TSource : struct, ISequence<T>
         {
-            var list = source.Execute();
-            var result = new NativeArray<T>(list, allocator);
-            list.Dispose();
-            return result;
+            using (var list = source.Execute())
+                return new NativeArray<T>(list, allocator);
         }
 
         public static NativeArray<T> ToNativeArray<T, TSource>(
@@ -24,10 +22,12 @@ namespace CareBoo.Blinq
             where T : struct
             where TSource : struct, ISequence<T>
         {
-            var list = source.Execute();
-            for (var i = 0; i < list.Length; i++)
-                output[i] = list[i];
-            return output;
+            using (var list = source.Execute())
+            {
+                for (var i = 0; i < list.Length; i++)
+                    output[i] = list[i];
+                return output;
+            }
         }
     }
 }

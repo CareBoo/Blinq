@@ -26,16 +26,16 @@ namespace CareBoo.Blinq
         TSource source;
         readonly T item;
 
-        int currentIndex;
+        bool currentIndex;
 
         public AppendSequence(ref TSource source, in T item)
         {
             this.source = source;
             this.item = item;
-            currentIndex = 0;
+            currentIndex = false;
         }
 
-        public T Current => currentIndex > 0
+        public T Current => currentIndex
             ? item
             : source.Current;
 
@@ -48,12 +48,11 @@ namespace CareBoo.Blinq
 
         public bool MoveNext()
         {
-            if (currentIndex > 1)
+            if (currentIndex)
                 return false;
             if (source.MoveNext())
                 return true;
-            if (currentIndex < 2)
-                currentIndex += 1;
+            currentIndex = true;
             return true;
         }
 

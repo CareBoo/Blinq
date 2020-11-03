@@ -98,7 +98,8 @@ namespace CareBoo.Blinq
         public void Dispose()
         {
             source.Dispose();
-            list.Dispose();
+            if (list.IsCreated)
+                list.Dispose();
         }
     }
 

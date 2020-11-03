@@ -60,6 +60,7 @@ namespace CareBoo.Blinq
 
         public void Dispose()
         {
+            source.Dispose();
         }
 
         public bool MoveNext()
@@ -75,13 +76,13 @@ namespace CareBoo.Blinq
 
         public NativeList<TResult> ToList()
         {
-            var sourceList = source.ToList();
-
-            var newList = new NativeList<TResult>(sourceList.Length, Allocator.Temp);
-            for (var i = 0; i < sourceList.Length; i++)
-                newList.AddNoResize(selector.Invoke(sourceList[i], i));
-            sourceList.Dispose();
-            return newList;
+            using (var sourceList = source.ToList())
+            {
+                var newList = new NativeList<TResult>(sourceList.Length, Allocator.Temp);
+                for (var i = 0; i < sourceList.Length; i++)
+                    newList.AddNoResize(selector.Invoke(sourceList[i], i));
+                return newList;
+            }
         }
     }
 
@@ -121,13 +122,13 @@ namespace CareBoo.Blinq
 
         public NativeList<TResult> ToList()
         {
-            var sourceList = source.ToList();
-
-            var newList = new NativeList<TResult>(sourceList.Length, Allocator.Temp);
-            for (var i = 0; i < sourceList.Length; i++)
-                newList.AddNoResize(selector.Invoke(sourceList[i]));
-            sourceList.Dispose();
-            return newList;
+            using (var sourceList = source.ToList())
+            {
+                var newList = new NativeList<TResult>(sourceList.Length, Allocator.Temp);
+                for (var i = 0; i < sourceList.Length; i++)
+                    newList.AddNoResize(selector.Invoke(sourceList[i]));
+                return newList;
+            }
         }
     }
 }

@@ -107,7 +107,8 @@ namespace CareBoo.Blinq
 
         public void Dispose()
         {
-            currentCollection.Dispose();
+            if (currentCollection.IsCreated)
+                currentCollection.Dispose();
             source.Dispose();
         }
 
@@ -117,7 +118,8 @@ namespace CareBoo.Blinq
             {
                 if (!source.MoveNext())
                     return false;
-                currentCollection.Dispose();
+                if (currentCollection.IsCreated)
+                    currentCollection.Dispose();
                 currentCollection = collectionSelector.Invoke(source.Current);
                 currentEnumerator = currentCollection.GetEnumerator();
             }
@@ -196,7 +198,8 @@ namespace CareBoo.Blinq
 
         public void Dispose()
         {
-            currentCollection.Dispose();
+            if (currentCollection.IsCreated)
+                currentCollection.Dispose();
             source.Dispose();
         }
 
@@ -207,7 +210,8 @@ namespace CareBoo.Blinq
                 if (!source.MoveNext())
                     return false;
                 currentIndex += 1;
-                currentCollection.Dispose();
+                if (currentCollection.IsCreated)
+                    currentCollection.Dispose();
                 currentCollection = collectionSelector.Invoke(source.Current, currentIndex);
                 currentEnumerator = currentCollection.GetEnumerator();
             }
