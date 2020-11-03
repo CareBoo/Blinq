@@ -8,7 +8,7 @@ namespace CareBoo.Blinq
         where T : struct
     {
         readonly NativeArray<T> source;
-        readonly NativeArray<T>.Enumerator sourceEnum;
+        NativeArray<T>.Enumerator sourceEnum;
 
         public NativeArraySequence(in NativeArray<T> source)
         {
