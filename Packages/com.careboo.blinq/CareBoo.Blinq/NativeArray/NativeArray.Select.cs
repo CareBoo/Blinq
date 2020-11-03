@@ -6,7 +6,7 @@ namespace CareBoo.Blinq
     public static partial class Sequence
     {
         public static ValueSequence<TResult, SelectIndexSequence<T, NativeArraySequence<T>, TResult, TPredicate>> Select<T, TResult, TPredicate>(
-            this ref NativeArray<T> source,
+            this in NativeArray<T> source,
             in ValueFunc<T, int, TResult>.Struct<TPredicate> selector
             )
             where T : struct
@@ -18,7 +18,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueSequence<TResult, SelectSequence<T, NativeArraySequence<T>, TResult, TPredicate>> Select<T, TResult, TPredicate>(
-            this ref NativeArray<T> source,
+            this in NativeArray<T> source,
             in ValueFunc<T, TResult>.Struct<TPredicate> selector
             )
             where T : struct

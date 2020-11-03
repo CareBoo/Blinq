@@ -13,7 +13,7 @@ internal class SequenceEqualTest
         var sourceNativeArr = new NativeArray<int>(sourceArr, Allocator.Persistent);
         var secondNativeArr = new NativeArray<int>(secondArr, Allocator.Persistent);
         var expected = ExceptionAndValue(() => Linq.SequenceEqual(sourceNativeArr, secondNativeArr));
-        var actual = ExceptionAndValue(() => Blinq.SequenceEqual(ref sourceNativeArr, secondNativeArr));
+        var actual = ExceptionAndValue(() => Blinq.SequenceEqual(sourceNativeArr, secondNativeArr));
         AssertAreEqual(expected, actual);
         sourceNativeArr.Dispose();
         secondNativeArr.Dispose();
@@ -39,7 +39,7 @@ internal class SequenceEqualTest
         var secondNativeArr = new NativeArray<int>(secondArr, Allocator.Persistent);
         var second = secondNativeArr.ToValueSequence();
         var expected = ExceptionAndValue(() => Linq.SequenceEqual(sourceNativeArr, second));
-        var actual = ExceptionAndValue(() => Blinq.SequenceEqual(ref sourceNativeArr, second));
+        var actual = ExceptionAndValue(() => Blinq.SequenceEqual(sourceNativeArr, second));
         AssertAreEqual(expected, actual);
         sourceNativeArr.Dispose();
         secondNativeArr.Dispose();

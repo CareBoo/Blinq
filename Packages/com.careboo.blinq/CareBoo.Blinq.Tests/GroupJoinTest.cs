@@ -47,7 +47,7 @@ internal class GroupJoinTest
         var outer = new NativeArray<JoinA>(outerArr, Allocator.Persistent);
         var inner = new NativeArray<JoinB>(innerArr, Allocator.Persistent);
         var expected = ExceptionAndValue(() => Linq.ToArray(Linq.GroupJoin(outer, inner, JoinAKeySelector.Invoke, JoinBKeySelector.Invoke, GroupJoinABLinqSelector)));
-        var actual = ExceptionAndValue(() => Linq.ToArray(Blinq.GroupJoin(ref outer, inner, JoinAKeySelector, JoinBKeySelector, GroupJoinABSelector)));
+        var actual = ExceptionAndValue(() => Linq.ToArray(Blinq.GroupJoin(outer, inner, JoinAKeySelector, JoinBKeySelector, GroupJoinABSelector)));
         AssertAreEqual(expected, actual);
         outer.Dispose();
         inner.Dispose();

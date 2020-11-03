@@ -5,8 +5,8 @@ namespace CareBoo.Blinq
     public static partial class Sequence
     {
         public static bool Any<T, TSource, TPredicate>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, bool>.Struct<TPredicate> predicate
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, bool>.Struct<TPredicate> predicate
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -20,7 +20,7 @@ namespace CareBoo.Blinq
         }
 
         public static bool Any<T, TSource>(
-            this ValueSequence<T, TSource> source
+            this in ValueSequence<T, TSource> source
             )
             where T : struct
             where TSource : struct, ISequence<T>

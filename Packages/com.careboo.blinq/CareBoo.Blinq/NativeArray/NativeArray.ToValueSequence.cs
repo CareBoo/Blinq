@@ -10,7 +10,7 @@ namespace CareBoo.Blinq
         readonly NativeArray<T> source;
         readonly NativeArray<T>.Enumerator sourceEnum;
 
-        public NativeArraySequence(NativeArray<T> source)
+        public NativeArraySequence(in NativeArray<T> source)
         {
             this.source = source;
             sourceEnum = source.GetEnumerator();
@@ -45,10 +45,10 @@ namespace CareBoo.Blinq
 
     public static partial class Sequence
     {
-        public static ValueSequence<T, NativeArraySequence<T>> ToValueSequence<T>(this ref NativeArray<T> nativeArray)
+        public static ValueSequence<T, NativeArraySequence<T>> ToValueSequence<T>(this in NativeArray<T> nativeArray)
             where T : struct
         {
-            var newSequence = new NativeArraySequence<T>(nativeArray);
+            var newSequence = new NativeArraySequence<T>(in nativeArray);
             return ValueSequence<T>.New(ref newSequence);
         }
     }

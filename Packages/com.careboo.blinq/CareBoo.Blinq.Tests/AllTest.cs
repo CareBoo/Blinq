@@ -12,7 +12,7 @@ internal class AllTest
     {
         var source = new NativeArray<int>(sourceArr, Allocator.Persistent);
         var expected = ExceptionAndValue(() => Linq.All(source, EqualsZero.Invoke));
-        var actual = ExceptionAndValue(() => Blinq.All(ref source, EqualsZero));
+        var actual = ExceptionAndValue(() => Blinq.All(source, EqualsZero));
         AssertAreEqual(expected, actual);
         source.Dispose();
     }

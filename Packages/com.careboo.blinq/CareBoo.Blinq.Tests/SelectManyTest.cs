@@ -13,7 +13,7 @@ internal class SelectManyTest
     {
         var sourceNativeArr = new NativeArray<int>(sourceArr, Allocator.Persistent);
         var expected = ExceptionAndValue(() => Linq.ToArray(Linq.SelectMany(sourceNativeArr, (x) => RepeatAmount.Invoke(x))));
-        var actual = ExceptionAndValue(() => Linq.ToArray(Blinq.SelectMany(ref sourceNativeArr, RepeatAmount)));
+        var actual = ExceptionAndValue(() => Linq.ToArray(Blinq.SelectMany(sourceNativeArr, RepeatAmount)));
         AssertAreEqual(expected, actual);
         sourceNativeArr.Dispose();
     }
@@ -23,7 +23,7 @@ internal class SelectManyTest
     {
         var sourceNativeArr = new NativeArray<int>(sourceArr, Allocator.Persistent);
         var expected = ExceptionAndValue(() => Linq.ToArray(Linq.SelectMany(sourceNativeArr, (x, i) => RepeatAmountPlusIndex.Invoke(x, i))));
-        var actual = ExceptionAndValue(() => Linq.ToArray(Blinq.SelectMany(ref sourceNativeArr, RepeatAmountPlusIndex)));
+        var actual = ExceptionAndValue(() => Linq.ToArray(Blinq.SelectMany(sourceNativeArr, RepeatAmountPlusIndex)));
         AssertAreEqual(expected, actual);
         sourceNativeArr.Dispose();
     }
@@ -33,7 +33,7 @@ internal class SelectManyTest
     {
         var sourceNativeArr = new NativeArray<int>(sourceArr, Allocator.Persistent);
         var expected = ExceptionAndValue(() => Linq.ToArray(Linq.SelectMany(sourceNativeArr, (x) => RepeatAmount.Invoke(x), AddToIndex.Invoke)));
-        var actual = ExceptionAndValue(() => Linq.ToArray(Blinq.SelectMany(ref sourceNativeArr, RepeatAmount, AddToIndex)));
+        var actual = ExceptionAndValue(() => Linq.ToArray(Blinq.SelectMany(sourceNativeArr, RepeatAmount, AddToIndex)));
         AssertAreEqual(expected, actual);
         sourceNativeArr.Dispose();
     }
@@ -43,7 +43,7 @@ internal class SelectManyTest
     {
         var sourceNativeArr = new NativeArray<int>(sourceArr, Allocator.Persistent);
         var expected = ExceptionAndValue(() => Linq.ToArray(Linq.SelectMany(sourceNativeArr, (x, i) => RepeatAmountPlusIndex.Invoke(x, i), AddToIndex.Invoke)));
-        var actual = ExceptionAndValue(() => Linq.ToArray(Blinq.SelectMany(ref sourceNativeArr, RepeatAmountPlusIndex, AddToIndex)));
+        var actual = ExceptionAndValue(() => Linq.ToArray(Blinq.SelectMany(sourceNativeArr, RepeatAmountPlusIndex, AddToIndex)));
         AssertAreEqual(expected, actual);
         sourceNativeArr.Dispose();
     }

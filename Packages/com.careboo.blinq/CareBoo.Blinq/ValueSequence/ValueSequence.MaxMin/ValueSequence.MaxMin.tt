@@ -24,7 +24,7 @@ foreach (string TYPE_FULL in TYPES)
 {
 #>
         public static <#=TYPE_FULL#> Max<TSource>(
-            this ValueSequence<<#=TYPE_FULL#>, TSource> source
+            this in ValueSequence<<#=TYPE_FULL#>, TSource> source
             )
             where TSource : struct, ISequence<<#=TYPE_FULL#>>
         {
@@ -44,7 +44,7 @@ foreach (string TYPE_FULL in TYPES)
         }
 
         public static <#=TYPE_FULL#> Min<TSource>(
-            this ValueSequence<<#=TYPE_FULL#>, TSource> source
+            this in ValueSequence<<#=TYPE_FULL#>, TSource> source
             )
             where TSource : struct, ISequence<<#=TYPE_FULL#>>
         {
@@ -64,8 +64,8 @@ foreach (string TYPE_FULL in TYPES)
         }
 
         public static <#=TYPE_FULL#> Max<T, TSource, TSelector>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, <#=TYPE_FULL#>>.Struct<TSelector> selector
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, <#=TYPE_FULL#>>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -87,8 +87,8 @@ foreach (string TYPE_FULL in TYPES)
         }
 
         public static <#=TYPE_FULL#> Min<T, TSource, TSelector>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, <#=TYPE_FULL#>>.Struct<TSelector> selector
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, <#=TYPE_FULL#>>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>

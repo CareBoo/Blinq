@@ -13,7 +13,7 @@ internal class AppendTest
         int item = 1;
         var source = new NativeArray<int>(sourceArr, Allocator.Persistent);
         var expected = ExceptionAndValue(() => Linq.ToArray(Linq.Append(source, item)));
-        var actual = ExceptionAndValue(() => Linq.ToArray(Blinq.Append(ref source, item)));
+        var actual = ExceptionAndValue(() => Linq.ToArray(Blinq.Append(source, item)));
         AssertAreEqual(expected, actual);
         source.Dispose();
     }

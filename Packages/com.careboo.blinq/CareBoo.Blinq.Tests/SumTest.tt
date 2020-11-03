@@ -46,7 +46,7 @@ foreach (string TYPE_FULL in TYPES)
     {
         var srcNativeArray = new NativeArray<<#=TYPE_FULL#>>(sourceArr, Allocator.Persistent);
         var expected = ExceptionAndValue(() => Linq.Sum(srcNativeArray));
-        var actual = ExceptionAndValue(() => Blinq.Sum(ref srcNativeArray));
+        var actual = ExceptionAndValue(() => Blinq.Sum(srcNativeArray));
         srcNativeArray.Dispose();
     }
 
@@ -57,7 +57,7 @@ foreach (string TYPE_FULL in TYPES)
     {
         var srcNativeArray = new NativeArray<<#=TYPE_FULL#>>(sourceArr, Allocator.Persistent);
         var expected = ExceptionAndValue(() => Linq.Sum(srcNativeArray, SelectSelf<<#=TYPE_FULL#>>().Invoke));
-        var actual = ExceptionAndValue(() => Blinq.Sum(ref srcNativeArray, SelectSelf<<#=TYPE_FULL#>>()));
+        var actual = ExceptionAndValue(() => Blinq.Sum(srcNativeArray, SelectSelf<<#=TYPE_FULL#>>()));
         srcNativeArray.Dispose();
     }
 

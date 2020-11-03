@@ -8,7 +8,7 @@ namespace CareBoo.Blinq
     public static partial class Sequence
     {
         public static ValueSequence<TResult, GroupJoinSequence<TOuter, TOuterSequence, TInner, TInnerSequence, TKey, TOuterKeySelector, TInnerKeySelector, TResult, TResultSelector>> GroupJoin<TOuter, TOuterSequence, TInner, TInnerSequence, TKey, TOuterKeySelector, TInnerKeySelector, TResult, TResultSelector>(
-            this ref ValueSequence<TOuter, TOuterSequence> outer,
+            this in ValueSequence<TOuter, TOuterSequence> outer,
             in ValueSequence<TInner, TInnerSequence> inner,
             in ValueFunc<TOuter, TKey>.Struct<TOuterKeySelector> outerKeySelector,
             in ValueFunc<TInner, TKey>.Struct<TInnerKeySelector> innerKeySelector,
@@ -31,8 +31,8 @@ namespace CareBoo.Blinq
         }
 
         public static ValueSequence<TResult, GroupJoinSequence<TOuter, TOuterSequence, TInner, NativeArraySequence<TInner>, TKey, TOuterKeySelector, TInnerKeySelector, TResult, TResultSelector>> GroupJoin<TOuter, TOuterSequence, TInner, TKey, TOuterKeySelector, TInnerKeySelector, TResult, TResultSelector>(
-            this ref ValueSequence<TOuter, TOuterSequence> outer,
-            ref NativeArray<TInner> inner,
+            this in ValueSequence<TOuter, TOuterSequence> outer,
+            in NativeArray<TInner> inner,
             in ValueFunc<TOuter, TKey>.Struct<TOuterKeySelector> outerKeySelector,
             in ValueFunc<TInner, TKey>.Struct<TInnerKeySelector> innerKeySelector,
             in ValueFunc<TOuter, NativeArray<TInner>, TResult>.Struct<TResultSelector> resultSelector

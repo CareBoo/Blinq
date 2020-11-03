@@ -7,30 +7,30 @@ namespace CareBoo.Blinq
     public static partial class Sequence
     {
         public static bool SequenceEqual<T, TSecond>(
-            this ref NativeArray<T> source,
-            ValueSequence<T, TSecond> second
+            this in NativeArray<T> source,
+            in ValueSequence<T, TSecond> second
             )
             where T : struct, IEquatable<T>
             where TSecond : struct, ISequence<T>
         {
-            return source.ToValueSequence().SequenceEqual(second);
+            return source.ToValueSequence().SequenceEqual(in second);
         }
 
         public static bool SequenceEqual<T, TSecond, TComparer>(
-            this ref NativeArray<T> source,
-            ValueSequence<T, TSecond> second,
-            TComparer comparer
+            this in NativeArray<T> source,
+            in ValueSequence<T, TSecond> second,
+            in TComparer comparer
             )
             where T : struct, IEquatable<T>
             where TSecond : struct, ISequence<T>
             where TComparer : struct, IEqualityComparer<T>
         {
-            return source.ToValueSequence().SequenceEqual(second, comparer);
+            return source.ToValueSequence().SequenceEqual(in second, in comparer);
         }
 
         public static bool SequenceEqual<T>(
-            this ref NativeArray<T> source,
-            NativeArray<T> second
+            this in NativeArray<T> source,
+            in NativeArray<T> second
             )
             where T : struct, IEquatable<T>
         {
@@ -38,9 +38,9 @@ namespace CareBoo.Blinq
         }
 
         public static bool SequenceEqual<T, TComparer>(
-            this ref NativeArray<T> source,
-            NativeArray<T> second,
-            TComparer comparer
+            this in NativeArray<T> source,
+            in NativeArray<T> second,
+            in TComparer comparer
             )
             where T : struct, IEquatable<T>
             where TComparer : struct, IEqualityComparer<T>

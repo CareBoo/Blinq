@@ -5,8 +5,8 @@ namespace CareBoo.Blinq
     public static partial class Sequence
     {
         public static NativeArray<T> ToNativeArray<T, TSource>(
-            this ValueSequence<T, TSource> source,
-            Allocator allocator
+            this in ValueSequence<T, TSource> source,
+            in Allocator allocator
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -18,8 +18,8 @@ namespace CareBoo.Blinq
         }
 
         public static NativeArray<T> ToNativeArray<T, TSource>(
-            this ValueSequence<T, TSource> source,
-            NativeArray<T> output
+            this in ValueSequence<T, TSource> source,
+            ref NativeArray<T> output
             )
             where T : struct
             where TSource : struct, ISequence<T>

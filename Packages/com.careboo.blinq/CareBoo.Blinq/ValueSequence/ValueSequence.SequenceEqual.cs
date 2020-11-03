@@ -7,8 +7,8 @@ namespace CareBoo.Blinq
     public static partial class Sequence
     {
         public static bool SequenceEqual<T, TSource, TSecond>(
-            this ValueSequence<T, TSource> source,
-            ValueSequence<T, TSecond> second
+            this in ValueSequence<T, TSource> source,
+            in ValueSequence<T, TSecond> second
             )
             where T : struct, IEquatable<T>
             where TSource : struct, ISequence<T>
@@ -22,9 +22,9 @@ namespace CareBoo.Blinq
         }
 
         public static bool SequenceEqual<T, TSource, TSecond, TComparer>(
-            this ValueSequence<T, TSource> source,
-            ValueSequence<T, TSecond> second,
-            TComparer comparer
+            this in ValueSequence<T, TSource> source,
+            in ValueSequence<T, TSecond> second,
+            in TComparer comparer
             )
             where T : struct, IEquatable<T>
             where TSource : struct, ISequence<T>
@@ -46,8 +46,8 @@ namespace CareBoo.Blinq
         }
 
         public static bool SequenceEqual<T, TSource>(
-            this ValueSequence<T, TSource> source,
-            NativeArray<T> second
+            this in ValueSequence<T, TSource> source,
+            in NativeArray<T> second
             )
             where T : struct, IEquatable<T>
             where TSource : struct, ISequence<T>
@@ -59,9 +59,9 @@ namespace CareBoo.Blinq
         }
 
         public static bool SequenceEqual<T, TSource, TComparer>(
-            this ValueSequence<T, TSource> source,
-            NativeArray<T> second,
-            TComparer comparer
+            this in ValueSequence<T, TSource> source,
+            in NativeArray<T> second,
+            in TComparer comparer
             )
             where T : struct, IEquatable<T>
             where TSource : struct, ISequence<T>

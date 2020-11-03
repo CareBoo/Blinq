@@ -8,7 +8,7 @@ namespace CareBoo.Blinq
     public static partial class Sequence
     {
         public static ValueSequence<T, OrderBySequence<T, TSource, KeyComparer<T, TKey, TKeySelector, DefaultComparer<TKey>>>> OrderBy<T, TSource, TKey, TKeySelector>(
-            this ref ValueSequence<T, TSource> source,
+            this in ValueSequence<T, TSource> source,
             in ValueFunc<T, TKey>.Struct<TKeySelector> keySelector
             )
             where T : struct
@@ -24,7 +24,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueSequence<T, OrderBySequence<T, TSource, KeyComparer<T, TKey, TKeySelector, TComparer>>> OrderBy<T, TSource, TKey, TKeySelector, TComparer>(
-            this ref ValueSequence<T, TSource> source,
+            this in ValueSequence<T, TSource> source,
             in ValueFunc<T, TKey>.Struct<TKeySelector> keySelector,
             in TComparer comparer
             )

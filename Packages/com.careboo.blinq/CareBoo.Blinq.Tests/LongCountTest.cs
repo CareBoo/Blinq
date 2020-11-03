@@ -13,7 +13,7 @@ internal class LongCountTest
     {
         var sourceNativeArr = new NativeArray<int>(sourceArr, Allocator.Persistent);
         var expected = ExceptionAndValue(() => Linq.LongCount(sourceNativeArr));
-        var actual = ExceptionAndValue(() => Blinq.LongCount(ref sourceNativeArr));
+        var actual = ExceptionAndValue(() => Blinq.LongCount(sourceNativeArr));
         AssertAreEqual(expected, actual);
         sourceNativeArr.Dispose();
     }
@@ -34,7 +34,7 @@ internal class LongCountTest
     {
         var sourceNativeArr = new NativeArray<int>(sourceArr, Allocator.Persistent);
         var expected = ExceptionAndValue(() => Linq.LongCount(sourceNativeArr, EqualsOne.Invoke));
-        var actual = ExceptionAndValue(() => Blinq.LongCount(ref sourceNativeArr, EqualsOne));
+        var actual = ExceptionAndValue(() => Blinq.LongCount(sourceNativeArr, EqualsOne));
         AssertAreEqual(expected, actual);
         sourceNativeArr.Dispose();
     }

@@ -27,7 +27,7 @@ internal class GroupByTest
         });
         var actual = ExceptionAndValue(() =>
         {
-            var groupBy = Blinq.GroupBy(ref source, SelectSelf<int>(), SelectGrouping);
+            var groupBy = Blinq.GroupBy(source, SelectSelf<int>(), SelectGrouping);
             return Linq.ToArray(groupBy);
         });
         AssertAreEqual(expected, actual);

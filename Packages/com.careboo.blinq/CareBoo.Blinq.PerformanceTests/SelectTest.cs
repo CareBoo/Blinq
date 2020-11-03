@@ -19,7 +19,7 @@ internal struct SelectJob<TSelector> : IJob
 
     public void Execute()
     {
-        Blinq.Select(ref Source, Selector).Execute();
+        Blinq.Select(Source, Selector).Execute();
     }
 }
 

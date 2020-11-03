@@ -7,7 +7,7 @@ namespace CareBoo.Blinq
     public static partial class Sequence
     {
         public static ValueSequence<T, IntersectSequence<T, TSource, TSecond>> Intersect<T, TSource, TSecond>(
-            this ref ValueSequence<T, TSource> source,
+            this in ValueSequence<T, TSource> source,
             in ValueSequence<T, TSecond> second
             )
             where T : unmanaged, IEquatable<T>
@@ -21,8 +21,8 @@ namespace CareBoo.Blinq
         }
 
         public static ValueSequence<T, IntersectSequence<T, TSource, NativeArraySequence<T>>> Intersect<T, TSource>(
-            this ref ValueSequence<T, TSource> source,
-            ref NativeArray<T> second
+            this in ValueSequence<T, TSource> source,
+            in NativeArray<T> second
             )
             where T : unmanaged, IEquatable<T>
             where TSource : struct, ISequence<T>

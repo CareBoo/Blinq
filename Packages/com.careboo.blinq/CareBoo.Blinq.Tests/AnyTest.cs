@@ -12,7 +12,7 @@ internal class AnyTest
     {
         var source = new NativeArray<int>(sourceArr, Allocator.Persistent);
         var expected = ExceptionAndValue(() => Linq.Any(source));
-        var actual = ExceptionAndValue(() => Blinq.Any(ref source));
+        var actual = ExceptionAndValue(() => Blinq.Any(source));
         AssertAreEqual(expected, actual);
         source.Dispose();
     }
@@ -22,7 +22,7 @@ internal class AnyTest
     {
         var source = new NativeArray<int>(sourceArr, Allocator.Persistent);
         var expected = ExceptionAndValue(() => Linq.Any(source, EqualsZero.Invoke));
-        var actual = ExceptionAndValue(() => Blinq.Any(ref source, EqualsZero));
+        var actual = ExceptionAndValue(() => Blinq.Any(source, EqualsZero));
         AssertAreEqual(expected, actual);
         source.Dispose();
     }

@@ -6,7 +6,7 @@ namespace CareBoo.Blinq
     public static partial class Sequence
     {
         public static ValueSequence<T, DistinctSequence<T, NativeArraySequence<T>>> Distinct<T>(
-            this ref NativeArray<T> source
+            this in NativeArray<T> source
             )
             where T : unmanaged, IEquatable<T>
         {

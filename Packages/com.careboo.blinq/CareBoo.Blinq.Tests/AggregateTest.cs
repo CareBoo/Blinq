@@ -17,7 +17,7 @@ internal class AggregateTest
             LongSum.Invoke,
             LongToDouble.Invoke
         ));
-        var actual = ExceptionAndValue(() => Blinq.Aggregate(ref source, 0, LongSum, LongToDouble));
+        var actual = ExceptionAndValue(() => Blinq.Aggregate(source, 0, LongSum, LongToDouble));
         AssertAreEqual(expected, actual);
         source.Dispose();
     }
@@ -31,7 +31,7 @@ internal class AggregateTest
             0,
             LongSum.Invoke
         ));
-        var actual = ExceptionAndValue(() => Blinq.Aggregate(ref source, 0, LongSum));
+        var actual = ExceptionAndValue(() => Blinq.Aggregate(source, 0, LongSum));
         AssertAreEqual(expected, actual);
         source.Dispose();
     }
@@ -44,7 +44,7 @@ internal class AggregateTest
             source,
             Sum.Invoke
         ));
-        var actual = ExceptionAndValue(() => Blinq.Aggregate(ref source, Sum));
+        var actual = ExceptionAndValue(() => Blinq.Aggregate(source, Sum));
         AssertAreEqual(expected, actual);
         source.Dispose();
     }

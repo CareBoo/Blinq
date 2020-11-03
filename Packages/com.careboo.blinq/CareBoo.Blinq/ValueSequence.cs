@@ -10,7 +10,7 @@ namespace CareBoo.Blinq
         where T : struct
         where TSource : struct, ISequence<T>
     {
-        readonly TSource source;
+        TSource source;
 
         public ValueSequence(ref TSource source)
         {

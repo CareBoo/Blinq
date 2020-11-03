@@ -14,7 +14,7 @@ internal class TakeTest
         var count = 5;
         var source = new NativeArray<int>(sourceArr, Allocator.Persistent);
         var expected = ExceptionAndValue(() => Linq.ToArray(Linq.Take(source, count)));
-        var actual = ExceptionAndValue(() => Linq.ToArray(Blinq.Take(ref source, count)));
+        var actual = ExceptionAndValue(() => Linq.ToArray(Blinq.Take(source, count)));
         AssertAreEqual(expected, actual);
         source.Dispose();
     }
@@ -24,7 +24,7 @@ internal class TakeTest
     {
         var source = new NativeArray<int>(sourceArr, Allocator.Persistent);
         var expected = ExceptionAndValue(() => Linq.ToArray(Linq.TakeWhile(source, EqualToIndex.Invoke)));
-        var actual = ExceptionAndValue(() => Linq.ToArray(Blinq.TakeWhile(ref source, EqualToIndex)));
+        var actual = ExceptionAndValue(() => Linq.ToArray(Blinq.TakeWhile(source, EqualToIndex)));
         AssertAreEqual(expected, actual);
         source.Dispose();
     }

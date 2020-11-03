@@ -12,7 +12,7 @@ internal class SelectTest
     {
         var source = new NativeArray<int>(sourceArr, Allocator.Persistent);
         var expected = ExceptionAndValue(() => Linq.ToArray(Linq.Select(source, AddToIndex.Invoke)));
-        var actual = ExceptionAndValue(() => Linq.ToArray(Blinq.Select(ref source, AddToIndex)));
+        var actual = ExceptionAndValue(() => Linq.ToArray(Blinq.Select(source, AddToIndex)));
         AssertAreEqual(expected, actual);
         source.Dispose();
     }
@@ -22,7 +22,7 @@ internal class SelectTest
     {
         var source = new NativeArray<int>(sourceArr, Allocator.Persistent);
         var expected = ExceptionAndValue(() => Linq.ToArray(Linq.Select(source, IntToLong.Invoke)));
-        var actual = ExceptionAndValue(() => Linq.ToArray(Blinq.Select(ref source, IntToLong)));
+        var actual = ExceptionAndValue(() => Linq.ToArray(Blinq.Select(source, IntToLong)));
         AssertAreEqual(expected, actual);
         source.Dispose();
     }

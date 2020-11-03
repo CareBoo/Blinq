@@ -20,7 +20,7 @@ namespace CareBoo.Blinq
     {
 
         public static int Max<TSource>(
-            this ValueSequence<int, TSource> source
+            this in ValueSequence<int, TSource> source
             )
             where TSource : struct, ISequence<int>
         {
@@ -40,7 +40,7 @@ namespace CareBoo.Blinq
         }
 
         public static int Min<TSource>(
-            this ValueSequence<int, TSource> source
+            this in ValueSequence<int, TSource> source
             )
             where TSource : struct, ISequence<int>
         {
@@ -60,8 +60,8 @@ namespace CareBoo.Blinq
         }
 
         public static int Max<T, TSource, TSelector>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, int>.Struct<TSelector> selector
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, int>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -83,8 +83,8 @@ namespace CareBoo.Blinq
         }
 
         public static int Min<T, TSource, TSelector>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, int>.Struct<TSelector> selector
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, int>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -107,7 +107,7 @@ namespace CareBoo.Blinq
 
 
         public static uint Max<TSource>(
-            this ValueSequence<uint, TSource> source
+            this in ValueSequence<uint, TSource> source
             )
             where TSource : struct, ISequence<uint>
         {
@@ -127,7 +127,7 @@ namespace CareBoo.Blinq
         }
 
         public static uint Min<TSource>(
-            this ValueSequence<uint, TSource> source
+            this in ValueSequence<uint, TSource> source
             )
             where TSource : struct, ISequence<uint>
         {
@@ -147,8 +147,8 @@ namespace CareBoo.Blinq
         }
 
         public static uint Max<T, TSource, TSelector>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, uint>.Struct<TSelector> selector
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, uint>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -170,8 +170,8 @@ namespace CareBoo.Blinq
         }
 
         public static uint Min<T, TSource, TSelector>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, uint>.Struct<TSelector> selector
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, uint>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -194,7 +194,7 @@ namespace CareBoo.Blinq
 
 
         public static float Max<TSource>(
-            this ValueSequence<float, TSource> source
+            this in ValueSequence<float, TSource> source
             )
             where TSource : struct, ISequence<float>
         {
@@ -214,7 +214,7 @@ namespace CareBoo.Blinq
         }
 
         public static float Min<TSource>(
-            this ValueSequence<float, TSource> source
+            this in ValueSequence<float, TSource> source
             )
             where TSource : struct, ISequence<float>
         {
@@ -234,8 +234,8 @@ namespace CareBoo.Blinq
         }
 
         public static float Max<T, TSource, TSelector>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, float>.Struct<TSelector> selector
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, float>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -257,8 +257,8 @@ namespace CareBoo.Blinq
         }
 
         public static float Min<T, TSource, TSelector>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, float>.Struct<TSelector> selector
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, float>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -281,7 +281,7 @@ namespace CareBoo.Blinq
 
 
         public static double Max<TSource>(
-            this ValueSequence<double, TSource> source
+            this in ValueSequence<double, TSource> source
             )
             where TSource : struct, ISequence<double>
         {
@@ -301,7 +301,7 @@ namespace CareBoo.Blinq
         }
 
         public static double Min<TSource>(
-            this ValueSequence<double, TSource> source
+            this in ValueSequence<double, TSource> source
             )
             where TSource : struct, ISequence<double>
         {
@@ -321,8 +321,8 @@ namespace CareBoo.Blinq
         }
 
         public static double Max<T, TSource, TSelector>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, double>.Struct<TSelector> selector
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, double>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -344,8 +344,8 @@ namespace CareBoo.Blinq
         }
 
         public static double Min<T, TSource, TSelector>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, double>.Struct<TSelector> selector
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, double>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>

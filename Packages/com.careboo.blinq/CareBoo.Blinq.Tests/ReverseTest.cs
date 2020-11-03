@@ -13,7 +13,7 @@ internal class ReverseTest
     {
         var source = new NativeArray<int>(sourceArr, Allocator.Persistent);
         var expected = ExceptionAndValue(() => Linq.ToArray(Linq.Reverse(source)));
-        var actual = ExceptionAndValue(() => Linq.ToArray(Blinq.Reverse(ref source)));
+        var actual = ExceptionAndValue(() => Linq.ToArray(Blinq.Reverse(source)));
         AssertAreEqual(expected, actual);
         source.Dispose();
     }

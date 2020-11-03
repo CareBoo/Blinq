@@ -7,8 +7,8 @@ namespace CareBoo.Blinq
     public static partial class Sequence
     {
         public static ValueSequence<T, ExceptSequence<T, TSource, TSecond>> Except<T, TSource, TSecond>(
-            this ref ValueSequence<T, TSource> source,
-            ValueSequence<T, TSecond> second
+            this in ValueSequence<T, TSource> source,
+            in ValueSequence<T, TSecond> second
             )
             where T : unmanaged, IEquatable<T>
             where TSource : struct, ISequence<T>
@@ -21,8 +21,8 @@ namespace CareBoo.Blinq
         }
 
         public static ValueSequence<T, ExceptSequence<T, TSource, NativeArraySequence<T>>> Except<T, TSource>(
-            this ref ValueSequence<T, TSource> source,
-            NativeArray<T> second
+            this in ValueSequence<T, TSource> source,
+            in NativeArray<T> second
             )
             where T : unmanaged, IEquatable<T>
             where TSource : struct, ISequence<T>

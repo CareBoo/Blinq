@@ -13,7 +13,7 @@ internal class CountTest
     {
         var sourceNativeArr = new NativeArray<int>(sourceArr, Allocator.Persistent);
         var expected = ExceptionAndValue(() => Linq.Count(sourceNativeArr));
-        var actual = ExceptionAndValue(() => Blinq.Count(ref sourceNativeArr));
+        var actual = ExceptionAndValue(() => Blinq.Count(sourceNativeArr));
         AssertAreEqual(expected, actual);
         sourceNativeArr.Dispose();
     }
@@ -34,7 +34,7 @@ internal class CountTest
     {
         var sourceNativeArr = new NativeArray<int>(sourceArr, Allocator.Persistent);
         var expected = ExceptionAndValue(() => Linq.Count(sourceNativeArr, EqualsOne.Invoke));
-        var actual = ExceptionAndValue(() => Blinq.Count(ref sourceNativeArr, EqualsOne));
+        var actual = ExceptionAndValue(() => Blinq.Count(sourceNativeArr, EqualsOne));
         AssertAreEqual(expected, actual);
         sourceNativeArr.Dispose();
     }

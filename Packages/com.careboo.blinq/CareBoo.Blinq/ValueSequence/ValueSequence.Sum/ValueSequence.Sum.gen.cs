@@ -21,7 +21,7 @@ namespace CareBoo.Blinq
     {
 
         public static int Sum<TSource>(
-            this ValueSequence<int, TSource> source
+            this in ValueSequence<int, TSource> source
             )
             where TSource : struct, ISequence<int>
         {
@@ -36,8 +36,8 @@ namespace CareBoo.Blinq
         }
 
         public static int Sum<T, TSource, TSelector>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, int>.Struct<TSelector> selector
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, int>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -55,7 +55,7 @@ namespace CareBoo.Blinq
 
 
         public static int2 Sum<TSource>(
-            this ValueSequence<int2, TSource> source
+            this in ValueSequence<int2, TSource> source
             )
             where TSource : struct, ISequence<int2>
         {
@@ -70,8 +70,8 @@ namespace CareBoo.Blinq
         }
 
         public static int2 Sum<T, TSource, TSelector>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, int2>.Struct<TSelector> selector
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, int2>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -89,7 +89,7 @@ namespace CareBoo.Blinq
 
 
         public static int2x2 Sum<TSource>(
-            this ValueSequence<int2x2, TSource> source
+            this in ValueSequence<int2x2, TSource> source
             )
             where TSource : struct, ISequence<int2x2>
         {
@@ -104,8 +104,8 @@ namespace CareBoo.Blinq
         }
 
         public static int2x2 Sum<T, TSource, TSelector>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, int2x2>.Struct<TSelector> selector
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, int2x2>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -123,7 +123,7 @@ namespace CareBoo.Blinq
 
 
         public static int2x3 Sum<TSource>(
-            this ValueSequence<int2x3, TSource> source
+            this in ValueSequence<int2x3, TSource> source
             )
             where TSource : struct, ISequence<int2x3>
         {
@@ -138,8 +138,8 @@ namespace CareBoo.Blinq
         }
 
         public static int2x3 Sum<T, TSource, TSelector>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, int2x3>.Struct<TSelector> selector
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, int2x3>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -157,7 +157,7 @@ namespace CareBoo.Blinq
 
 
         public static int2x4 Sum<TSource>(
-            this ValueSequence<int2x4, TSource> source
+            this in ValueSequence<int2x4, TSource> source
             )
             where TSource : struct, ISequence<int2x4>
         {
@@ -172,8 +172,8 @@ namespace CareBoo.Blinq
         }
 
         public static int2x4 Sum<T, TSource, TSelector>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, int2x4>.Struct<TSelector> selector
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, int2x4>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -191,7 +191,7 @@ namespace CareBoo.Blinq
 
 
         public static int3 Sum<TSource>(
-            this ValueSequence<int3, TSource> source
+            this in ValueSequence<int3, TSource> source
             )
             where TSource : struct, ISequence<int3>
         {
@@ -206,8 +206,8 @@ namespace CareBoo.Blinq
         }
 
         public static int3 Sum<T, TSource, TSelector>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, int3>.Struct<TSelector> selector
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, int3>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -225,7 +225,7 @@ namespace CareBoo.Blinq
 
 
         public static int3x2 Sum<TSource>(
-            this ValueSequence<int3x2, TSource> source
+            this in ValueSequence<int3x2, TSource> source
             )
             where TSource : struct, ISequence<int3x2>
         {
@@ -240,8 +240,8 @@ namespace CareBoo.Blinq
         }
 
         public static int3x2 Sum<T, TSource, TSelector>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, int3x2>.Struct<TSelector> selector
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, int3x2>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -259,7 +259,7 @@ namespace CareBoo.Blinq
 
 
         public static int3x3 Sum<TSource>(
-            this ValueSequence<int3x3, TSource> source
+            this in ValueSequence<int3x3, TSource> source
             )
             where TSource : struct, ISequence<int3x3>
         {
@@ -274,8 +274,8 @@ namespace CareBoo.Blinq
         }
 
         public static int3x3 Sum<T, TSource, TSelector>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, int3x3>.Struct<TSelector> selector
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, int3x3>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -293,7 +293,7 @@ namespace CareBoo.Blinq
 
 
         public static int3x4 Sum<TSource>(
-            this ValueSequence<int3x4, TSource> source
+            this in ValueSequence<int3x4, TSource> source
             )
             where TSource : struct, ISequence<int3x4>
         {
@@ -308,8 +308,8 @@ namespace CareBoo.Blinq
         }
 
         public static int3x4 Sum<T, TSource, TSelector>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, int3x4>.Struct<TSelector> selector
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, int3x4>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -327,7 +327,7 @@ namespace CareBoo.Blinq
 
 
         public static int4 Sum<TSource>(
-            this ValueSequence<int4, TSource> source
+            this in ValueSequence<int4, TSource> source
             )
             where TSource : struct, ISequence<int4>
         {
@@ -342,8 +342,8 @@ namespace CareBoo.Blinq
         }
 
         public static int4 Sum<T, TSource, TSelector>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, int4>.Struct<TSelector> selector
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, int4>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -361,7 +361,7 @@ namespace CareBoo.Blinq
 
 
         public static int4x2 Sum<TSource>(
-            this ValueSequence<int4x2, TSource> source
+            this in ValueSequence<int4x2, TSource> source
             )
             where TSource : struct, ISequence<int4x2>
         {
@@ -376,8 +376,8 @@ namespace CareBoo.Blinq
         }
 
         public static int4x2 Sum<T, TSource, TSelector>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, int4x2>.Struct<TSelector> selector
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, int4x2>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -395,7 +395,7 @@ namespace CareBoo.Blinq
 
 
         public static int4x3 Sum<TSource>(
-            this ValueSequence<int4x3, TSource> source
+            this in ValueSequence<int4x3, TSource> source
             )
             where TSource : struct, ISequence<int4x3>
         {
@@ -410,8 +410,8 @@ namespace CareBoo.Blinq
         }
 
         public static int4x3 Sum<T, TSource, TSelector>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, int4x3>.Struct<TSelector> selector
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, int4x3>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -429,7 +429,7 @@ namespace CareBoo.Blinq
 
 
         public static int4x4 Sum<TSource>(
-            this ValueSequence<int4x4, TSource> source
+            this in ValueSequence<int4x4, TSource> source
             )
             where TSource : struct, ISequence<int4x4>
         {
@@ -444,8 +444,8 @@ namespace CareBoo.Blinq
         }
 
         public static int4x4 Sum<T, TSource, TSelector>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, int4x4>.Struct<TSelector> selector
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, int4x4>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -463,7 +463,7 @@ namespace CareBoo.Blinq
 
 
         public static uint Sum<TSource>(
-            this ValueSequence<uint, TSource> source
+            this in ValueSequence<uint, TSource> source
             )
             where TSource : struct, ISequence<uint>
         {
@@ -478,8 +478,8 @@ namespace CareBoo.Blinq
         }
 
         public static uint Sum<T, TSource, TSelector>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, uint>.Struct<TSelector> selector
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, uint>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -497,7 +497,7 @@ namespace CareBoo.Blinq
 
 
         public static uint2 Sum<TSource>(
-            this ValueSequence<uint2, TSource> source
+            this in ValueSequence<uint2, TSource> source
             )
             where TSource : struct, ISequence<uint2>
         {
@@ -512,8 +512,8 @@ namespace CareBoo.Blinq
         }
 
         public static uint2 Sum<T, TSource, TSelector>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, uint2>.Struct<TSelector> selector
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, uint2>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -531,7 +531,7 @@ namespace CareBoo.Blinq
 
 
         public static uint2x2 Sum<TSource>(
-            this ValueSequence<uint2x2, TSource> source
+            this in ValueSequence<uint2x2, TSource> source
             )
             where TSource : struct, ISequence<uint2x2>
         {
@@ -546,8 +546,8 @@ namespace CareBoo.Blinq
         }
 
         public static uint2x2 Sum<T, TSource, TSelector>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, uint2x2>.Struct<TSelector> selector
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, uint2x2>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -565,7 +565,7 @@ namespace CareBoo.Blinq
 
 
         public static uint2x3 Sum<TSource>(
-            this ValueSequence<uint2x3, TSource> source
+            this in ValueSequence<uint2x3, TSource> source
             )
             where TSource : struct, ISequence<uint2x3>
         {
@@ -580,8 +580,8 @@ namespace CareBoo.Blinq
         }
 
         public static uint2x3 Sum<T, TSource, TSelector>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, uint2x3>.Struct<TSelector> selector
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, uint2x3>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -599,7 +599,7 @@ namespace CareBoo.Blinq
 
 
         public static uint2x4 Sum<TSource>(
-            this ValueSequence<uint2x4, TSource> source
+            this in ValueSequence<uint2x4, TSource> source
             )
             where TSource : struct, ISequence<uint2x4>
         {
@@ -614,8 +614,8 @@ namespace CareBoo.Blinq
         }
 
         public static uint2x4 Sum<T, TSource, TSelector>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, uint2x4>.Struct<TSelector> selector
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, uint2x4>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -633,7 +633,7 @@ namespace CareBoo.Blinq
 
 
         public static uint3 Sum<TSource>(
-            this ValueSequence<uint3, TSource> source
+            this in ValueSequence<uint3, TSource> source
             )
             where TSource : struct, ISequence<uint3>
         {
@@ -648,8 +648,8 @@ namespace CareBoo.Blinq
         }
 
         public static uint3 Sum<T, TSource, TSelector>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, uint3>.Struct<TSelector> selector
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, uint3>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -667,7 +667,7 @@ namespace CareBoo.Blinq
 
 
         public static uint3x2 Sum<TSource>(
-            this ValueSequence<uint3x2, TSource> source
+            this in ValueSequence<uint3x2, TSource> source
             )
             where TSource : struct, ISequence<uint3x2>
         {
@@ -682,8 +682,8 @@ namespace CareBoo.Blinq
         }
 
         public static uint3x2 Sum<T, TSource, TSelector>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, uint3x2>.Struct<TSelector> selector
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, uint3x2>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -701,7 +701,7 @@ namespace CareBoo.Blinq
 
 
         public static uint3x3 Sum<TSource>(
-            this ValueSequence<uint3x3, TSource> source
+            this in ValueSequence<uint3x3, TSource> source
             )
             where TSource : struct, ISequence<uint3x3>
         {
@@ -716,8 +716,8 @@ namespace CareBoo.Blinq
         }
 
         public static uint3x3 Sum<T, TSource, TSelector>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, uint3x3>.Struct<TSelector> selector
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, uint3x3>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -735,7 +735,7 @@ namespace CareBoo.Blinq
 
 
         public static uint3x4 Sum<TSource>(
-            this ValueSequence<uint3x4, TSource> source
+            this in ValueSequence<uint3x4, TSource> source
             )
             where TSource : struct, ISequence<uint3x4>
         {
@@ -750,8 +750,8 @@ namespace CareBoo.Blinq
         }
 
         public static uint3x4 Sum<T, TSource, TSelector>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, uint3x4>.Struct<TSelector> selector
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, uint3x4>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -769,7 +769,7 @@ namespace CareBoo.Blinq
 
 
         public static uint4 Sum<TSource>(
-            this ValueSequence<uint4, TSource> source
+            this in ValueSequence<uint4, TSource> source
             )
             where TSource : struct, ISequence<uint4>
         {
@@ -784,8 +784,8 @@ namespace CareBoo.Blinq
         }
 
         public static uint4 Sum<T, TSource, TSelector>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, uint4>.Struct<TSelector> selector
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, uint4>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -803,7 +803,7 @@ namespace CareBoo.Blinq
 
 
         public static uint4x2 Sum<TSource>(
-            this ValueSequence<uint4x2, TSource> source
+            this in ValueSequence<uint4x2, TSource> source
             )
             where TSource : struct, ISequence<uint4x2>
         {
@@ -818,8 +818,8 @@ namespace CareBoo.Blinq
         }
 
         public static uint4x2 Sum<T, TSource, TSelector>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, uint4x2>.Struct<TSelector> selector
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, uint4x2>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -837,7 +837,7 @@ namespace CareBoo.Blinq
 
 
         public static uint4x3 Sum<TSource>(
-            this ValueSequence<uint4x3, TSource> source
+            this in ValueSequence<uint4x3, TSource> source
             )
             where TSource : struct, ISequence<uint4x3>
         {
@@ -852,8 +852,8 @@ namespace CareBoo.Blinq
         }
 
         public static uint4x3 Sum<T, TSource, TSelector>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, uint4x3>.Struct<TSelector> selector
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, uint4x3>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -871,7 +871,7 @@ namespace CareBoo.Blinq
 
 
         public static uint4x4 Sum<TSource>(
-            this ValueSequence<uint4x4, TSource> source
+            this in ValueSequence<uint4x4, TSource> source
             )
             where TSource : struct, ISequence<uint4x4>
         {
@@ -886,8 +886,8 @@ namespace CareBoo.Blinq
         }
 
         public static uint4x4 Sum<T, TSource, TSelector>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, uint4x4>.Struct<TSelector> selector
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, uint4x4>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -905,7 +905,7 @@ namespace CareBoo.Blinq
 
 
         public static float Sum<TSource>(
-            this ValueSequence<float, TSource> source
+            this in ValueSequence<float, TSource> source
             )
             where TSource : struct, ISequence<float>
         {
@@ -920,8 +920,8 @@ namespace CareBoo.Blinq
         }
 
         public static float Sum<T, TSource, TSelector>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, float>.Struct<TSelector> selector
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, float>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -939,7 +939,7 @@ namespace CareBoo.Blinq
 
 
         public static float2 Sum<TSource>(
-            this ValueSequence<float2, TSource> source
+            this in ValueSequence<float2, TSource> source
             )
             where TSource : struct, ISequence<float2>
         {
@@ -954,8 +954,8 @@ namespace CareBoo.Blinq
         }
 
         public static float2 Sum<T, TSource, TSelector>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, float2>.Struct<TSelector> selector
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, float2>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -973,7 +973,7 @@ namespace CareBoo.Blinq
 
 
         public static float2x2 Sum<TSource>(
-            this ValueSequence<float2x2, TSource> source
+            this in ValueSequence<float2x2, TSource> source
             )
             where TSource : struct, ISequence<float2x2>
         {
@@ -988,8 +988,8 @@ namespace CareBoo.Blinq
         }
 
         public static float2x2 Sum<T, TSource, TSelector>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, float2x2>.Struct<TSelector> selector
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, float2x2>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -1007,7 +1007,7 @@ namespace CareBoo.Blinq
 
 
         public static float2x3 Sum<TSource>(
-            this ValueSequence<float2x3, TSource> source
+            this in ValueSequence<float2x3, TSource> source
             )
             where TSource : struct, ISequence<float2x3>
         {
@@ -1022,8 +1022,8 @@ namespace CareBoo.Blinq
         }
 
         public static float2x3 Sum<T, TSource, TSelector>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, float2x3>.Struct<TSelector> selector
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, float2x3>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -1041,7 +1041,7 @@ namespace CareBoo.Blinq
 
 
         public static float2x4 Sum<TSource>(
-            this ValueSequence<float2x4, TSource> source
+            this in ValueSequence<float2x4, TSource> source
             )
             where TSource : struct, ISequence<float2x4>
         {
@@ -1056,8 +1056,8 @@ namespace CareBoo.Blinq
         }
 
         public static float2x4 Sum<T, TSource, TSelector>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, float2x4>.Struct<TSelector> selector
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, float2x4>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -1075,7 +1075,7 @@ namespace CareBoo.Blinq
 
 
         public static float3 Sum<TSource>(
-            this ValueSequence<float3, TSource> source
+            this in ValueSequence<float3, TSource> source
             )
             where TSource : struct, ISequence<float3>
         {
@@ -1090,8 +1090,8 @@ namespace CareBoo.Blinq
         }
 
         public static float3 Sum<T, TSource, TSelector>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, float3>.Struct<TSelector> selector
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, float3>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -1109,7 +1109,7 @@ namespace CareBoo.Blinq
 
 
         public static float3x2 Sum<TSource>(
-            this ValueSequence<float3x2, TSource> source
+            this in ValueSequence<float3x2, TSource> source
             )
             where TSource : struct, ISequence<float3x2>
         {
@@ -1124,8 +1124,8 @@ namespace CareBoo.Blinq
         }
 
         public static float3x2 Sum<T, TSource, TSelector>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, float3x2>.Struct<TSelector> selector
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, float3x2>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -1143,7 +1143,7 @@ namespace CareBoo.Blinq
 
 
         public static float3x3 Sum<TSource>(
-            this ValueSequence<float3x3, TSource> source
+            this in ValueSequence<float3x3, TSource> source
             )
             where TSource : struct, ISequence<float3x3>
         {
@@ -1158,8 +1158,8 @@ namespace CareBoo.Blinq
         }
 
         public static float3x3 Sum<T, TSource, TSelector>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, float3x3>.Struct<TSelector> selector
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, float3x3>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -1177,7 +1177,7 @@ namespace CareBoo.Blinq
 
 
         public static float3x4 Sum<TSource>(
-            this ValueSequence<float3x4, TSource> source
+            this in ValueSequence<float3x4, TSource> source
             )
             where TSource : struct, ISequence<float3x4>
         {
@@ -1192,8 +1192,8 @@ namespace CareBoo.Blinq
         }
 
         public static float3x4 Sum<T, TSource, TSelector>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, float3x4>.Struct<TSelector> selector
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, float3x4>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -1211,7 +1211,7 @@ namespace CareBoo.Blinq
 
 
         public static float4 Sum<TSource>(
-            this ValueSequence<float4, TSource> source
+            this in ValueSequence<float4, TSource> source
             )
             where TSource : struct, ISequence<float4>
         {
@@ -1226,8 +1226,8 @@ namespace CareBoo.Blinq
         }
 
         public static float4 Sum<T, TSource, TSelector>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, float4>.Struct<TSelector> selector
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, float4>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -1245,7 +1245,7 @@ namespace CareBoo.Blinq
 
 
         public static float4x2 Sum<TSource>(
-            this ValueSequence<float4x2, TSource> source
+            this in ValueSequence<float4x2, TSource> source
             )
             where TSource : struct, ISequence<float4x2>
         {
@@ -1260,8 +1260,8 @@ namespace CareBoo.Blinq
         }
 
         public static float4x2 Sum<T, TSource, TSelector>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, float4x2>.Struct<TSelector> selector
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, float4x2>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -1279,7 +1279,7 @@ namespace CareBoo.Blinq
 
 
         public static float4x3 Sum<TSource>(
-            this ValueSequence<float4x3, TSource> source
+            this in ValueSequence<float4x3, TSource> source
             )
             where TSource : struct, ISequence<float4x3>
         {
@@ -1294,8 +1294,8 @@ namespace CareBoo.Blinq
         }
 
         public static float4x3 Sum<T, TSource, TSelector>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, float4x3>.Struct<TSelector> selector
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, float4x3>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -1313,7 +1313,7 @@ namespace CareBoo.Blinq
 
 
         public static float4x4 Sum<TSource>(
-            this ValueSequence<float4x4, TSource> source
+            this in ValueSequence<float4x4, TSource> source
             )
             where TSource : struct, ISequence<float4x4>
         {
@@ -1328,8 +1328,8 @@ namespace CareBoo.Blinq
         }
 
         public static float4x4 Sum<T, TSource, TSelector>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, float4x4>.Struct<TSelector> selector
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, float4x4>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -1347,7 +1347,7 @@ namespace CareBoo.Blinq
 
 
         public static double Sum<TSource>(
-            this ValueSequence<double, TSource> source
+            this in ValueSequence<double, TSource> source
             )
             where TSource : struct, ISequence<double>
         {
@@ -1362,8 +1362,8 @@ namespace CareBoo.Blinq
         }
 
         public static double Sum<T, TSource, TSelector>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, double>.Struct<TSelector> selector
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, double>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -1381,7 +1381,7 @@ namespace CareBoo.Blinq
 
 
         public static double2 Sum<TSource>(
-            this ValueSequence<double2, TSource> source
+            this in ValueSequence<double2, TSource> source
             )
             where TSource : struct, ISequence<double2>
         {
@@ -1396,8 +1396,8 @@ namespace CareBoo.Blinq
         }
 
         public static double2 Sum<T, TSource, TSelector>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, double2>.Struct<TSelector> selector
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, double2>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -1415,7 +1415,7 @@ namespace CareBoo.Blinq
 
 
         public static double2x2 Sum<TSource>(
-            this ValueSequence<double2x2, TSource> source
+            this in ValueSequence<double2x2, TSource> source
             )
             where TSource : struct, ISequence<double2x2>
         {
@@ -1430,8 +1430,8 @@ namespace CareBoo.Blinq
         }
 
         public static double2x2 Sum<T, TSource, TSelector>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, double2x2>.Struct<TSelector> selector
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, double2x2>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -1449,7 +1449,7 @@ namespace CareBoo.Blinq
 
 
         public static double2x3 Sum<TSource>(
-            this ValueSequence<double2x3, TSource> source
+            this in ValueSequence<double2x3, TSource> source
             )
             where TSource : struct, ISequence<double2x3>
         {
@@ -1464,8 +1464,8 @@ namespace CareBoo.Blinq
         }
 
         public static double2x3 Sum<T, TSource, TSelector>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, double2x3>.Struct<TSelector> selector
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, double2x3>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -1483,7 +1483,7 @@ namespace CareBoo.Blinq
 
 
         public static double2x4 Sum<TSource>(
-            this ValueSequence<double2x4, TSource> source
+            this in ValueSequence<double2x4, TSource> source
             )
             where TSource : struct, ISequence<double2x4>
         {
@@ -1498,8 +1498,8 @@ namespace CareBoo.Blinq
         }
 
         public static double2x4 Sum<T, TSource, TSelector>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, double2x4>.Struct<TSelector> selector
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, double2x4>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -1517,7 +1517,7 @@ namespace CareBoo.Blinq
 
 
         public static double3 Sum<TSource>(
-            this ValueSequence<double3, TSource> source
+            this in ValueSequence<double3, TSource> source
             )
             where TSource : struct, ISequence<double3>
         {
@@ -1532,8 +1532,8 @@ namespace CareBoo.Blinq
         }
 
         public static double3 Sum<T, TSource, TSelector>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, double3>.Struct<TSelector> selector
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, double3>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -1551,7 +1551,7 @@ namespace CareBoo.Blinq
 
 
         public static double3x2 Sum<TSource>(
-            this ValueSequence<double3x2, TSource> source
+            this in ValueSequence<double3x2, TSource> source
             )
             where TSource : struct, ISequence<double3x2>
         {
@@ -1566,8 +1566,8 @@ namespace CareBoo.Blinq
         }
 
         public static double3x2 Sum<T, TSource, TSelector>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, double3x2>.Struct<TSelector> selector
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, double3x2>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -1585,7 +1585,7 @@ namespace CareBoo.Blinq
 
 
         public static double3x3 Sum<TSource>(
-            this ValueSequence<double3x3, TSource> source
+            this in ValueSequence<double3x3, TSource> source
             )
             where TSource : struct, ISequence<double3x3>
         {
@@ -1600,8 +1600,8 @@ namespace CareBoo.Blinq
         }
 
         public static double3x3 Sum<T, TSource, TSelector>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, double3x3>.Struct<TSelector> selector
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, double3x3>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -1619,7 +1619,7 @@ namespace CareBoo.Blinq
 
 
         public static double3x4 Sum<TSource>(
-            this ValueSequence<double3x4, TSource> source
+            this in ValueSequence<double3x4, TSource> source
             )
             where TSource : struct, ISequence<double3x4>
         {
@@ -1634,8 +1634,8 @@ namespace CareBoo.Blinq
         }
 
         public static double3x4 Sum<T, TSource, TSelector>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, double3x4>.Struct<TSelector> selector
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, double3x4>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -1653,7 +1653,7 @@ namespace CareBoo.Blinq
 
 
         public static double4 Sum<TSource>(
-            this ValueSequence<double4, TSource> source
+            this in ValueSequence<double4, TSource> source
             )
             where TSource : struct, ISequence<double4>
         {
@@ -1668,8 +1668,8 @@ namespace CareBoo.Blinq
         }
 
         public static double4 Sum<T, TSource, TSelector>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, double4>.Struct<TSelector> selector
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, double4>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -1687,7 +1687,7 @@ namespace CareBoo.Blinq
 
 
         public static double4x2 Sum<TSource>(
-            this ValueSequence<double4x2, TSource> source
+            this in ValueSequence<double4x2, TSource> source
             )
             where TSource : struct, ISequence<double4x2>
         {
@@ -1702,8 +1702,8 @@ namespace CareBoo.Blinq
         }
 
         public static double4x2 Sum<T, TSource, TSelector>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, double4x2>.Struct<TSelector> selector
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, double4x2>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -1721,7 +1721,7 @@ namespace CareBoo.Blinq
 
 
         public static double4x3 Sum<TSource>(
-            this ValueSequence<double4x3, TSource> source
+            this in ValueSequence<double4x3, TSource> source
             )
             where TSource : struct, ISequence<double4x3>
         {
@@ -1736,8 +1736,8 @@ namespace CareBoo.Blinq
         }
 
         public static double4x3 Sum<T, TSource, TSelector>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, double4x3>.Struct<TSelector> selector
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, double4x3>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -1755,7 +1755,7 @@ namespace CareBoo.Blinq
 
 
         public static double4x4 Sum<TSource>(
-            this ValueSequence<double4x4, TSource> source
+            this in ValueSequence<double4x4, TSource> source
             )
             where TSource : struct, ISequence<double4x4>
         {
@@ -1770,8 +1770,8 @@ namespace CareBoo.Blinq
         }
 
         public static double4x4 Sum<T, TSource, TSelector>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, double4x4>.Struct<TSelector> selector
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, double4x4>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>

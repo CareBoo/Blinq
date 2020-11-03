@@ -6,7 +6,11 @@ namespace CareBoo.Blinq
 {
     public static partial class Sequence
     {
-        public static bool Contains<T, TComparer>(this ref NativeArray<T> source, T item, TComparer comparer)
+        public static bool Contains<T, TComparer>(
+            this in NativeArray<T> source,
+            in T item,
+            in TComparer comparer
+            )
             where T : struct
             where TComparer : struct, IEqualityComparer<T>
         {

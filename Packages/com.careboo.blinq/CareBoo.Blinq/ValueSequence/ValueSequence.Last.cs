@@ -5,8 +5,8 @@ namespace CareBoo.Blinq
     public static partial class Sequence
     {
         public static T Last<T, TSource, TPredicate>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, bool>.Struct<TPredicate> predicate
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, bool>.Struct<TPredicate> predicate
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -23,9 +23,9 @@ namespace CareBoo.Blinq
         }
 
         public static T LastOrDefault<T, TSource, TPredicate>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, bool>.Struct<TPredicate> predicate,
-            T defaultVal = default
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, bool>.Struct<TPredicate> predicate,
+            in T defaultVal = default
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -42,7 +42,7 @@ namespace CareBoo.Blinq
         }
 
         public static T Last<T, TSource>(
-            this ValueSequence<T, TSource> source
+            this in ValueSequence<T, TSource> source
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -52,8 +52,8 @@ namespace CareBoo.Blinq
         }
 
         public static T LastOrDefault<T, TSource>(
-            this ValueSequence<T, TSource> source,
-            T defaultVal = default
+            this in ValueSequence<T, TSource> source,
+            in T defaultVal = default
             )
             where T : struct
             where TSource : struct, ISequence<T>

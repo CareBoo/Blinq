@@ -6,8 +6,8 @@ namespace CareBoo.Blinq
     public static partial class Sequence
     {
         public static NativeList<T> ToNativeList<T>(
-            this ref NativeArray<T> source,
-            Allocator allocator
+            this in NativeArray<T> source,
+            in Allocator allocator
             )
             where T : unmanaged, IEquatable<T>
         {

@@ -15,7 +15,7 @@ internal class OrderByTest
     {
         var source = new NativeArray<Order>(sourceArr, Allocator.Persistent);
         var expected = ExceptionAndValue(() => Linq.ToArray(Linq.OrderBy(source, SelectSecond.Invoke)));
-        var actual = ExceptionAndValue(() => Linq.ToArray(Blinq.OrderBy(ref source, SelectSecond)));
+        var actual = ExceptionAndValue(() => Linq.ToArray(Blinq.OrderBy(source, SelectSecond)));
         AssertAreEqual(expected, actual);
         source.Dispose();
     }
@@ -36,7 +36,7 @@ internal class OrderByTest
     {
         var source = new NativeArray<Order>(sourceArr, Allocator.Persistent);
         var expected = ExceptionAndValue(() => Linq.ToArray(Linq.OrderByDescending(source, SelectFirst.Invoke)));
-        var actual = ExceptionAndValue(() => Linq.ToArray(Blinq.OrderByDescending(ref source, SelectFirst)));
+        var actual = ExceptionAndValue(() => Linq.ToArray(Blinq.OrderByDescending(source, SelectFirst)));
         AssertAreEqual(expected, actual);
         source.Dispose();
     }

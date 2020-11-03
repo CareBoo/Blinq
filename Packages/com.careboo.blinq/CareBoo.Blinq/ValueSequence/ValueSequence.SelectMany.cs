@@ -8,7 +8,7 @@ namespace CareBoo.Blinq
     public static partial class Sequence
     {
         public static ValueSequence<TResult, SelectManySequence<T, TSource, TCollection, TResult, TCollectionSelector, TResultSelector>> SelectMany<T, TSource, TCollection, TResult, TCollectionSelector, TResultSelector>(
-            this ref ValueSequence<T, TSource> source,
+            this in ValueSequence<T, TSource> source,
             in ValueFunc<T, NativeArray<TCollection>>.Struct<TCollectionSelector> collectionSelector,
             in ValueFunc<T, TCollection, TResult>.Struct<TResultSelector> resultSelector
             )
@@ -25,7 +25,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueSequence<TResult, SelectManyIndexSequence<T, TSource, TCollection, TResult, TCollectionSelector, TResultSelector>> SelectMany<T, TSource, TCollection, TResult, TCollectionSelector, TResultSelector>(
-            this ref ValueSequence<T, TSource> source,
+            this in ValueSequence<T, TSource> source,
             in ValueFunc<T, int, NativeArray<TCollection>>.Struct<TCollectionSelector> collectionSelector,
             in ValueFunc<T, TCollection, TResult>.Struct<TResultSelector> resultSelector
             )
@@ -42,7 +42,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueSequence<TResult, SelectManySequence<T, TSource, TResult, TResult, TSelector, RightSelector<T, TResult>>> SelectMany<T, TSource, TResult, TSelector>(
-            this ref ValueSequence<T, TSource> source,
+            this in ValueSequence<T, TSource> source,
             in ValueFunc<T, NativeArray<TResult>>.Struct<TSelector> selector
             )
             where T : struct
@@ -57,7 +57,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueSequence<TResult, SelectManyIndexSequence<T, TSource, TResult, TResult, TSelector, RightSelector<T, TResult>>> SelectMany<T, TSource, TResult, TSelector>(
-            this ref ValueSequence<T, TSource> source,
+            this in ValueSequence<T, TSource> source,
             in ValueFunc<T, int, NativeArray<TResult>>.Struct<TSelector> selector
             )
             where T : struct

@@ -11,7 +11,7 @@ internal class DistinctTest
     {
         var source = new NativeArray<int>(sourceArr, Allocator.Persistent);
         var expected = ExceptionAndValue(() => Linq.ToArray(Linq.Distinct(source)));
-        var actual = ExceptionAndValue(() => Linq.ToArray(Blinq.Distinct(ref source)));
+        var actual = ExceptionAndValue(() => Linq.ToArray(Blinq.Distinct(source)));
         AssertAreEqual(expected, actual);
         source.Dispose();
     }

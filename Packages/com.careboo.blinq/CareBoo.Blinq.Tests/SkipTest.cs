@@ -14,7 +14,7 @@ internal class SkipTest
         var count = 5;
         var source = new NativeArray<int>(sourceArr, Allocator.Persistent);
         var expected = ExceptionAndValue(() => Linq.ToArray(Linq.Skip(source, count)));
-        var actual = ExceptionAndValue(() => Linq.ToArray(Blinq.Skip(ref source, count)));
+        var actual = ExceptionAndValue(() => Linq.ToArray(Blinq.Skip(source, count)));
         AssertAreEqual(expected, actual);
         source.Dispose();
     }
@@ -24,7 +24,7 @@ internal class SkipTest
     {
         var source = new NativeArray<int>(sourceArr, Allocator.Persistent);
         var expected = ExceptionAndValue(() => Linq.ToArray(Linq.SkipWhile(source, EqualToIndex.Invoke)));
-        var actual = ExceptionAndValue(() => Linq.ToArray(Blinq.SkipWhile(ref source, EqualToIndex)));
+        var actual = ExceptionAndValue(() => Linq.ToArray(Blinq.SkipWhile(source, EqualToIndex)));
         AssertAreEqual(expected, actual);
         source.Dispose();
     }

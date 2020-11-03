@@ -7,7 +7,7 @@ namespace CareBoo.Blinq
     public static partial class Sequence
     {
         public static ValueSequence<T, SkipWhileIndexSequence<T, TSource, TPredicate>> SkipWhile<T, TSource, TPredicate>(
-            this ref ValueSequence<T, TSource> source,
+            this in ValueSequence<T, TSource> source,
             in ValueFunc<T, int, bool>.Struct<TPredicate> predicate
             )
             where T : struct
@@ -20,7 +20,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueSequence<T, SkipWhileSequence<T, TSource, TPredicate>> SkipWhile<T, TSource, TPredicate>(
-            this ref ValueSequence<T, TSource> source,
+            this in ValueSequence<T, TSource> source,
             in ValueFunc<T, bool>.Struct<TPredicate> predicate
             )
             where T : struct

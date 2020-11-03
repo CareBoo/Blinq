@@ -5,10 +5,10 @@ namespace CareBoo.Blinq
     public static partial class Sequence
     {
         public static TResult Aggregate<T, TSource, TAccumulate, TResult, TFunc, TResultSelector>(
-            this ValueSequence<T, TSource> source,
+            this in ValueSequence<T, TSource> source,
             TAccumulate seed,
-            ValueFunc<TAccumulate, T, TAccumulate>.Struct<TFunc> func,
-            ValueFunc<TAccumulate, TResult>.Struct<TResultSelector> resultSelector
+            in ValueFunc<TAccumulate, T, TAccumulate>.Struct<TFunc> func,
+            in ValueFunc<TAccumulate, TResult>.Struct<TResultSelector> resultSelector
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -24,9 +24,9 @@ namespace CareBoo.Blinq
         }
 
         public static TAccumulate Aggregate<T, TSource, TAccumulate, TFunc>(
-            this ValueSequence<T, TSource> source,
+            this in ValueSequence<T, TSource> source,
             TAccumulate seed,
-            ValueFunc<TAccumulate, T, TAccumulate>.Struct<TFunc> func
+            in ValueFunc<TAccumulate, T, TAccumulate>.Struct<TFunc> func
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -40,8 +40,8 @@ namespace CareBoo.Blinq
         }
 
         public static T Aggregate<T, TSource, TFunc>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, T, T>.Struct<TFunc> func
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, T, T>.Struct<TFunc> func
             )
             where T : struct
             where TSource : struct, ISequence<T>

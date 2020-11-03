@@ -7,7 +7,7 @@ namespace CareBoo.Blinq
     public static partial class Sequence
     {
         public static ValueSequence<T, ReverseSequence<T, TSource>> Reverse<T, TSource>(
-            this ref ValueSequence<T, TSource> source
+            this in ValueSequence<T, TSource> source
             )
             where T : struct
             where TSource : struct, ISequence<T>

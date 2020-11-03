@@ -8,27 +8,29 @@ namespace CareBoo.Blinq
     public static partial class Sequence
     {
         public static ValueSequence<T, WhereIndexSequence<T, TSource, TPredicate>> Where<T, TSource, TPredicate>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, int, bool>.Struct<TPredicate> predicate
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, int, bool>.Struct<TPredicate> predicate
             )
             where T : struct
             where TSource : struct, ISequence<T>
             where TPredicate : struct, IFunc<T, int, bool>
         {
-            var seq = new WhereIndexSequence<T, TSource, TPredicate>(source.Source, predicate);
-            return ValueSequence<T>.New(seq);
+            var sourceSeq = source.GetEnumerator();
+            var seq = new WhereIndexSequence<T, TSource, TPredicate>(ref sourceSeq, in predicate);
+            return ValueSequence<T>.New(ref seq);
         }
 
         public static ValueSequence<T, WhereSequence<T, TSource, TPredicate>> Where<T, TSource, TPredicate>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, bool>.Struct<TPredicate> predicate
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, bool>.Struct<TPredicate> predicate
             )
             where T : struct
             where TSource : struct, ISequence<T>
             where TPredicate : struct, IFunc<T, bool>
         {
-            var seq = new WhereSequence<T, TSource, TPredicate>(source.Source, predicate);
-            return ValueSequence<T>.New(seq);
+            var sourceSeq = source.GetEnumerator();
+            var seq = new WhereSequence<T, TSource, TPredicate>(ref sourceSeq, in predicate);
+            return ValueSequence<T>.New(ref seq);
         }
     }
 
@@ -37,12 +39,12 @@ namespace CareBoo.Blinq
         where TSource : struct, ISequence<T>
         where TPredicate : struct, IFunc<T, int, bool>
     {
-        readonly TSource source;
+        TSource source;
         readonly ValueFunc<T, int, bool>.Struct<TPredicate> predicate;
 
         int currentIndex;
 
-        public WhereIndexSequence(TSource source, ValueFunc<T, int, bool>.Struct<TPredicate> predicate)
+        public WhereIndexSequence(ref TSource source, in ValueFunc<T, int, bool>.Struct<TPredicate> predicate)
         {
             this.source = source;
             this.predicate = predicate;
@@ -92,10 +94,10 @@ namespace CareBoo.Blinq
         where TSource : struct, ISequence<T>
         where TPredicate : struct, IFunc<T, bool>
     {
-        readonly TSource source;
+        TSource source;
         readonly ValueFunc<T, bool>.Struct<TPredicate> predicate;
 
-        public WhereSequence(TSource source, ValueFunc<T, bool>.Struct<TPredicate> predicate)
+        public WhereSequence(ref TSource source, in ValueFunc<T, bool>.Struct<TPredicate> predicate)
         {
             this.source = source;
             this.predicate = predicate;

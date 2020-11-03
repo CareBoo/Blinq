@@ -6,8 +6,8 @@ namespace CareBoo.Blinq
     public static partial class Sequence
     {
         public static bool All<T, TPredicate>(
-            this ref NativeArray<T> source,
-            ValueFunc<T, bool>.Struct<TPredicate> predicate
+            this in NativeArray<T> source,
+            in ValueFunc<T, bool>.Struct<TPredicate> predicate
             )
             where T : struct
             where TPredicate : struct, IFunc<T, bool>

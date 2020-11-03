@@ -9,9 +9,9 @@ namespace CareBoo.Blinq
     public static partial class Sequence
     {
         public static ValueSequence<TResult, ZipSequence<T, TSource, TSecondElement, TSecond, TResult, TResultSelector>> Zip<T, TSource, TSecondElement, TResult, TSecond, TResultSelector>(
-            this ValueSequence<T, TSource> source,
-            ValueSequence<TSecondElement, TSecond> second,
-            ValueFunc<T, TSecondElement, TResult>.Struct<TResultSelector> resultSelector
+            this in ValueSequence<T, TSource> source,
+            in ValueSequence<TSecondElement, TSecond> second,
+            in ValueFunc<T, TSecondElement, TResult>.Struct<TResultSelector> resultSelector
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -20,8 +20,10 @@ namespace CareBoo.Blinq
             where TSecond : struct, ISequence<TSecondElement>
             where TResultSelector : struct, IFunc<T, TSecondElement, TResult>
         {
-            var seq = ZipSequence<T, TSecondElement>.New(source.Source, second.Source, resultSelector);
-            return ValueSequence<TResult>.New(seq);
+            var sourceSeq = source.GetEnumerator();
+            var secondSeq = second.GetEnumerator();
+            var seq = ZipSequence<T, TSecondElement>.New(ref sourceSeq, ref secondSeq, in resultSelector);
+            return ValueSequence<TResult>.New(ref seq);
         }
     }
 
@@ -33,11 +35,15 @@ namespace CareBoo.Blinq
         where TResult : struct
         where TResultSelector : struct, IFunc<T, TSecondElement, TResult>
     {
-        readonly TSource source;
-        readonly TSecond second;
+        TSource source;
+        TSecond second;
         readonly ValueFunc<T, TSecondElement, TResult>.Struct<TResultSelector> resultSelector;
 
-        public ZipSequence(TSource source, TSecond second, ValueFunc<T, TSecondElement, TResult>.Struct<TResultSelector> resultSelector)
+        public ZipSequence(
+            ref TSource source,
+            ref TSecond second,
+            in ValueFunc<T, TSecondElement, TResult>.Struct<TResultSelector> resultSelector
+            )
         {
             this.source = source;
             this.second = second;
@@ -83,16 +89,16 @@ namespace CareBoo.Blinq
         where TSecondElement : struct
     {
         public static ZipSequence<T, TSource, TSecondElement, TSecond, TResult, TResultSelector> New<TSource, TSecond, TResult, TResultSelector>(
-            TSource source,
-            TSecond second,
-            ValueFunc<T, TSecondElement, TResult>.Struct<TResultSelector> resultSelector
+            ref TSource source,
+            ref TSecond second,
+            in ValueFunc<T, TSecondElement, TResult>.Struct<TResultSelector> resultSelector
             )
             where TSource : struct, ISequence<T>
             where TResult : struct
             where TSecond : struct, ISequence<TSecondElement>
             where TResultSelector : struct, IFunc<T, TSecondElement, TResult>
         {
-            return new ZipSequence<T, TSource, TSecondElement, TSecond, TResult, TResultSelector>(source, second, resultSelector);
+            return new ZipSequence<T, TSource, TSecondElement, TSecond, TResult, TResultSelector>(ref source, ref second, in resultSelector);
         }
     }
 }

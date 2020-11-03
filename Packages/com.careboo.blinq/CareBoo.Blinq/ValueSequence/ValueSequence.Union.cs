@@ -7,25 +7,28 @@ namespace CareBoo.Blinq
     public static partial class Sequence
     {
         public static ValueSequence<T, UnionSequence<T, TSource, TSecond>> Union<T, TSource, TSecond>(
-            this ValueSequence<T, TSource> source,
-            ValueSequence<T, TSecond> second
+            this in ValueSequence<T, TSource> source,
+            in ValueSequence<T, TSecond> second
             )
             where T : unmanaged, IEquatable<T>
             where TSource : struct, ISequence<T>
             where TSecond : struct, ISequence<T>
         {
-            var seq = new UnionSequence<T, TSource, TSecond> { Source = source.Source, Second = second.Source };
-            return ValueSequence<T>.New(seq);
+            var sourceSeq = source.GetEnumerator();
+            var secondSeq = second.GetEnumerator();
+            var seq = new UnionSequence<T, TSource, TSecond>(ref sourceSeq, ref secondSeq);
+            return ValueSequence<T>.New(ref seq);
         }
 
         public static ValueSequence<T, UnionSequence<T, TSource, NativeArraySequence<T>>> Union<T, TSource>(
-            this ValueSequence<T, TSource> source,
-            NativeArray<T> second
+            this in ValueSequence<T, TSource> source,
+            in NativeArray<T> second
             )
             where T : unmanaged, IEquatable<T>
             where TSource : struct, ISequence<T>
         {
-            return source.Union(second.ToValueSequence());
+            var secondSeq = second.ToValueSequence();
+            return source.Union(in secondSeq);
         }
     }
 
@@ -34,10 +37,18 @@ namespace CareBoo.Blinq
         where TSource : struct, ISequence<T>
         where TSecond : struct, ISequence<T>
     {
-        public TSource Source;
-        public TSecond Second;
+        public TSource source;
+        public TSecond second;
 
         NativeHashSet<T> union;
+
+        public UnionSequence(ref TSource source, ref TSecond second)
+        {
+            this.source = source;
+            this.second = second;
+            union = default;
+            Current = default;
+        }
 
         public T Current { get; private set; }
 
@@ -45,8 +56,8 @@ namespace CareBoo.Blinq
 
         public void Dispose()
         {
-            Source.Dispose();
-            Second.Dispose();
+            source.Dispose();
+            second.Dispose();
             union.Dispose();
         }
 
@@ -54,15 +65,15 @@ namespace CareBoo.Blinq
         {
             if (!union.IsCreated)
                 union = new NativeHashSet<T>(0, Allocator.Persistent);
-            while (Source.MoveNext())
+            while (source.MoveNext())
             {
-                Current = Source.Current;
+                Current = source.Current;
                 if (union.Add(Current))
                     return true;
             }
-            while (Second.MoveNext())
+            while (second.MoveNext())
             {
-                Current = Second.Current;
+                Current = second.Current;
                 if (union.Add(Current))
                     return true;
             }
@@ -76,8 +87,8 @@ namespace CareBoo.Blinq
 
         public NativeList<T> ToList()
         {
-            var sourceList = Source.ToList();
-            using (var secondList = Second.ToList())
+            var sourceList = source.ToList();
+            using (var secondList = second.ToList())
             using (var set = new NativeHashSet<T>(sourceList.Length + secondList.Length, Allocator.Temp))
             {
                 for (var i = 0; i < sourceList.Length; i++)
