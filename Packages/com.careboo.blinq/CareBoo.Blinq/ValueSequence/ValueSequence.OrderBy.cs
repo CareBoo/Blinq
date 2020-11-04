@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Unity.Collections;
 using CareBoo.Burst.Delegates;
@@ -7,23 +8,25 @@ namespace CareBoo.Blinq
     public static partial class Sequence
     {
         public static ValueSequence<T, OrderBySequence<T, TSource, KeyComparer<T, TKey, TKeySelector, DefaultComparer<TKey>>>> OrderBy<T, TSource, TKey, TKeySelector>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, TKey>.Struct<TKeySelector> keySelector
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, TKey>.Struct<TKeySelector> keySelector
             )
             where T : struct
             where TSource : struct, ISequence<T>
             where TKey : struct, IComparable<TKey>
             where TKeySelector : struct, IFunc<T, TKey>
         {
-            var keyComparer = KeyComparer.New(keySelector, default(DefaultComparer<TKey>));
-            var seq = OrderBySequence<T>.New(source.Source, keyComparer);
-            return ValueSequence<T>.New(seq);
+            var sourceSeq = source.GetEnumerator();
+            var comparer = default(DefaultComparer<TKey>);
+            var keyComparer = KeyComparer.New(in keySelector, in comparer);
+            var seq = OrderBySequence<T>.New(ref sourceSeq, in keyComparer);
+            return ValueSequence<T>.New(ref seq);
         }
 
         public static ValueSequence<T, OrderBySequence<T, TSource, KeyComparer<T, TKey, TKeySelector, TComparer>>> OrderBy<T, TSource, TKey, TKeySelector, TComparer>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, TKey>.Struct<TKeySelector> keySelector,
-            TComparer comparer
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, TKey>.Struct<TKeySelector> keySelector,
+            in TComparer comparer
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -31,9 +34,10 @@ namespace CareBoo.Blinq
             where TKeySelector : struct, IFunc<T, TKey>
             where TComparer : struct, IComparer<TKey>
         {
-            var keyComparer = KeyComparer.New(keySelector, comparer);
-            var seq = OrderBySequence<T>.New(source.Source, keyComparer);
-            return ValueSequence<T>.New(seq);
+            var sourceSeq = source.GetEnumerator();
+            var keyComparer = KeyComparer.New(in keySelector, in comparer);
+            var seq = OrderBySequence<T>.New(ref sourceSeq, in keyComparer);
+            return ValueSequence<T>.New(ref seq);
         }
     }
 
@@ -43,30 +47,59 @@ namespace CareBoo.Blinq
         where TSource : struct, ISequence<T>
         where TComparer : struct, IComparer<T>
     {
-        readonly TSource source;
+        TSource source;
         readonly TComparer comparer;
 
-        public OrderBySequence(TSource source, TComparer comparer)
+        int currentIndex;
+        NativeList<T> list;
+
+        public OrderBySequence(ref TSource source, in TComparer comparer)
         {
             this.source = source;
             this.comparer = comparer;
+            currentIndex = -1;
+            list = default;
         }
+
+        public T Current => list[currentIndex];
+
+        object IEnumerator.Current => Current;
 
         public int Compare(T x, T y)
         {
             return comparer.Compare(x, y);
         }
 
-        public NativeList<T> Execute()
+        public NativeList<T> ToList()
         {
-            var unordered = ExecuteUnordered();
-            unordered.Sort(this);
-            return unordered;
+            var list = ToUnorderedList();
+            list.Sort(this);
+            return list;
         }
 
-        public NativeList<T> ExecuteUnordered()
+        public NativeList<T> ToUnorderedList()
         {
-            return source.Execute();
+            return source.ToList();
+        }
+
+        public bool MoveNext()
+        {
+            if (!list.IsCreated)
+                list = ToList();
+            currentIndex += 1;
+            return currentIndex < list.Length;
+        }
+
+        public void Reset()
+        {
+            throw new NotSupportedException();
+        }
+
+        public void Dispose()
+        {
+            source.Dispose();
+            if (list.IsCreated)
+                list.Dispose();
         }
     }
 
@@ -74,13 +107,13 @@ namespace CareBoo.Blinq
         where T : struct
     {
         public static OrderBySequence<T, TSource, TComparer> New<TSource, TComparer>(
-            TSource source,
-            TComparer comparer
+            ref TSource source,
+            in TComparer comparer
             )
             where TSource : struct, ISequence<T>
             where TComparer : struct, IComparer<T>
         {
-            return new OrderBySequence<T, TSource, TComparer>(source, comparer);
+            return new OrderBySequence<T, TSource, TComparer>(ref source, in comparer);
         }
     }
 
@@ -103,8 +136,8 @@ namespace CareBoo.Blinq
         readonly TComparer comparer;
 
         public KeyComparer(
-            ValueFunc<T, TKey>.Struct<TKeySelector> keySelector,
-            TComparer comparer
+            in ValueFunc<T, TKey>.Struct<TKeySelector> keySelector,
+            in TComparer comparer
             )
         {
             this.keySelector = keySelector;
@@ -122,15 +155,15 @@ namespace CareBoo.Blinq
     public static class KeyComparer
     {
         public static KeyComparer<T, TKey, TKeySelector, TComparer> New<T, TKey, TKeySelector, TComparer>(
-            ValueFunc<T, TKey>.Struct<TKeySelector> keySelector,
-            TComparer comparer
+            in ValueFunc<T, TKey>.Struct<TKeySelector> keySelector,
+            in TComparer comparer
             )
             where T : struct
             where TKey : struct
             where TKeySelector : struct, IFunc<T, TKey>
             where TComparer : struct, IComparer<TKey>
         {
-            return new KeyComparer<T, TKey, TKeySelector, TComparer>(keySelector, comparer);
+            return new KeyComparer<T, TKey, TKeySelector, TComparer>(in keySelector, in comparer);
         }
     }
 }

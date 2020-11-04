@@ -19,7 +19,7 @@ namespace CareBoo.Blinq
     public static partial class Sequence
     {
 
-        public static int Max(this ref NativeArray<int> source)
+        public static int Max(this in NativeArray<int> source)
         {
             if (source.Length == 0) throw Error.NoElements();
 
@@ -33,7 +33,7 @@ namespace CareBoo.Blinq
             return max;
         }
 
-        public static int Min(this ref NativeArray<int> source)
+        public static int Min(this in NativeArray<int> source)
         {
             if (source.Length == 0) throw Error.NoElements();
 
@@ -48,8 +48,8 @@ namespace CareBoo.Blinq
         }
 
         public static int Max<T, TSelector>(
-            this ref NativeArray<T> source,
-            ValueFunc<T, int>.Struct<TSelector> selector
+            this in NativeArray<T> source,
+            in ValueFunc<T, int>.Struct<TSelector> selector
             )
             where T : struct
             where TSelector : struct, IFunc<T, int>
@@ -67,8 +67,8 @@ namespace CareBoo.Blinq
         }
 
         public static int Min<T, TSelector>(
-            this ref NativeArray<T> source,
-            ValueFunc<T, int>.Struct<TSelector> selector
+            this in NativeArray<T> source,
+            in ValueFunc<T, int>.Struct<TSelector> selector
             )
             where T : struct
             where TSelector : struct, IFunc<T, int>
@@ -86,7 +86,7 @@ namespace CareBoo.Blinq
         }
 
 
-        public static uint Max(this ref NativeArray<uint> source)
+        public static uint Max(this in NativeArray<uint> source)
         {
             if (source.Length == 0) throw Error.NoElements();
 
@@ -100,7 +100,7 @@ namespace CareBoo.Blinq
             return max;
         }
 
-        public static uint Min(this ref NativeArray<uint> source)
+        public static uint Min(this in NativeArray<uint> source)
         {
             if (source.Length == 0) throw Error.NoElements();
 
@@ -115,8 +115,8 @@ namespace CareBoo.Blinq
         }
 
         public static uint Max<T, TSelector>(
-            this ref NativeArray<T> source,
-            ValueFunc<T, uint>.Struct<TSelector> selector
+            this in NativeArray<T> source,
+            in ValueFunc<T, uint>.Struct<TSelector> selector
             )
             where T : struct
             where TSelector : struct, IFunc<T, uint>
@@ -134,8 +134,8 @@ namespace CareBoo.Blinq
         }
 
         public static uint Min<T, TSelector>(
-            this ref NativeArray<T> source,
-            ValueFunc<T, uint>.Struct<TSelector> selector
+            this in NativeArray<T> source,
+            in ValueFunc<T, uint>.Struct<TSelector> selector
             )
             where T : struct
             where TSelector : struct, IFunc<T, uint>
@@ -153,7 +153,7 @@ namespace CareBoo.Blinq
         }
 
 
-        public static float Max(this ref NativeArray<float> source)
+        public static float Max(this in NativeArray<float> source)
         {
             if (source.Length == 0) throw Error.NoElements();
 
@@ -167,7 +167,7 @@ namespace CareBoo.Blinq
             return max;
         }
 
-        public static float Min(this ref NativeArray<float> source)
+        public static float Min(this in NativeArray<float> source)
         {
             if (source.Length == 0) throw Error.NoElements();
 
@@ -182,8 +182,8 @@ namespace CareBoo.Blinq
         }
 
         public static float Max<T, TSelector>(
-            this ref NativeArray<T> source,
-            ValueFunc<T, float>.Struct<TSelector> selector
+            this in NativeArray<T> source,
+            in ValueFunc<T, float>.Struct<TSelector> selector
             )
             where T : struct
             where TSelector : struct, IFunc<T, float>
@@ -201,8 +201,8 @@ namespace CareBoo.Blinq
         }
 
         public static float Min<T, TSelector>(
-            this ref NativeArray<T> source,
-            ValueFunc<T, float>.Struct<TSelector> selector
+            this in NativeArray<T> source,
+            in ValueFunc<T, float>.Struct<TSelector> selector
             )
             where T : struct
             where TSelector : struct, IFunc<T, float>
@@ -220,7 +220,7 @@ namespace CareBoo.Blinq
         }
 
 
-        public static double Max(this ref NativeArray<double> source)
+        public static double Max(this in NativeArray<double> source)
         {
             if (source.Length == 0) throw Error.NoElements();
 
@@ -234,7 +234,7 @@ namespace CareBoo.Blinq
             return max;
         }
 
-        public static double Min(this ref NativeArray<double> source)
+        public static double Min(this in NativeArray<double> source)
         {
             if (source.Length == 0) throw Error.NoElements();
 
@@ -249,8 +249,8 @@ namespace CareBoo.Blinq
         }
 
         public static double Max<T, TSelector>(
-            this ref NativeArray<T> source,
-            ValueFunc<T, double>.Struct<TSelector> selector
+            this in NativeArray<T> source,
+            in ValueFunc<T, double>.Struct<TSelector> selector
             )
             where T : struct
             where TSelector : struct, IFunc<T, double>
@@ -268,8 +268,8 @@ namespace CareBoo.Blinq
         }
 
         public static double Min<T, TSelector>(
-            this ref NativeArray<T> source,
-            ValueFunc<T, double>.Struct<TSelector> selector
+            this in NativeArray<T> source,
+            in ValueFunc<T, double>.Struct<TSelector> selector
             )
             where T : struct
             where TSelector : struct, IFunc<T, double>

@@ -7,10 +7,10 @@ namespace CareBoo.Blinq
     public static partial class Sequence
     {
         public static ValueSequence<TResult, GroupBySequence<T, NativeArraySequence<T>, TKey, TKeySelector, TElement, TElementSelector, TResult, TResultSelector>> GroupBy<T, TKey, TKeySelector, TElement, TElementSelector, TResult, TResultSelector>(
-            this ref NativeArray<T> source,
-            ValueFunc<T, TKey>.Struct<TKeySelector> keySelector,
-            ValueFunc<T, TElement>.Struct<TElementSelector> elementSelector,
-            ValueFunc<TKey, NativeMultiHashMap<TKey, TElement>, TResult>.Struct<TResultSelector> resultSelector
+            this in NativeArray<T> source,
+            in ValueFunc<T, TKey>.Struct<TKeySelector> keySelector,
+            in ValueFunc<T, TElement>.Struct<TElementSelector> elementSelector,
+            in ValueFunc<TKey, NativeMultiHashMap<TKey, TElement>, TResult>.Struct<TResultSelector> resultSelector
             )
             where T : struct
             where TKey : unmanaged, IEquatable<TKey>
@@ -24,9 +24,9 @@ namespace CareBoo.Blinq
         }
 
         public static ValueSequence<TResult, GroupBySequence<T, NativeArraySequence<T>, TKey, TKeySelector, T, SameSelector<T>, TResult, TResultSelector>> GroupBy<T, TKey, TKeySelector, TResult, TResultSelector>(
-            this ref NativeArray<T> source,
-            ValueFunc<T, TKey>.Struct<TKeySelector> keySelector,
-            ValueFunc<TKey, NativeMultiHashMap<TKey, T>, TResult>.Struct<TResultSelector> resultSelector
+            this in NativeArray<T> source,
+            in ValueFunc<T, TKey>.Struct<TKeySelector> keySelector,
+            in ValueFunc<TKey, NativeMultiHashMap<TKey, T>, TResult>.Struct<TResultSelector> resultSelector
             )
             where T : struct
             where TKey : unmanaged, IEquatable<TKey>

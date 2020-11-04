@@ -5,8 +5,8 @@ namespace CareBoo.Blinq
     public static partial class Sequence
     {
         public static bool All<T, TSource, TPredicate>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, bool>.Struct<TPredicate> predicate
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, bool>.Struct<TPredicate> predicate
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -15,7 +15,11 @@ namespace CareBoo.Blinq
             var sourceList = source.Execute();
             for (var i = 0; i < sourceList.Length; i++)
                 if (!predicate.Invoke(sourceList[i]))
+                {
+                    sourceList.Dispose();
                     return false;
+                }
+            sourceList.Dispose();
             return true;
         }
 

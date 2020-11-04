@@ -6,10 +6,10 @@ namespace CareBoo.Blinq
     public static partial class Sequence
     {
         public static TResult Aggregate<T, TAccumulate, TResult, TFunc, TResultSelector>(
-            this ref NativeArray<T> source,
+            this in NativeArray<T> source,
             TAccumulate seed,
-            ValueFunc<TAccumulate, T, TAccumulate>.Struct<TFunc> func,
-            ValueFunc<TAccumulate, TResult>.Struct<TResultSelector> resultSelector
+            in ValueFunc<TAccumulate, T, TAccumulate>.Struct<TFunc> func,
+            in ValueFunc<TAccumulate, TResult>.Struct<TResultSelector> resultSelector
             )
             where T : struct
             where TAccumulate : struct
@@ -23,9 +23,9 @@ namespace CareBoo.Blinq
         }
 
         public static TAccumulate Aggregate<T, TAccumulate, TFunc>(
-            this ref NativeArray<T> source,
+            this in NativeArray<T> source,
             TAccumulate seed,
-            ValueFunc<TAccumulate, T, TAccumulate>.Struct<TFunc> func
+            in ValueFunc<TAccumulate, T, TAccumulate>.Struct<TFunc> func
             )
             where T : struct
             where TAccumulate : struct
@@ -37,8 +37,8 @@ namespace CareBoo.Blinq
         }
 
         public static T Aggregate<T, TFunc>(
-            this ref NativeArray<T> source,
-            ValueFunc<T, T, T>.Struct<TFunc> func
+            this in NativeArray<T> source,
+            in ValueFunc<T, T, T>.Struct<TFunc> func
             )
             where T : struct
             where TFunc : struct, IFunc<T, T, T>

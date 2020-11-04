@@ -7,18 +7,18 @@ using CareBoo.Blinq;
 
 internal class AppendTest
 {
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqNativeArrayAppend([ArrayValues] int[] sourceArr)
     {
         int item = 1;
         var source = new NativeArray<int>(sourceArr, Allocator.Persistent);
         var expected = ExceptionAndValue(() => Linq.ToArray(Linq.Append(source, item)));
-        var actual = ExceptionAndValue(() => Linq.ToArray(Blinq.Append(ref source, item)));
+        var actual = ExceptionAndValue(() => Linq.ToArray(Blinq.Append(source, item)));
         AssertAreEqual(expected, actual);
         source.Dispose();
     }
 
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqValueSequenceAppend([ArrayValues] int[] sourceArr)
     {
         int item = 1;

@@ -8,6 +8,6 @@ namespace CareBoo.Blinq
         , IComparer<T>
         where T : struct
     {
-        NativeList<T> ExecuteUnordered();
+        NativeList<T> ToUnorderedList();
     }
 }

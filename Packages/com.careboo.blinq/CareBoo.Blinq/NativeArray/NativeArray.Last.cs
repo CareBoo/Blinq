@@ -6,8 +6,8 @@ namespace CareBoo.Blinq
     public static partial class Sequence
     {
         public static T Last<T, TPredicate>(
-            this ref NativeArray<T> source,
-            ValueFunc<T, bool>.Struct<TPredicate> predicate
+            this in NativeArray<T> source,
+            in ValueFunc<T, bool>.Struct<TPredicate> predicate
             )
             where T : struct
             where TPredicate : struct, IFunc<T, bool>
@@ -22,9 +22,9 @@ namespace CareBoo.Blinq
         }
 
         public static T LastOrDefault<T, TPredicate>(
-            this ref NativeArray<T> source,
-            ValueFunc<T, bool>.Struct<TPredicate> predicate,
-            T defaultVal = default
+            this in NativeArray<T> source,
+            in ValueFunc<T, bool>.Struct<TPredicate> predicate,
+            in T defaultVal = default
             )
             where T : struct
             where TPredicate : struct, IFunc<T, bool>
@@ -39,7 +39,7 @@ namespace CareBoo.Blinq
         }
 
         public static T Last<T>(
-            this ref NativeArray<T> source
+            this in NativeArray<T> source
             )
             where T : struct
         {
@@ -47,8 +47,8 @@ namespace CareBoo.Blinq
         }
 
         public static T LastOrDefault<T>(
-            this ref NativeArray<T> source,
-            T defaultVal = default
+            this in NativeArray<T> source,
+            in T defaultVal = default
             )
             where T : struct
         {

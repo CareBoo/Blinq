@@ -34,36 +34,42 @@ foreach (string TYPE in TYPES)
             string TYPE_FULL = $"{TYPE}{NUM1}{SEP}{NUM2}";
 #>
         public static <#=TYPE_FULL#> Sum<TSource>(
-            this ValueSequence<<#=TYPE_FULL#>, TSource> source
+            this in ValueSequence<<#=TYPE_FULL#>, TSource> source
             )
             where TSource : struct, ISequence<<#=TYPE_FULL#>>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                <#=TYPE_FULL#> sum = srcList[0];
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += srcList[i];
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            <#=TYPE_FULL#> sum = srcList[0];
+            for (var i = 1; i < srcList.Length; i++)
+                sum += srcList[i];
+            srcList.Dispose();
+            return sum;
         }
 
         public static <#=TYPE_FULL#> Sum<T, TSource, TSelector>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, <#=TYPE_FULL#>>.Struct<TSelector> selector
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, <#=TYPE_FULL#>>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, <#=TYPE_FULL#>>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                <#=TYPE_FULL#> sum = selector.Invoke(srcList[0]);
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += selector.Invoke(srcList[i]);
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            <#=TYPE_FULL#> sum = selector.Invoke(srcList[0]);
+            for (var i = 1; i < srcList.Length; i++)
+                sum += selector.Invoke(srcList[i]);
+            srcList.Dispose();
+            return sum;
         }
 
 <#

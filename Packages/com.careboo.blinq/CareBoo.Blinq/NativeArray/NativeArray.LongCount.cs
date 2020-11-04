@@ -6,8 +6,8 @@ namespace CareBoo.Blinq
     public static partial class Sequence
     {
         public static long LongCount<T, TPredicate>(
-            this ref NativeArray<T> source,
-            ValueFunc<T, bool>.Struct<TPredicate> predicate
+            this in NativeArray<T> source,
+            in ValueFunc<T, bool>.Struct<TPredicate> predicate
             )
             where T : struct
             where TPredicate : struct, IFunc<T, bool>
@@ -19,7 +19,7 @@ namespace CareBoo.Blinq
             return count;
         }
 
-        public static long LongCount<T>(this ref NativeArray<T> source)
+        public static long LongCount<T>(this in NativeArray<T> source)
             where T : struct
         {
             return source.Length;

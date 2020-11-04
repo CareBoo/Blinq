@@ -23,7 +23,7 @@ var TYPES = new[] { "int", "uint", "float", "double" };
 foreach (string TYPE_FULL in TYPES)
 {
 #>
-        public static <#=TYPE_FULL#> Max(this ref NativeArray<<#=TYPE_FULL#>> source)
+        public static <#=TYPE_FULL#> Max(this in NativeArray<<#=TYPE_FULL#>> source)
         {
             if (source.Length == 0) throw Error.NoElements();
 
@@ -37,7 +37,7 @@ foreach (string TYPE_FULL in TYPES)
             return max;
         }
 
-        public static <#=TYPE_FULL#> Min(this ref NativeArray<<#=TYPE_FULL#>> source)
+        public static <#=TYPE_FULL#> Min(this in NativeArray<<#=TYPE_FULL#>> source)
         {
             if (source.Length == 0) throw Error.NoElements();
 
@@ -52,8 +52,8 @@ foreach (string TYPE_FULL in TYPES)
         }
 
         public static <#=TYPE_FULL#> Max<T, TSelector>(
-            this ref NativeArray<T> source,
-            ValueFunc<T, <#=TYPE_FULL#>>.Struct<TSelector> selector
+            this in NativeArray<T> source,
+            in ValueFunc<T, <#=TYPE_FULL#>>.Struct<TSelector> selector
             )
             where T : struct
             where TSelector : struct, IFunc<T, <#=TYPE_FULL#>>
@@ -71,8 +71,8 @@ foreach (string TYPE_FULL in TYPES)
         }
 
         public static <#=TYPE_FULL#> Min<T, TSelector>(
-            this ref NativeArray<T> source,
-            ValueFunc<T, <#=TYPE_FULL#>>.Struct<TSelector> selector
+            this in NativeArray<T> source,
+            in ValueFunc<T, <#=TYPE_FULL#>>.Struct<TSelector> selector
             )
             where T : struct
             where TSelector : struct, IFunc<T, <#=TYPE_FULL#>>

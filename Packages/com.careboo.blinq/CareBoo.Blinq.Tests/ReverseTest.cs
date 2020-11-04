@@ -8,17 +8,17 @@ using CareBoo.Blinq;
 
 internal class ReverseTest
 {
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqNativeArrayReverse([ArrayValues] int[] sourceArr)
     {
         var source = new NativeArray<int>(sourceArr, Allocator.Persistent);
         var expected = ExceptionAndValue(() => Linq.ToArray(Linq.Reverse(source)));
-        var actual = ExceptionAndValue(() => Linq.ToArray(Blinq.Reverse(ref source)));
+        var actual = ExceptionAndValue(() => Linq.ToArray(Blinq.Reverse(source)));
         AssertAreEqual(expected, actual);
         source.Dispose();
     }
 
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqValueSequenceReverse([ArrayValues] int[] sourceArr)
     {
         var sourceNativeArr = new NativeArray<int>(sourceArr, Allocator.Persistent);

@@ -1,4 +1,6 @@
-﻿using Unity.Collections;
+﻿using System;
+using System.Collections;
+using Unity.Collections;
 
 namespace CareBoo.Blinq
 {
@@ -6,21 +8,49 @@ namespace CareBoo.Blinq
     {
         public static ValueSequence<int, RangeSequence> Range(int start, int count)
         {
-            var seq = new RangeSequence { Start = start, Count = count };
-            return ValueSequence<int>.New(seq);
+            var seq = new RangeSequence(in start, in count);
+            return ValueSequence<int>.New(ref seq);
         }
     }
 
     public struct RangeSequence : ISequence<int>
     {
-        public int Start;
-        public int Count;
+        readonly int start;
+        readonly int count;
 
-        public NativeList<int> Execute()
+        int currentIndex;
+
+        public RangeSequence(in int start, in int count)
         {
-            var list = new NativeList<int>(Count, Allocator.Temp);
-            for (var i = 0; i < Count; i++)
-                list.AddNoResize(i + Start);
+            this.start = start;
+            this.count = count;
+            currentIndex = -1;
+        }
+
+        public int Current => start + currentIndex;
+
+        object IEnumerator.Current => Current;
+
+        public void Dispose()
+        {
+        }
+
+        public bool MoveNext()
+        {
+            currentIndex += 1;
+            return currentIndex < count;
+        }
+
+        public void Reset()
+        {
+            throw new NotSupportedException();
+        }
+
+        public NativeList<int> ToList()
+        {
+            var list = new NativeList<int>(count, Allocator.Temp);
+            for (var i = 0; i < count; i++)
+                list.AddNoResize(i + start);
             return list;
         }
     }

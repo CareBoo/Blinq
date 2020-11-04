@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using Unity.Collections;
 
 namespace CareBoo.Blinq
@@ -6,13 +7,14 @@ namespace CareBoo.Blinq
     public static partial class Sequence
     {
         public static ValueSequence<T, DistinctSequence<T, TSource>> Distinct<T, TSource>(
-            this ValueSequence<T, TSource> source
+            this in ValueSequence<T, TSource> source
             )
             where T : unmanaged, IEquatable<T>
             where TSource : struct, ISequence<T>
         {
-            var seq = new DistinctSequence<T, TSource> { Source = source.Source };
-            return ValueSequence<T>.New(seq);
+            var sourceSeq = source.GetEnumerator();
+            var seq = new DistinctSequence<T, TSource>(ref sourceSeq);
+            return ValueSequence<T>.New(ref seq);
         }
     }
 
@@ -20,19 +22,53 @@ namespace CareBoo.Blinq
         where T : unmanaged, IEquatable<T>
         where TSource : struct, ISequence<T>
     {
-        public TSource Source;
+        TSource source;
 
-        public NativeList<T> Execute()
+        NativeHashSet<T> set;
+
+        public DistinctSequence(ref TSource source)
         {
-            var list = Source.Execute();
-            var set = new NativeHashSet<T>(list.Length, Allocator.Temp);
+            this.source = source;
+            set = default;
+        }
+
+        public T Current => source.Current;
+
+        object IEnumerator.Current => Current;
+
+        public void Dispose()
+        {
+            source.Dispose();
+            if (set.IsCreated)
+                set.Dispose();
+        }
+
+        public bool MoveNext()
+        {
+            if (!set.IsCreated)
+                set = new NativeHashSet<T>(1, Allocator.Persistent);
+            while (source.MoveNext())
+                if (set.Add(source.Current))
+                    return true;
+            return false;
+        }
+
+        public void Reset()
+        {
+            throw new NotSupportedException();
+        }
+
+        public NativeList<T> ToList()
+        {
+            var list = source.ToList();
+            var tempSet = new NativeHashSet<T>(list.Length, Allocator.Temp);
             for (var i = 0; i < list.Length; i++)
-                if (!set.Add(list[i]))
+                if (!tempSet.Add(list[i]))
                 {
                     list.RemoveAt(i);
                     i--;
                 }
-            set.Dispose();
+            tempSet.Dispose();
             return list;
         }
     }

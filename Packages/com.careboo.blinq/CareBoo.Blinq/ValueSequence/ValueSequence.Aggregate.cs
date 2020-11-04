@@ -5,10 +5,10 @@ namespace CareBoo.Blinq
     public static partial class Sequence
     {
         public static TResult Aggregate<T, TSource, TAccumulate, TResult, TFunc, TResultSelector>(
-            this ValueSequence<T, TSource> source,
+            this in ValueSequence<T, TSource> source,
             TAccumulate seed,
-            ValueFunc<TAccumulate, T, TAccumulate>.Struct<TFunc> func,
-            ValueFunc<TAccumulate, TResult>.Struct<TResultSelector> resultSelector
+            in ValueFunc<TAccumulate, T, TAccumulate>.Struct<TFunc> func,
+            in ValueFunc<TAccumulate, TResult>.Struct<TResultSelector> resultSelector
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -20,13 +20,15 @@ namespace CareBoo.Blinq
             var sourceList = source.Execute();
             for (var i = 0; i < sourceList.Length; i++)
                 seed = func.Invoke(seed, sourceList[i]);
-            return resultSelector.Invoke(seed);
+            var result = resultSelector.Invoke(seed);
+            sourceList.Dispose();
+            return result;
         }
 
         public static TAccumulate Aggregate<T, TSource, TAccumulate, TFunc>(
-            this ValueSequence<T, TSource> source,
+            this in ValueSequence<T, TSource> source,
             TAccumulate seed,
-            ValueFunc<TAccumulate, T, TAccumulate>.Struct<TFunc> func
+            in ValueFunc<TAccumulate, T, TAccumulate>.Struct<TFunc> func
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -36,22 +38,28 @@ namespace CareBoo.Blinq
             var sourceList = source.Execute();
             for (var i = 0; i < sourceList.Length; i++)
                 seed = func.Invoke(seed, sourceList[i]);
+            sourceList.Dispose();
             return seed;
         }
 
         public static T Aggregate<T, TSource, TFunc>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, T, T>.Struct<TFunc> func
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, T, T>.Struct<TFunc> func
             )
             where T : struct
             where TSource : struct, ISequence<T>
             where TFunc : struct, IFunc<T, T, T>
         {
             var sourceList = source.Execute();
-            if (sourceList.Length == 0) throw Error.NoElements();
+            if (sourceList.Length == 0)
+            {
+                sourceList.Dispose();
+                throw Error.NoElements();
+            }
             var seed = sourceList[0];
             for (var i = 1; i < sourceList.Length; i++)
                 seed = func.Invoke(seed, sourceList[i]);
+            sourceList.Dispose();
             return seed;
         }
     }

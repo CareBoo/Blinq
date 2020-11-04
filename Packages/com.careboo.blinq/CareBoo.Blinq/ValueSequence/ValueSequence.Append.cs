@@ -1,31 +1,70 @@
-﻿using Unity.Collections;
+﻿using System;
+using System.Collections;
+using Unity.Collections;
 
 namespace CareBoo.Blinq
 {
     public static partial class Sequence
     {
         public static ValueSequence<T, AppendSequence<T, TSource>> Append<T, TSource>(
-            this ValueSequence<T, TSource> source,
-            T item
+            this in ValueSequence<T, TSource> source,
+            in T item
             )
             where T : struct
             where TSource : struct, ISequence<T>
         {
-            var seq = new AppendSequence<T, TSource> { Source = source.Source, Item = item };
-            return ValueSequence<T>.New(seq);
+            var sourceSeq = source.GetEnumerator();
+            var seq = new AppendSequence<T, TSource>(ref sourceSeq, in item);
+            return ValueSequence<T>.New(ref seq);
         }
     }
+
     public struct AppendSequence<T, TSource> : ISequence<T>
         where T : struct
         where TSource : struct, ISequence<T>
     {
-        public TSource Source;
-        public T Item;
+        TSource source;
+        readonly T item;
 
-        public NativeList<T> Execute()
+        bool currentIndex;
+
+        public AppendSequence(ref TSource source, in T item)
         {
-            var sourceList = Source.Execute();
-            sourceList.Add(Item);
+            this.source = source;
+            this.item = item;
+            currentIndex = false;
+        }
+
+        public T Current => currentIndex
+            ? item
+            : source.Current;
+
+        object IEnumerator.Current => Current;
+
+        public void Dispose()
+        {
+            source.Dispose();
+        }
+
+        public bool MoveNext()
+        {
+            if (currentIndex)
+                return false;
+            if (source.MoveNext())
+                return true;
+            currentIndex = true;
+            return true;
+        }
+
+        public void Reset()
+        {
+            throw new NotSupportedException();
+        }
+
+        public NativeList<T> ToList()
+        {
+            var sourceList = source.ToList();
+            sourceList.Add(item);
             return sourceList;
         }
     }

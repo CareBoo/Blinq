@@ -10,17 +10,17 @@ using System;
 
 internal class OrderByTest
 {
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqNativeArrayOrderBy([OrderValues] Order[] sourceArr)
     {
         var source = new NativeArray<Order>(sourceArr, Allocator.Persistent);
         var expected = ExceptionAndValue(() => Linq.ToArray(Linq.OrderBy(source, SelectSecond.Invoke)));
-        var actual = ExceptionAndValue(() => Linq.ToArray(Blinq.OrderBy(ref source, SelectSecond)));
+        var actual = ExceptionAndValue(() => Linq.ToArray(Blinq.OrderBy(source, SelectSecond)));
         AssertAreEqual(expected, actual);
         source.Dispose();
     }
 
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqValueSequenceOrderBy([OrderValues] Order[] sourceArr)
     {
         var sourceNativeArr = new NativeArray<Order>(sourceArr, Allocator.Persistent);
@@ -31,17 +31,17 @@ internal class OrderByTest
         sourceNativeArr.Dispose();
     }
 
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqNativeArrayOrderByDescending([OrderValues] Order[] sourceArr)
     {
         var source = new NativeArray<Order>(sourceArr, Allocator.Persistent);
         var expected = ExceptionAndValue(() => Linq.ToArray(Linq.OrderByDescending(source, SelectFirst.Invoke)));
-        var actual = ExceptionAndValue(() => Linq.ToArray(Blinq.OrderByDescending(ref source, SelectFirst)));
+        var actual = ExceptionAndValue(() => Linq.ToArray(Blinq.OrderByDescending(source, SelectFirst)));
         AssertAreEqual(expected, actual);
         source.Dispose();
     }
 
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqValueSequenceOrderByDescending([OrderValues] Order[] sourceArr)
     {
         var sourceNativeArr = new NativeArray<Order>(sourceArr, Allocator.Persistent);

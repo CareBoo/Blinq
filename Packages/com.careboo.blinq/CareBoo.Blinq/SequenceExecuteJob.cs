@@ -14,7 +14,7 @@ namespace CareBoo.Blinq
 
         public void Execute()
         {
-            Output.CopyFrom(Source.Execute());
+            Output.CopyFrom(Source.ToList());
         }
     }
 

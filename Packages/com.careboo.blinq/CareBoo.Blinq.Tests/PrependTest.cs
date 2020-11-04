@@ -7,18 +7,18 @@ using CareBoo.Blinq;
 
 internal class PrependTest
 {
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqNativeArrayPrepend([ArrayValues] int[] sourceArr)
     {
         int item = 1;
         var source = new NativeArray<int>(sourceArr, Allocator.Persistent);
         var expected = ExceptionAndValue(() => Linq.ToArray(Linq.Prepend(source, item)));
-        var actual = ExceptionAndValue(() => Linq.ToArray(Blinq.Prepend(ref source, item)));
+        var actual = ExceptionAndValue(() => Linq.ToArray(Blinq.Prepend(source, item)));
         AssertAreEqual(expected, actual);
         source.Dispose();
     }
 
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqValueSequencePrepend([ArrayValues] int[] sourceArr)
     {
         int item = 1;

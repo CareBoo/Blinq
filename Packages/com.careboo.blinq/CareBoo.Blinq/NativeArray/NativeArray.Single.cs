@@ -7,8 +7,8 @@ namespace CareBoo.Blinq
     public static partial class Sequence
     {
         public static T Single<T, TPredicate>(
-            this ref NativeArray<T> source,
-            ValueFunc<T, bool>.Struct<TPredicate> predicate
+            this in NativeArray<T> source,
+            in ValueFunc<T, bool>.Struct<TPredicate> predicate
             )
             where T : unmanaged, IEquatable<T>
             where TPredicate : struct, IFunc<T, bool>
@@ -28,9 +28,9 @@ namespace CareBoo.Blinq
         }
 
         public static T SingleOrDefault<T, TPredicate>(
-            this ref NativeArray<T> source,
-            ValueFunc<T, bool>.Struct<TPredicate> predicate,
-            T defaultVal = default
+            this in NativeArray<T> source,
+            in ValueFunc<T, bool>.Struct<TPredicate> predicate,
+            in T defaultVal = default
             )
             where T : unmanaged, IEquatable<T>
             where TPredicate : struct, IFunc<T, bool>
@@ -50,7 +50,7 @@ namespace CareBoo.Blinq
         }
 
         public static T Single<T>(
-            this ref NativeArray<T> source
+            this in NativeArray<T> source
             )
             where T : unmanaged, IEquatable<T>
         {
@@ -62,8 +62,8 @@ namespace CareBoo.Blinq
         }
 
         public static T SingleOrDefault<T>(
-            this ref NativeArray<T> source,
-            T defaultVal = default
+            this in NativeArray<T> source,
+            in T defaultVal = default
             )
             where T : struct
         {

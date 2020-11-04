@@ -5,8 +5,8 @@ namespace CareBoo.Blinq
     public static partial class Sequence
     {
         public static NativeList<T> ToNativeList<T, TSource>(
-            this ValueSequence<T, TSource> source,
-            Allocator allocator
+            this in ValueSequence<T, TSource> source,
+            in Allocator allocator
             )
             where T : struct
             where TSource : struct, ISequence<T>

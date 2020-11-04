@@ -19,7 +19,7 @@ public class DemoBehaviour : MonoBehaviour
 
         public void Execute()
         {
-            Source.Select(Selector).ToNativeArray(Output);
+            Source.Select(Selector).ToNativeArray(ref Output);
         }
     }
 

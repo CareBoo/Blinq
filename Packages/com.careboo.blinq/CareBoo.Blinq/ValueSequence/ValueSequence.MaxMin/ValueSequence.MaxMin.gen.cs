@@ -20,350 +20,398 @@ namespace CareBoo.Blinq
     {
 
         public static int Max<TSource>(
-            this ValueSequence<int, TSource> source
+            this in ValueSequence<int, TSource> source
             )
             where TSource : struct, ISequence<int>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-
-                var max = srcList[0];
-                for (var i = 1; i < srcList.Length; i++)
-                {
-                    var val = srcList[i];
-                    if (val > max)
-                        max = val;
-                }
-                return max;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+
+            var max = srcList[0];
+            for (var i = 1; i < srcList.Length; i++)
+            {
+                var val = srcList[i];
+                if (val > max)
+                    max = val;
+            }
+            srcList.Dispose();
+            return max;
         }
 
         public static int Min<TSource>(
-            this ValueSequence<int, TSource> source
+            this in ValueSequence<int, TSource> source
             )
             where TSource : struct, ISequence<int>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-
-                var min = srcList[0];
-                for (var i = 1; i < srcList.Length; i++)
-                {
-                    var val = srcList[i];
-                    if (val < min)
-                        min = val;
-                }
-                return min;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+
+            var min = srcList[0];
+            for (var i = 1; i < srcList.Length; i++)
+            {
+                var val = srcList[i];
+                if (val < min)
+                    min = val;
+            }
+            srcList.Dispose();
+            return min;
         }
 
         public static int Max<T, TSource, TSelector>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, int>.Struct<TSelector> selector
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, int>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, int>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-
-                var max = selector.Invoke(srcList[0]);
-                for (var i = 1; i < srcList.Length; i++)
-                {
-                    var val = selector.Invoke(srcList[i]);
-                    if (val > max)
-                        max = val;
-                }
-                return max;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+
+            var max = selector.Invoke(srcList[0]);
+            for (var i = 1; i < srcList.Length; i++)
+            {
+                var val = selector.Invoke(srcList[i]);
+                if (val > max)
+                    max = val;
+            }
+            srcList.Dispose();
+            return max;
         }
 
         public static int Min<T, TSource, TSelector>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, int>.Struct<TSelector> selector
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, int>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, int>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-
-                var min = selector.Invoke(srcList[0]);
-                for (var i = 1; i < srcList.Length; i++)
-                {
-                    var val = selector.Invoke(srcList[i]);
-                    if (val < min)
-                        min = val;
-                }
-                return min;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+
+            var min = selector.Invoke(srcList[0]);
+            for (var i = 1; i < srcList.Length; i++)
+            {
+                var val = selector.Invoke(srcList[i]);
+                if (val < min)
+                    min = val;
+            }
+            srcList.Dispose();
+            return min;
         }
 
 
         public static uint Max<TSource>(
-            this ValueSequence<uint, TSource> source
+            this in ValueSequence<uint, TSource> source
             )
             where TSource : struct, ISequence<uint>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-
-                var max = srcList[0];
-                for (var i = 1; i < srcList.Length; i++)
-                {
-                    var val = srcList[i];
-                    if (val > max)
-                        max = val;
-                }
-                return max;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+
+            var max = srcList[0];
+            for (var i = 1; i < srcList.Length; i++)
+            {
+                var val = srcList[i];
+                if (val > max)
+                    max = val;
+            }
+            srcList.Dispose();
+            return max;
         }
 
         public static uint Min<TSource>(
-            this ValueSequence<uint, TSource> source
+            this in ValueSequence<uint, TSource> source
             )
             where TSource : struct, ISequence<uint>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-
-                var min = srcList[0];
-                for (var i = 1; i < srcList.Length; i++)
-                {
-                    var val = srcList[i];
-                    if (val < min)
-                        min = val;
-                }
-                return min;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+
+            var min = srcList[0];
+            for (var i = 1; i < srcList.Length; i++)
+            {
+                var val = srcList[i];
+                if (val < min)
+                    min = val;
+            }
+            srcList.Dispose();
+            return min;
         }
 
         public static uint Max<T, TSource, TSelector>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, uint>.Struct<TSelector> selector
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, uint>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, uint>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-
-                var max = selector.Invoke(srcList[0]);
-                for (var i = 1; i < srcList.Length; i++)
-                {
-                    var val = selector.Invoke(srcList[i]);
-                    if (val > max)
-                        max = val;
-                }
-                return max;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+
+            var max = selector.Invoke(srcList[0]);
+            for (var i = 1; i < srcList.Length; i++)
+            {
+                var val = selector.Invoke(srcList[i]);
+                if (val > max)
+                    max = val;
+            }
+            srcList.Dispose();
+            return max;
         }
 
         public static uint Min<T, TSource, TSelector>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, uint>.Struct<TSelector> selector
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, uint>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, uint>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-
-                var min = selector.Invoke(srcList[0]);
-                for (var i = 1; i < srcList.Length; i++)
-                {
-                    var val = selector.Invoke(srcList[i]);
-                    if (val < min)
-                        min = val;
-                }
-                return min;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+
+            var min = selector.Invoke(srcList[0]);
+            for (var i = 1; i < srcList.Length; i++)
+            {
+                var val = selector.Invoke(srcList[i]);
+                if (val < min)
+                    min = val;
+            }
+            srcList.Dispose();
+            return min;
         }
 
 
         public static float Max<TSource>(
-            this ValueSequence<float, TSource> source
+            this in ValueSequence<float, TSource> source
             )
             where TSource : struct, ISequence<float>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-
-                var max = srcList[0];
-                for (var i = 1; i < srcList.Length; i++)
-                {
-                    var val = srcList[i];
-                    if (val > max)
-                        max = val;
-                }
-                return max;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+
+            var max = srcList[0];
+            for (var i = 1; i < srcList.Length; i++)
+            {
+                var val = srcList[i];
+                if (val > max)
+                    max = val;
+            }
+            srcList.Dispose();
+            return max;
         }
 
         public static float Min<TSource>(
-            this ValueSequence<float, TSource> source
+            this in ValueSequence<float, TSource> source
             )
             where TSource : struct, ISequence<float>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-
-                var min = srcList[0];
-                for (var i = 1; i < srcList.Length; i++)
-                {
-                    var val = srcList[i];
-                    if (val < min)
-                        min = val;
-                }
-                return min;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+
+            var min = srcList[0];
+            for (var i = 1; i < srcList.Length; i++)
+            {
+                var val = srcList[i];
+                if (val < min)
+                    min = val;
+            }
+            srcList.Dispose();
+            return min;
         }
 
         public static float Max<T, TSource, TSelector>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, float>.Struct<TSelector> selector
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, float>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, float>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-
-                var max = selector.Invoke(srcList[0]);
-                for (var i = 1; i < srcList.Length; i++)
-                {
-                    var val = selector.Invoke(srcList[i]);
-                    if (val > max)
-                        max = val;
-                }
-                return max;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+
+            var max = selector.Invoke(srcList[0]);
+            for (var i = 1; i < srcList.Length; i++)
+            {
+                var val = selector.Invoke(srcList[i]);
+                if (val > max)
+                    max = val;
+            }
+            srcList.Dispose();
+            return max;
         }
 
         public static float Min<T, TSource, TSelector>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, float>.Struct<TSelector> selector
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, float>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, float>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-
-                var min = selector.Invoke(srcList[0]);
-                for (var i = 1; i < srcList.Length; i++)
-                {
-                    var val = selector.Invoke(srcList[i]);
-                    if (val < min)
-                        min = val;
-                }
-                return min;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+
+            var min = selector.Invoke(srcList[0]);
+            for (var i = 1; i < srcList.Length; i++)
+            {
+                var val = selector.Invoke(srcList[i]);
+                if (val < min)
+                    min = val;
+            }
+            srcList.Dispose();
+            return min;
         }
 
 
         public static double Max<TSource>(
-            this ValueSequence<double, TSource> source
+            this in ValueSequence<double, TSource> source
             )
             where TSource : struct, ISequence<double>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-
-                var max = srcList[0];
-                for (var i = 1; i < srcList.Length; i++)
-                {
-                    var val = srcList[i];
-                    if (val > max)
-                        max = val;
-                }
-                return max;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+
+            var max = srcList[0];
+            for (var i = 1; i < srcList.Length; i++)
+            {
+                var val = srcList[i];
+                if (val > max)
+                    max = val;
+            }
+            srcList.Dispose();
+            return max;
         }
 
         public static double Min<TSource>(
-            this ValueSequence<double, TSource> source
+            this in ValueSequence<double, TSource> source
             )
             where TSource : struct, ISequence<double>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-
-                var min = srcList[0];
-                for (var i = 1; i < srcList.Length; i++)
-                {
-                    var val = srcList[i];
-                    if (val < min)
-                        min = val;
-                }
-                return min;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+
+            var min = srcList[0];
+            for (var i = 1; i < srcList.Length; i++)
+            {
+                var val = srcList[i];
+                if (val < min)
+                    min = val;
+            }
+            srcList.Dispose();
+            return min;
         }
 
         public static double Max<T, TSource, TSelector>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, double>.Struct<TSelector> selector
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, double>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, double>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-
-                var max = selector.Invoke(srcList[0]);
-                for (var i = 1; i < srcList.Length; i++)
-                {
-                    var val = selector.Invoke(srcList[i]);
-                    if (val > max)
-                        max = val;
-                }
-                return max;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+
+            var max = selector.Invoke(srcList[0]);
+            for (var i = 1; i < srcList.Length; i++)
+            {
+                var val = selector.Invoke(srcList[i]);
+                if (val > max)
+                    max = val;
+            }
+            srcList.Dispose();
+            return max;
         }
 
         public static double Min<T, TSource, TSelector>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, double>.Struct<TSelector> selector
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, double>.Struct<TSelector> selector
             )
             where T : struct
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, double>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-
-                var min = selector.Invoke(srcList[0]);
-                for (var i = 1; i < srcList.Length; i++)
-                {
-                    var val = selector.Invoke(srcList[i]);
-                    if (val < min)
-                        min = val;
-                }
-                return min;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+
+            var min = selector.Invoke(srcList[0]);
+            for (var i = 1; i < srcList.Length; i++)
+            {
+                var val = selector.Invoke(srcList[i]);
+                if (val < min)
+                    min = val;
+            }
+            srcList.Dispose();
+            return min;
         }
 
 

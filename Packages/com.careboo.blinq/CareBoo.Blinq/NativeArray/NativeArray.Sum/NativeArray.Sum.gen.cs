@@ -21,7 +21,7 @@ namespace CareBoo.Blinq
     {
 
         public static int Sum(
-            this ref NativeArray<int> source
+            this in NativeArray<int> source
             )
         {
             if (source.Length == 0) throw Error.NoElements();
@@ -32,8 +32,8 @@ namespace CareBoo.Blinq
         }
 
         public static int Sum<T, TSelector>(
-            this ref NativeArray<T> source,
-            ValueFunc<T, int>.Struct<TSelector> selector
+            this in NativeArray<T> source,
+            in ValueFunc<T, int>.Struct<TSelector> selector
             )
             where T : struct
             where TSelector : struct, IFunc<T, int>
@@ -47,7 +47,7 @@ namespace CareBoo.Blinq
 
 
         public static int2 Sum(
-            this ref NativeArray<int2> source
+            this in NativeArray<int2> source
             )
         {
             if (source.Length == 0) throw Error.NoElements();
@@ -58,8 +58,8 @@ namespace CareBoo.Blinq
         }
 
         public static int2 Sum<T, TSelector>(
-            this ref NativeArray<T> source,
-            ValueFunc<T, int2>.Struct<TSelector> selector
+            this in NativeArray<T> source,
+            in ValueFunc<T, int2>.Struct<TSelector> selector
             )
             where T : struct
             where TSelector : struct, IFunc<T, int2>
@@ -73,7 +73,7 @@ namespace CareBoo.Blinq
 
 
         public static int2x2 Sum(
-            this ref NativeArray<int2x2> source
+            this in NativeArray<int2x2> source
             )
         {
             if (source.Length == 0) throw Error.NoElements();
@@ -84,8 +84,8 @@ namespace CareBoo.Blinq
         }
 
         public static int2x2 Sum<T, TSelector>(
-            this ref NativeArray<T> source,
-            ValueFunc<T, int2x2>.Struct<TSelector> selector
+            this in NativeArray<T> source,
+            in ValueFunc<T, int2x2>.Struct<TSelector> selector
             )
             where T : struct
             where TSelector : struct, IFunc<T, int2x2>
@@ -99,7 +99,7 @@ namespace CareBoo.Blinq
 
 
         public static int2x3 Sum(
-            this ref NativeArray<int2x3> source
+            this in NativeArray<int2x3> source
             )
         {
             if (source.Length == 0) throw Error.NoElements();
@@ -110,8 +110,8 @@ namespace CareBoo.Blinq
         }
 
         public static int2x3 Sum<T, TSelector>(
-            this ref NativeArray<T> source,
-            ValueFunc<T, int2x3>.Struct<TSelector> selector
+            this in NativeArray<T> source,
+            in ValueFunc<T, int2x3>.Struct<TSelector> selector
             )
             where T : struct
             where TSelector : struct, IFunc<T, int2x3>
@@ -125,7 +125,7 @@ namespace CareBoo.Blinq
 
 
         public static int2x4 Sum(
-            this ref NativeArray<int2x4> source
+            this in NativeArray<int2x4> source
             )
         {
             if (source.Length == 0) throw Error.NoElements();
@@ -136,8 +136,8 @@ namespace CareBoo.Blinq
         }
 
         public static int2x4 Sum<T, TSelector>(
-            this ref NativeArray<T> source,
-            ValueFunc<T, int2x4>.Struct<TSelector> selector
+            this in NativeArray<T> source,
+            in ValueFunc<T, int2x4>.Struct<TSelector> selector
             )
             where T : struct
             where TSelector : struct, IFunc<T, int2x4>
@@ -151,7 +151,7 @@ namespace CareBoo.Blinq
 
 
         public static int3 Sum(
-            this ref NativeArray<int3> source
+            this in NativeArray<int3> source
             )
         {
             if (source.Length == 0) throw Error.NoElements();
@@ -162,8 +162,8 @@ namespace CareBoo.Blinq
         }
 
         public static int3 Sum<T, TSelector>(
-            this ref NativeArray<T> source,
-            ValueFunc<T, int3>.Struct<TSelector> selector
+            this in NativeArray<T> source,
+            in ValueFunc<T, int3>.Struct<TSelector> selector
             )
             where T : struct
             where TSelector : struct, IFunc<T, int3>
@@ -177,7 +177,7 @@ namespace CareBoo.Blinq
 
 
         public static int3x2 Sum(
-            this ref NativeArray<int3x2> source
+            this in NativeArray<int3x2> source
             )
         {
             if (source.Length == 0) throw Error.NoElements();
@@ -188,8 +188,8 @@ namespace CareBoo.Blinq
         }
 
         public static int3x2 Sum<T, TSelector>(
-            this ref NativeArray<T> source,
-            ValueFunc<T, int3x2>.Struct<TSelector> selector
+            this in NativeArray<T> source,
+            in ValueFunc<T, int3x2>.Struct<TSelector> selector
             )
             where T : struct
             where TSelector : struct, IFunc<T, int3x2>
@@ -203,7 +203,7 @@ namespace CareBoo.Blinq
 
 
         public static int3x3 Sum(
-            this ref NativeArray<int3x3> source
+            this in NativeArray<int3x3> source
             )
         {
             if (source.Length == 0) throw Error.NoElements();
@@ -214,8 +214,8 @@ namespace CareBoo.Blinq
         }
 
         public static int3x3 Sum<T, TSelector>(
-            this ref NativeArray<T> source,
-            ValueFunc<T, int3x3>.Struct<TSelector> selector
+            this in NativeArray<T> source,
+            in ValueFunc<T, int3x3>.Struct<TSelector> selector
             )
             where T : struct
             where TSelector : struct, IFunc<T, int3x3>
@@ -229,7 +229,7 @@ namespace CareBoo.Blinq
 
 
         public static int3x4 Sum(
-            this ref NativeArray<int3x4> source
+            this in NativeArray<int3x4> source
             )
         {
             if (source.Length == 0) throw Error.NoElements();
@@ -240,8 +240,8 @@ namespace CareBoo.Blinq
         }
 
         public static int3x4 Sum<T, TSelector>(
-            this ref NativeArray<T> source,
-            ValueFunc<T, int3x4>.Struct<TSelector> selector
+            this in NativeArray<T> source,
+            in ValueFunc<T, int3x4>.Struct<TSelector> selector
             )
             where T : struct
             where TSelector : struct, IFunc<T, int3x4>
@@ -255,7 +255,7 @@ namespace CareBoo.Blinq
 
 
         public static int4 Sum(
-            this ref NativeArray<int4> source
+            this in NativeArray<int4> source
             )
         {
             if (source.Length == 0) throw Error.NoElements();
@@ -266,8 +266,8 @@ namespace CareBoo.Blinq
         }
 
         public static int4 Sum<T, TSelector>(
-            this ref NativeArray<T> source,
-            ValueFunc<T, int4>.Struct<TSelector> selector
+            this in NativeArray<T> source,
+            in ValueFunc<T, int4>.Struct<TSelector> selector
             )
             where T : struct
             where TSelector : struct, IFunc<T, int4>
@@ -281,7 +281,7 @@ namespace CareBoo.Blinq
 
 
         public static int4x2 Sum(
-            this ref NativeArray<int4x2> source
+            this in NativeArray<int4x2> source
             )
         {
             if (source.Length == 0) throw Error.NoElements();
@@ -292,8 +292,8 @@ namespace CareBoo.Blinq
         }
 
         public static int4x2 Sum<T, TSelector>(
-            this ref NativeArray<T> source,
-            ValueFunc<T, int4x2>.Struct<TSelector> selector
+            this in NativeArray<T> source,
+            in ValueFunc<T, int4x2>.Struct<TSelector> selector
             )
             where T : struct
             where TSelector : struct, IFunc<T, int4x2>
@@ -307,7 +307,7 @@ namespace CareBoo.Blinq
 
 
         public static int4x3 Sum(
-            this ref NativeArray<int4x3> source
+            this in NativeArray<int4x3> source
             )
         {
             if (source.Length == 0) throw Error.NoElements();
@@ -318,8 +318,8 @@ namespace CareBoo.Blinq
         }
 
         public static int4x3 Sum<T, TSelector>(
-            this ref NativeArray<T> source,
-            ValueFunc<T, int4x3>.Struct<TSelector> selector
+            this in NativeArray<T> source,
+            in ValueFunc<T, int4x3>.Struct<TSelector> selector
             )
             where T : struct
             where TSelector : struct, IFunc<T, int4x3>
@@ -333,7 +333,7 @@ namespace CareBoo.Blinq
 
 
         public static int4x4 Sum(
-            this ref NativeArray<int4x4> source
+            this in NativeArray<int4x4> source
             )
         {
             if (source.Length == 0) throw Error.NoElements();
@@ -344,8 +344,8 @@ namespace CareBoo.Blinq
         }
 
         public static int4x4 Sum<T, TSelector>(
-            this ref NativeArray<T> source,
-            ValueFunc<T, int4x4>.Struct<TSelector> selector
+            this in NativeArray<T> source,
+            in ValueFunc<T, int4x4>.Struct<TSelector> selector
             )
             where T : struct
             where TSelector : struct, IFunc<T, int4x4>
@@ -359,7 +359,7 @@ namespace CareBoo.Blinq
 
 
         public static uint Sum(
-            this ref NativeArray<uint> source
+            this in NativeArray<uint> source
             )
         {
             if (source.Length == 0) throw Error.NoElements();
@@ -370,8 +370,8 @@ namespace CareBoo.Blinq
         }
 
         public static uint Sum<T, TSelector>(
-            this ref NativeArray<T> source,
-            ValueFunc<T, uint>.Struct<TSelector> selector
+            this in NativeArray<T> source,
+            in ValueFunc<T, uint>.Struct<TSelector> selector
             )
             where T : struct
             where TSelector : struct, IFunc<T, uint>
@@ -385,7 +385,7 @@ namespace CareBoo.Blinq
 
 
         public static uint2 Sum(
-            this ref NativeArray<uint2> source
+            this in NativeArray<uint2> source
             )
         {
             if (source.Length == 0) throw Error.NoElements();
@@ -396,8 +396,8 @@ namespace CareBoo.Blinq
         }
 
         public static uint2 Sum<T, TSelector>(
-            this ref NativeArray<T> source,
-            ValueFunc<T, uint2>.Struct<TSelector> selector
+            this in NativeArray<T> source,
+            in ValueFunc<T, uint2>.Struct<TSelector> selector
             )
             where T : struct
             where TSelector : struct, IFunc<T, uint2>
@@ -411,7 +411,7 @@ namespace CareBoo.Blinq
 
 
         public static uint2x2 Sum(
-            this ref NativeArray<uint2x2> source
+            this in NativeArray<uint2x2> source
             )
         {
             if (source.Length == 0) throw Error.NoElements();
@@ -422,8 +422,8 @@ namespace CareBoo.Blinq
         }
 
         public static uint2x2 Sum<T, TSelector>(
-            this ref NativeArray<T> source,
-            ValueFunc<T, uint2x2>.Struct<TSelector> selector
+            this in NativeArray<T> source,
+            in ValueFunc<T, uint2x2>.Struct<TSelector> selector
             )
             where T : struct
             where TSelector : struct, IFunc<T, uint2x2>
@@ -437,7 +437,7 @@ namespace CareBoo.Blinq
 
 
         public static uint2x3 Sum(
-            this ref NativeArray<uint2x3> source
+            this in NativeArray<uint2x3> source
             )
         {
             if (source.Length == 0) throw Error.NoElements();
@@ -448,8 +448,8 @@ namespace CareBoo.Blinq
         }
 
         public static uint2x3 Sum<T, TSelector>(
-            this ref NativeArray<T> source,
-            ValueFunc<T, uint2x3>.Struct<TSelector> selector
+            this in NativeArray<T> source,
+            in ValueFunc<T, uint2x3>.Struct<TSelector> selector
             )
             where T : struct
             where TSelector : struct, IFunc<T, uint2x3>
@@ -463,7 +463,7 @@ namespace CareBoo.Blinq
 
 
         public static uint2x4 Sum(
-            this ref NativeArray<uint2x4> source
+            this in NativeArray<uint2x4> source
             )
         {
             if (source.Length == 0) throw Error.NoElements();
@@ -474,8 +474,8 @@ namespace CareBoo.Blinq
         }
 
         public static uint2x4 Sum<T, TSelector>(
-            this ref NativeArray<T> source,
-            ValueFunc<T, uint2x4>.Struct<TSelector> selector
+            this in NativeArray<T> source,
+            in ValueFunc<T, uint2x4>.Struct<TSelector> selector
             )
             where T : struct
             where TSelector : struct, IFunc<T, uint2x4>
@@ -489,7 +489,7 @@ namespace CareBoo.Blinq
 
 
         public static uint3 Sum(
-            this ref NativeArray<uint3> source
+            this in NativeArray<uint3> source
             )
         {
             if (source.Length == 0) throw Error.NoElements();
@@ -500,8 +500,8 @@ namespace CareBoo.Blinq
         }
 
         public static uint3 Sum<T, TSelector>(
-            this ref NativeArray<T> source,
-            ValueFunc<T, uint3>.Struct<TSelector> selector
+            this in NativeArray<T> source,
+            in ValueFunc<T, uint3>.Struct<TSelector> selector
             )
             where T : struct
             where TSelector : struct, IFunc<T, uint3>
@@ -515,7 +515,7 @@ namespace CareBoo.Blinq
 
 
         public static uint3x2 Sum(
-            this ref NativeArray<uint3x2> source
+            this in NativeArray<uint3x2> source
             )
         {
             if (source.Length == 0) throw Error.NoElements();
@@ -526,8 +526,8 @@ namespace CareBoo.Blinq
         }
 
         public static uint3x2 Sum<T, TSelector>(
-            this ref NativeArray<T> source,
-            ValueFunc<T, uint3x2>.Struct<TSelector> selector
+            this in NativeArray<T> source,
+            in ValueFunc<T, uint3x2>.Struct<TSelector> selector
             )
             where T : struct
             where TSelector : struct, IFunc<T, uint3x2>
@@ -541,7 +541,7 @@ namespace CareBoo.Blinq
 
 
         public static uint3x3 Sum(
-            this ref NativeArray<uint3x3> source
+            this in NativeArray<uint3x3> source
             )
         {
             if (source.Length == 0) throw Error.NoElements();
@@ -552,8 +552,8 @@ namespace CareBoo.Blinq
         }
 
         public static uint3x3 Sum<T, TSelector>(
-            this ref NativeArray<T> source,
-            ValueFunc<T, uint3x3>.Struct<TSelector> selector
+            this in NativeArray<T> source,
+            in ValueFunc<T, uint3x3>.Struct<TSelector> selector
             )
             where T : struct
             where TSelector : struct, IFunc<T, uint3x3>
@@ -567,7 +567,7 @@ namespace CareBoo.Blinq
 
 
         public static uint3x4 Sum(
-            this ref NativeArray<uint3x4> source
+            this in NativeArray<uint3x4> source
             )
         {
             if (source.Length == 0) throw Error.NoElements();
@@ -578,8 +578,8 @@ namespace CareBoo.Blinq
         }
 
         public static uint3x4 Sum<T, TSelector>(
-            this ref NativeArray<T> source,
-            ValueFunc<T, uint3x4>.Struct<TSelector> selector
+            this in NativeArray<T> source,
+            in ValueFunc<T, uint3x4>.Struct<TSelector> selector
             )
             where T : struct
             where TSelector : struct, IFunc<T, uint3x4>
@@ -593,7 +593,7 @@ namespace CareBoo.Blinq
 
 
         public static uint4 Sum(
-            this ref NativeArray<uint4> source
+            this in NativeArray<uint4> source
             )
         {
             if (source.Length == 0) throw Error.NoElements();
@@ -604,8 +604,8 @@ namespace CareBoo.Blinq
         }
 
         public static uint4 Sum<T, TSelector>(
-            this ref NativeArray<T> source,
-            ValueFunc<T, uint4>.Struct<TSelector> selector
+            this in NativeArray<T> source,
+            in ValueFunc<T, uint4>.Struct<TSelector> selector
             )
             where T : struct
             where TSelector : struct, IFunc<T, uint4>
@@ -619,7 +619,7 @@ namespace CareBoo.Blinq
 
 
         public static uint4x2 Sum(
-            this ref NativeArray<uint4x2> source
+            this in NativeArray<uint4x2> source
             )
         {
             if (source.Length == 0) throw Error.NoElements();
@@ -630,8 +630,8 @@ namespace CareBoo.Blinq
         }
 
         public static uint4x2 Sum<T, TSelector>(
-            this ref NativeArray<T> source,
-            ValueFunc<T, uint4x2>.Struct<TSelector> selector
+            this in NativeArray<T> source,
+            in ValueFunc<T, uint4x2>.Struct<TSelector> selector
             )
             where T : struct
             where TSelector : struct, IFunc<T, uint4x2>
@@ -645,7 +645,7 @@ namespace CareBoo.Blinq
 
 
         public static uint4x3 Sum(
-            this ref NativeArray<uint4x3> source
+            this in NativeArray<uint4x3> source
             )
         {
             if (source.Length == 0) throw Error.NoElements();
@@ -656,8 +656,8 @@ namespace CareBoo.Blinq
         }
 
         public static uint4x3 Sum<T, TSelector>(
-            this ref NativeArray<T> source,
-            ValueFunc<T, uint4x3>.Struct<TSelector> selector
+            this in NativeArray<T> source,
+            in ValueFunc<T, uint4x3>.Struct<TSelector> selector
             )
             where T : struct
             where TSelector : struct, IFunc<T, uint4x3>
@@ -671,7 +671,7 @@ namespace CareBoo.Blinq
 
 
         public static uint4x4 Sum(
-            this ref NativeArray<uint4x4> source
+            this in NativeArray<uint4x4> source
             )
         {
             if (source.Length == 0) throw Error.NoElements();
@@ -682,8 +682,8 @@ namespace CareBoo.Blinq
         }
 
         public static uint4x4 Sum<T, TSelector>(
-            this ref NativeArray<T> source,
-            ValueFunc<T, uint4x4>.Struct<TSelector> selector
+            this in NativeArray<T> source,
+            in ValueFunc<T, uint4x4>.Struct<TSelector> selector
             )
             where T : struct
             where TSelector : struct, IFunc<T, uint4x4>
@@ -697,7 +697,7 @@ namespace CareBoo.Blinq
 
 
         public static float Sum(
-            this ref NativeArray<float> source
+            this in NativeArray<float> source
             )
         {
             if (source.Length == 0) throw Error.NoElements();
@@ -708,8 +708,8 @@ namespace CareBoo.Blinq
         }
 
         public static float Sum<T, TSelector>(
-            this ref NativeArray<T> source,
-            ValueFunc<T, float>.Struct<TSelector> selector
+            this in NativeArray<T> source,
+            in ValueFunc<T, float>.Struct<TSelector> selector
             )
             where T : struct
             where TSelector : struct, IFunc<T, float>
@@ -723,7 +723,7 @@ namespace CareBoo.Blinq
 
 
         public static float2 Sum(
-            this ref NativeArray<float2> source
+            this in NativeArray<float2> source
             )
         {
             if (source.Length == 0) throw Error.NoElements();
@@ -734,8 +734,8 @@ namespace CareBoo.Blinq
         }
 
         public static float2 Sum<T, TSelector>(
-            this ref NativeArray<T> source,
-            ValueFunc<T, float2>.Struct<TSelector> selector
+            this in NativeArray<T> source,
+            in ValueFunc<T, float2>.Struct<TSelector> selector
             )
             where T : struct
             where TSelector : struct, IFunc<T, float2>
@@ -749,7 +749,7 @@ namespace CareBoo.Blinq
 
 
         public static float2x2 Sum(
-            this ref NativeArray<float2x2> source
+            this in NativeArray<float2x2> source
             )
         {
             if (source.Length == 0) throw Error.NoElements();
@@ -760,8 +760,8 @@ namespace CareBoo.Blinq
         }
 
         public static float2x2 Sum<T, TSelector>(
-            this ref NativeArray<T> source,
-            ValueFunc<T, float2x2>.Struct<TSelector> selector
+            this in NativeArray<T> source,
+            in ValueFunc<T, float2x2>.Struct<TSelector> selector
             )
             where T : struct
             where TSelector : struct, IFunc<T, float2x2>
@@ -775,7 +775,7 @@ namespace CareBoo.Blinq
 
 
         public static float2x3 Sum(
-            this ref NativeArray<float2x3> source
+            this in NativeArray<float2x3> source
             )
         {
             if (source.Length == 0) throw Error.NoElements();
@@ -786,8 +786,8 @@ namespace CareBoo.Blinq
         }
 
         public static float2x3 Sum<T, TSelector>(
-            this ref NativeArray<T> source,
-            ValueFunc<T, float2x3>.Struct<TSelector> selector
+            this in NativeArray<T> source,
+            in ValueFunc<T, float2x3>.Struct<TSelector> selector
             )
             where T : struct
             where TSelector : struct, IFunc<T, float2x3>
@@ -801,7 +801,7 @@ namespace CareBoo.Blinq
 
 
         public static float2x4 Sum(
-            this ref NativeArray<float2x4> source
+            this in NativeArray<float2x4> source
             )
         {
             if (source.Length == 0) throw Error.NoElements();
@@ -812,8 +812,8 @@ namespace CareBoo.Blinq
         }
 
         public static float2x4 Sum<T, TSelector>(
-            this ref NativeArray<T> source,
-            ValueFunc<T, float2x4>.Struct<TSelector> selector
+            this in NativeArray<T> source,
+            in ValueFunc<T, float2x4>.Struct<TSelector> selector
             )
             where T : struct
             where TSelector : struct, IFunc<T, float2x4>
@@ -827,7 +827,7 @@ namespace CareBoo.Blinq
 
 
         public static float3 Sum(
-            this ref NativeArray<float3> source
+            this in NativeArray<float3> source
             )
         {
             if (source.Length == 0) throw Error.NoElements();
@@ -838,8 +838,8 @@ namespace CareBoo.Blinq
         }
 
         public static float3 Sum<T, TSelector>(
-            this ref NativeArray<T> source,
-            ValueFunc<T, float3>.Struct<TSelector> selector
+            this in NativeArray<T> source,
+            in ValueFunc<T, float3>.Struct<TSelector> selector
             )
             where T : struct
             where TSelector : struct, IFunc<T, float3>
@@ -853,7 +853,7 @@ namespace CareBoo.Blinq
 
 
         public static float3x2 Sum(
-            this ref NativeArray<float3x2> source
+            this in NativeArray<float3x2> source
             )
         {
             if (source.Length == 0) throw Error.NoElements();
@@ -864,8 +864,8 @@ namespace CareBoo.Blinq
         }
 
         public static float3x2 Sum<T, TSelector>(
-            this ref NativeArray<T> source,
-            ValueFunc<T, float3x2>.Struct<TSelector> selector
+            this in NativeArray<T> source,
+            in ValueFunc<T, float3x2>.Struct<TSelector> selector
             )
             where T : struct
             where TSelector : struct, IFunc<T, float3x2>
@@ -879,7 +879,7 @@ namespace CareBoo.Blinq
 
 
         public static float3x3 Sum(
-            this ref NativeArray<float3x3> source
+            this in NativeArray<float3x3> source
             )
         {
             if (source.Length == 0) throw Error.NoElements();
@@ -890,8 +890,8 @@ namespace CareBoo.Blinq
         }
 
         public static float3x3 Sum<T, TSelector>(
-            this ref NativeArray<T> source,
-            ValueFunc<T, float3x3>.Struct<TSelector> selector
+            this in NativeArray<T> source,
+            in ValueFunc<T, float3x3>.Struct<TSelector> selector
             )
             where T : struct
             where TSelector : struct, IFunc<T, float3x3>
@@ -905,7 +905,7 @@ namespace CareBoo.Blinq
 
 
         public static float3x4 Sum(
-            this ref NativeArray<float3x4> source
+            this in NativeArray<float3x4> source
             )
         {
             if (source.Length == 0) throw Error.NoElements();
@@ -916,8 +916,8 @@ namespace CareBoo.Blinq
         }
 
         public static float3x4 Sum<T, TSelector>(
-            this ref NativeArray<T> source,
-            ValueFunc<T, float3x4>.Struct<TSelector> selector
+            this in NativeArray<T> source,
+            in ValueFunc<T, float3x4>.Struct<TSelector> selector
             )
             where T : struct
             where TSelector : struct, IFunc<T, float3x4>
@@ -931,7 +931,7 @@ namespace CareBoo.Blinq
 
 
         public static float4 Sum(
-            this ref NativeArray<float4> source
+            this in NativeArray<float4> source
             )
         {
             if (source.Length == 0) throw Error.NoElements();
@@ -942,8 +942,8 @@ namespace CareBoo.Blinq
         }
 
         public static float4 Sum<T, TSelector>(
-            this ref NativeArray<T> source,
-            ValueFunc<T, float4>.Struct<TSelector> selector
+            this in NativeArray<T> source,
+            in ValueFunc<T, float4>.Struct<TSelector> selector
             )
             where T : struct
             where TSelector : struct, IFunc<T, float4>
@@ -957,7 +957,7 @@ namespace CareBoo.Blinq
 
 
         public static float4x2 Sum(
-            this ref NativeArray<float4x2> source
+            this in NativeArray<float4x2> source
             )
         {
             if (source.Length == 0) throw Error.NoElements();
@@ -968,8 +968,8 @@ namespace CareBoo.Blinq
         }
 
         public static float4x2 Sum<T, TSelector>(
-            this ref NativeArray<T> source,
-            ValueFunc<T, float4x2>.Struct<TSelector> selector
+            this in NativeArray<T> source,
+            in ValueFunc<T, float4x2>.Struct<TSelector> selector
             )
             where T : struct
             where TSelector : struct, IFunc<T, float4x2>
@@ -983,7 +983,7 @@ namespace CareBoo.Blinq
 
 
         public static float4x3 Sum(
-            this ref NativeArray<float4x3> source
+            this in NativeArray<float4x3> source
             )
         {
             if (source.Length == 0) throw Error.NoElements();
@@ -994,8 +994,8 @@ namespace CareBoo.Blinq
         }
 
         public static float4x3 Sum<T, TSelector>(
-            this ref NativeArray<T> source,
-            ValueFunc<T, float4x3>.Struct<TSelector> selector
+            this in NativeArray<T> source,
+            in ValueFunc<T, float4x3>.Struct<TSelector> selector
             )
             where T : struct
             where TSelector : struct, IFunc<T, float4x3>
@@ -1009,7 +1009,7 @@ namespace CareBoo.Blinq
 
 
         public static float4x4 Sum(
-            this ref NativeArray<float4x4> source
+            this in NativeArray<float4x4> source
             )
         {
             if (source.Length == 0) throw Error.NoElements();
@@ -1020,8 +1020,8 @@ namespace CareBoo.Blinq
         }
 
         public static float4x4 Sum<T, TSelector>(
-            this ref NativeArray<T> source,
-            ValueFunc<T, float4x4>.Struct<TSelector> selector
+            this in NativeArray<T> source,
+            in ValueFunc<T, float4x4>.Struct<TSelector> selector
             )
             where T : struct
             where TSelector : struct, IFunc<T, float4x4>
@@ -1035,7 +1035,7 @@ namespace CareBoo.Blinq
 
 
         public static double Sum(
-            this ref NativeArray<double> source
+            this in NativeArray<double> source
             )
         {
             if (source.Length == 0) throw Error.NoElements();
@@ -1046,8 +1046,8 @@ namespace CareBoo.Blinq
         }
 
         public static double Sum<T, TSelector>(
-            this ref NativeArray<T> source,
-            ValueFunc<T, double>.Struct<TSelector> selector
+            this in NativeArray<T> source,
+            in ValueFunc<T, double>.Struct<TSelector> selector
             )
             where T : struct
             where TSelector : struct, IFunc<T, double>
@@ -1061,7 +1061,7 @@ namespace CareBoo.Blinq
 
 
         public static double2 Sum(
-            this ref NativeArray<double2> source
+            this in NativeArray<double2> source
             )
         {
             if (source.Length == 0) throw Error.NoElements();
@@ -1072,8 +1072,8 @@ namespace CareBoo.Blinq
         }
 
         public static double2 Sum<T, TSelector>(
-            this ref NativeArray<T> source,
-            ValueFunc<T, double2>.Struct<TSelector> selector
+            this in NativeArray<T> source,
+            in ValueFunc<T, double2>.Struct<TSelector> selector
             )
             where T : struct
             where TSelector : struct, IFunc<T, double2>
@@ -1087,7 +1087,7 @@ namespace CareBoo.Blinq
 
 
         public static double2x2 Sum(
-            this ref NativeArray<double2x2> source
+            this in NativeArray<double2x2> source
             )
         {
             if (source.Length == 0) throw Error.NoElements();
@@ -1098,8 +1098,8 @@ namespace CareBoo.Blinq
         }
 
         public static double2x2 Sum<T, TSelector>(
-            this ref NativeArray<T> source,
-            ValueFunc<T, double2x2>.Struct<TSelector> selector
+            this in NativeArray<T> source,
+            in ValueFunc<T, double2x2>.Struct<TSelector> selector
             )
             where T : struct
             where TSelector : struct, IFunc<T, double2x2>
@@ -1113,7 +1113,7 @@ namespace CareBoo.Blinq
 
 
         public static double2x3 Sum(
-            this ref NativeArray<double2x3> source
+            this in NativeArray<double2x3> source
             )
         {
             if (source.Length == 0) throw Error.NoElements();
@@ -1124,8 +1124,8 @@ namespace CareBoo.Blinq
         }
 
         public static double2x3 Sum<T, TSelector>(
-            this ref NativeArray<T> source,
-            ValueFunc<T, double2x3>.Struct<TSelector> selector
+            this in NativeArray<T> source,
+            in ValueFunc<T, double2x3>.Struct<TSelector> selector
             )
             where T : struct
             where TSelector : struct, IFunc<T, double2x3>
@@ -1139,7 +1139,7 @@ namespace CareBoo.Blinq
 
 
         public static double2x4 Sum(
-            this ref NativeArray<double2x4> source
+            this in NativeArray<double2x4> source
             )
         {
             if (source.Length == 0) throw Error.NoElements();
@@ -1150,8 +1150,8 @@ namespace CareBoo.Blinq
         }
 
         public static double2x4 Sum<T, TSelector>(
-            this ref NativeArray<T> source,
-            ValueFunc<T, double2x4>.Struct<TSelector> selector
+            this in NativeArray<T> source,
+            in ValueFunc<T, double2x4>.Struct<TSelector> selector
             )
             where T : struct
             where TSelector : struct, IFunc<T, double2x4>
@@ -1165,7 +1165,7 @@ namespace CareBoo.Blinq
 
 
         public static double3 Sum(
-            this ref NativeArray<double3> source
+            this in NativeArray<double3> source
             )
         {
             if (source.Length == 0) throw Error.NoElements();
@@ -1176,8 +1176,8 @@ namespace CareBoo.Blinq
         }
 
         public static double3 Sum<T, TSelector>(
-            this ref NativeArray<T> source,
-            ValueFunc<T, double3>.Struct<TSelector> selector
+            this in NativeArray<T> source,
+            in ValueFunc<T, double3>.Struct<TSelector> selector
             )
             where T : struct
             where TSelector : struct, IFunc<T, double3>
@@ -1191,7 +1191,7 @@ namespace CareBoo.Blinq
 
 
         public static double3x2 Sum(
-            this ref NativeArray<double3x2> source
+            this in NativeArray<double3x2> source
             )
         {
             if (source.Length == 0) throw Error.NoElements();
@@ -1202,8 +1202,8 @@ namespace CareBoo.Blinq
         }
 
         public static double3x2 Sum<T, TSelector>(
-            this ref NativeArray<T> source,
-            ValueFunc<T, double3x2>.Struct<TSelector> selector
+            this in NativeArray<T> source,
+            in ValueFunc<T, double3x2>.Struct<TSelector> selector
             )
             where T : struct
             where TSelector : struct, IFunc<T, double3x2>
@@ -1217,7 +1217,7 @@ namespace CareBoo.Blinq
 
 
         public static double3x3 Sum(
-            this ref NativeArray<double3x3> source
+            this in NativeArray<double3x3> source
             )
         {
             if (source.Length == 0) throw Error.NoElements();
@@ -1228,8 +1228,8 @@ namespace CareBoo.Blinq
         }
 
         public static double3x3 Sum<T, TSelector>(
-            this ref NativeArray<T> source,
-            ValueFunc<T, double3x3>.Struct<TSelector> selector
+            this in NativeArray<T> source,
+            in ValueFunc<T, double3x3>.Struct<TSelector> selector
             )
             where T : struct
             where TSelector : struct, IFunc<T, double3x3>
@@ -1243,7 +1243,7 @@ namespace CareBoo.Blinq
 
 
         public static double3x4 Sum(
-            this ref NativeArray<double3x4> source
+            this in NativeArray<double3x4> source
             )
         {
             if (source.Length == 0) throw Error.NoElements();
@@ -1254,8 +1254,8 @@ namespace CareBoo.Blinq
         }
 
         public static double3x4 Sum<T, TSelector>(
-            this ref NativeArray<T> source,
-            ValueFunc<T, double3x4>.Struct<TSelector> selector
+            this in NativeArray<T> source,
+            in ValueFunc<T, double3x4>.Struct<TSelector> selector
             )
             where T : struct
             where TSelector : struct, IFunc<T, double3x4>
@@ -1269,7 +1269,7 @@ namespace CareBoo.Blinq
 
 
         public static double4 Sum(
-            this ref NativeArray<double4> source
+            this in NativeArray<double4> source
             )
         {
             if (source.Length == 0) throw Error.NoElements();
@@ -1280,8 +1280,8 @@ namespace CareBoo.Blinq
         }
 
         public static double4 Sum<T, TSelector>(
-            this ref NativeArray<T> source,
-            ValueFunc<T, double4>.Struct<TSelector> selector
+            this in NativeArray<T> source,
+            in ValueFunc<T, double4>.Struct<TSelector> selector
             )
             where T : struct
             where TSelector : struct, IFunc<T, double4>
@@ -1295,7 +1295,7 @@ namespace CareBoo.Blinq
 
 
         public static double4x2 Sum(
-            this ref NativeArray<double4x2> source
+            this in NativeArray<double4x2> source
             )
         {
             if (source.Length == 0) throw Error.NoElements();
@@ -1306,8 +1306,8 @@ namespace CareBoo.Blinq
         }
 
         public static double4x2 Sum<T, TSelector>(
-            this ref NativeArray<T> source,
-            ValueFunc<T, double4x2>.Struct<TSelector> selector
+            this in NativeArray<T> source,
+            in ValueFunc<T, double4x2>.Struct<TSelector> selector
             )
             where T : struct
             where TSelector : struct, IFunc<T, double4x2>
@@ -1321,7 +1321,7 @@ namespace CareBoo.Blinq
 
 
         public static double4x3 Sum(
-            this ref NativeArray<double4x3> source
+            this in NativeArray<double4x3> source
             )
         {
             if (source.Length == 0) throw Error.NoElements();
@@ -1332,8 +1332,8 @@ namespace CareBoo.Blinq
         }
 
         public static double4x3 Sum<T, TSelector>(
-            this ref NativeArray<T> source,
-            ValueFunc<T, double4x3>.Struct<TSelector> selector
+            this in NativeArray<T> source,
+            in ValueFunc<T, double4x3>.Struct<TSelector> selector
             )
             where T : struct
             where TSelector : struct, IFunc<T, double4x3>
@@ -1347,7 +1347,7 @@ namespace CareBoo.Blinq
 
 
         public static double4x4 Sum(
-            this ref NativeArray<double4x4> source
+            this in NativeArray<double4x4> source
             )
         {
             if (source.Length == 0) throw Error.NoElements();
@@ -1358,8 +1358,8 @@ namespace CareBoo.Blinq
         }
 
         public static double4x4 Sum<T, TSelector>(
-            this ref NativeArray<T> source,
-            ValueFunc<T, double4x4>.Struct<TSelector> selector
+            this in NativeArray<T> source,
+            in ValueFunc<T, double4x4>.Struct<TSelector> selector
             )
             where T : struct
             where TSelector : struct, IFunc<T, double4x4>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Unity.Collections;
 using CareBoo.Burst.Delegates;
@@ -8,7 +9,7 @@ namespace CareBoo.Blinq
     public static partial class Sequence
     {
         public static ValueSequence<T, ThenBySequence<T, TSource, KeyComparer<T, TKey, TKeySelector, DefaultComparer<TKey>>>> ThenBy<T, TSource, TKey, TKeySelector>(
-            this ValueSequence<T, TSource> source,
+            this in ValueSequence<T, TSource> source,
             ValueFunc<T, TKey>.Struct<TKeySelector> keySelector
             )
             where T : struct
@@ -16,15 +17,17 @@ namespace CareBoo.Blinq
             where TKey : struct, IComparable<TKey>
             where TKeySelector : struct, IFunc<T, TKey>
         {
-            var keyComparer = KeyComparer.New(keySelector, default(DefaultComparer<TKey>));
-            var seq = ThenBySequence<T>.New(source.Source, keyComparer);
-            return ValueSequence<T>.New(seq);
+            var sourceSeq = source.GetEnumerator();
+            var comparer = default(DefaultComparer<TKey>);
+            var keyComparer = KeyComparer.New(in keySelector, in comparer);
+            var seq = ThenBySequence<T>.New(ref sourceSeq, in keyComparer);
+            return ValueSequence<T>.New(ref seq);
         }
 
         public static ValueSequence<T, ThenBySequence<T, TSource, KeyComparer<T, TKey, TKeySelector, TComparer>>> ThenBy<T, TSource, TKey, TKeySelector, TComparer>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, TKey>.Struct<TKeySelector> keySelector,
-            TComparer comparer
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, TKey>.Struct<TKeySelector> keySelector,
+            in TComparer comparer
             )
             where T : struct
             where TSource : struct, IOrderedSequence<T>
@@ -32,9 +35,10 @@ namespace CareBoo.Blinq
             where TKeySelector : struct, IFunc<T, TKey>
             where TComparer : struct, IComparer<TKey>
         {
-            var keyComparer = KeyComparer.New(keySelector, comparer);
-            var seq = ThenBySequence<T>.New(source.Source, keyComparer);
-            return ValueSequence<T>.New(seq);
+            var sourceSeq = source.GetEnumerator();
+            var keyComparer = KeyComparer.New(in keySelector, in comparer);
+            var seq = ThenBySequence<T>.New(ref sourceSeq, in keyComparer);
+            return ValueSequence<T>.New(ref seq);
         }
     }
 
@@ -44,13 +48,22 @@ namespace CareBoo.Blinq
         where TSource : struct, IOrderedSequence<T>
         where TComparer : struct, IComparer<T>
     {
-        readonly TSource source;
+        TSource source;
         readonly ThenByComparer<T, TSource, TComparer> comparer;
 
-        public ThenBySequence(TSource source, TComparer comparer)
+        int currentIndex;
+        NativeList<T> list;
+
+        public T Current => list[currentIndex];
+
+        object IEnumerator.Current => Current;
+
+        public ThenBySequence(ref TSource source, in TComparer comparer)
         {
             this.source = source;
-            this.comparer = ThenByComparer<T>.New(source, comparer);
+            this.comparer = ThenByComparer<T>.New(in source, in comparer);
+            currentIndex = default;
+            list = default;
         }
 
         public int Compare(T x, T y)
@@ -58,27 +71,48 @@ namespace CareBoo.Blinq
             return comparer.Compare(x, y);
         }
 
-        public NativeList<T> Execute()
+        public NativeList<T> ToList()
         {
-            var unordered = ExecuteUnordered();
+            var unordered = ToUnorderedList();
             unordered.Sort(this);
             return unordered;
         }
 
-        public NativeList<T> ExecuteUnordered()
+        public NativeList<T> ToUnorderedList()
         {
-            return source.ExecuteUnordered();
+            return source.ToUnorderedList();
+        }
+
+        public bool MoveNext()
+        {
+            if (!list.IsCreated)
+                list = ToList();
+            else
+                currentIndex += 1;
+            return currentIndex < list.Length;
+        }
+
+        public void Reset()
+        {
+            throw new NotSupportedException();
+        }
+
+        public void Dispose()
+        {
+            source.Dispose();
+            if (list.IsCreated)
+                list.Dispose();
         }
     }
 
     public static class ThenBySequence<T>
         where T : struct
     {
-        public static ThenBySequence<T, TSource, TComparer> New<TSource, TComparer>(TSource source, TComparer comparer)
+        public static ThenBySequence<T, TSource, TComparer> New<TSource, TComparer>(ref TSource source, in TComparer comparer)
             where TSource : struct, IOrderedSequence<T>
             where TComparer : struct, IComparer<T>
         {
-            return new ThenBySequence<T, TSource, TComparer>(source, comparer);
+            return new ThenBySequence<T, TSource, TComparer>(ref source, in comparer);
         }
     }
 
@@ -90,7 +124,7 @@ namespace CareBoo.Blinq
         readonly TFirstComparer firstComparer;
         readonly TSecondComparer secondComparer;
 
-        public ThenByComparer(TFirstComparer firstComparer, TSecondComparer secondComparer)
+        public ThenByComparer(in TFirstComparer firstComparer, in TSecondComparer secondComparer)
         {
             this.firstComparer = firstComparer;
             this.secondComparer = secondComparer;
@@ -109,13 +143,13 @@ namespace CareBoo.Blinq
         where T : struct
     {
         public static ThenByComparer<T, TFirstComparer, TSecondComparer> New<TFirstComparer, TSecondComparer>(
-            TFirstComparer firstComparer,
-            TSecondComparer secondComparer
+            in TFirstComparer firstComparer,
+            in TSecondComparer secondComparer
             )
             where TFirstComparer : struct, IComparer<T>
             where TSecondComparer : struct, IComparer<T>
         {
-            return new ThenByComparer<T, TFirstComparer, TSecondComparer>(firstComparer, secondComparer);
+            return new ThenByComparer<T, TFirstComparer, TSecondComparer>(in firstComparer, in secondComparer);
         }
     }
 }

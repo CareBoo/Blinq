@@ -7,8 +7,8 @@ namespace CareBoo.Blinq
     public static partial class Sequence
     {
         public static T Single<T, TSource, TPredicate>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, bool>.Struct<TPredicate> predicate
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, bool>.Struct<TPredicate> predicate
             )
             where T : unmanaged, IEquatable<T>
             where TSource : struct, ISequence<T>
@@ -19,20 +19,30 @@ namespace CareBoo.Blinq
             for (var i = 0; i < list.Length; i++)
             {
                 var val = list[i];
-                if (predicate.Invoke(val))
-                    if (!set.Add(val))
-                        throw Error.MoreThanOneMatch();
+                if (predicate.Invoke(val) && !set.Add(val))
+                {
+                    set.Dispose();
+                    list.Dispose();
+                    throw Error.MoreThanOneMatch();
+                }
             }
             var iter = set.GetEnumerator();
             if (iter.MoveNext())
-                return iter.Current;
+            {
+                var result = iter.Current;
+                set.Dispose();
+                list.Dispose();
+                return result;
+            }
+            set.Dispose();
+            list.Dispose();
             throw Error.NoMatch();
         }
 
         public static T SingleOrDefault<T, TSource, TPredicate>(
-            this ValueSequence<T, TSource> source,
-            ValueFunc<T, bool>.Struct<TPredicate> predicate,
-            T defaultVal = default
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, bool>.Struct<TPredicate> predicate,
+            in T defaultVal = default
             )
             where T : unmanaged, IEquatable<T>
             where TSource : struct, ISequence<T>
@@ -43,43 +53,62 @@ namespace CareBoo.Blinq
             for (var i = 0; i < list.Length; i++)
             {
                 var val = list[i];
-                if (predicate.Invoke(val))
-                    if (!set.Add(val))
-                        throw Error.MoreThanOneMatch();
+                if (predicate.Invoke(val) && !set.Add(val))
+                {
+                    set.Dispose();
+                    list.Dispose();
+                    throw Error.MoreThanOneMatch();
+                }
             }
             var iter = set.GetEnumerator();
-            if (iter.MoveNext())
-                return iter.Current;
-            return defaultVal;
+            var result = iter.MoveNext()
+                ? iter.Current
+                : defaultVal;
+            set.Dispose();
+            list.Dispose();
+            return result;
         }
 
         public static T Single<T, TSource>(
-            this ValueSequence<T, TSource> source
+            this in ValueSequence<T, TSource> source
             )
             where T : struct
             where TSource : struct, ISequence<T>
         {
             var list = source.Execute();
             if (list.Length > 1)
+            {
+                list.Dispose();
                 throw Error.MoreThanOneElement();
+            }
             if (list.Length == 0)
+            {
+                list.Dispose();
                 throw Error.NoElements();
-            return list[0];
+            }
+            var result = list[0];
+            list.Dispose();
+            return result;
         }
 
         public static T SingleOrDefault<T, TSource>(
-            this ValueSequence<T, TSource> source,
-            T defaultVal = default
+            this in ValueSequence<T, TSource> source,
+            in T defaultVal = default
             )
             where T : struct
             where TSource : struct, ISequence<T>
         {
             var list = source.Execute();
             if (list.Length > 1)
+            {
+                list.Dispose();
                 throw Error.MoreThanOneElement();
-            if (list.Length == 0)
-                return defaultVal;
-            return list[0];
+            }
+            var result = list.Length == 0
+                ? defaultVal
+                : list[0];
+            list.Dispose();
+            return result;
         }
     }
 }
