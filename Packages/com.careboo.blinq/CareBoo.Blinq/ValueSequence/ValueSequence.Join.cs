@@ -107,17 +107,18 @@ namespace CareBoo.Blinq
         public bool MoveNext()
         {
             if (!map.IsCreated)
-                using (var outerList = outer.ToList())
+            {
+                var outerList = outer.ToList();
+                map = new NativeHashMap<TKey, TOuter>(outerList.Length, Allocator.Persistent);
+                for (var i = 0; i < outerList.Length; i++)
                 {
-                    map = new NativeHashMap<TKey, TOuter>(outerList.Length, Allocator.Persistent);
-                    for (var i = 0; i < outerList.Length; i++)
-                    {
-                        var val = outerList[i];
-                        var key = outerKeySelector.Invoke(val);
-                        map.Add(key, val);
-                    }
-                    mapEnumerator = map.GetEnumerator();
+                    var val = outerList[i];
+                    var key = outerKeySelector.Invoke(val);
+                    map.Add(key, val);
                 }
+                mapEnumerator = map.GetEnumerator();
+                outerList.Dispose();
+            }
 
             while (mapEnumerator.MoveNext())
                 while (inner.MoveNext())
@@ -140,29 +141,30 @@ namespace CareBoo.Blinq
 
         public NativeList<TResult> ToList()
         {
-            using (var outerList = outer.ToList())
-            using (var innerList = inner.ToList())
-            using (var outerHashMap = new NativeHashMap<TKey, TOuter>(outerList.Length, Allocator.Temp))
+            var outerList = outer.ToList();
+            var innerList = inner.ToList();
+            var outerHashMap = new NativeHashMap<TKey, TOuter>(outerList.Length, Allocator.Temp);
+            var resultList = new NativeList<TResult>(innerList.Length, Allocator.Temp);
+            for (var i = 0; i < outerList.Length; i++)
             {
-                var resultList = new NativeList<TResult>(innerList.Length, Allocator.Temp);
-                for (var i = 0; i < outerList.Length; i++)
-                {
-                    var val = outerList[i];
-                    var key = outerKeySelector.Invoke(val);
-                    outerHashMap.Add(key, val);
-                }
-                for (var i = 0; i < innerList.Length; i++)
-                {
-                    var innerVal = innerList[i];
-                    var key = innerKeySelector.Invoke(innerVal);
-                    if (outerHashMap.TryGetValue(key, out var outerVal))
-                    {
-                        var result = resultSelector.Invoke(outerVal, innerVal);
-                        resultList.AddNoResize(result);
-                    }
-                }
-                return resultList;
+                var val = outerList[i];
+                var key = outerKeySelector.Invoke(val);
+                outerHashMap.Add(key, val);
             }
+            for (var i = 0; i < innerList.Length; i++)
+            {
+                var innerVal = innerList[i];
+                var key = innerKeySelector.Invoke(innerVal);
+                if (outerHashMap.TryGetValue(key, out var outerVal))
+                {
+                    var result = resultSelector.Invoke(outerVal, innerVal);
+                    resultList.AddNoResize(result);
+                }
+            }
+            outerList.Dispose();
+            innerList.Dispose();
+            outerHashMap.Dispose();
+            return resultList;
         }
     }
 

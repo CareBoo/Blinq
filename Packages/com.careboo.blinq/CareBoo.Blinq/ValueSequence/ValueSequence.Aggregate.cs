@@ -20,7 +20,9 @@ namespace CareBoo.Blinq
             var sourceList = source.Execute();
             for (var i = 0; i < sourceList.Length; i++)
                 seed = func.Invoke(seed, sourceList[i]);
-            return resultSelector.Invoke(seed);
+            var result = resultSelector.Invoke(seed);
+            sourceList.Dispose();
+            return result;
         }
 
         public static TAccumulate Aggregate<T, TSource, TAccumulate, TFunc>(
@@ -36,6 +38,7 @@ namespace CareBoo.Blinq
             var sourceList = source.Execute();
             for (var i = 0; i < sourceList.Length; i++)
                 seed = func.Invoke(seed, sourceList[i]);
+            sourceList.Dispose();
             return seed;
         }
 
@@ -48,10 +51,15 @@ namespace CareBoo.Blinq
             where TFunc : struct, IFunc<T, T, T>
         {
             var sourceList = source.Execute();
-            if (sourceList.Length == 0) throw Error.NoElements();
+            if (sourceList.Length == 0)
+            {
+                sourceList.Dispose();
+                throw Error.NoElements();
+            }
             var seed = sourceList[0];
             for (var i = 1; i < sourceList.Length; i++)
                 seed = func.Invoke(seed, sourceList[i]);
+            sourceList.Dispose();
             return seed;
         }
     }

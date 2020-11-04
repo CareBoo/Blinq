@@ -108,17 +108,20 @@ namespace CareBoo.Blinq
                 return false;
 
             if (!innerMap.IsCreated)
-                using (var innerList = inner.ToList())
-                {
-                    innerMap = new NativeMultiHashMap<TKey, TInner>(innerList.Length, Allocator.Persistent);
-                    for (var i = 0; i < innerList.Length; i++)
-                        innerMap.Add(innerKeySelector.Invoke(innerList[i]), innerList[i]);
-                }
+            {
+                var innerList = inner.ToList();
+                innerMap = new NativeMultiHashMap<TKey, TInner>(innerList.Length, Allocator.Persistent);
+                for (var i = 0; i < innerList.Length; i++)
+                    innerMap.Add(innerKeySelector.Invoke(innerList[i]), innerList[i]);
+                innerList.Dispose();
+            }
+
 
             var currentOuter = outer.Current;
             var key = outerKeySelector.Invoke(currentOuter);
-            using (var innerGroup = GetInnerGroup(key, innerMap))
-                Current = resultSelector.Invoke(currentOuter, innerGroup);
+            var innerGroup = GetInnerGroup(key, innerMap);
+            Current = resultSelector.Invoke(currentOuter, innerGroup);
+            innerGroup.Dispose();
             return true;
         }
 
@@ -129,12 +132,15 @@ namespace CareBoo.Blinq
 
         public NativeList<TResult> ToList()
         {
-            using (var outerList = outer.ToList())
-            using (var innerList = inner.ToList())
-            using (var groupMap = new NativeMultiHashMap<TKey, TInner>(innerList.Length, Allocator.Temp))
-            {
-                return Execute(outerList, innerList, groupMap);
-            }
+            var outerList = outer.ToList();
+            var innerList = inner.ToList();
+            var groupMap = new NativeMultiHashMap<TKey, TInner>(innerList.Length, Allocator.Temp);
+            var result = Execute(outerList, innerList, groupMap);
+            outerList.Dispose();
+            innerList.Dispose();
+            groupMap.Dispose();
+            return result;
+
         }
 
         private NativeList<TResult> Execute(
@@ -153,8 +159,9 @@ namespace CareBoo.Blinq
             {
                 var item = outerList[i];
                 var key = outerKeySelector.Invoke(item);
-                using (var inners = GetInnerGroup(key, groupMap))
-                    result.Add(resultSelector.Invoke(item, inners));
+                var inners = GetInnerGroup(key, groupMap);
+                result.Add(resultSelector.Invoke(item, inners));
+                inners.Dispose();
             }
             return result;
         }

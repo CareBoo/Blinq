@@ -17,8 +17,12 @@ namespace CareBoo.Blinq
             {
                 var val = list[i];
                 if (predicate.Invoke(val))
+                {
+                    list.Dispose();
                     return val;
+                }
             }
+            list.Dispose();
             throw Error.NoMatch();
         }
 
@@ -36,8 +40,12 @@ namespace CareBoo.Blinq
             {
                 var val = list[i];
                 if (predicate.Invoke(val))
+                {
+                    list.Dispose();
                     return val;
+                }
             }
+            list.Dispose();
             return defaultVal;
         }
 
@@ -48,7 +56,14 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
         {
             var list = source.Execute();
-            return list[list.Length - 1];
+            if (list.Length == 0)
+            {
+                list.Dispose();
+                throw Error.NoElements();
+            }
+            var result = list[list.Length - 1];
+            list.Dispose();
+            return result;
         }
 
         public static T LastOrDefault<T, TSource>(
@@ -60,8 +75,13 @@ namespace CareBoo.Blinq
         {
             var list = source.Execute();
             if (list.Length == 0)
+            {
+                list.Dispose();
                 return defaultVal;
-            return list[list.Length - 1];
+            }
+            var result = list[list.Length - 1];
+            list.Dispose();
+            return result;
         }
     }
 }

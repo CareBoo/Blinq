@@ -64,13 +64,12 @@ namespace CareBoo.Blinq
 
         public NativeList<T> ToList()
         {
-            using (var sourceList = source.ToList())
-            {
-                var list = new NativeList<T>(sourceList.Length + 1, Allocator.Temp);
-                list.AddNoResize(item);
-                list.AddRangeNoResize(sourceList);
-                return list;
-            }
+            var sourceList = source.ToList();
+            var list = new NativeList<T>(sourceList.Length + 1, Allocator.Temp);
+            list.AddNoResize(item);
+            list.AddRangeNoResize(sourceList);
+            sourceList.Dispose();
+            return list;
         }
     }
 }

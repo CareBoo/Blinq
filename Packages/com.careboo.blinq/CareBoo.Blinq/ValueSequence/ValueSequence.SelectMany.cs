@@ -133,8 +133,10 @@ namespace CareBoo.Blinq
 
         public NativeList<TResult> ToList()
         {
-            using (var srcList = source.ToList())
-                return Execute(srcList);
+            var srcList = source.ToList();
+            var result = Execute(srcList);
+            srcList.Dispose();
+            return result;
         }
 
         private NativeList<TResult> Execute(NativeList<T> srcList)
@@ -143,21 +145,22 @@ namespace CareBoo.Blinq
             for (var i = 0; i < srcList.Length; i++)
             {
                 var srcElement = srcList[i];
-                using (var resultArr = GetResults(srcElement))
-                    output.AddRange(resultArr);
+                var resultArr = GetResults(srcElement);
+                output.AddRange(resultArr);
+                resultArr.Dispose();
             }
             return output;
         }
 
         private NativeArray<TResult> GetResults(T srcElement)
         {
-            using (var collectionArr = collectionSelector.Invoke(srcElement))
-            {
-                var resultArr = new NativeArray<TResult>(collectionArr.Length, Allocator.Temp);
-                for (var i = 0; i < collectionArr.Length; i++)
-                    resultArr[i] = resultSelector.Invoke(srcElement, collectionArr[i]);
-                return resultArr;
-            }
+            var collectionArr = collectionSelector.Invoke(srcElement);
+            var resultArr = new NativeArray<TResult>(collectionArr.Length, Allocator.Temp);
+            for (var i = 0; i < collectionArr.Length; i++)
+                resultArr[i] = resultSelector.Invoke(srcElement, collectionArr[i]);
+            collectionArr.Dispose();
+            return resultArr;
+
         }
     }
 
@@ -225,8 +228,10 @@ namespace CareBoo.Blinq
 
         public NativeList<TResult> ToList()
         {
-            using (var srcList = source.ToList())
-                return Execute(srcList);
+            var srcList = source.ToList();
+            var result = Execute(srcList);
+            srcList.Dispose();
+            return result;
         }
 
         private NativeList<TResult> Execute(NativeList<T> srcList)
@@ -235,21 +240,21 @@ namespace CareBoo.Blinq
             for (var i = 0; i < srcList.Length; i++)
             {
                 var srcElement = srcList[i];
-                using (var resultArr = GetResults(srcElement, i))
-                    output.AddRange(resultArr);
+                var resultArr = GetResults(srcElement, i);
+                output.AddRange(resultArr);
+                resultArr.Dispose();
             }
             return output;
         }
 
         private NativeArray<TResult> GetResults(T srcElement, int index)
         {
-            using (var collectionArr = collectionSelector.Invoke(srcElement, index))
-            {
-                var resultArr = new NativeArray<TResult>(collectionArr.Length, Allocator.Temp);
-                for (var i = 0; i < collectionArr.Length; i++)
-                    resultArr[i] = resultSelector.Invoke(srcElement, collectionArr[i]);
-                return resultArr;
-            }
+            var collectionArr = collectionSelector.Invoke(srcElement, index);
+            var resultArr = new NativeArray<TResult>(collectionArr.Length, Allocator.Temp);
+            for (var i = 0; i < collectionArr.Length; i++)
+                resultArr[i] = resultSelector.Invoke(srcElement, collectionArr[i]);
+            collectionArr.Dispose();
+            return resultArr;
         }
     }
 

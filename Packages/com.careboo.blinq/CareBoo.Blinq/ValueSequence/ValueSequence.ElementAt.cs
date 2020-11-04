@@ -10,7 +10,9 @@
             where TSource : struct, ISequence<T>
         {
             var list = source.Execute();
-            return list[index];
+            var result = list[index];
+            list.Dispose();
+            return result;
         }
 
         public static T ElementAtOrDefault<T, TSource>(
@@ -22,9 +24,11 @@
             where TSource : struct, ISequence<T>
         {
             var list = source.Execute();
-            if (index >= 0 && index < list.Length)
-                return list[index];
-            return defaultVal;
+            var result = index >= 0 && index < list.Length
+                ? list[index]
+                : defaultVal;
+            list.Dispose();
+            return result;
         }
     }
 }

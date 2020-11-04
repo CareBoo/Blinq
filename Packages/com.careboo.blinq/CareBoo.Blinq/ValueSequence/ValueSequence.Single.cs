@@ -19,13 +19,23 @@ namespace CareBoo.Blinq
             for (var i = 0; i < list.Length; i++)
             {
                 var val = list[i];
-                if (predicate.Invoke(val))
-                    if (!set.Add(val))
-                        throw Error.MoreThanOneMatch();
+                if (predicate.Invoke(val) && !set.Add(val))
+                {
+                    set.Dispose();
+                    list.Dispose();
+                    throw Error.MoreThanOneMatch();
+                }
             }
             var iter = set.GetEnumerator();
             if (iter.MoveNext())
-                return iter.Current;
+            {
+                var result = iter.Current;
+                set.Dispose();
+                list.Dispose();
+                return result;
+            }
+            set.Dispose();
+            list.Dispose();
             throw Error.NoMatch();
         }
 
@@ -43,14 +53,20 @@ namespace CareBoo.Blinq
             for (var i = 0; i < list.Length; i++)
             {
                 var val = list[i];
-                if (predicate.Invoke(val))
-                    if (!set.Add(val))
-                        throw Error.MoreThanOneMatch();
+                if (predicate.Invoke(val) && !set.Add(val))
+                {
+                    set.Dispose();
+                    list.Dispose();
+                    throw Error.MoreThanOneMatch();
+                }
             }
             var iter = set.GetEnumerator();
-            if (iter.MoveNext())
-                return iter.Current;
-            return defaultVal;
+            var result = iter.MoveNext()
+                ? iter.Current
+                : defaultVal;
+            set.Dispose();
+            list.Dispose();
+            return result;
         }
 
         public static T Single<T, TSource>(
@@ -61,10 +77,18 @@ namespace CareBoo.Blinq
         {
             var list = source.Execute();
             if (list.Length > 1)
+            {
+                list.Dispose();
                 throw Error.MoreThanOneElement();
+            }
             if (list.Length == 0)
+            {
+                list.Dispose();
                 throw Error.NoElements();
-            return list[0];
+            }
+            var result = list[0];
+            list.Dispose();
+            return result;
         }
 
         public static T SingleOrDefault<T, TSource>(
@@ -76,10 +100,15 @@ namespace CareBoo.Blinq
         {
             var list = source.Execute();
             if (list.Length > 1)
+            {
+                list.Dispose();
                 throw Error.MoreThanOneElement();
-            if (list.Length == 0)
-                return defaultVal;
-            return list[0];
+            }
+            var result = list.Length == 0
+                ? defaultVal
+                : list[0];
+            list.Dispose();
+            return result;
         }
     }
 }

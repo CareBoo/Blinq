@@ -61,16 +61,15 @@ namespace CareBoo.Blinq
         public NativeList<T> ToList()
         {
             var list = source.ToList();
-            using (var tempSet = new NativeHashSet<T>(list.Length, Allocator.Temp))
-            {
-                for (var i = 0; i < list.Length; i++)
-                    if (!tempSet.Add(list[i]))
-                    {
-                        list.RemoveAt(i);
-                        i--;
-                    }
-                return list;
-            }
+            var tempSet = new NativeHashSet<T>(list.Length, Allocator.Temp);
+            for (var i = 0; i < list.Length; i++)
+                if (!tempSet.Add(list[i]))
+                {
+                    list.RemoveAt(i);
+                    i--;
+                }
+            tempSet.Dispose();
+            return list;
         }
     }
 }

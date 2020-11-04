@@ -25,14 +25,17 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<int>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                int sum = srcList[0];
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += srcList[i];
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            int sum = srcList[0];
+            for (var i = 1; i < srcList.Length; i++)
+                sum += srcList[i];
+            srcList.Dispose();
+            return sum;
         }
 
         public static int Sum<T, TSource, TSelector>(
@@ -43,14 +46,17 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, int>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                int sum = selector.Invoke(srcList[0]);
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += selector.Invoke(srcList[i]);
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            int sum = selector.Invoke(srcList[0]);
+            for (var i = 1; i < srcList.Length; i++)
+                sum += selector.Invoke(srcList[i]);
+            srcList.Dispose();
+            return sum;
         }
 
 
@@ -59,14 +65,17 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<int2>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                int2 sum = srcList[0];
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += srcList[i];
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            int2 sum = srcList[0];
+            for (var i = 1; i < srcList.Length; i++)
+                sum += srcList[i];
+            srcList.Dispose();
+            return sum;
         }
 
         public static int2 Sum<T, TSource, TSelector>(
@@ -77,14 +86,17 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, int2>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                int2 sum = selector.Invoke(srcList[0]);
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += selector.Invoke(srcList[i]);
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            int2 sum = selector.Invoke(srcList[0]);
+            for (var i = 1; i < srcList.Length; i++)
+                sum += selector.Invoke(srcList[i]);
+            srcList.Dispose();
+            return sum;
         }
 
 
@@ -93,14 +105,17 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<int2x2>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                int2x2 sum = srcList[0];
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += srcList[i];
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            int2x2 sum = srcList[0];
+            for (var i = 1; i < srcList.Length; i++)
+                sum += srcList[i];
+            srcList.Dispose();
+            return sum;
         }
 
         public static int2x2 Sum<T, TSource, TSelector>(
@@ -111,14 +126,17 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, int2x2>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                int2x2 sum = selector.Invoke(srcList[0]);
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += selector.Invoke(srcList[i]);
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            int2x2 sum = selector.Invoke(srcList[0]);
+            for (var i = 1; i < srcList.Length; i++)
+                sum += selector.Invoke(srcList[i]);
+            srcList.Dispose();
+            return sum;
         }
 
 
@@ -127,14 +145,17 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<int2x3>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                int2x3 sum = srcList[0];
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += srcList[i];
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            int2x3 sum = srcList[0];
+            for (var i = 1; i < srcList.Length; i++)
+                sum += srcList[i];
+            srcList.Dispose();
+            return sum;
         }
 
         public static int2x3 Sum<T, TSource, TSelector>(
@@ -145,14 +166,17 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, int2x3>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                int2x3 sum = selector.Invoke(srcList[0]);
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += selector.Invoke(srcList[i]);
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            int2x3 sum = selector.Invoke(srcList[0]);
+            for (var i = 1; i < srcList.Length; i++)
+                sum += selector.Invoke(srcList[i]);
+            srcList.Dispose();
+            return sum;
         }
 
 
@@ -161,14 +185,17 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<int2x4>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                int2x4 sum = srcList[0];
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += srcList[i];
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            int2x4 sum = srcList[0];
+            for (var i = 1; i < srcList.Length; i++)
+                sum += srcList[i];
+            srcList.Dispose();
+            return sum;
         }
 
         public static int2x4 Sum<T, TSource, TSelector>(
@@ -179,14 +206,17 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, int2x4>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                int2x4 sum = selector.Invoke(srcList[0]);
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += selector.Invoke(srcList[i]);
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            int2x4 sum = selector.Invoke(srcList[0]);
+            for (var i = 1; i < srcList.Length; i++)
+                sum += selector.Invoke(srcList[i]);
+            srcList.Dispose();
+            return sum;
         }
 
 
@@ -195,14 +225,17 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<int3>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                int3 sum = srcList[0];
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += srcList[i];
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            int3 sum = srcList[0];
+            for (var i = 1; i < srcList.Length; i++)
+                sum += srcList[i];
+            srcList.Dispose();
+            return sum;
         }
 
         public static int3 Sum<T, TSource, TSelector>(
@@ -213,14 +246,17 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, int3>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                int3 sum = selector.Invoke(srcList[0]);
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += selector.Invoke(srcList[i]);
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            int3 sum = selector.Invoke(srcList[0]);
+            for (var i = 1; i < srcList.Length; i++)
+                sum += selector.Invoke(srcList[i]);
+            srcList.Dispose();
+            return sum;
         }
 
 
@@ -229,14 +265,17 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<int3x2>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                int3x2 sum = srcList[0];
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += srcList[i];
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            int3x2 sum = srcList[0];
+            for (var i = 1; i < srcList.Length; i++)
+                sum += srcList[i];
+            srcList.Dispose();
+            return sum;
         }
 
         public static int3x2 Sum<T, TSource, TSelector>(
@@ -247,14 +286,17 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, int3x2>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                int3x2 sum = selector.Invoke(srcList[0]);
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += selector.Invoke(srcList[i]);
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            int3x2 sum = selector.Invoke(srcList[0]);
+            for (var i = 1; i < srcList.Length; i++)
+                sum += selector.Invoke(srcList[i]);
+            srcList.Dispose();
+            return sum;
         }
 
 
@@ -263,14 +305,17 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<int3x3>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                int3x3 sum = srcList[0];
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += srcList[i];
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            int3x3 sum = srcList[0];
+            for (var i = 1; i < srcList.Length; i++)
+                sum += srcList[i];
+            srcList.Dispose();
+            return sum;
         }
 
         public static int3x3 Sum<T, TSource, TSelector>(
@@ -281,14 +326,17 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, int3x3>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                int3x3 sum = selector.Invoke(srcList[0]);
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += selector.Invoke(srcList[i]);
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            int3x3 sum = selector.Invoke(srcList[0]);
+            for (var i = 1; i < srcList.Length; i++)
+                sum += selector.Invoke(srcList[i]);
+            srcList.Dispose();
+            return sum;
         }
 
 
@@ -297,14 +345,17 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<int3x4>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                int3x4 sum = srcList[0];
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += srcList[i];
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            int3x4 sum = srcList[0];
+            for (var i = 1; i < srcList.Length; i++)
+                sum += srcList[i];
+            srcList.Dispose();
+            return sum;
         }
 
         public static int3x4 Sum<T, TSource, TSelector>(
@@ -315,14 +366,17 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, int3x4>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                int3x4 sum = selector.Invoke(srcList[0]);
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += selector.Invoke(srcList[i]);
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            int3x4 sum = selector.Invoke(srcList[0]);
+            for (var i = 1; i < srcList.Length; i++)
+                sum += selector.Invoke(srcList[i]);
+            srcList.Dispose();
+            return sum;
         }
 
 
@@ -331,14 +385,17 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<int4>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                int4 sum = srcList[0];
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += srcList[i];
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            int4 sum = srcList[0];
+            for (var i = 1; i < srcList.Length; i++)
+                sum += srcList[i];
+            srcList.Dispose();
+            return sum;
         }
 
         public static int4 Sum<T, TSource, TSelector>(
@@ -349,14 +406,17 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, int4>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                int4 sum = selector.Invoke(srcList[0]);
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += selector.Invoke(srcList[i]);
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            int4 sum = selector.Invoke(srcList[0]);
+            for (var i = 1; i < srcList.Length; i++)
+                sum += selector.Invoke(srcList[i]);
+            srcList.Dispose();
+            return sum;
         }
 
 
@@ -365,14 +425,17 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<int4x2>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                int4x2 sum = srcList[0];
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += srcList[i];
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            int4x2 sum = srcList[0];
+            for (var i = 1; i < srcList.Length; i++)
+                sum += srcList[i];
+            srcList.Dispose();
+            return sum;
         }
 
         public static int4x2 Sum<T, TSource, TSelector>(
@@ -383,14 +446,17 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, int4x2>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                int4x2 sum = selector.Invoke(srcList[0]);
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += selector.Invoke(srcList[i]);
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            int4x2 sum = selector.Invoke(srcList[0]);
+            for (var i = 1; i < srcList.Length; i++)
+                sum += selector.Invoke(srcList[i]);
+            srcList.Dispose();
+            return sum;
         }
 
 
@@ -399,14 +465,17 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<int4x3>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                int4x3 sum = srcList[0];
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += srcList[i];
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            int4x3 sum = srcList[0];
+            for (var i = 1; i < srcList.Length; i++)
+                sum += srcList[i];
+            srcList.Dispose();
+            return sum;
         }
 
         public static int4x3 Sum<T, TSource, TSelector>(
@@ -417,14 +486,17 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, int4x3>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                int4x3 sum = selector.Invoke(srcList[0]);
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += selector.Invoke(srcList[i]);
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            int4x3 sum = selector.Invoke(srcList[0]);
+            for (var i = 1; i < srcList.Length; i++)
+                sum += selector.Invoke(srcList[i]);
+            srcList.Dispose();
+            return sum;
         }
 
 
@@ -433,14 +505,17 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<int4x4>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                int4x4 sum = srcList[0];
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += srcList[i];
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            int4x4 sum = srcList[0];
+            for (var i = 1; i < srcList.Length; i++)
+                sum += srcList[i];
+            srcList.Dispose();
+            return sum;
         }
 
         public static int4x4 Sum<T, TSource, TSelector>(
@@ -451,14 +526,17 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, int4x4>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                int4x4 sum = selector.Invoke(srcList[0]);
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += selector.Invoke(srcList[i]);
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            int4x4 sum = selector.Invoke(srcList[0]);
+            for (var i = 1; i < srcList.Length; i++)
+                sum += selector.Invoke(srcList[i]);
+            srcList.Dispose();
+            return sum;
         }
 
 
@@ -467,14 +545,17 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<uint>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                uint sum = srcList[0];
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += srcList[i];
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            uint sum = srcList[0];
+            for (var i = 1; i < srcList.Length; i++)
+                sum += srcList[i];
+            srcList.Dispose();
+            return sum;
         }
 
         public static uint Sum<T, TSource, TSelector>(
@@ -485,14 +566,17 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, uint>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                uint sum = selector.Invoke(srcList[0]);
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += selector.Invoke(srcList[i]);
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            uint sum = selector.Invoke(srcList[0]);
+            for (var i = 1; i < srcList.Length; i++)
+                sum += selector.Invoke(srcList[i]);
+            srcList.Dispose();
+            return sum;
         }
 
 
@@ -501,14 +585,17 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<uint2>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                uint2 sum = srcList[0];
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += srcList[i];
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            uint2 sum = srcList[0];
+            for (var i = 1; i < srcList.Length; i++)
+                sum += srcList[i];
+            srcList.Dispose();
+            return sum;
         }
 
         public static uint2 Sum<T, TSource, TSelector>(
@@ -519,14 +606,17 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, uint2>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                uint2 sum = selector.Invoke(srcList[0]);
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += selector.Invoke(srcList[i]);
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            uint2 sum = selector.Invoke(srcList[0]);
+            for (var i = 1; i < srcList.Length; i++)
+                sum += selector.Invoke(srcList[i]);
+            srcList.Dispose();
+            return sum;
         }
 
 
@@ -535,14 +625,17 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<uint2x2>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                uint2x2 sum = srcList[0];
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += srcList[i];
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            uint2x2 sum = srcList[0];
+            for (var i = 1; i < srcList.Length; i++)
+                sum += srcList[i];
+            srcList.Dispose();
+            return sum;
         }
 
         public static uint2x2 Sum<T, TSource, TSelector>(
@@ -553,14 +646,17 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, uint2x2>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                uint2x2 sum = selector.Invoke(srcList[0]);
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += selector.Invoke(srcList[i]);
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            uint2x2 sum = selector.Invoke(srcList[0]);
+            for (var i = 1; i < srcList.Length; i++)
+                sum += selector.Invoke(srcList[i]);
+            srcList.Dispose();
+            return sum;
         }
 
 
@@ -569,14 +665,17 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<uint2x3>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                uint2x3 sum = srcList[0];
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += srcList[i];
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            uint2x3 sum = srcList[0];
+            for (var i = 1; i < srcList.Length; i++)
+                sum += srcList[i];
+            srcList.Dispose();
+            return sum;
         }
 
         public static uint2x3 Sum<T, TSource, TSelector>(
@@ -587,14 +686,17 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, uint2x3>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                uint2x3 sum = selector.Invoke(srcList[0]);
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += selector.Invoke(srcList[i]);
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            uint2x3 sum = selector.Invoke(srcList[0]);
+            for (var i = 1; i < srcList.Length; i++)
+                sum += selector.Invoke(srcList[i]);
+            srcList.Dispose();
+            return sum;
         }
 
 
@@ -603,14 +705,17 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<uint2x4>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                uint2x4 sum = srcList[0];
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += srcList[i];
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            uint2x4 sum = srcList[0];
+            for (var i = 1; i < srcList.Length; i++)
+                sum += srcList[i];
+            srcList.Dispose();
+            return sum;
         }
 
         public static uint2x4 Sum<T, TSource, TSelector>(
@@ -621,14 +726,17 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, uint2x4>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                uint2x4 sum = selector.Invoke(srcList[0]);
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += selector.Invoke(srcList[i]);
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            uint2x4 sum = selector.Invoke(srcList[0]);
+            for (var i = 1; i < srcList.Length; i++)
+                sum += selector.Invoke(srcList[i]);
+            srcList.Dispose();
+            return sum;
         }
 
 
@@ -637,14 +745,17 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<uint3>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                uint3 sum = srcList[0];
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += srcList[i];
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            uint3 sum = srcList[0];
+            for (var i = 1; i < srcList.Length; i++)
+                sum += srcList[i];
+            srcList.Dispose();
+            return sum;
         }
 
         public static uint3 Sum<T, TSource, TSelector>(
@@ -655,14 +766,17 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, uint3>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                uint3 sum = selector.Invoke(srcList[0]);
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += selector.Invoke(srcList[i]);
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            uint3 sum = selector.Invoke(srcList[0]);
+            for (var i = 1; i < srcList.Length; i++)
+                sum += selector.Invoke(srcList[i]);
+            srcList.Dispose();
+            return sum;
         }
 
 
@@ -671,14 +785,17 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<uint3x2>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                uint3x2 sum = srcList[0];
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += srcList[i];
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            uint3x2 sum = srcList[0];
+            for (var i = 1; i < srcList.Length; i++)
+                sum += srcList[i];
+            srcList.Dispose();
+            return sum;
         }
 
         public static uint3x2 Sum<T, TSource, TSelector>(
@@ -689,14 +806,17 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, uint3x2>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                uint3x2 sum = selector.Invoke(srcList[0]);
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += selector.Invoke(srcList[i]);
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            uint3x2 sum = selector.Invoke(srcList[0]);
+            for (var i = 1; i < srcList.Length; i++)
+                sum += selector.Invoke(srcList[i]);
+            srcList.Dispose();
+            return sum;
         }
 
 
@@ -705,14 +825,17 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<uint3x3>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                uint3x3 sum = srcList[0];
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += srcList[i];
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            uint3x3 sum = srcList[0];
+            for (var i = 1; i < srcList.Length; i++)
+                sum += srcList[i];
+            srcList.Dispose();
+            return sum;
         }
 
         public static uint3x3 Sum<T, TSource, TSelector>(
@@ -723,14 +846,17 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, uint3x3>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                uint3x3 sum = selector.Invoke(srcList[0]);
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += selector.Invoke(srcList[i]);
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            uint3x3 sum = selector.Invoke(srcList[0]);
+            for (var i = 1; i < srcList.Length; i++)
+                sum += selector.Invoke(srcList[i]);
+            srcList.Dispose();
+            return sum;
         }
 
 
@@ -739,14 +865,17 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<uint3x4>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                uint3x4 sum = srcList[0];
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += srcList[i];
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            uint3x4 sum = srcList[0];
+            for (var i = 1; i < srcList.Length; i++)
+                sum += srcList[i];
+            srcList.Dispose();
+            return sum;
         }
 
         public static uint3x4 Sum<T, TSource, TSelector>(
@@ -757,14 +886,17 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, uint3x4>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                uint3x4 sum = selector.Invoke(srcList[0]);
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += selector.Invoke(srcList[i]);
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            uint3x4 sum = selector.Invoke(srcList[0]);
+            for (var i = 1; i < srcList.Length; i++)
+                sum += selector.Invoke(srcList[i]);
+            srcList.Dispose();
+            return sum;
         }
 
 
@@ -773,14 +905,17 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<uint4>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                uint4 sum = srcList[0];
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += srcList[i];
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            uint4 sum = srcList[0];
+            for (var i = 1; i < srcList.Length; i++)
+                sum += srcList[i];
+            srcList.Dispose();
+            return sum;
         }
 
         public static uint4 Sum<T, TSource, TSelector>(
@@ -791,14 +926,17 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, uint4>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                uint4 sum = selector.Invoke(srcList[0]);
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += selector.Invoke(srcList[i]);
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            uint4 sum = selector.Invoke(srcList[0]);
+            for (var i = 1; i < srcList.Length; i++)
+                sum += selector.Invoke(srcList[i]);
+            srcList.Dispose();
+            return sum;
         }
 
 
@@ -807,14 +945,17 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<uint4x2>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                uint4x2 sum = srcList[0];
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += srcList[i];
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            uint4x2 sum = srcList[0];
+            for (var i = 1; i < srcList.Length; i++)
+                sum += srcList[i];
+            srcList.Dispose();
+            return sum;
         }
 
         public static uint4x2 Sum<T, TSource, TSelector>(
@@ -825,14 +966,17 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, uint4x2>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                uint4x2 sum = selector.Invoke(srcList[0]);
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += selector.Invoke(srcList[i]);
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            uint4x2 sum = selector.Invoke(srcList[0]);
+            for (var i = 1; i < srcList.Length; i++)
+                sum += selector.Invoke(srcList[i]);
+            srcList.Dispose();
+            return sum;
         }
 
 
@@ -841,14 +985,17 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<uint4x3>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                uint4x3 sum = srcList[0];
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += srcList[i];
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            uint4x3 sum = srcList[0];
+            for (var i = 1; i < srcList.Length; i++)
+                sum += srcList[i];
+            srcList.Dispose();
+            return sum;
         }
 
         public static uint4x3 Sum<T, TSource, TSelector>(
@@ -859,14 +1006,17 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, uint4x3>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                uint4x3 sum = selector.Invoke(srcList[0]);
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += selector.Invoke(srcList[i]);
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            uint4x3 sum = selector.Invoke(srcList[0]);
+            for (var i = 1; i < srcList.Length; i++)
+                sum += selector.Invoke(srcList[i]);
+            srcList.Dispose();
+            return sum;
         }
 
 
@@ -875,14 +1025,17 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<uint4x4>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                uint4x4 sum = srcList[0];
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += srcList[i];
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            uint4x4 sum = srcList[0];
+            for (var i = 1; i < srcList.Length; i++)
+                sum += srcList[i];
+            srcList.Dispose();
+            return sum;
         }
 
         public static uint4x4 Sum<T, TSource, TSelector>(
@@ -893,14 +1046,17 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, uint4x4>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                uint4x4 sum = selector.Invoke(srcList[0]);
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += selector.Invoke(srcList[i]);
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            uint4x4 sum = selector.Invoke(srcList[0]);
+            for (var i = 1; i < srcList.Length; i++)
+                sum += selector.Invoke(srcList[i]);
+            srcList.Dispose();
+            return sum;
         }
 
 
@@ -909,14 +1065,17 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<float>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                float sum = srcList[0];
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += srcList[i];
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            float sum = srcList[0];
+            for (var i = 1; i < srcList.Length; i++)
+                sum += srcList[i];
+            srcList.Dispose();
+            return sum;
         }
 
         public static float Sum<T, TSource, TSelector>(
@@ -927,14 +1086,17 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, float>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                float sum = selector.Invoke(srcList[0]);
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += selector.Invoke(srcList[i]);
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            float sum = selector.Invoke(srcList[0]);
+            for (var i = 1; i < srcList.Length; i++)
+                sum += selector.Invoke(srcList[i]);
+            srcList.Dispose();
+            return sum;
         }
 
 
@@ -943,14 +1105,17 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<float2>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                float2 sum = srcList[0];
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += srcList[i];
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            float2 sum = srcList[0];
+            for (var i = 1; i < srcList.Length; i++)
+                sum += srcList[i];
+            srcList.Dispose();
+            return sum;
         }
 
         public static float2 Sum<T, TSource, TSelector>(
@@ -961,14 +1126,17 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, float2>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                float2 sum = selector.Invoke(srcList[0]);
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += selector.Invoke(srcList[i]);
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            float2 sum = selector.Invoke(srcList[0]);
+            for (var i = 1; i < srcList.Length; i++)
+                sum += selector.Invoke(srcList[i]);
+            srcList.Dispose();
+            return sum;
         }
 
 
@@ -977,14 +1145,17 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<float2x2>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                float2x2 sum = srcList[0];
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += srcList[i];
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            float2x2 sum = srcList[0];
+            for (var i = 1; i < srcList.Length; i++)
+                sum += srcList[i];
+            srcList.Dispose();
+            return sum;
         }
 
         public static float2x2 Sum<T, TSource, TSelector>(
@@ -995,14 +1166,17 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, float2x2>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                float2x2 sum = selector.Invoke(srcList[0]);
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += selector.Invoke(srcList[i]);
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            float2x2 sum = selector.Invoke(srcList[0]);
+            for (var i = 1; i < srcList.Length; i++)
+                sum += selector.Invoke(srcList[i]);
+            srcList.Dispose();
+            return sum;
         }
 
 
@@ -1011,14 +1185,17 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<float2x3>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                float2x3 sum = srcList[0];
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += srcList[i];
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            float2x3 sum = srcList[0];
+            for (var i = 1; i < srcList.Length; i++)
+                sum += srcList[i];
+            srcList.Dispose();
+            return sum;
         }
 
         public static float2x3 Sum<T, TSource, TSelector>(
@@ -1029,14 +1206,17 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, float2x3>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                float2x3 sum = selector.Invoke(srcList[0]);
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += selector.Invoke(srcList[i]);
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            float2x3 sum = selector.Invoke(srcList[0]);
+            for (var i = 1; i < srcList.Length; i++)
+                sum += selector.Invoke(srcList[i]);
+            srcList.Dispose();
+            return sum;
         }
 
 
@@ -1045,14 +1225,17 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<float2x4>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                float2x4 sum = srcList[0];
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += srcList[i];
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            float2x4 sum = srcList[0];
+            for (var i = 1; i < srcList.Length; i++)
+                sum += srcList[i];
+            srcList.Dispose();
+            return sum;
         }
 
         public static float2x4 Sum<T, TSource, TSelector>(
@@ -1063,14 +1246,17 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, float2x4>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                float2x4 sum = selector.Invoke(srcList[0]);
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += selector.Invoke(srcList[i]);
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            float2x4 sum = selector.Invoke(srcList[0]);
+            for (var i = 1; i < srcList.Length; i++)
+                sum += selector.Invoke(srcList[i]);
+            srcList.Dispose();
+            return sum;
         }
 
 
@@ -1079,14 +1265,17 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<float3>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                float3 sum = srcList[0];
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += srcList[i];
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            float3 sum = srcList[0];
+            for (var i = 1; i < srcList.Length; i++)
+                sum += srcList[i];
+            srcList.Dispose();
+            return sum;
         }
 
         public static float3 Sum<T, TSource, TSelector>(
@@ -1097,14 +1286,17 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, float3>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                float3 sum = selector.Invoke(srcList[0]);
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += selector.Invoke(srcList[i]);
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            float3 sum = selector.Invoke(srcList[0]);
+            for (var i = 1; i < srcList.Length; i++)
+                sum += selector.Invoke(srcList[i]);
+            srcList.Dispose();
+            return sum;
         }
 
 
@@ -1113,14 +1305,17 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<float3x2>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                float3x2 sum = srcList[0];
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += srcList[i];
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            float3x2 sum = srcList[0];
+            for (var i = 1; i < srcList.Length; i++)
+                sum += srcList[i];
+            srcList.Dispose();
+            return sum;
         }
 
         public static float3x2 Sum<T, TSource, TSelector>(
@@ -1131,14 +1326,17 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, float3x2>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                float3x2 sum = selector.Invoke(srcList[0]);
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += selector.Invoke(srcList[i]);
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            float3x2 sum = selector.Invoke(srcList[0]);
+            for (var i = 1; i < srcList.Length; i++)
+                sum += selector.Invoke(srcList[i]);
+            srcList.Dispose();
+            return sum;
         }
 
 
@@ -1147,14 +1345,17 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<float3x3>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                float3x3 sum = srcList[0];
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += srcList[i];
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            float3x3 sum = srcList[0];
+            for (var i = 1; i < srcList.Length; i++)
+                sum += srcList[i];
+            srcList.Dispose();
+            return sum;
         }
 
         public static float3x3 Sum<T, TSource, TSelector>(
@@ -1165,14 +1366,17 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, float3x3>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                float3x3 sum = selector.Invoke(srcList[0]);
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += selector.Invoke(srcList[i]);
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            float3x3 sum = selector.Invoke(srcList[0]);
+            for (var i = 1; i < srcList.Length; i++)
+                sum += selector.Invoke(srcList[i]);
+            srcList.Dispose();
+            return sum;
         }
 
 
@@ -1181,14 +1385,17 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<float3x4>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                float3x4 sum = srcList[0];
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += srcList[i];
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            float3x4 sum = srcList[0];
+            for (var i = 1; i < srcList.Length; i++)
+                sum += srcList[i];
+            srcList.Dispose();
+            return sum;
         }
 
         public static float3x4 Sum<T, TSource, TSelector>(
@@ -1199,14 +1406,17 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, float3x4>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                float3x4 sum = selector.Invoke(srcList[0]);
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += selector.Invoke(srcList[i]);
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            float3x4 sum = selector.Invoke(srcList[0]);
+            for (var i = 1; i < srcList.Length; i++)
+                sum += selector.Invoke(srcList[i]);
+            srcList.Dispose();
+            return sum;
         }
 
 
@@ -1215,14 +1425,17 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<float4>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                float4 sum = srcList[0];
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += srcList[i];
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            float4 sum = srcList[0];
+            for (var i = 1; i < srcList.Length; i++)
+                sum += srcList[i];
+            srcList.Dispose();
+            return sum;
         }
 
         public static float4 Sum<T, TSource, TSelector>(
@@ -1233,14 +1446,17 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, float4>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                float4 sum = selector.Invoke(srcList[0]);
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += selector.Invoke(srcList[i]);
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            float4 sum = selector.Invoke(srcList[0]);
+            for (var i = 1; i < srcList.Length; i++)
+                sum += selector.Invoke(srcList[i]);
+            srcList.Dispose();
+            return sum;
         }
 
 
@@ -1249,14 +1465,17 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<float4x2>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                float4x2 sum = srcList[0];
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += srcList[i];
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            float4x2 sum = srcList[0];
+            for (var i = 1; i < srcList.Length; i++)
+                sum += srcList[i];
+            srcList.Dispose();
+            return sum;
         }
 
         public static float4x2 Sum<T, TSource, TSelector>(
@@ -1267,14 +1486,17 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, float4x2>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                float4x2 sum = selector.Invoke(srcList[0]);
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += selector.Invoke(srcList[i]);
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            float4x2 sum = selector.Invoke(srcList[0]);
+            for (var i = 1; i < srcList.Length; i++)
+                sum += selector.Invoke(srcList[i]);
+            srcList.Dispose();
+            return sum;
         }
 
 
@@ -1283,14 +1505,17 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<float4x3>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                float4x3 sum = srcList[0];
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += srcList[i];
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            float4x3 sum = srcList[0];
+            for (var i = 1; i < srcList.Length; i++)
+                sum += srcList[i];
+            srcList.Dispose();
+            return sum;
         }
 
         public static float4x3 Sum<T, TSource, TSelector>(
@@ -1301,14 +1526,17 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, float4x3>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                float4x3 sum = selector.Invoke(srcList[0]);
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += selector.Invoke(srcList[i]);
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            float4x3 sum = selector.Invoke(srcList[0]);
+            for (var i = 1; i < srcList.Length; i++)
+                sum += selector.Invoke(srcList[i]);
+            srcList.Dispose();
+            return sum;
         }
 
 
@@ -1317,14 +1545,17 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<float4x4>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                float4x4 sum = srcList[0];
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += srcList[i];
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            float4x4 sum = srcList[0];
+            for (var i = 1; i < srcList.Length; i++)
+                sum += srcList[i];
+            srcList.Dispose();
+            return sum;
         }
 
         public static float4x4 Sum<T, TSource, TSelector>(
@@ -1335,14 +1566,17 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, float4x4>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                float4x4 sum = selector.Invoke(srcList[0]);
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += selector.Invoke(srcList[i]);
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            float4x4 sum = selector.Invoke(srcList[0]);
+            for (var i = 1; i < srcList.Length; i++)
+                sum += selector.Invoke(srcList[i]);
+            srcList.Dispose();
+            return sum;
         }
 
 
@@ -1351,14 +1585,17 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<double>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                double sum = srcList[0];
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += srcList[i];
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            double sum = srcList[0];
+            for (var i = 1; i < srcList.Length; i++)
+                sum += srcList[i];
+            srcList.Dispose();
+            return sum;
         }
 
         public static double Sum<T, TSource, TSelector>(
@@ -1369,14 +1606,17 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, double>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                double sum = selector.Invoke(srcList[0]);
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += selector.Invoke(srcList[i]);
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            double sum = selector.Invoke(srcList[0]);
+            for (var i = 1; i < srcList.Length; i++)
+                sum += selector.Invoke(srcList[i]);
+            srcList.Dispose();
+            return sum;
         }
 
 
@@ -1385,14 +1625,17 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<double2>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                double2 sum = srcList[0];
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += srcList[i];
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            double2 sum = srcList[0];
+            for (var i = 1; i < srcList.Length; i++)
+                sum += srcList[i];
+            srcList.Dispose();
+            return sum;
         }
 
         public static double2 Sum<T, TSource, TSelector>(
@@ -1403,14 +1646,17 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, double2>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                double2 sum = selector.Invoke(srcList[0]);
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += selector.Invoke(srcList[i]);
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            double2 sum = selector.Invoke(srcList[0]);
+            for (var i = 1; i < srcList.Length; i++)
+                sum += selector.Invoke(srcList[i]);
+            srcList.Dispose();
+            return sum;
         }
 
 
@@ -1419,14 +1665,17 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<double2x2>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                double2x2 sum = srcList[0];
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += srcList[i];
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            double2x2 sum = srcList[0];
+            for (var i = 1; i < srcList.Length; i++)
+                sum += srcList[i];
+            srcList.Dispose();
+            return sum;
         }
 
         public static double2x2 Sum<T, TSource, TSelector>(
@@ -1437,14 +1686,17 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, double2x2>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                double2x2 sum = selector.Invoke(srcList[0]);
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += selector.Invoke(srcList[i]);
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            double2x2 sum = selector.Invoke(srcList[0]);
+            for (var i = 1; i < srcList.Length; i++)
+                sum += selector.Invoke(srcList[i]);
+            srcList.Dispose();
+            return sum;
         }
 
 
@@ -1453,14 +1705,17 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<double2x3>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                double2x3 sum = srcList[0];
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += srcList[i];
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            double2x3 sum = srcList[0];
+            for (var i = 1; i < srcList.Length; i++)
+                sum += srcList[i];
+            srcList.Dispose();
+            return sum;
         }
 
         public static double2x3 Sum<T, TSource, TSelector>(
@@ -1471,14 +1726,17 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, double2x3>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                double2x3 sum = selector.Invoke(srcList[0]);
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += selector.Invoke(srcList[i]);
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            double2x3 sum = selector.Invoke(srcList[0]);
+            for (var i = 1; i < srcList.Length; i++)
+                sum += selector.Invoke(srcList[i]);
+            srcList.Dispose();
+            return sum;
         }
 
 
@@ -1487,14 +1745,17 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<double2x4>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                double2x4 sum = srcList[0];
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += srcList[i];
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            double2x4 sum = srcList[0];
+            for (var i = 1; i < srcList.Length; i++)
+                sum += srcList[i];
+            srcList.Dispose();
+            return sum;
         }
 
         public static double2x4 Sum<T, TSource, TSelector>(
@@ -1505,14 +1766,17 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, double2x4>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                double2x4 sum = selector.Invoke(srcList[0]);
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += selector.Invoke(srcList[i]);
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            double2x4 sum = selector.Invoke(srcList[0]);
+            for (var i = 1; i < srcList.Length; i++)
+                sum += selector.Invoke(srcList[i]);
+            srcList.Dispose();
+            return sum;
         }
 
 
@@ -1521,14 +1785,17 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<double3>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                double3 sum = srcList[0];
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += srcList[i];
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            double3 sum = srcList[0];
+            for (var i = 1; i < srcList.Length; i++)
+                sum += srcList[i];
+            srcList.Dispose();
+            return sum;
         }
 
         public static double3 Sum<T, TSource, TSelector>(
@@ -1539,14 +1806,17 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, double3>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                double3 sum = selector.Invoke(srcList[0]);
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += selector.Invoke(srcList[i]);
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            double3 sum = selector.Invoke(srcList[0]);
+            for (var i = 1; i < srcList.Length; i++)
+                sum += selector.Invoke(srcList[i]);
+            srcList.Dispose();
+            return sum;
         }
 
 
@@ -1555,14 +1825,17 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<double3x2>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                double3x2 sum = srcList[0];
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += srcList[i];
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            double3x2 sum = srcList[0];
+            for (var i = 1; i < srcList.Length; i++)
+                sum += srcList[i];
+            srcList.Dispose();
+            return sum;
         }
 
         public static double3x2 Sum<T, TSource, TSelector>(
@@ -1573,14 +1846,17 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, double3x2>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                double3x2 sum = selector.Invoke(srcList[0]);
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += selector.Invoke(srcList[i]);
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            double3x2 sum = selector.Invoke(srcList[0]);
+            for (var i = 1; i < srcList.Length; i++)
+                sum += selector.Invoke(srcList[i]);
+            srcList.Dispose();
+            return sum;
         }
 
 
@@ -1589,14 +1865,17 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<double3x3>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                double3x3 sum = srcList[0];
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += srcList[i];
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            double3x3 sum = srcList[0];
+            for (var i = 1; i < srcList.Length; i++)
+                sum += srcList[i];
+            srcList.Dispose();
+            return sum;
         }
 
         public static double3x3 Sum<T, TSource, TSelector>(
@@ -1607,14 +1886,17 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, double3x3>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                double3x3 sum = selector.Invoke(srcList[0]);
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += selector.Invoke(srcList[i]);
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            double3x3 sum = selector.Invoke(srcList[0]);
+            for (var i = 1; i < srcList.Length; i++)
+                sum += selector.Invoke(srcList[i]);
+            srcList.Dispose();
+            return sum;
         }
 
 
@@ -1623,14 +1905,17 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<double3x4>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                double3x4 sum = srcList[0];
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += srcList[i];
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            double3x4 sum = srcList[0];
+            for (var i = 1; i < srcList.Length; i++)
+                sum += srcList[i];
+            srcList.Dispose();
+            return sum;
         }
 
         public static double3x4 Sum<T, TSource, TSelector>(
@@ -1641,14 +1926,17 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, double3x4>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                double3x4 sum = selector.Invoke(srcList[0]);
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += selector.Invoke(srcList[i]);
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            double3x4 sum = selector.Invoke(srcList[0]);
+            for (var i = 1; i < srcList.Length; i++)
+                sum += selector.Invoke(srcList[i]);
+            srcList.Dispose();
+            return sum;
         }
 
 
@@ -1657,14 +1945,17 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<double4>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                double4 sum = srcList[0];
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += srcList[i];
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            double4 sum = srcList[0];
+            for (var i = 1; i < srcList.Length; i++)
+                sum += srcList[i];
+            srcList.Dispose();
+            return sum;
         }
 
         public static double4 Sum<T, TSource, TSelector>(
@@ -1675,14 +1966,17 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, double4>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                double4 sum = selector.Invoke(srcList[0]);
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += selector.Invoke(srcList[i]);
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            double4 sum = selector.Invoke(srcList[0]);
+            for (var i = 1; i < srcList.Length; i++)
+                sum += selector.Invoke(srcList[i]);
+            srcList.Dispose();
+            return sum;
         }
 
 
@@ -1691,14 +1985,17 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<double4x2>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                double4x2 sum = srcList[0];
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += srcList[i];
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            double4x2 sum = srcList[0];
+            for (var i = 1; i < srcList.Length; i++)
+                sum += srcList[i];
+            srcList.Dispose();
+            return sum;
         }
 
         public static double4x2 Sum<T, TSource, TSelector>(
@@ -1709,14 +2006,17 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, double4x2>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                double4x2 sum = selector.Invoke(srcList[0]);
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += selector.Invoke(srcList[i]);
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            double4x2 sum = selector.Invoke(srcList[0]);
+            for (var i = 1; i < srcList.Length; i++)
+                sum += selector.Invoke(srcList[i]);
+            srcList.Dispose();
+            return sum;
         }
 
 
@@ -1725,14 +2025,17 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<double4x3>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                double4x3 sum = srcList[0];
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += srcList[i];
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            double4x3 sum = srcList[0];
+            for (var i = 1; i < srcList.Length; i++)
+                sum += srcList[i];
+            srcList.Dispose();
+            return sum;
         }
 
         public static double4x3 Sum<T, TSource, TSelector>(
@@ -1743,14 +2046,17 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, double4x3>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                double4x3 sum = selector.Invoke(srcList[0]);
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += selector.Invoke(srcList[i]);
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            double4x3 sum = selector.Invoke(srcList[0]);
+            for (var i = 1; i < srcList.Length; i++)
+                sum += selector.Invoke(srcList[i]);
+            srcList.Dispose();
+            return sum;
         }
 
 
@@ -1759,14 +2065,17 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<double4x4>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                double4x4 sum = srcList[0];
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += srcList[i];
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            double4x4 sum = srcList[0];
+            for (var i = 1; i < srcList.Length; i++)
+                sum += srcList[i];
+            srcList.Dispose();
+            return sum;
         }
 
         public static double4x4 Sum<T, TSource, TSelector>(
@@ -1777,14 +2086,17 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, double4x4>
         {
-            using (var srcList = source.Execute())
+            var srcList = source.Execute();
+            if (srcList.Length == 0)
             {
-                if (srcList.Length == 0) throw Error.NoElements();
-                double4x4 sum = selector.Invoke(srcList[0]);
-                for (var i = 1; i < srcList.Length; i++)
-                    sum += selector.Invoke(srcList[i]);
-                return sum;
+                srcList.Dispose();
+                throw Error.NoElements();
             }
+            double4x4 sum = selector.Invoke(srcList[0]);
+            for (var i = 1; i < srcList.Length; i++)
+                sum += selector.Invoke(srcList[i]);
+            srcList.Dispose();
+            return sum;
         }
 
 

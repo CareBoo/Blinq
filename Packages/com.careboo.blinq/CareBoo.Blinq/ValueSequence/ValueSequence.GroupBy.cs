@@ -85,22 +85,23 @@ namespace CareBoo.Blinq
 
         public NativeList<TResult> ToList()
         {
-            using (var srcList = source.ToList())
-            using (var groupMap = new NativeMultiHashMap<TKey, TElement>(srcList.Length, Allocator.Temp))
-            {
-                return Execute(srcList, groupMap);
-            }
+            var srcList = source.ToList();
+            var groupMap = new NativeMultiHashMap<TKey, TElement>(srcList.Length, Allocator.Temp);
+            var result = Execute(srcList, groupMap);
+            srcList.Dispose();
+            groupMap.Dispose();
+            return result;
         }
 
         public NativeList<TResult> Execute(NativeList<T> srcList, NativeMultiHashMap<TKey, TElement> groupMap)
         {
             var results = new NativeList<TResult>(Allocator.Temp);
-            AddElementsToGroupMap(srcList, groupMap);
-            EnumerateGroupsAndAddToResults(groupMap, results);
+            AddElementsToGroupMap(in srcList, ref groupMap);
+            EnumerateGroupsAndAddToResults(in groupMap, ref results);
             return results;
         }
 
-        private void AddElementsToGroupMap(NativeList<T> srcList, NativeMultiHashMap<TKey, TElement> groupMap)
+        private void AddElementsToGroupMap(in NativeList<T> srcList, ref NativeMultiHashMap<TKey, TElement> groupMap)
         {
             for (var i = 0; i < srcList.Length; i++)
             {
@@ -111,19 +112,21 @@ namespace CareBoo.Blinq
             }
         }
 
-        private void EnumerateGroupsAndAddToResults(NativeMultiHashMap<TKey, TElement> groupMap, NativeList<TResult> results)
+        private void EnumerateGroupsAndAddToResults(in NativeMultiHashMap<TKey, TElement> groupMap, ref NativeList<TResult> results)
         {
-            using (var keysArr = groupMap.GetKeyArray(Allocator.Temp))
-            using (var keySet = new NativeHashSet<TKey>(keysArr.Length, Allocator.Temp))
-                for (var i = 0; i < keysArr.Length; i++)
+            var keysArr = groupMap.GetKeyArray(Allocator.Temp);
+            var keySet = new NativeHashSet<TKey>(keysArr.Length, Allocator.Temp);
+            for (var i = 0; i < keysArr.Length; i++)
+            {
+                var key = keysArr[i];
+                if (keySet.Add(key))
                 {
-                    var key = keysArr[i];
-                    if (keySet.Add(key))
-                    {
-                        var result = resultSelector.Invoke(key, groupMap);
-                        results.Add(result);
-                    }
+                    var result = resultSelector.Invoke(key, groupMap);
+                    results.Add(result);
                 }
+            }
+            keysArr.Dispose();
+            keySet.Dispose();
         }
 
         public bool MoveNext()

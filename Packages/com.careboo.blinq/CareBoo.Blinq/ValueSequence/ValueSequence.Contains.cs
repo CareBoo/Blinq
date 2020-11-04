@@ -15,7 +15,11 @@ namespace CareBoo.Blinq
             var sourceList = source.Execute();
             for (var i = 0; i < sourceList.Length; i++)
                 if (sourceList[i].Equals(item))
+                {
+                    sourceList.Dispose();
                     return true;
+                }
+            sourceList.Dispose();
             return false;
         }
 
@@ -31,7 +35,11 @@ namespace CareBoo.Blinq
             var sourceList = source.Execute();
             for (var i = 0; i < sourceList.Length; i++)
                 if (comparer.Equals(sourceList[i], item))
+                {
+                    sourceList.Dispose();
                     return true;
+                }
+            sourceList.Dispose();
             return false;
         }
     }

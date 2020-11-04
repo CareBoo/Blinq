@@ -72,15 +72,15 @@ namespace CareBoo.Blinq
 
         public NativeList<TResult> ToList()
         {
-            using (var sourceList = source.ToList())
-            using (var secondList = second.ToList())
-            {
-                var length = math.min(sourceList.Length, secondList.Length);
-                var result = new NativeList<TResult>(length, Allocator.Temp);
-                for (var i = 0; i < length; i++)
-                    result.AddNoResize(resultSelector.Invoke(sourceList[i], secondList[i]));
-                return result;
-            }
+            var sourceList = source.ToList();
+            var secondList = second.ToList();
+            var length = math.min(sourceList.Length, secondList.Length);
+            var result = new NativeList<TResult>(length, Allocator.Temp);
+            for (var i = 0; i < length; i++)
+                result.AddNoResize(resultSelector.Invoke(sourceList[i], secondList[i]));
+            sourceList.Dispose();
+            secondList.Dispose();
+            return result;
         }
     }
 

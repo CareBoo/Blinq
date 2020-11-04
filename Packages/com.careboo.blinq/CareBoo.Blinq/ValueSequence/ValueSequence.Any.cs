@@ -15,7 +15,11 @@ namespace CareBoo.Blinq
             var sourceList = source.Execute();
             for (var i = 0; i < sourceList.Length; i++)
                 if (predicate.Invoke(sourceList[i]))
+                {
+                    sourceList.Dispose();
                     return true;
+                }
+            sourceList.Dispose();
             return false;
         }
 
@@ -26,7 +30,9 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
         {
             var sourceList = source.Execute();
-            return sourceList.Length > 0;
+            var result = sourceList.Length > 0;
+            sourceList.Dispose();
+            return result;
         }
     }
 }

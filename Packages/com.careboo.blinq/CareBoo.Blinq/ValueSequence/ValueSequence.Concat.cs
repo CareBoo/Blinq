@@ -80,11 +80,11 @@ namespace CareBoo.Blinq
 
         public NativeList<T> ToList()
         {
-            var first = source.ToList();
-            var second = this.second.ToList();
-            first.AddRange(second);
-            second.Dispose();
-            return first;
+            var sourceList = source.ToList();
+            var secondList = second.ToList();
+            sourceList.AddRange(secondList);
+            secondList.Dispose();
+            return sourceList;
         }
     }
 }

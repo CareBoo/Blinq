@@ -15,7 +15,11 @@ namespace CareBoo.Blinq
             var sourceList = source.Execute();
             for (var i = 0; i < sourceList.Length; i++)
                 if (!predicate.Invoke(sourceList[i]))
+                {
+                    sourceList.Dispose();
                     return false;
+                }
+            sourceList.Dispose();
             return true;
         }
 

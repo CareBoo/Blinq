@@ -63,12 +63,11 @@ namespace CareBoo.Blinq
         {
             if (!set.IsCreated)
             {
-                using (var secondList = second.ToList())
-                {
-                    set = new NativeHashSet<T>(secondList.Length, Allocator.Persistent);
-                    for (var i = 0; i < secondList.Length; i++)
-                        set.Add(secondList[i]);
-                }
+                var secondList = second.ToList();
+                set = new NativeHashSet<T>(secondList.Length, Allocator.Persistent);
+                for (var i = 0; i < secondList.Length; i++)
+                    set.Add(secondList[i]);
+                secondList.Dispose();
             }
             while (source.MoveNext())
                 if (set.Add(source.Current))
@@ -84,19 +83,19 @@ namespace CareBoo.Blinq
         public NativeList<T> ToList()
         {
             var sourceList = source.ToList();
-            using (var secondList = second.ToList())
-            using (var secondSet = new NativeHashSet<T>(secondList.Length, Allocator.Temp))
-            {
-                for (var i = 0; i < secondList.Length; i++)
-                    secondSet.Add(secondList[i]);
-                for (var i = 0; i < sourceList.Length; i++)
-                    if (!secondSet.Add(sourceList[i]))
-                    {
-                        sourceList.RemoveAt(i);
-                        i--;
-                    }
-                return sourceList;
-            }
+            var secondList = second.ToList();
+            var secondSet = new NativeHashSet<T>(secondList.Length, Allocator.Temp);
+            for (var i = 0; i < secondList.Length; i++)
+                secondSet.Add(secondList[i]);
+            for (var i = 0; i < sourceList.Length; i++)
+                if (!secondSet.Add(sourceList[i]))
+                {
+                    sourceList.RemoveAt(i);
+                    i--;
+                }
+            secondList.Dispose();
+            secondSet.Dispose();
+            return sourceList;
         }
     }
 }

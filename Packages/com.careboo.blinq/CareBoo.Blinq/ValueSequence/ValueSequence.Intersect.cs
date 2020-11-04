@@ -87,19 +87,21 @@ namespace CareBoo.Blinq
 
         public NativeList<T> ToList()
         {
-            using (var sourceList = source.ToList())
-            using (var secondList = second.ToList())
-            using (var sourceSet = new NativeHashSet<T>(sourceList.Length, Allocator.Temp))
-            using (var secondSet = new NativeHashSet<T>(secondList.Length, Allocator.Temp))
-            {
-                var result = new NativeList<T>(secondList.Length, Allocator.Temp);
-                for (var i = 0; i < sourceList.Length; i++)
-                    sourceSet.Add(sourceList[i]);
-                for (var i = 0; i < secondList.Length; i++)
-                    if (sourceSet.Contains(secondList[i]) && secondSet.Add(secondList[i]))
-                        result.AddNoResize(secondList[i]);
-                return result;
-            }
+            var sourceList = source.ToList();
+            var secondList = second.ToList();
+            var sourceSet = new NativeHashSet<T>(sourceList.Length, Allocator.Temp);
+            var secondSet = new NativeHashSet<T>(secondList.Length, Allocator.Temp);
+            var result = new NativeList<T>(secondList.Length, Allocator.Temp);
+            for (var i = 0; i < sourceList.Length; i++)
+                sourceSet.Add(sourceList[i]);
+            for (var i = 0; i < secondList.Length; i++)
+                if (sourceSet.Contains(secondList[i]) && secondSet.Add(secondList[i]))
+                    result.AddNoResize(secondList[i]);
+            sourceList.Dispose();
+            secondList.Dispose();
+            sourceSet.Dispose();
+            secondSet.Dispose();
+            return result;
         }
     }
 }
