@@ -24,7 +24,7 @@ internal struct AnyJob<TPredicate> : IJob
     }
 }
 
-internal class AnyTest : BaseBlinqPerformanceTest
+internal class AnyPerformanceTest : BaseBlinqPerformanceTest
 {
     [Test, Performance]
     [Category("Performance")]
