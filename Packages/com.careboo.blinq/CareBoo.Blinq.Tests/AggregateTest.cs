@@ -7,7 +7,7 @@ using static ValueFuncs;
 
 internal class AggregateTest
 {
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqNativeArrayAggregateWithAccumulateAndResult([ArrayValues] int[] sourceArr)
     {
         var source = new NativeArray<int>(sourceArr, Allocator.Persistent);
@@ -17,12 +17,12 @@ internal class AggregateTest
             LongSum.Invoke,
             LongToDouble.Invoke
         ));
-        var actual = ExceptionAndValue(() => Blinq.Aggregate(ref source, 0, LongSum, LongToDouble));
+        var actual = ExceptionAndValue(() => Blinq.Aggregate(source, 0, LongSum, LongToDouble));
         AssertAreEqual(expected, actual);
         source.Dispose();
     }
 
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqNativeArrayAggregateWithAccumulate([ArrayValues] int[] sourceArr)
     {
         var source = new NativeArray<int>(sourceArr, Allocator.Persistent);
@@ -31,12 +31,12 @@ internal class AggregateTest
             0,
             LongSum.Invoke
         ));
-        var actual = ExceptionAndValue(() => Blinq.Aggregate(ref source, 0, LongSum));
+        var actual = ExceptionAndValue(() => Blinq.Aggregate(source, 0, LongSum));
         AssertAreEqual(expected, actual);
         source.Dispose();
     }
 
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqNativeArrayAggregate([ArrayValues] int[] sourceArr)
     {
         var source = new NativeArray<int>(sourceArr, Allocator.Persistent);
@@ -44,7 +44,7 @@ internal class AggregateTest
             source,
             Sum.Invoke
         ));
-        var actual = ExceptionAndValue(() => Blinq.Aggregate(ref source, Sum));
+        var actual = ExceptionAndValue(() => Blinq.Aggregate(source, Sum));
         AssertAreEqual(expected, actual);
         source.Dispose();
     }

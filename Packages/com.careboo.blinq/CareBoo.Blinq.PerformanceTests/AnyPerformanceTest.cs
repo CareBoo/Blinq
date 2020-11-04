@@ -20,11 +20,11 @@ internal struct AnyJob<TPredicate> : IJob
 
     public void Execute()
     {
-        Blinq.Any(ref Source, Predicate);
+        Blinq.Any(Source, Predicate);
     }
 }
 
-internal class AnyTest : BaseBlinqPerformanceTest
+internal class AnyPerformanceTest : BaseBlinqPerformanceTest
 {
     [Test, Performance]
     [Category("Performance")]
@@ -32,7 +32,7 @@ internal class AnyTest : BaseBlinqPerformanceTest
     {
         bool result;
 
-        MeasureBlinq(() => result = Blinq.Any(ref source)).Run();
+        MeasureBlinq(() => result = Blinq.Any(source)).Run();
     }
 
     [Test, Performance]

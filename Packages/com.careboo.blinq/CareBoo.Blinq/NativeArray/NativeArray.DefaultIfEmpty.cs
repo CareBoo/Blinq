@@ -5,12 +5,13 @@ namespace CareBoo.Blinq
     public static partial class Sequence
     {
         public static ValueSequence<T, DefaultIfEmptySequence<T, NativeArraySequence<T>>> DefaultIfEmpty<T>(
-            this ref NativeArray<T> source,
-            T defaultVal = default
+            this in NativeArray<T> source,
+            in T defaultVal = default
             )
             where T : struct
         {
-            return source.ToValueSequence().DefaultIfEmpty(defaultVal);
+            var sourceSeq = source.ToValueSequence();
+            return sourceSeq.DefaultIfEmpty(defaultVal);
         }
     }
 }

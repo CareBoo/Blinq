@@ -7,10 +7,10 @@ namespace CareBoo.Blinq
     public static partial class Sequence
     {
         public static NativeHashMap<TKey, TElement> ToNativeHashMap<T, TKey, TElement, TKeySelector, TElementSelector>(
-            this ref NativeArray<T> source,
-            ValueFunc<T, TKey>.Struct<TKeySelector> keySelector,
-            ValueFunc<T, TElement>.Struct<TElementSelector> elementSelector,
-            Allocator allocator
+            this in NativeArray<T> source,
+            in ValueFunc<T, TKey>.Struct<TKeySelector> keySelector,
+            in ValueFunc<T, TElement>.Struct<TElementSelector> elementSelector,
+            in Allocator allocator
             )
             where T : struct
             where TKey : struct, IEquatable<TKey>
@@ -30,9 +30,9 @@ namespace CareBoo.Blinq
         }
 
         public static NativeHashMap<TKey, T> ToNativeHashMap<T, TKey, TKeySelector>(
-            this ref NativeArray<T> source,
-            ValueFunc<T, TKey>.Struct<TKeySelector> keySelector,
-            Allocator allocator
+            this in NativeArray<T> source,
+            in ValueFunc<T, TKey>.Struct<TKeySelector> keySelector,
+            in Allocator allocator
             )
             where T : struct
             where TKey : struct, IEquatable<TKey>

@@ -39,25 +39,25 @@ foreach (string TYPE_FULL in TYPES)
         }
     }
 
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqNativeArraySum_<#=TYPE_FULL#>(
         [ValueSource(typeof(Values_<#=TYPE_FULL#>), nameof(Values_<#=TYPE_FULL#>.Values))] <#=TYPE_FULL#>[] sourceArr
         )
     {
         var srcNativeArray = new NativeArray<<#=TYPE_FULL#>>(sourceArr, Allocator.Persistent);
         var expected = ExceptionAndValue(() => Linq.Sum(srcNativeArray));
-        var actual = ExceptionAndValue(() => Blinq.Sum(ref srcNativeArray));
+        var actual = ExceptionAndValue(() => Blinq.Sum(srcNativeArray));
         srcNativeArray.Dispose();
     }
 
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqNativeArraySumSelector_<#=TYPE_FULL#>(
         [ValueSource(typeof(Values_<#=TYPE_FULL#>), nameof(Values_<#=TYPE_FULL#>.Values))] <#=TYPE_FULL#>[] sourceArr
         )
     {
         var srcNativeArray = new NativeArray<<#=TYPE_FULL#>>(sourceArr, Allocator.Persistent);
         var expected = ExceptionAndValue(() => Linq.Sum(srcNativeArray, SelectSelf<<#=TYPE_FULL#>>().Invoke));
-        var actual = ExceptionAndValue(() => Blinq.Sum(ref srcNativeArray, SelectSelf<<#=TYPE_FULL#>>()));
+        var actual = ExceptionAndValue(() => Blinq.Sum(srcNativeArray, SelectSelf<<#=TYPE_FULL#>>()));
         srcNativeArray.Dispose();
     }
 

@@ -7,8 +7,8 @@ namespace CareBoo.Blinq
     public static partial class Sequence
     {
         public static TResult Max<T, TResult, TSelector>(
-            this ref NativeArray<T> source,
-            ValueFunc<T, TResult>.Struct<TSelector> selector
+            this in NativeArray<T> source,
+            in ValueFunc<T, TResult>.Struct<TSelector> selector
             )
             where T : struct
             where TResult : struct, IComparable<TResult>
@@ -25,7 +25,7 @@ namespace CareBoo.Blinq
             return max;
         }
 
-        public static T Max<T>(ref NativeArray<T> source)
+        public static T Max<T>(in NativeArray<T> source)
             where T : struct, IComparable<T>
         {
             if (source.Length == 0) throw Error.NoElements();
@@ -40,8 +40,8 @@ namespace CareBoo.Blinq
         }
 
         public static TResult Min<T, TResult, TSelector>(
-            ref NativeArray<T> source,
-            ValueFunc<T, TResult>.Struct<TSelector> selector
+            in NativeArray<T> source,
+            in ValueFunc<T, TResult>.Struct<TSelector> selector
             )
             where T : struct
             where TResult : struct, IComparable<TResult>
@@ -58,7 +58,7 @@ namespace CareBoo.Blinq
             return min;
         }
 
-        public static T Min<T>(ref NativeArray<T> source)
+        public static T Min<T>(in NativeArray<T> source)
             where T : struct, IComparable<T>
         {
             if (source.Length == 0) throw Error.NoElements();

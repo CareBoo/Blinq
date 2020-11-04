@@ -7,7 +7,7 @@ using static ValueFuncs;
 
 internal class LastTest
 {
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqNativeArrayLast([ArrayValues] int[] sourceArr)
     {
         var source = new NativeArray<int>(sourceArr, Allocator.Persistent);
@@ -17,7 +17,7 @@ internal class LastTest
         source.Dispose();
     }
 
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqNativeArrayLastPredicate([ArrayValues] int[] sourceArr)
     {
         var source = new NativeArray<int>(sourceArr, Allocator.Persistent);
@@ -27,7 +27,7 @@ internal class LastTest
         source.Dispose();
     }
 
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqNativeSequenceLast([ArrayValues] int[] sourceArr)
     {
         var sourceNativeArr = new NativeArray<int>(sourceArr, Allocator.Persistent);
@@ -38,7 +38,7 @@ internal class LastTest
         sourceNativeArr.Dispose();
     }
 
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqNativeSequenceLastPredicate([ArrayValues] int[] sourceArr)
     {
         var sourceNativeArr = new NativeArray<int>(sourceArr, Allocator.Persistent);
@@ -49,7 +49,7 @@ internal class LastTest
         sourceNativeArr.Dispose();
     }
 
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqNativeArrayLastOrDefault([ArrayValues] int[] sourceArr)
     {
         var source = new NativeArray<int>(sourceArr, Allocator.Persistent);
@@ -59,7 +59,7 @@ internal class LastTest
         source.Dispose();
     }
 
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqNativeArrayLastOrDefaultPredicate([ArrayValues] int[] sourceArr)
     {
         var source = new NativeArray<int>(sourceArr, Allocator.Persistent);
@@ -69,7 +69,7 @@ internal class LastTest
         source.Dispose();
     }
 
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqNativeSequenceLastOrDefault([ArrayValues] int[] sourceArr)
     {
         var sourceNativeArr = new NativeArray<int>(sourceArr, Allocator.Persistent);
@@ -80,7 +80,7 @@ internal class LastTest
         sourceNativeArr.Dispose();
     }
 
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqNativeSequenceLastOrDefaultPredicate([ArrayValues] int[] sourceArr)
     {
         var sourceNativeArr = new NativeArray<int>(sourceArr, Allocator.Persistent);

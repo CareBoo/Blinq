@@ -7,22 +7,22 @@ using static Utils;
 
 internal class WhereTest
 {
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqNativeArrayWhereWithIndex([ArrayValues] int[] sourceArr)
     {
         var source = new NativeArray<int>(sourceArr, Allocator.Persistent);
         var expected = ExceptionAndValue(() => Linq.ToArray(Linq.Where(source, EqualToIndex.Invoke)));
-        var actual = ExceptionAndValue(() => Linq.ToArray(Blinq.Where(ref source, EqualToIndex)));
+        var actual = ExceptionAndValue(() => Linq.ToArray(Blinq.Where(source, EqualToIndex)));
         AssertAreEqual(expected, actual);
         source.Dispose();
     }
 
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqNativeArrayWhere([ArrayValues] int[] sourceArr)
     {
         var source = new NativeArray<int>(sourceArr, Allocator.Persistent);
         var expected = ExceptionAndValue(() => Linq.ToArray(Linq.Where(source, EqualsZero.Invoke)));
-        var actual = ExceptionAndValue(() => Linq.ToArray(Blinq.Where(ref source, EqualsZero)));
+        var actual = ExceptionAndValue(() => Linq.ToArray(Blinq.Where(source, EqualsZero)));
         AssertAreEqual(expected, actual);
         source.Dispose();
     }

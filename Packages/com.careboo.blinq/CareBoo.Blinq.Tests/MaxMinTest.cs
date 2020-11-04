@@ -27,43 +27,43 @@ internal partial class MaxMinTest
         }
     }
 
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqNativeArrayMaxComparable([ArrayValues] int[] sourceArr)
     {
         var arr = Linq.ToArray(Linq.Select(sourceArr, (i) => (Comparable)i));
         var srcNativeArray = new NativeArray<Comparable>(arr, Allocator.Persistent);
         var expected = ExceptionAndValue(() => Linq.Max(srcNativeArray));
-        var actual = ExceptionAndValue(() => Blinq.Max(ref srcNativeArray));
+        var actual = ExceptionAndValue(() => Blinq.Max(srcNativeArray));
         srcNativeArray.Dispose();
     }
 
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqNativeArrayMaxComparableSelector([ArrayValues] int[] sourceArr)
     {
         var arr = Linq.ToArray(Linq.Select(sourceArr, (i) => (Comparable)i));
         var srcNativeArray = new NativeArray<Comparable>(arr, Allocator.Persistent);
         var expected = ExceptionAndValue(() => Linq.Max(srcNativeArray, SelectSelf<Comparable>().Invoke));
-        var actual = ExceptionAndValue(() => Blinq.Max(ref srcNativeArray, SelectSelf<Comparable>()));
+        var actual = ExceptionAndValue(() => Blinq.Max(srcNativeArray, SelectSelf<Comparable>()));
         srcNativeArray.Dispose();
     }
 
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqNativeArrayMinComparable([ArrayValues] int[] sourceArr)
     {
         var arr = Linq.ToArray(Linq.Select(sourceArr, (i) => (Comparable)i));
         var srcNativeArray = new NativeArray<Comparable>(arr, Allocator.Persistent);
         var expected = ExceptionAndValue(() => Linq.Min(srcNativeArray));
-        var actual = ExceptionAndValue(() => Blinq.Min(ref srcNativeArray));
+        var actual = ExceptionAndValue(() => Blinq.Min(srcNativeArray));
         srcNativeArray.Dispose();
     }
 
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqNativeArrayMinComparableSelector([ArrayValues] int[] sourceArr)
     {
         var arr = Linq.ToArray(Linq.Select(sourceArr, (i) => (Comparable)i));
         var srcNativeArray = new NativeArray<Comparable>(arr, Allocator.Persistent);
         var expected = ExceptionAndValue(() => Linq.Min(srcNativeArray, SelectSelf<Comparable>().Invoke));
-        var actual = ExceptionAndValue(() => Blinq.Min(ref srcNativeArray, SelectSelf<Comparable>()));
+        var actual = ExceptionAndValue(() => Blinq.Min(srcNativeArray, SelectSelf<Comparable>()));
         srcNativeArray.Dispose();
     }
 }

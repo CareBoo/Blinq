@@ -9,7 +9,7 @@ using CareBoo.Blinq;
 internal class ThenByTest
 {
 
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqValueSequenceThenBy([OrderValues] Order[] sourceArr)
     {
         var sourceNativeArr = new NativeArray<Order>(sourceArr, Allocator.Persistent);
@@ -20,7 +20,7 @@ internal class ThenByTest
         sourceNativeArr.Dispose();
     }
 
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqValueSequenceThenByDescending([OrderValues] Order[] sourceArr)
     {
         var sourceNativeArr = new NativeArray<Order>(sourceArr, Allocator.Persistent);

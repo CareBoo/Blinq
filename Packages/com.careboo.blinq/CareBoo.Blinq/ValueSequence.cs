@@ -7,26 +7,25 @@ namespace CareBoo.Blinq
 {
     public struct ValueSequence<T, TSource>
         : IEnumerable<T>
-        , ISequence<T>
         where T : struct
         where TSource : struct, ISequence<T>
     {
-        public readonly TSource Source;
+        TSource source;
 
-        public ValueSequence(TSource source)
+        public ValueSequence(ref TSource source)
         {
-            Source = source;
+            this.source = source;
         }
 
         public NativeList<T> Execute()
         {
-            return Source.Execute();
+            return source.ToList();
         }
 
         public NativeList<T> RunExecute()
         {
             var output = new NativeList<T>(Allocator.Persistent);
-            var job = new SequenceExecuteJob<T, TSource> { Source = Source, Output = output };
+            var job = new SequenceExecuteJob<T, TSource> { Source = source, Output = output };
             job.Run();
             return output;
         }
@@ -34,13 +33,13 @@ namespace CareBoo.Blinq
         public SequenceExecuteJobHandle<T> ScheduleExecute()
         {
             var output = new NativeList<T>(Allocator.Persistent);
-            var job = new SequenceExecuteJob<T, TSource> { Source = Source, Output = output };
+            var job = new SequenceExecuteJob<T, TSource> { Source = source, Output = output };
             return new SequenceExecuteJobHandle<T>(job.Schedule(), output);
         }
 
-        public NativeArray<T>.Enumerator GetEnumerator()
+        public TSource GetEnumerator()
         {
-            return Execute().GetEnumerator();
+            return source;
         }
 
         IEnumerator<T> IEnumerable<T>.GetEnumerator()
@@ -57,10 +56,10 @@ namespace CareBoo.Blinq
     public static class ValueSequence<T>
         where T : struct
     {
-        public static ValueSequence<T, TSource> New<TSource>(TSource source)
+        public static ValueSequence<T, TSource> New<TSource>(ref TSource source)
             where TSource : struct, ISequence<T>
         {
-            return new ValueSequence<T, TSource>(source);
+            return new ValueSequence<T, TSource>(ref source);
         }
     }
 }

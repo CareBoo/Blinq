@@ -7,77 +7,91 @@ namespace CareBoo.Blinq
     public static partial class Sequence
     {
         public static bool SequenceEqual<T, TSource, TSecond>(
-            this ValueSequence<T, TSource> source,
-            ValueSequence<T, TSecond> second
+            this in ValueSequence<T, TSource> source,
+            in ValueSequence<T, TSecond> second
             )
             where T : struct, IEquatable<T>
             where TSource : struct, ISequence<T>
             where TSecond : struct, ISequence<T>
         {
-            using (var sourceList = source.Execute())
-            using (var secondList = second.Execute())
-            {
-                return sourceList.AsArray().ArraysEqual(secondList);
-            }
+            var sourceList = source.Execute();
+            var secondList = second.Execute();
+            var result = sourceList.AsArray().ArraysEqual(secondList);
+            sourceList.Dispose();
+            secondList.Dispose();
+            return result;
         }
 
         public static bool SequenceEqual<T, TSource, TSecond, TComparer>(
-            this ValueSequence<T, TSource> source,
-            ValueSequence<T, TSecond> second,
-            TComparer comparer
+            this in ValueSequence<T, TSource> source,
+            in ValueSequence<T, TSecond> second,
+            in TComparer comparer
             )
             where T : struct, IEquatable<T>
             where TSource : struct, ISequence<T>
             where TSecond : struct, ISequence<T>
             where TComparer : struct, IEqualityComparer<T>
         {
-            using (var sourceList = source.Execute())
-            using (var secondList = second.Execute())
+            var sourceList = source.Execute();
+            var secondList = second.Execute();
+
+            if (sourceList.Length != secondList.Length)
             {
-                if (sourceList.Length != secondList.Length)
-                    return false;
-                for (var i = 0; i < sourceList.Length; i++)
-                {
-                    if (!comparer.Equals(sourceList[i], secondList[i]))
-                        return false;
-                }
-                return true;
+                sourceList.Dispose();
+                secondList.Dispose();
+                return false;
             }
+            for (var i = 0; i < sourceList.Length; i++)
+            {
+                if (!comparer.Equals(sourceList[i], secondList[i]))
+                {
+                    sourceList.Dispose();
+                    secondList.Dispose();
+                    return false;
+                }
+            }
+            sourceList.Dispose();
+            secondList.Dispose();
+            return true;
         }
 
         public static bool SequenceEqual<T, TSource>(
-            this ValueSequence<T, TSource> source,
-            NativeArray<T> second
+            this in ValueSequence<T, TSource> source,
+            in NativeArray<T> second
             )
             where T : struct, IEquatable<T>
             where TSource : struct, ISequence<T>
         {
-            using (var sourceList = source.Execute())
-            {
-                return sourceList.AsArray().ArraysEqual(second);
-            }
+            var sourceList = source.Execute();
+            var result = sourceList.AsArray().ArraysEqual(second);
+            sourceList.Dispose();
+            return result;
         }
 
         public static bool SequenceEqual<T, TSource, TComparer>(
-            this ValueSequence<T, TSource> source,
-            NativeArray<T> second,
-            TComparer comparer
+            this in ValueSequence<T, TSource> source,
+            in NativeArray<T> second,
+            in TComparer comparer
             )
             where T : struct, IEquatable<T>
             where TSource : struct, ISequence<T>
             where TComparer : struct, IEqualityComparer<T>
         {
-            using (var sourceList = source.Execute())
+            var sourceList = source.Execute();
+
+            if (sourceList.Length != second.Length)
             {
-                if (sourceList.Length != second.Length)
-                    return false;
-                for (var i = 0; i < sourceList.Length; i++)
-                {
-                    if (!comparer.Equals(sourceList[i], second[i]))
-                        return false;
-                }
-                return true;
+                sourceList.Dispose();
+                return false;
             }
+            for (var i = 0; i < sourceList.Length; i++)
+                if (!comparer.Equals(sourceList[i], second[i]))
+                {
+                    sourceList.Dispose();
+                    return false;
+                }
+            sourceList.Dispose();
+            return true;
         }
 
     }

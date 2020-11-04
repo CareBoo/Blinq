@@ -1,32 +1,37 @@
-﻿using Unity.Collections;
+﻿using System;
+using System.Collections;
+using Unity.Collections;
 
 namespace CareBoo.Blinq
 {
     public static partial class Sequence
     {
         public static ValueSequence<T, ConcatSequence<T, TSource, TSecond>> Concat<T, TSource, TSecond>(
-            this ValueSequence<T, TSource> source,
-            TSecond second
+            this in ValueSequence<T, TSource> source,
+            ValueSequence<T, TSecond> second
             )
             where T : struct
             where TSource : struct, ISequence<T>
             where TSecond : struct, ISequence<T>
         {
-            var newSequence = new ConcatSequence<T, TSource, TSecond> { Source = source.Source, Second = second };
-            return ValueSequence<T>.New(newSequence);
+            var sourceSeq = source.GetEnumerator();
+            var secondSeq = second.GetEnumerator();
+            var newSequence = new ConcatSequence<T, TSource, TSecond>(ref sourceSeq, ref secondSeq);
+            return ValueSequence<T>.New(ref newSequence);
         }
 
         public static ValueSequence<T, ConcatSequence<T, TSource, NativeArraySequence<T>>> Concat<T, TSource>(
-            this ValueSequence<T, TSource> source,
+            this in ValueSequence<T, TSource> source,
             NativeArray<T> second
             )
             where T : struct
             where TSource : struct, ISequence<T>
         {
-            var newSequence = new ConcatSequence<T, TSource, NativeArraySequence<T>> { Source = source.Source, Second = second.ToValueSequence().Source };
-            return ValueSequence<T>.New(newSequence);
+            var sourceSeq = source.GetEnumerator();
+            var secondSeq = second.ToValueSequence().GetEnumerator();
+            var newSequence = new ConcatSequence<T, TSource, NativeArraySequence<T>>(ref sourceSeq, ref secondSeq);
+            return ValueSequence<T>.New(ref newSequence);
         }
-
     }
 
     public struct ConcatSequence<T, TSource, TSecond> : ISequence<T>
@@ -34,16 +39,52 @@ namespace CareBoo.Blinq
         where TSource : struct, ISequence<T>
         where TSecond : struct, ISequence<T>
     {
-        public TSource Source;
-        public TSecond Second;
+        TSource source;
+        TSecond second;
 
-        public NativeList<T> Execute()
+        bool currentIndex;
+
+        public ConcatSequence(ref TSource source, ref TSecond second)
         {
-            var first = Source.Execute();
-            var second = Second.Execute();
-            first.AddRange(second);
+            this.source = source;
+            this.second = second;
+            currentIndex = false;
+        }
+
+        public T Current => currentIndex
+            ? second.Current
+            : source.Current;
+
+        object IEnumerator.Current => Current;
+
+        public void Dispose()
+        {
+            source.Dispose();
             second.Dispose();
-            return first;
+        }
+
+        public bool MoveNext()
+        {
+            if (!source.MoveNext())
+            {
+                currentIndex = true;
+                return second.MoveNext();
+            }
+            return true;
+        }
+
+        public void Reset()
+        {
+            throw new NotSupportedException();
+        }
+
+        public NativeList<T> ToList()
+        {
+            var sourceList = source.ToList();
+            var secondList = second.ToList();
+            sourceList.AddRange(secondList);
+            secondList.Dispose();
+            return sourceList;
         }
     }
 }

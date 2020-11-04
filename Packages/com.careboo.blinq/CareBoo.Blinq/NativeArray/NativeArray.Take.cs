@@ -5,12 +5,13 @@ namespace CareBoo.Blinq
     public static partial class Sequence
     {
         public static ValueSequence<T, TakeSequence<T, NativeArraySequence<T>>> Take<T>(
-            this ref NativeArray<T> source,
-            int count
+            this in NativeArray<T> source,
+            in int count
             )
             where T : struct
         {
-            return source.ToValueSequence().Take(count);
+            var sourceSeq = source.ToValueSequence();
+            return sourceSeq.Take(in count);
         }
     }
 }

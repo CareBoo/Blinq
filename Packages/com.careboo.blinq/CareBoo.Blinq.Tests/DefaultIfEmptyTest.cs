@@ -6,7 +6,7 @@ using CareBoo.Blinq;
 
 internal class DefaultIfEmptyTest
 {
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqValueSequenceDefaultIfEmpty([ArrayValues] int[] sourceArr)
     {
         var sourceNativeArr = new NativeArray<int>(sourceArr, Allocator.Persistent);
@@ -17,7 +17,7 @@ internal class DefaultIfEmptyTest
         sourceNativeArr.Dispose();
     }
 
-    [Test, Parallelizable]
+    [Test, Parallelizable, Timeout(5000)]
     public void BlinqShouldEqualLinqNativeArrayDefaultIfEmpty([ArrayValues] int[] sourceArr)
     {
         var source = new NativeArray<int>(sourceArr, Allocator.Persistent);

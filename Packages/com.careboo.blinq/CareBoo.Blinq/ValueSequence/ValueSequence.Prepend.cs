@@ -1,18 +1,21 @@
-﻿using Unity.Collections;
+﻿using System;
+using System.Collections;
+using Unity.Collections;
 
 namespace CareBoo.Blinq
 {
     public static partial class Sequence
     {
         public static ValueSequence<T, PrependSequence<T, TSource>> Prepend<T, TSource>(
-            this ValueSequence<T, TSource> source,
-            T item
+            this in ValueSequence<T, TSource> source,
+            in T item
             )
             where T : struct
             where TSource : struct, ISequence<T>
         {
-            var seq = new PrependSequence<T, TSource> { Source = source.Source, Item = item };
-            return ValueSequence<T>.New(seq);
+            var sourceSeq = source.GetEnumerator();
+            var seq = new PrependSequence<T, TSource>(ref sourceSeq, in item);
+            return ValueSequence<T>.New(ref seq);
         }
     }
 
@@ -20,18 +23,53 @@ namespace CareBoo.Blinq
         where T : struct
         where TSource : struct, ISequence<T>
     {
-        public TSource Source;
-        public T Item;
+        TSource source;
+        readonly T item;
+        int currentIndex;
 
-        public NativeList<T> Execute()
+        public PrependSequence(ref TSource source, in T item)
         {
-            using (var sourceList = Source.Execute())
+            this.source = source;
+            this.item = item;
+            currentIndex = 0;
+        }
+
+        public T Current => currentIndex > 1
+            ? source.Current
+            : item;
+
+        object IEnumerator.Current => Current;
+
+        public void Dispose()
+        {
+            source.Dispose();
+        }
+
+        public bool MoveNext()
+        {
+            if (currentIndex == 0)
             {
-                var list = new NativeList<T>(sourceList.Length + 1, Allocator.Temp);
-                list.AddNoResize(Item);
-                list.AddRangeNoResize(sourceList);
-                return list;
+                currentIndex = 1;
+                return true;
             }
+            else if (currentIndex == 1)
+                currentIndex = 2;
+            return source.MoveNext();
+        }
+
+        public void Reset()
+        {
+            throw new NotSupportedException();
+        }
+
+        public NativeList<T> ToList()
+        {
+            var sourceList = source.ToList();
+            var list = new NativeList<T>(sourceList.Length + 1, Allocator.Temp);
+            list.AddNoResize(item);
+            list.AddRangeNoResize(sourceList);
+            sourceList.Dispose();
+            return list;
         }
     }
 }

@@ -1,15 +1,17 @@
 ﻿using Unity.Collections;
 using Unity.Mathematics;
 using CareBoo.Burst.Delegates;
+using System.Collections;
+using System;
 
 namespace CareBoo.Blinq
 {
     public static partial class Sequence
     {
-        public static ValueSequence<TResult, ZipSequence<T, TSource, TSecondElement, TResult, TSecond, TResultSelector>> Zip<T, TSource, TSecondElement, TResult, TSecond, TResultSelector>(
-            this ValueSequence<T, TSource> source,
-            ValueSequence<TSecondElement, TSecond> second,
-            ValueFunc<T, TSecondElement, TResult>.Struct<TResultSelector> resultSelector
+        public static ValueSequence<TResult, ZipSequence<T, TSource, TSecondElement, TSecond, TResult, TResultSelector>> Zip<T, TSource, TSecondElement, TResult, TSecond, TResultSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueSequence<TSecondElement, TSecond> second,
+            in ValueFunc<T, TSecondElement, TResult>.Struct<TResultSelector> resultSelector
             )
             where T : struct
             where TSource : struct, ISequence<T>
@@ -18,36 +20,85 @@ namespace CareBoo.Blinq
             where TSecond : struct, ISequence<TSecondElement>
             where TResultSelector : struct, IFunc<T, TSecondElement, TResult>
         {
-            var seq = new ZipSequence<T, TSource, TSecondElement, TResult, TSecond, TResultSelector> { Source = source.Source, Second = second.Source, ResultSelector = resultSelector };
-            return ValueSequence<TResult>.New(seq);
+            var sourceSeq = source.GetEnumerator();
+            var secondSeq = second.GetEnumerator();
+            var seq = ZipSequence<T, TSecondElement>.New(ref sourceSeq, ref secondSeq, in resultSelector);
+            return ValueSequence<TResult>.New(ref seq);
         }
     }
 
-    public struct ZipSequence<T, TSource, TSecondElement, TResult, TSecond, TResultSelector> : ISequence<TResult>
+    public struct ZipSequence<T, TSource, TSecondElement, TSecond, TResult, TResultSelector> : ISequence<TResult>
         where T : struct
         where TSource : struct, ISequence<T>
         where TSecondElement : struct
-        where TResult : struct
         where TSecond : struct, ISequence<TSecondElement>
+        where TResult : struct
         where TResultSelector : struct, IFunc<T, TSecondElement, TResult>
     {
-        public TSource Source;
-        public TSecond Second;
-        public ValueFunc<T, TSecondElement, TResult>.Struct<TResultSelector> ResultSelector;
+        TSource source;
+        TSecond second;
+        readonly ValueFunc<T, TSecondElement, TResult>.Struct<TResultSelector> resultSelector;
 
-        public NativeList<TResult> Execute()
+        public ZipSequence(
+            ref TSource source,
+            ref TSecond second,
+            in ValueFunc<T, TSecondElement, TResult>.Struct<TResultSelector> resultSelector
+            )
         {
-            using (var source = Source.Execute())
-            using (var second = Second.Execute())
-            {
-                var length = math.min(source.Length, second.Length);
-                var result = new NativeList<TResult>(length, Allocator.Temp);
-                for (var i = 0; i < length; i++)
-                {
-                    result.AddNoResize(ResultSelector.Invoke(source[i], second[i]));
-                }
-                return result;
-            }
+            this.source = source;
+            this.second = second;
+            this.resultSelector = resultSelector;
+        }
+
+        public TResult Current => resultSelector.Invoke(source.Current, second.Current);
+
+        object IEnumerator.Current => Current;
+
+        public void Dispose()
+        {
+            source.Dispose();
+            second.Dispose();
+        }
+
+        public bool MoveNext()
+        {
+            return source.MoveNext() && second.MoveNext();
+        }
+
+        public void Reset()
+        {
+            throw new NotSupportedException();
+        }
+
+        public NativeList<TResult> ToList()
+        {
+            var sourceList = source.ToList();
+            var secondList = second.ToList();
+            var length = math.min(sourceList.Length, secondList.Length);
+            var result = new NativeList<TResult>(length, Allocator.Temp);
+            for (var i = 0; i < length; i++)
+                result.AddNoResize(resultSelector.Invoke(sourceList[i], secondList[i]));
+            sourceList.Dispose();
+            secondList.Dispose();
+            return result;
+        }
+    }
+
+    public static class ZipSequence<T, TSecondElement>
+        where T : struct
+        where TSecondElement : struct
+    {
+        public static ZipSequence<T, TSource, TSecondElement, TSecond, TResult, TResultSelector> New<TSource, TSecond, TResult, TResultSelector>(
+            ref TSource source,
+            ref TSecond second,
+            in ValueFunc<T, TSecondElement, TResult>.Struct<TResultSelector> resultSelector
+            )
+            where TSource : struct, ISequence<T>
+            where TResult : struct
+            where TSecond : struct, ISequence<TSecondElement>
+            where TResultSelector : struct, IFunc<T, TSecondElement, TResult>
+        {
+            return new ZipSequence<T, TSource, TSecondElement, TSecond, TResult, TResultSelector>(ref source, ref second, in resultSelector);
         }
     }
 }
