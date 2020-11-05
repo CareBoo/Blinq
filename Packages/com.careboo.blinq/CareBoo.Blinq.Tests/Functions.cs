@@ -28,6 +28,9 @@ internal static class ValueFuncs
     public readonly static ValueFunc<int, bool>.Struct<Functions.EqualsZero> EqualsZero =
         ValueFunc<int, bool>.New<Functions.EqualsZero>();
 
+    public readonly static ValueFunc<int, bool>.Struct<Functions.GreaterThanOrEqualToZero> GreaterThanOrEqualToZero =
+        ValueFunc<int, bool>.New<Functions.GreaterThanOrEqualToZero>();
+
     public readonly static ValueFunc<int, int, bool>.Struct<Functions.EqualToIndex> EqualToIndex =
         ValueFunc<int, int, bool>.New<Functions.EqualToIndex>();
 
@@ -116,6 +119,11 @@ internal static class Functions
         {
             return x == 0;
         }
+    }
+
+    public struct GreaterThanOrEqualToZero : IFunc<int, bool>
+    {
+        public bool Invoke(int x) => x >= 0;
     }
 
     public struct EqualToIndex : IFunc<int, int, bool>
