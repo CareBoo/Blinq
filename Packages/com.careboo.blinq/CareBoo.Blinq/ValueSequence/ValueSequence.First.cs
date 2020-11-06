@@ -12,17 +12,17 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TPredicate : struct, IFunc<T, bool>
         {
-            var list = source.Execute();
-            for (var i = 0; i < list.Length; i++)
+            var seq = source.GetEnumerator();
+            while (seq.MoveNext())
             {
-                var val = list[i];
-                if (predicate.Invoke(val))
+                var current = seq.Current;
+                if (predicate.Invoke(current))
                 {
-                    list.Dispose();
-                    return val;
+                    seq.Dispose();
+                    return current;
                 }
             }
-            list.Dispose();
+            seq.Dispose();
             throw Error.NoMatch();
         }
 
@@ -35,17 +35,17 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TPredicate : struct, IFunc<T, bool>
         {
-            var list = source.Execute();
-            for (var i = 0; i < list.Length; i++)
+            var seq = source.GetEnumerator();
+            while (seq.MoveNext())
             {
-                var val = list[i];
-                if (predicate.Invoke(val))
+                var current = seq.Current;
+                if (predicate.Invoke(current))
                 {
-                    list.Dispose();
-                    return val;
+                    seq.Dispose();
+                    return current;
                 }
             }
-            list.Dispose();
+            seq.Dispose();
             return defaultVal;
         }
 
