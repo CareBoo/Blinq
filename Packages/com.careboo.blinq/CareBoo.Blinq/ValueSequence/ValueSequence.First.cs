@@ -55,14 +55,14 @@ namespace CareBoo.Blinq
             where T : struct
             where TSource : struct, ISequence<T>
         {
-            var list = source.Execute();
-            if (list.Length == 0)
+            var seq = source.GetEnumerator();
+            if (!seq.MoveNext())
             {
-                list.Dispose();
+                seq.Dispose();
                 throw Error.NoElements();
             }
-            var result = list[0];
-            list.Dispose();
+            var result = seq.Current;
+            seq.Dispose();
             return result;
         }
 
@@ -73,11 +73,11 @@ namespace CareBoo.Blinq
             where T : struct
             where TSource : struct, ISequence<T>
         {
-            var list = source.Execute();
-            var result = list.Length > 0
-                ? list[0]
+            var seq = source.GetEnumerator();
+            var result = seq.MoveNext()
+                ? seq.Current
                 : defaultVal;
-            list.Dispose();
+            seq.Dispose();
             return result;
         }
     }
