@@ -25,7 +25,8 @@ internal class FirstPerformanceTest : BaseBlinqPerformanceTest
     [Test, Performance, Category("Performance")]
     public void FirstPerformance()
     {
-        MakeMeasurement(() => new FirstPerformanceJob { Source = source }.Run(), "Blinq").Run();
+        MakeMeasurement(() => Blinq.First(source), "Blinq_Dotnet").Run();
+        MakeMeasurement(() => new FirstPerformanceJob { Source = source }.Run(), "Blinq_BurstJob").Run();
         MakeMeasurement(() => Linq.First(source), "Linq").Run();
     }
 }
