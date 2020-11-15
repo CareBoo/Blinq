@@ -28,6 +28,9 @@ internal static class ValueFuncs
     public readonly static ValueFunc<int, bool>.Struct<Functions.EqualsZero> EqualsZero =
         ValueFunc<int, bool>.New<Functions.EqualsZero>();
 
+    public readonly static ValueFunc<int, bool>.Struct<Functions.GreaterThanOrEqualToZero> GreaterThanOrEqualToZero =
+        ValueFunc<int, bool>.New<Functions.GreaterThanOrEqualToZero>();
+
     public readonly static ValueFunc<int, int, bool>.Struct<Functions.EqualToIndex> EqualToIndex =
         ValueFunc<int, int, bool>.New<Functions.EqualToIndex>();
 
@@ -57,10 +60,20 @@ internal static class ValueFuncs
 
     public static readonly ValueFunc<int, int, NativeArray<int>>.Struct<Functions.RepeatAmountPlusIndex> RepeatAmountPlusIndex =
         ValueFunc<int, int, NativeArray<int>>.New<Functions.RepeatAmountPlusIndex>();
+
+
+
+    internal readonly static ValueFunc<int, NativeMultiHashMap<int, int>, int>.Struct<Functions.SelectGrouping> SelectGrouping =
+        ValueFunc<int, NativeMultiHashMap<int, int>, int>.New<Functions.SelectGrouping>();
 }
 
 internal static class Functions
 {
+    internal struct SelectGrouping : IFunc<int, NativeMultiHashMap<int, int>, int>
+    {
+        public int Invoke(int arg0, NativeMultiHashMap<int, int> arg1) => arg0 + arg1.CountValuesForKey(arg0);
+    }
+
     public struct SelectSelf<T> : IFunc<T, T>
         where T : struct
     {
@@ -116,6 +129,11 @@ internal static class Functions
         {
             return x == 0;
         }
+    }
+
+    public struct GreaterThanOrEqualToZero : IFunc<int, bool>
+    {
+        public bool Invoke(int x) => x >= 0;
     }
 
     public struct EqualToIndex : IFunc<int, int, bool>

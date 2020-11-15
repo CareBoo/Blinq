@@ -8,7 +8,8 @@
         "CareBoo.Blinq.Tests",
         "Unity.Collections",
         "Unity.Burst",
-        "CareBoo.Burst.Delegates"
+        "CareBoo.Burst.Delegates",
+        "Unity.Mathematics"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
