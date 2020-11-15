@@ -10,63 +10,39 @@ using CareBoo.Burst.Delegates;
 using System.Collections.Generic;
 
 [BurstCompile]
-internal struct GroupByPerformanceJob<TOuterKeySelector, TInnerKeySelector, TResultSelector> : IJob
-    where TOuterKeySelector : struct, IFunc<JoinA, int>
-    where TInnerKeySelector : struct, IFunc<JoinB, int>
-    where TResultSelector : struct, IFunc<JoinA, NativeArray<JoinB>, int>
+internal struct GroupByPerformanceJob<TKeySelector, TResultSelector> : IJob
+    where TKeySelector : struct, IFunc<int, int>
+    where TResultSelector : struct, IFunc<int, NativeMultiHashMap<int, int>, int>
 {
     [ReadOnly]
-    public NativeArray<JoinA> Outer;
-    [ReadOnly]
-    public NativeArray<JoinB> Inner;
+    public NativeArray<int> Source;
 
-    public ValueFunc<JoinA, int>.Struct<TOuterKeySelector> OuterKeySelector;
-    public ValueFunc<JoinB, int>.Struct<TInnerKeySelector> InnerKeySelector;
-    public ValueFunc<JoinA, NativeArray<JoinB>, int>.Struct<TResultSelector> ResultSelector;
+    public ValueFunc<int, int>.Struct<TKeySelector> KeySelector;
+
+    public ValueFunc<int, NativeMultiHashMap<int, int>, int>.Struct<TResultSelector> ResultSelector;
 
     public void Execute()
     {
-        Blinq.GroupJoin(Outer, Inner, OuterKeySelector, InnerKeySelector, ResultSelector).Execute();
+        Blinq.GroupBy(Source, KeySelector, ResultSelector).Execute();
     }
 }
 
 internal class GroupByPerformanceTest : BaseBlinqPerformanceTest
 {
-    NativeArray<JoinA> outer;
-    NativeArray<JoinB> inner;
-
-    public override void SetUpSource()
+    int GroupByLinqSelector(int key, IEnumerable<int> values)
     {
-        outer = new NativeArray<JoinA>(1000, Allocator.Persistent);
-        for (var i = 0; i < outer.Length; i++)
-            outer[i] = new JoinA { Id = i, Val = (char)(i % 26 + (int)'a') };
-        inner = new NativeArray<JoinB>(10000, Allocator.Persistent);
-        for (var i = 0; i < inner.Length; i++)
-            inner[i] = new JoinB { Id = i % 1000, Val = (char)(i % 26 + (int)'A') };
-    }
-
-    public override void TearDownSource()
-    {
-        if (outer.IsCreated)
-            outer.Dispose();
-        if (inner.IsCreated)
-            inner.Dispose();
-    }
-
-    int GroupJoinLinqSelector(JoinA o, IEnumerable<JoinB> b)
-    {
-        return Linq.Count(b);
+        return key + Linq.Count(values);
     }
 
     [Test, Performance, Category("Performance")]
     public void BlinqArray()
     {
-        MakeMeasurement(() => new GroupByPerformanceJob<Functions.JoinAKeySelector, Functions.JoinBKeySelector, Functions.GroupJoinABSelector> { Outer = outer, Inner = inner }.Run(), "Blinq").Run();
+        MakeMeasurement(() => new GroupByPerformanceJob<Functions.SelectSelf<int>, Functions.SelectGrouping> { Source = source }.Run(), "Blinq").Run();
     }
 
     [Test, Performance, Category("Performance")]
     public void LinqArray()
     {
-        MakeMeasurement(() => Linq.ToList(Linq.GroupJoin<JoinA, JoinB, int, int>(outer, inner, JoinAKeySelector.Invoke, JoinBKeySelector.Invoke, GroupJoinLinqSelector)), "Linq").Run();
+        MakeMeasurement(() => Linq.ToList(Linq.GroupBy(source, SelectSelf<int>().Invoke, GroupByLinqSelector)), "Linq").Run();
     }
 }

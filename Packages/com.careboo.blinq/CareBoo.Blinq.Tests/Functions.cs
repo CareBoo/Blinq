@@ -60,10 +60,20 @@ internal static class ValueFuncs
 
     public static readonly ValueFunc<int, int, NativeArray<int>>.Struct<Functions.RepeatAmountPlusIndex> RepeatAmountPlusIndex =
         ValueFunc<int, int, NativeArray<int>>.New<Functions.RepeatAmountPlusIndex>();
+
+
+
+    internal readonly static ValueFunc<int, NativeMultiHashMap<int, int>, int>.Struct<Functions.SelectGrouping> SelectGrouping =
+        ValueFunc<int, NativeMultiHashMap<int, int>, int>.New<Functions.SelectGrouping>();
 }
 
 internal static class Functions
 {
+    internal struct SelectGrouping : IFunc<int, NativeMultiHashMap<int, int>, int>
+    {
+        public int Invoke(int arg0, NativeMultiHashMap<int, int> arg1) => arg0 + arg1.CountValuesForKey(arg0);
+    }
+
     public struct SelectSelf<T> : IFunc<T, T>
         where T : struct
     {
