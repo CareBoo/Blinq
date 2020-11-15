@@ -1,3 +1,15 @@
+# [2.0.0-preview.2](https://github.com/CareBoo/Blinq/compare/v2.0.0-preview.1...v2.0.0-preview.2) (2020-11-15)
+
+
+### Features
+
+* :sparkles: Add allocator API ([48abe4b](https://github.com/CareBoo/Blinq/commit/48abe4bf14fe43219b0c16bbe1fdbccc558ece5f))
+
+
+### BREAKING CHANGES
+
+* `Execute` API is removed in ValueSequence
+
 # [2.0.0-preview.1](https://github.com/CareBoo/Blinq/compare/v1.0.0...v2.0.0-preview.1) (2020-10-26)
 
 
