@@ -67,10 +67,11 @@ namespace CareBoo.Blinq
         {
             if (!intersection.IsCreated)
             {
-                var sourceList = source.ToList();
-                intersection = new NativeHashSet<T>(sourceList.Length, Allocator.Persistent);
+                var sourceList = source.ToNativeList(Allocator.Temp);
+                intersection = new NativeHashSet<T>(sourceList.Length, Allocator.Temp);
                 for (var i = 0; i < sourceList.Length; i++)
                     intersection.Add(sourceList[i]);
+                sourceList.Dispose();
             }
             if (!added.IsCreated)
                 added = new NativeHashSet<T>(0, Allocator.Persistent);
@@ -85,13 +86,13 @@ namespace CareBoo.Blinq
             throw new NotSupportedException();
         }
 
-        public NativeList<T> ToList()
+        public NativeList<T> ToNativeList(Allocator allocator)
         {
-            var sourceList = source.ToList();
-            var secondList = second.ToList();
+            var sourceList = source.ToNativeList(Allocator.Temp);
+            var secondList = second.ToNativeList(Allocator.Temp);
             var sourceSet = new NativeHashSet<T>(sourceList.Length, Allocator.Temp);
             var secondSet = new NativeHashSet<T>(secondList.Length, Allocator.Temp);
-            var result = new NativeList<T>(secondList.Length, Allocator.Temp);
+            var result = new NativeList<T>(secondList.Length, allocator);
             for (var i = 0; i < sourceList.Length; i++)
                 sourceSet.Add(sourceList[i]);
             for (var i = 0; i < secondList.Length; i++)

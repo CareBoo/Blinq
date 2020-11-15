@@ -19,7 +19,8 @@ internal struct ExceptPerformanceJob : IJob
 
     public void Execute()
     {
-        Blinq.Except(Source, Second).Execute();
+        var result = Blinq.Except(Source, Second).ToNativeList(Allocator.Temp);
+        result.Dispose();
     }
 }
 

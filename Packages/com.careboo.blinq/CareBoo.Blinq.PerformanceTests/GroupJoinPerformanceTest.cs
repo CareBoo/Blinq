@@ -27,7 +27,8 @@ internal struct GroupJoinPerformanceJob<TOuterKeySelector, TInnerKeySelector, TR
 
     public void Execute()
     {
-        Blinq.GroupJoin(Outer, Inner, OuterKeySelector, InnerKeySelector, ResultSelector).Execute();
+        var result = Blinq.GroupJoin(Outer, Inner, OuterKeySelector, InnerKeySelector, ResultSelector).ToNativeList(Allocator.Temp);
+        result.Dispose();
     }
 }
 

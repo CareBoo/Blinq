@@ -46,7 +46,7 @@ namespace CareBoo.Blinq
         public bool MoveNext()
         {
             if (!set.IsCreated)
-                set = new NativeHashSet<T>(1, Allocator.Persistent);
+                set = new NativeHashSet<T>(1, Allocator.Temp);
             while (source.MoveNext())
                 if (set.Add(source.Current))
                     return true;
@@ -58,9 +58,9 @@ namespace CareBoo.Blinq
             throw new NotSupportedException();
         }
 
-        public NativeList<T> ToList()
+        public NativeList<T> ToNativeList(Allocator allocator)
         {
-            var list = source.ToList();
+            var list = source.ToNativeList(allocator);
             var tempSet = new NativeHashSet<T>(list.Length, Allocator.Temp);
             for (var i = 0; i < list.Length; i++)
                 if (!tempSet.Add(list[i]))

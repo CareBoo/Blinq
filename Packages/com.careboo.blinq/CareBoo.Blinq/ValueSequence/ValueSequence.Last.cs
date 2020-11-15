@@ -1,4 +1,5 @@
 ﻿using CareBoo.Burst.Delegates;
+using Unity.Collections;
 
 namespace CareBoo.Blinq
 {
@@ -12,7 +13,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TPredicate : struct, IFunc<T, bool>
         {
-            var list = source.Execute();
+            var list = source.ToNativeList(Allocator.Temp);
             for (var i = list.Length - 1; i > -1; i--)
             {
                 var val = list[i];
@@ -35,7 +36,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TPredicate : struct, IFunc<T, bool>
         {
-            var list = source.Execute();
+            var list = source.ToNativeList(Allocator.Temp);
             for (var i = list.Length - 1; i > -1; i--)
             {
                 var val = list[i];
@@ -55,7 +56,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSource : struct, ISequence<T>
         {
-            var list = source.Execute();
+            var list = source.ToNativeList(Allocator.Temp);
             if (list.Length == 0)
             {
                 list.Dispose();
@@ -73,7 +74,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSource : struct, ISequence<T>
         {
-            var list = source.Execute();
+            var list = source.ToNativeList(Allocator.Temp);
             if (list.Length == 0)
             {
                 list.Dispose();

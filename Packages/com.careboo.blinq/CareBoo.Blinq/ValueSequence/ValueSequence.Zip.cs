@@ -70,12 +70,12 @@ namespace CareBoo.Blinq
             throw new NotSupportedException();
         }
 
-        public NativeList<TResult> ToList()
+        public NativeList<TResult> ToNativeList(Allocator allocator)
         {
-            var sourceList = source.ToList();
-            var secondList = second.ToList();
+            var sourceList = source.ToNativeList(Allocator.Temp);
+            var secondList = second.ToNativeList(Allocator.Temp);
             var length = math.min(sourceList.Length, secondList.Length);
-            var result = new NativeList<TResult>(length, Allocator.Temp);
+            var result = new NativeList<TResult>(length, allocator);
             for (var i = 0; i < length; i++)
                 result.AddNoResize(resultSelector.Invoke(sourceList[i], secondList[i]));
             sourceList.Dispose();

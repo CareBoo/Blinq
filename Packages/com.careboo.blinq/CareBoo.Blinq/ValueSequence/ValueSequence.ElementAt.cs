@@ -1,4 +1,6 @@
-﻿namespace CareBoo.Blinq
+﻿using Unity.Collections;
+
+namespace CareBoo.Blinq
 {
     public static partial class Sequence
     {
@@ -9,7 +11,7 @@
             where T : struct
             where TSource : struct, ISequence<T>
         {
-            var list = source.Execute();
+            var list = source.ToNativeList(Allocator.Temp);
             var result = list[index];
             list.Dispose();
             return result;
@@ -23,7 +25,7 @@
             where T : struct
             where TSource : struct, ISequence<T>
         {
-            var list = source.Execute();
+            var list = source.ToNativeList(Allocator.Temp);
             var result = index >= 0 && index < list.Length
                 ? list[index]
                 : defaultVal;

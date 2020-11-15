@@ -70,22 +70,22 @@ namespace CareBoo.Blinq
             return comparer.Compare(x, y);
         }
 
-        public NativeList<T> ToList()
+        public NativeList<T> ToNativeList(Allocator allocator)
         {
-            var list = ToUnorderedList();
+            var list = ToUnorderedList(allocator);
             list.Sort(this);
             return list;
         }
 
-        public NativeList<T> ToUnorderedList()
+        public NativeList<T> ToUnorderedList(Allocator allocator)
         {
-            return source.ToList();
+            return source.ToNativeList(allocator);
         }
 
         public bool MoveNext()
         {
             if (!list.IsCreated)
-                list = ToList();
+                list = ToNativeList(Allocator.Temp);
             currentIndex += 1;
             return currentIndex < list.Length;
         }

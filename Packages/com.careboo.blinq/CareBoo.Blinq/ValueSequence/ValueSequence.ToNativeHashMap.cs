@@ -19,7 +19,7 @@ namespace CareBoo.Blinq
             where TKeySelector : struct, IFunc<T, TKey>
             where TElementSelector : struct, IFunc<T, TElement>
         {
-            var list = source.Execute();
+            var list = source.ToNativeList(Allocator.Temp);
             var result = new NativeHashMap<TKey, TElement>(list.Length, allocator);
             for (var i = 0; i < list.Length; i++)
             {
@@ -41,7 +41,7 @@ namespace CareBoo.Blinq
             where TKey : struct, IEquatable<TKey>
             where TKeySelector : struct, IFunc<T, TKey>
         {
-            var list = source.Execute();
+            var list = source.ToNativeList(Allocator.Temp);
             var result = new NativeHashMap<TKey, T>(list.Length, allocator);
             for (var i = 0; i < list.Length; i++)
             {

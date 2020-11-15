@@ -5,8 +5,6 @@ using Blinq = CareBoo.Blinq.Sequence;
 using Unity.Jobs;
 using Unity.Burst;
 using Unity.Collections;
-using static ValueFuncs;
-using CareBoo.Burst.Delegates;
 
 [BurstCompile]
 internal struct DistinctPerformanceJob : IJob
@@ -16,7 +14,8 @@ internal struct DistinctPerformanceJob : IJob
 
     public void Execute()
     {
-        Blinq.Distinct(Source).Execute();
+        var result = Blinq.Distinct(Source).ToNativeList(Allocator.Temp);
+        result.Dispose();
     }
 }
 

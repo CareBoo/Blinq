@@ -64,7 +64,7 @@ namespace CareBoo.Blinq
         public bool MoveNext()
         {
             if (!union.IsCreated)
-                union = new NativeHashSet<T>(0, Allocator.Persistent);
+                union = new NativeHashSet<T>(0, Allocator.Temp);
             while (source.MoveNext())
             {
                 Current = source.Current;
@@ -85,10 +85,10 @@ namespace CareBoo.Blinq
             throw new NotSupportedException();
         }
 
-        public NativeList<T> ToList()
+        public NativeList<T> ToNativeList(Allocator allocator)
         {
-            var sourceList = source.ToList();
-            var secondList = second.ToList();
+            var sourceList = source.ToNativeList(allocator);
+            var secondList = second.ToNativeList(Allocator.Temp);
             var set = new NativeHashSet<T>(sourceList.Length + secondList.Length, Allocator.Temp);
             for (var i = 0; i < sourceList.Length; i++)
                 set.Add(sourceList[i]);

@@ -1,4 +1,5 @@
 ﻿using CareBoo.Burst.Delegates;
+using Unity.Collections;
 
 namespace CareBoo.Blinq
 {
@@ -17,7 +18,7 @@ namespace CareBoo.Blinq
             where TFunc : struct, IFunc<TAccumulate, T, TAccumulate>
             where TResultSelector : struct, IFunc<TAccumulate, TResult>
         {
-            var sourceList = source.Execute();
+            var sourceList = source.ToNativeList(Allocator.Temp);
             for (var i = 0; i < sourceList.Length; i++)
                 seed = func.Invoke(seed, sourceList[i]);
             var result = resultSelector.Invoke(seed);
@@ -35,7 +36,7 @@ namespace CareBoo.Blinq
             where TAccumulate : struct
             where TFunc : struct, IFunc<TAccumulate, T, TAccumulate>
         {
-            var sourceList = source.Execute();
+            var sourceList = source.ToNativeList(Allocator.Temp);
             for (var i = 0; i < sourceList.Length; i++)
                 seed = func.Invoke(seed, sourceList[i]);
             sourceList.Dispose();
@@ -50,7 +51,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TFunc : struct, IFunc<T, T, T>
         {
-            var sourceList = source.Execute();
+            var sourceList = source.ToNativeList(Allocator.Temp);
             if (sourceList.Length == 0)
             {
                 sourceList.Dispose();

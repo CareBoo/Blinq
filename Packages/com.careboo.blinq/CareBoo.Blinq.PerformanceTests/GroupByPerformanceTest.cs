@@ -23,7 +23,8 @@ internal struct GroupByPerformanceJob<TKeySelector, TResultSelector> : IJob
 
     public void Execute()
     {
-        Blinq.GroupBy(Source, KeySelector, ResultSelector).Execute();
+        var result = Blinq.GroupBy(Source, KeySelector, ResultSelector).ToNativeList(Allocator.Temp);
+        result.Dispose();
     }
 }
 

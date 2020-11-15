@@ -14,8 +14,8 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSecond : struct, ISequence<T>
         {
-            var sourceList = source.Execute();
-            var secondList = second.Execute();
+            var sourceList = source.ToNativeList(Allocator.Temp);
+            var secondList = second.ToNativeList(Allocator.Temp);
             var result = sourceList.AsArray().ArraysEqual(secondList);
             sourceList.Dispose();
             secondList.Dispose();
@@ -32,8 +32,8 @@ namespace CareBoo.Blinq
             where TSecond : struct, ISequence<T>
             where TComparer : struct, IEqualityComparer<T>
         {
-            var sourceList = source.Execute();
-            var secondList = second.Execute();
+            var sourceList = source.ToNativeList(Allocator.Temp);
+            var secondList = second.ToNativeList(Allocator.Temp);
 
             if (sourceList.Length != secondList.Length)
             {
@@ -62,7 +62,7 @@ namespace CareBoo.Blinq
             where T : struct, IEquatable<T>
             where TSource : struct, ISequence<T>
         {
-            var sourceList = source.Execute();
+            var sourceList = source.ToNativeList(Allocator.Temp);
             var result = sourceList.AsArray().ArraysEqual(second);
             sourceList.Dispose();
             return result;
@@ -77,7 +77,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TComparer : struct, IEqualityComparer<T>
         {
-            var sourceList = source.Execute();
+            var sourceList = source.ToNativeList(Allocator.Temp);
 
             if (sourceList.Length != second.Length)
             {

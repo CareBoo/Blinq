@@ -83,19 +83,19 @@ namespace CareBoo.Blinq
         }
 
 
-        public NativeList<TResult> ToList()
+        public NativeList<TResult> ToNativeList(Allocator allocator)
         {
-            var srcList = source.ToList();
+            var srcList = source.ToNativeList(Allocator.Temp);
             var groupMap = new NativeMultiHashMap<TKey, TElement>(srcList.Length, Allocator.Temp);
-            var result = Execute(srcList, groupMap);
+            var result = ToNativeList(srcList, groupMap, allocator);
             srcList.Dispose();
             groupMap.Dispose();
             return result;
         }
 
-        public NativeList<TResult> Execute(NativeList<T> srcList, NativeMultiHashMap<TKey, TElement> groupMap)
+        public NativeList<TResult> ToNativeList(NativeList<T> srcList, NativeMultiHashMap<TKey, TElement> groupMap, Allocator allocator)
         {
-            var results = new NativeList<TResult>(Allocator.Temp);
+            var results = new NativeList<TResult>(allocator);
             AddElementsToGroupMap(in srcList, ref groupMap);
             EnumerateGroupsAndAddToResults(in groupMap, ref results);
             return results;
@@ -133,7 +133,7 @@ namespace CareBoo.Blinq
         {
             if (!resultList.IsCreated)
             {
-                resultList = ToList();
+                resultList = ToNativeList(Allocator.Temp);
                 resultListEnum = resultList.GetEnumerator();
             }
             return resultListEnum.MoveNext();
