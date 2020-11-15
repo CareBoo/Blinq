@@ -98,23 +98,41 @@ foreach (string TYPE_FULL in TYPES)
         ValueFunc<int, <#=TYPE_FULL#>>.New<StructIntTo_<#=TYPE_FULL#>>();
 
     [Test, Performance, Category("Performance")]
-    public void AveragePerformance_<#=TYPE_FULL#>(
+    public void Blinq_<#=TYPE_FULL#>(
         [ValueSource(typeof(Values_<#=TYPE_FULL#>), nameof(Values_<#=TYPE_FULL#>.Values))] <#=TYPE_FULL#>[] sourceArr
         )
     {
         var src = new NativeArray<<#=TYPE_FULL#>>(sourceArr, Allocator.Persistent);
         MakeMeasurement("Blinq_<#=TYPE_FULL#>", () => new AverageJob_<#=TYPE_FULL#> { Source = src, }.Run()).Run();
+        src.Dispose();
+    }
+
+    [Test, Performance, Category("Performance")]
+    public void Linq_<#=TYPE_FULL#>(
+        [ValueSource(typeof(Values_<#=TYPE_FULL#>), nameof(Values_<#=TYPE_FULL#>.Values))] <#=TYPE_FULL#>[] sourceArr
+        )
+    {
+        var src = new NativeArray<<#=TYPE_FULL#>>(sourceArr, Allocator.Persistent);
         MakeMeasurement("Linq_<#=TYPE_FULL#>", () => Linq.Average(src)).Run();
         src.Dispose();
     }
 
     [Test, Performance, Category("Performance")]
-    public void AverageSelectPerformance_<#=TYPE_FULL#>(
+    public void BlinqSelect_<#=TYPE_FULL#>(
         [ValueSource(typeof(SelectValues), nameof(SelectValues.Values))] int[] sourceArr
         )
     {
         var src = new NativeArray<int>(sourceArr, Allocator.Persistent);
         MakeMeasurement("Blinq_<#=TYPE_FULL#>", () => new AverageSelectJob_<#=TYPE_FULL#><StructIntTo_<#=TYPE_FULL#>> { Source = src, Selector = IntTo_<#=TYPE_FULL#> }.Run()).Run();
+        src.Dispose();
+    }
+
+    [Test, Performance, Category("Performance")]
+    public void LinqSelect_<#=TYPE_FULL#>(
+        [ValueSource(typeof(SelectValues), nameof(SelectValues.Values))] int[] sourceArr
+        )
+    {
+        var src = new NativeArray<int>(sourceArr, Allocator.Persistent);
         MakeMeasurement("Linq_<#=TYPE_FULL#>", () => Linq.Average(src, IntTo_<#=TYPE_FULL#>.Invoke)).Run();
         src.Dispose();
     }

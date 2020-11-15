@@ -41,10 +41,20 @@ internal struct CountSequencePredicateJob<TPredicate> : IJob
 internal class CountPerformanceTest : BaseBlinqPerformanceTest
 {
     [Test, Performance, Category("Performance")]
-    public void CountPredicatePerformance()
+    public void BlinqArrayPredicate()
     {
         MakeMeasurement(() => new CountArrayPredicateJob<Functions.EqualsZero> { Source = source, Predicate = EqualsZero }.Run(), "Blinq_Array").Run();
+    }
+
+    [Test, Performance, Category("Performance")]
+    public void BlinqSequencePredicate()
+    {
         MakeMeasurement(() => new CountSequencePredicateJob<Functions.EqualsZero> { Source = source, Predicate = EqualsZero }.Run(), "Blinq_Sequence").Run();
+    }
+
+    [Test, Performance, Category("Performance")]
+    public void LinqArrayPredicate()
+    {
         MakeMeasurement(() => Linq.Count(source, EqualsZero.Invoke), "Linq").Run();
     }
 }

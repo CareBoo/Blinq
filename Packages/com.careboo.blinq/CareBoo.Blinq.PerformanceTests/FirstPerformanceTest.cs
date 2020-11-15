@@ -23,10 +23,20 @@ internal struct FirstPerformanceJob : IJob
 internal class FirstPerformanceTest : BaseBlinqPerformanceTest
 {
     [Test, Performance, Category("Performance")]
-    public void FirstPerformance()
+    public void BlinqArrayDotnet()
     {
         MakeMeasurement(() => Blinq.First(source), "Blinq_Dotnet").Run();
+    }
+
+    [Test, Performance, Category("Performance")]
+    public void BlinqArrayBurstJob()
+    {
         MakeMeasurement(() => new FirstPerformanceJob { Source = source }.Run(), "Blinq_BurstJob").Run();
+    }
+
+    [Test, Performance, Category("Performance")]
+    public void LinqArray()
+    {
         MakeMeasurement(() => Linq.First(source), "Linq").Run();
     }
 }

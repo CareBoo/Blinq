@@ -38,12 +38,23 @@ internal struct SequenceContainsJob : IJob
 
 internal class ContainsPerformanceTest : BaseBlinqPerformanceTest
 {
+    const int item = 100000;
+
     [Test, Performance, Category("Performance")]
-    public void ContainsEquatablePerformance()
+    public void BlinqEquatableNativeSequence()
     {
-        var item = 100000;
-        MakeMeasurement(() => new ArrayContainsJob { Source = source, Item = item }.Run(), "Blinq_Array").Run();
         MakeMeasurement(() => new SequenceContainsJob { Source = source, Item = item }.Run(), "Blinq_Sequence").Run();
+    }
+
+    [Test, Performance, Category("Performance")]
+    public void BlinqEquatableNativeArray()
+    {
+        MakeMeasurement(() => new ArrayContainsJob { Source = source, Item = item }.Run(), "Blinq_Array").Run();
+    }
+
+    [Test, Performance, Category("Performance")]
+    public void LinqEquatableNativeArray()
+    {
         MeasureLinq(() => Linq.Contains(source, item)).Run();
     }
 }

@@ -91,23 +91,41 @@ internal class AverageTest
         ValueFunc<int, int>.New<StructIntTo_int>();
 
     [Test, Performance, Category("Performance")]
-    public void AveragePerformance_int(
+    public void Blinq_int(
         [ValueSource(typeof(Values_int), nameof(Values_int.Values))] int[] sourceArr
         )
     {
         var src = new NativeArray<int>(sourceArr, Allocator.Persistent);
         MakeMeasurement("Blinq_int", () => new AverageJob_int { Source = src, }.Run()).Run();
+        src.Dispose();
+    }
+
+    [Test, Performance, Category("Performance")]
+    public void Linq_int(
+        [ValueSource(typeof(Values_int), nameof(Values_int.Values))] int[] sourceArr
+        )
+    {
+        var src = new NativeArray<int>(sourceArr, Allocator.Persistent);
         MakeMeasurement("Linq_int", () => Linq.Average(src)).Run();
         src.Dispose();
     }
 
     [Test, Performance, Category("Performance")]
-    public void AverageSelectPerformance_int(
+    public void BlinqSelect_int(
         [ValueSource(typeof(SelectValues), nameof(SelectValues.Values))] int[] sourceArr
         )
     {
         var src = new NativeArray<int>(sourceArr, Allocator.Persistent);
         MakeMeasurement("Blinq_int", () => new AverageSelectJob_int<StructIntTo_int> { Source = src, Selector = IntTo_int }.Run()).Run();
+        src.Dispose();
+    }
+
+    [Test, Performance, Category("Performance")]
+    public void LinqSelect_int(
+        [ValueSource(typeof(SelectValues), nameof(SelectValues.Values))] int[] sourceArr
+        )
+    {
+        var src = new NativeArray<int>(sourceArr, Allocator.Persistent);
         MakeMeasurement("Linq_int", () => Linq.Average(src, IntTo_int.Invoke)).Run();
         src.Dispose();
     }
@@ -160,23 +178,41 @@ internal class AverageTest
         ValueFunc<int, float>.New<StructIntTo_float>();
 
     [Test, Performance, Category("Performance")]
-    public void AveragePerformance_float(
+    public void Blinq_float(
         [ValueSource(typeof(Values_float), nameof(Values_float.Values))] float[] sourceArr
         )
     {
         var src = new NativeArray<float>(sourceArr, Allocator.Persistent);
         MakeMeasurement("Blinq_float", () => new AverageJob_float { Source = src, }.Run()).Run();
+        src.Dispose();
+    }
+
+    [Test, Performance, Category("Performance")]
+    public void Linq_float(
+        [ValueSource(typeof(Values_float), nameof(Values_float.Values))] float[] sourceArr
+        )
+    {
+        var src = new NativeArray<float>(sourceArr, Allocator.Persistent);
         MakeMeasurement("Linq_float", () => Linq.Average(src)).Run();
         src.Dispose();
     }
 
     [Test, Performance, Category("Performance")]
-    public void AverageSelectPerformance_float(
+    public void BlinqSelect_float(
         [ValueSource(typeof(SelectValues), nameof(SelectValues.Values))] int[] sourceArr
         )
     {
         var src = new NativeArray<int>(sourceArr, Allocator.Persistent);
         MakeMeasurement("Blinq_float", () => new AverageSelectJob_float<StructIntTo_float> { Source = src, Selector = IntTo_float }.Run()).Run();
+        src.Dispose();
+    }
+
+    [Test, Performance, Category("Performance")]
+    public void LinqSelect_float(
+        [ValueSource(typeof(SelectValues), nameof(SelectValues.Values))] int[] sourceArr
+        )
+    {
+        var src = new NativeArray<int>(sourceArr, Allocator.Persistent);
         MakeMeasurement("Linq_float", () => Linq.Average(src, IntTo_float.Invoke)).Run();
         src.Dispose();
     }
@@ -229,23 +265,41 @@ internal class AverageTest
         ValueFunc<int, double>.New<StructIntTo_double>();
 
     [Test, Performance, Category("Performance")]
-    public void AveragePerformance_double(
+    public void Blinq_double(
         [ValueSource(typeof(Values_double), nameof(Values_double.Values))] double[] sourceArr
         )
     {
         var src = new NativeArray<double>(sourceArr, Allocator.Persistent);
         MakeMeasurement("Blinq_double", () => new AverageJob_double { Source = src, }.Run()).Run();
+        src.Dispose();
+    }
+
+    [Test, Performance, Category("Performance")]
+    public void Linq_double(
+        [ValueSource(typeof(Values_double), nameof(Values_double.Values))] double[] sourceArr
+        )
+    {
+        var src = new NativeArray<double>(sourceArr, Allocator.Persistent);
         MakeMeasurement("Linq_double", () => Linq.Average(src)).Run();
         src.Dispose();
     }
 
     [Test, Performance, Category("Performance")]
-    public void AverageSelectPerformance_double(
+    public void BlinqSelect_double(
         [ValueSource(typeof(SelectValues), nameof(SelectValues.Values))] int[] sourceArr
         )
     {
         var src = new NativeArray<int>(sourceArr, Allocator.Persistent);
         MakeMeasurement("Blinq_double", () => new AverageSelectJob_double<StructIntTo_double> { Source = src, Selector = IntTo_double }.Run()).Run();
+        src.Dispose();
+    }
+
+    [Test, Performance, Category("Performance")]
+    public void LinqSelect_double(
+        [ValueSource(typeof(SelectValues), nameof(SelectValues.Values))] int[] sourceArr
+        )
+    {
+        var src = new NativeArray<int>(sourceArr, Allocator.Persistent);
         MakeMeasurement("Linq_double", () => Linq.Average(src, IntTo_double.Invoke)).Run();
         src.Dispose();
     }

@@ -25,10 +25,16 @@ internal struct AppendJob : IJob
 internal class AppendPerformanceTest : BaseBlinqPerformanceTest
 {
     [Test, Performance, Category("Performance")]
-    public void AppendNativeSequencePerformance()
+    public void BlinqNativeSequence()
     {
         var item = 32;
         MeasureBlinq(() => new AppendJob { Source = source, Item = item }.Run()).Run();
+    }
+
+    [Test, Performance, Category("Performance")]
+    public void LinqNativeSequence()
+    {
+        var item = 32;
         MeasureLinq(() => Linq.ToList(Linq.Append(source, item))).Run();
     }
 }

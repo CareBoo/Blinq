@@ -28,7 +28,7 @@ internal class AnyPerformanceTest : BaseBlinqPerformanceTest
 {
     [Test, Performance]
     [Category("Performance")]
-    public void BlinqAnyNativeSequencePerformance()
+    public void BlinqAnyNativeSequence()
     {
         bool result;
 
@@ -37,7 +37,7 @@ internal class AnyPerformanceTest : BaseBlinqPerformanceTest
 
     [Test, Performance]
     [Category("Performance")]
-    public void LinqAnyNativeSequencePerformance()
+    public void LinqAnyNativeSequence()
     {
         bool result;
 
@@ -47,14 +47,14 @@ internal class AnyPerformanceTest : BaseBlinqPerformanceTest
 
     [Test, Performance]
     [Category("Performance")]
-    public void BlinqAnyPredicateNativeSequencePerformance()
+    public void BlinqAnyPredicateNativeSequence()
     {
         MeasureBlinq(() => new AnyJob<Functions.EqualsOne> { Source = source, Predicate = EqualsOne }.Run()).Run();
     }
 
     [Test, Performance]
     [Category("Performance")]
-    public void LinqAnyPredicateNativeSequencePerformance()
+    public void LinqAnyPredicateNativeSequence()
     {
         bool result;
 

@@ -32,32 +32,41 @@ internal struct GroupByPerformanceJob<TOuterKeySelector, TInnerKeySelector, TRes
 
 internal class GroupByPerformanceTest : BaseBlinqPerformanceTest
 {
+    NativeArray<JoinA> outer;
+    NativeArray<JoinB> inner;
+
     public override void SetUpSource()
     {
+        outer = new NativeArray<JoinA>(1000, Allocator.Persistent);
+        for (var i = 0; i < outer.Length; i++)
+            outer[i] = new JoinA { Id = i, Val = (char)(i % 26 + (int)'a') };
+        inner = new NativeArray<JoinB>(10000, Allocator.Persistent);
+        for (var i = 0; i < inner.Length; i++)
+            inner[i] = new JoinB { Id = i % 1000, Val = (char)(i % 26 + (int)'A') };
     }
 
     public override void TearDownSource()
     {
+        if (outer.IsCreated)
+            outer.Dispose();
+        if (inner.IsCreated)
+            inner.Dispose();
+    }
+
+    int GroupJoinLinqSelector(JoinA o, IEnumerable<JoinB> b)
+    {
+        return Linq.Count(b);
     }
 
     [Test, Performance, Category("Performance")]
-    public void GroupByPerformance()
+    public void BlinqArray()
     {
-        var outer = new NativeArray<JoinA>(1000, Allocator.Persistent);
-        for (var i = 0; i < outer.Length; i++)
-            outer[i] = new JoinA { Id = i, Val = (char)(i % 26 + (int)'a') };
-        var inner = new NativeArray<JoinB>(10000, Allocator.Persistent);
-        for (var i = 0; i < inner.Length; i++)
-            inner[i] = new JoinB { Id = i % 1000, Val = (char)(i % 26 + (int)'A') };
-
-        int GroupJoinLinqSelector(JoinA o, IEnumerable<JoinB> b)
-        {
-            return Linq.Count(b);
-        }
-
         MakeMeasurement(() => new GroupByPerformanceJob<Functions.JoinAKeySelector, Functions.JoinBKeySelector, Functions.GroupJoinABSelector> { Outer = outer, Inner = inner }.Run(), "Blinq").Run();
+    }
+
+    [Test, Performance, Category("Performance")]
+    public void LinqArray()
+    {
         MakeMeasurement(() => Linq.ToList(Linq.GroupJoin<JoinA, JoinB, int, int>(outer, inner, JoinAKeySelector.Invoke, JoinBKeySelector.Invoke, GroupJoinLinqSelector)), "Linq").Run();
-        outer.Dispose();
-        inner.Dispose();
     }
 }

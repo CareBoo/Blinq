@@ -25,11 +25,15 @@ internal struct SelectJob<TSelector> : IJob
 
 internal class SelectPerformanceTest : BaseBlinqPerformanceTest
 {
-    [Test, Performance]
-    [Category("Performance")]
-    public void SelectNativeSequencePerformance()
+    [Test, Performance, Category("Performance")]
+    public void BlinqSequence()
     {
         MeasureBlinq(() => new SelectJob<Functions.IntToLong> { Source = source, Selector = IntToLong }.Run()).Run();
+    }
+
+    [Test, Performance, Category("Performance")]
+    public void LinqSequence()
+    {
         MeasureLinq(() => Linq.ToList(Linq.Select(source, IntToLong.Invoke))).Run();
     }
 }

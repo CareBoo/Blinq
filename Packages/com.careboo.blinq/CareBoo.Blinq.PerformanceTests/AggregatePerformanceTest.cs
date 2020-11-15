@@ -29,9 +29,14 @@ internal struct AggregateJob<TFunc, TResultSelector> : IJob
 internal class AggregatePerformanceTest : BaseBlinqPerformanceTest
 {
     [Test, Performance, Category("Performance")]
-    public void AggregateNativeSequencePerformance()
+    public void BlinqNativeSequence()
     {
         MeasureBlinq(() => new AggregateJob<Functions.Sum, Functions.IntToLong> { Source = source, Func = Sum, ResultSelector = IntToLong }.Run()).Run();
+    }
+
+    [Test, Performance, Category("Performance")]
+    public void LinqNativeSequence()
+    {
         MeasureLinq(() => Linq.Aggregate(source, 0, Sum.Invoke, IntToLong.Invoke)).Run();
     }
 }

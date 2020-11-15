@@ -23,9 +23,14 @@ internal struct DistinctPerformanceJob : IJob
 internal class DistinctPerformanceTest : BaseBlinqPerformanceTest
 {
     [Test, Performance, Category("Performance")]
-    public void DistinctPerformance()
+    public void BlinqSequence()
     {
         MakeMeasurement(() => new DistinctPerformanceJob { Source = source }.Run(), "Blinq").Run();
+    }
+
+    [Test, Performance, Category("Performance")]
+    public void LinqSequence()
+    {
         MakeMeasurement(() => Linq.ToList(Linq.Distinct(source)), "Linq").Run();
     }
 }

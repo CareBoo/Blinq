@@ -26,9 +26,14 @@ internal struct ExceptPerformanceJob : IJob
 internal class ExceptPerformanceTest : BaseBlinqPerformanceTest
 {
     [Test, Performance, Category("Performance")]
-    public void ExceptPerformance()
+    public void BlinqSequence()
     {
         MakeMeasurement(() => new ExceptPerformanceJob { Source = source, Second = source }.Run(), "Blinq").Run();
+    }
+
+    [Test, Performance, Category("Performance")]
+    public void LinqSequence()
+    {
         MakeMeasurement(() => Linq.ToList(Linq.Except(source, source)), "Linq").Run();
     }
 }

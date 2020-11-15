@@ -26,9 +26,14 @@ internal struct ConcatJob : IJob
 internal class ConcatPerformanceTest : BaseBlinqPerformanceTest
 {
     [Test, Performance, Category("Performance")]
-    public void ConcatNativeSequencePerformance()
+    public void BlinqNativeSequence()
     {
         MeasureBlinq(() => new ConcatJob { Source = source, Second = source }.Run()).Run();
+    }
+
+    [Test, Performance, Category("Performance")]
+    public void LinqNativeSequence()
+    {
         MeasureLinq(() => Linq.ToList(Linq.Concat(source, source))).Run();
     }
 }

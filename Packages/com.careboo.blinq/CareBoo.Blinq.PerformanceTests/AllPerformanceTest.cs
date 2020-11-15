@@ -26,9 +26,14 @@ internal struct AllJob<TPredicate> : IJob
 internal class AllPerformanceTest : BaseBlinqPerformanceTest
 {
     [Test, Performance, Category("Performance")]
-    public void AllNativeSequencePerformance()
+    public void BlinqNativeSequence()
     {
         MeasureBlinq(() => new AllJob<Functions.GreaterThanOrEqualToZero> { Source = source, Predicate = GreaterThanOrEqualToZero }.Run()).Run();
+    }
+
+    [Test, Performance, Category("Performance")]
+    public void LinqNativeSequence()
+    {
         MeasureLinq(() => Linq.All(source, GreaterThanOrEqualToZero.Invoke)).Run();
     }
 }
