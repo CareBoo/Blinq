@@ -6,6 +6,6 @@ namespace CareBoo.Blinq
     public interface ISequence<T> : IEnumerator<T>
         where T : struct
     {
-        NativeList<T> ToList();
+        NativeList<T> ToNativeList(Allocator allocator);
     }
 }

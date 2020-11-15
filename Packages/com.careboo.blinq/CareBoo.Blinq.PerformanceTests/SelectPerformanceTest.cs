@@ -19,7 +19,8 @@ internal struct SelectJob<TSelector> : IJob
 
     public void Execute()
     {
-        Blinq.Select(Source, Selector).Execute();
+        var result = Blinq.Select(Source, Selector).ToNativeList(Allocator.Temp);
+        result.Dispose();
     }
 }
 

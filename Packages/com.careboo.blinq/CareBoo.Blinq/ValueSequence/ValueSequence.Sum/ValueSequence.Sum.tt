@@ -12,6 +12,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using Unity.Collections;
 using Unity.Mathematics;
 using CareBoo.Burst.Delegates;
 
@@ -38,7 +39,7 @@ foreach (string TYPE in TYPES)
             )
             where TSource : struct, ISequence<<#=TYPE_FULL#>>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -59,7 +60,7 @@ foreach (string TYPE in TYPES)
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, <#=TYPE_FULL#>>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();

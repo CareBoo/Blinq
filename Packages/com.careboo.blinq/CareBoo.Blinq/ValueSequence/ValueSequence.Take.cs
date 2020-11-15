@@ -56,9 +56,9 @@ namespace CareBoo.Blinq
             throw new NotSupportedException();
         }
 
-        public NativeList<T> ToList()
+        public NativeList<T> ToNativeList(Allocator allocator)
         {
-            var list = source.ToList();
+            var list = source.ToNativeList(allocator);
             if (count >= list.Length)
                 return list;
             list.RemoveRangeSwapBackWithBeginEnd(count, list.Length);

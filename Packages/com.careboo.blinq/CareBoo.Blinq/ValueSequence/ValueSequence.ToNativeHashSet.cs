@@ -12,7 +12,7 @@ namespace CareBoo.Blinq
             where T : unmanaged, IEquatable<T>
             where TSource : struct, ISequence<T>
         {
-            var list = source.Execute();
+            var list = source.ToNativeList(Allocator.Temp);
             var result = new NativeHashSet<T>(list.Length, allocator);
             for (var i = 0; i < list.Length; i++)
                 result.Add(list[i]);

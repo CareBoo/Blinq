@@ -34,9 +34,9 @@ namespace CareBoo.Blinq
             throw new NotSupportedException();
         }
 
-        public NativeList<T> ToList()
+        public NativeList<T> ToNativeList(Allocator allocator)
         {
-            var list = new NativeList<T>(source.Length, Allocator.Temp);
+            var list = new NativeList<T>(source.Length, allocator);
             for (var i = 0; i < source.Length; i++)
                 list.AddNoResize(source[i]);
             return list;

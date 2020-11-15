@@ -1,5 +1,6 @@
 using System;
 using CareBoo.Burst.Delegates;
+using Unity.Collections;
 
 namespace CareBoo.Blinq
 {
@@ -14,7 +15,7 @@ namespace CareBoo.Blinq
             where TResult : struct, IComparable<TResult>
             where TSelector : struct, IFunc<T, TResult>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -37,7 +38,7 @@ namespace CareBoo.Blinq
             where T : struct, IComparable<T>
             where TSource : struct, ISequence<T>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -63,7 +64,7 @@ namespace CareBoo.Blinq
             where TResult : struct, IComparable<TResult>
             where TSelector : struct, IFunc<T, TResult>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -86,7 +87,7 @@ namespace CareBoo.Blinq
             where T : struct, IComparable<T>
             where TSource : struct, ISequence<T>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();

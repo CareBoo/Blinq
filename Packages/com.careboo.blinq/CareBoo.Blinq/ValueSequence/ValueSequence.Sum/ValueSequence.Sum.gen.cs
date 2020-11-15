@@ -12,6 +12,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using Unity.Collections;
 using Unity.Mathematics;
 using CareBoo.Burst.Delegates;
 
@@ -25,7 +26,7 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<int>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -46,7 +47,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, int>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -65,7 +66,7 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<int2>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -86,7 +87,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, int2>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -105,7 +106,7 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<int2x2>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -126,7 +127,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, int2x2>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -145,7 +146,7 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<int2x3>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -166,7 +167,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, int2x3>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -185,7 +186,7 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<int2x4>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -206,7 +207,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, int2x4>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -225,7 +226,7 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<int3>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -246,7 +247,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, int3>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -265,7 +266,7 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<int3x2>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -286,7 +287,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, int3x2>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -305,7 +306,7 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<int3x3>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -326,7 +327,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, int3x3>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -345,7 +346,7 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<int3x4>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -366,7 +367,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, int3x4>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -385,7 +386,7 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<int4>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -406,7 +407,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, int4>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -425,7 +426,7 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<int4x2>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -446,7 +447,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, int4x2>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -465,7 +466,7 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<int4x3>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -486,7 +487,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, int4x3>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -505,7 +506,7 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<int4x4>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -526,7 +527,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, int4x4>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -545,7 +546,7 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<uint>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -566,7 +567,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, uint>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -585,7 +586,7 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<uint2>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -606,7 +607,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, uint2>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -625,7 +626,7 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<uint2x2>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -646,7 +647,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, uint2x2>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -665,7 +666,7 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<uint2x3>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -686,7 +687,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, uint2x3>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -705,7 +706,7 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<uint2x4>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -726,7 +727,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, uint2x4>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -745,7 +746,7 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<uint3>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -766,7 +767,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, uint3>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -785,7 +786,7 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<uint3x2>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -806,7 +807,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, uint3x2>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -825,7 +826,7 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<uint3x3>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -846,7 +847,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, uint3x3>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -865,7 +866,7 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<uint3x4>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -886,7 +887,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, uint3x4>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -905,7 +906,7 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<uint4>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -926,7 +927,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, uint4>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -945,7 +946,7 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<uint4x2>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -966,7 +967,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, uint4x2>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -985,7 +986,7 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<uint4x3>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -1006,7 +1007,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, uint4x3>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -1025,7 +1026,7 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<uint4x4>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -1046,7 +1047,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, uint4x4>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -1065,7 +1066,7 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<float>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -1086,7 +1087,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, float>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -1105,7 +1106,7 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<float2>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -1126,7 +1127,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, float2>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -1145,7 +1146,7 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<float2x2>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -1166,7 +1167,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, float2x2>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -1185,7 +1186,7 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<float2x3>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -1206,7 +1207,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, float2x3>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -1225,7 +1226,7 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<float2x4>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -1246,7 +1247,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, float2x4>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -1265,7 +1266,7 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<float3>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -1286,7 +1287,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, float3>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -1305,7 +1306,7 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<float3x2>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -1326,7 +1327,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, float3x2>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -1345,7 +1346,7 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<float3x3>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -1366,7 +1367,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, float3x3>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -1385,7 +1386,7 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<float3x4>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -1406,7 +1407,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, float3x4>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -1425,7 +1426,7 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<float4>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -1446,7 +1447,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, float4>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -1465,7 +1466,7 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<float4x2>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -1486,7 +1487,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, float4x2>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -1505,7 +1506,7 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<float4x3>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -1526,7 +1527,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, float4x3>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -1545,7 +1546,7 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<float4x4>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -1566,7 +1567,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, float4x4>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -1585,7 +1586,7 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<double>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -1606,7 +1607,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, double>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -1625,7 +1626,7 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<double2>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -1646,7 +1647,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, double2>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -1665,7 +1666,7 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<double2x2>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -1686,7 +1687,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, double2x2>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -1705,7 +1706,7 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<double2x3>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -1726,7 +1727,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, double2x3>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -1745,7 +1746,7 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<double2x4>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -1766,7 +1767,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, double2x4>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -1785,7 +1786,7 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<double3>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -1806,7 +1807,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, double3>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -1825,7 +1826,7 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<double3x2>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -1846,7 +1847,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, double3x2>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -1865,7 +1866,7 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<double3x3>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -1886,7 +1887,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, double3x3>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -1905,7 +1906,7 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<double3x4>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -1926,7 +1927,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, double3x4>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -1945,7 +1946,7 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<double4>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -1966,7 +1967,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, double4>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -1985,7 +1986,7 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<double4x2>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -2006,7 +2007,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, double4x2>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -2025,7 +2026,7 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<double4x3>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -2046,7 +2047,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, double4x3>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -2065,7 +2066,7 @@ namespace CareBoo.Blinq
             )
             where TSource : struct, ISequence<double4x4>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -2086,7 +2087,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, double4x4>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();

@@ -76,9 +76,9 @@ namespace CareBoo.Blinq
             throw new NotSupportedException();
         }
 
-        public NativeList<T> ToList()
+        public NativeList<T> ToNativeList(Allocator allocator)
         {
-            var sourceList = source.ToList();
+            var sourceList = source.ToNativeList(allocator);
             for (var i = 0; i < sourceList.Length; i++)
                 if (!predicate.Invoke(sourceList[i], i))
                 {
@@ -125,9 +125,9 @@ namespace CareBoo.Blinq
             throw new NotSupportedException();
         }
 
-        public NativeList<T> ToList()
+        public NativeList<T> ToNativeList(Allocator allocator)
         {
-            var sourceList = source.ToList();
+            var sourceList = source.ToNativeList(allocator);
             for (var i = 0; i < sourceList.Length; i++)
                 if (!predicate.Invoke(sourceList[i]))
                 {

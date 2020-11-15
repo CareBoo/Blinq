@@ -131,25 +131,19 @@ namespace CareBoo.Blinq
             throw new NotSupportedException();
         }
 
-        public NativeList<TResult> ToList()
+        public NativeList<TResult> ToNativeList(Allocator allocator)
         {
-            var srcList = source.ToList();
-            var result = Execute(srcList);
-            srcList.Dispose();
-            return result;
-        }
-
-        private NativeList<TResult> Execute(NativeList<T> srcList)
-        {
-            var output = new NativeList<TResult>(Allocator.Temp);
+            var srcList = source.ToNativeList(Allocator.Temp);
+            var resultList = new NativeList<TResult>(allocator);
             for (var i = 0; i < srcList.Length; i++)
             {
                 var srcElement = srcList[i];
-                var resultArr = GetResults(srcElement);
-                output.AddRange(resultArr);
-                resultArr.Dispose();
+                var results = GetResults(srcElement);
+                resultList.AddRange(results);
+                results.Dispose();
             }
-            return output;
+            srcList.Dispose();
+            return resultList;
         }
 
         private NativeArray<TResult> GetResults(T srcElement)
@@ -226,25 +220,19 @@ namespace CareBoo.Blinq
             throw new NotSupportedException();
         }
 
-        public NativeList<TResult> ToList()
+        public NativeList<TResult> ToNativeList(Allocator allocator)
         {
-            var srcList = source.ToList();
-            var result = Execute(srcList);
-            srcList.Dispose();
-            return result;
-        }
-
-        private NativeList<TResult> Execute(NativeList<T> srcList)
-        {
-            var output = new NativeList<TResult>(Allocator.Temp);
+            var srcList = source.ToNativeList(Allocator.Temp);
+            var resultList = new NativeList<TResult>(allocator);
             for (var i = 0; i < srcList.Length; i++)
             {
                 var srcElement = srcList[i];
-                var resultArr = GetResults(srcElement, i);
-                output.AddRange(resultArr);
-                resultArr.Dispose();
+                var results = GetResults(srcElement, i);
+                resultList.AddRange(results);
+                results.Dispose();
             }
-            return output;
+            srcList.Dispose();
+            return resultList;
         }
 
         private NativeArray<TResult> GetResults(T srcElement, int index)

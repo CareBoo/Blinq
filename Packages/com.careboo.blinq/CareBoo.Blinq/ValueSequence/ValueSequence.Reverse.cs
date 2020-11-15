@@ -48,7 +48,7 @@ namespace CareBoo.Blinq
         public bool MoveNext()
         {
             if (!sourceList.IsCreated)
-                sourceList = ToList();
+                sourceList = ToNativeList(Allocator.Temp);
             else
                 currentIndex += 1;
             return currentIndex < sourceList.Length;
@@ -59,9 +59,9 @@ namespace CareBoo.Blinq
             throw new NotSupportedException();
         }
 
-        public NativeList<T> ToList()
+        public NativeList<T> ToNativeList(Allocator allocator)
         {
-            var list = source.ToList();
+            var list = source.ToNativeList(allocator);
             for (var i = 0; i < list.Length / 2; i++)
             {
                 var swap = list.Length - 1 - i;

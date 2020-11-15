@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Unity.Collections;
-using Unity.Jobs;
 
 namespace CareBoo.Blinq
 {
@@ -17,26 +16,6 @@ namespace CareBoo.Blinq
             this.source = source;
         }
 
-        public NativeList<T> Execute()
-        {
-            return source.ToList();
-        }
-
-        public NativeList<T> RunExecute()
-        {
-            var output = new NativeList<T>(Allocator.Persistent);
-            var job = new SequenceExecuteJob<T, TSource> { Source = source, Output = output };
-            job.Run();
-            return output;
-        }
-
-        public SequenceExecuteJobHandle<T> ScheduleExecute()
-        {
-            var output = new NativeList<T>(Allocator.Persistent);
-            var job = new SequenceExecuteJob<T, TSource> { Source = source, Output = output };
-            return new SequenceExecuteJobHandle<T>(job.Schedule(), output);
-        }
-
         public TSource GetEnumerator()
         {
             return source;
@@ -50,6 +29,11 @@ namespace CareBoo.Blinq
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
+        }
+
+        public NativeList<T> ToNativeList(Allocator allocator)
+        {
+            return source.ToNativeList(allocator);
         }
     }
 

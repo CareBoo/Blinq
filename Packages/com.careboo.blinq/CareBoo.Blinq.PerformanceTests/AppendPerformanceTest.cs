@@ -5,8 +5,6 @@ using Blinq = CareBoo.Blinq.Sequence;
 using Unity.Jobs;
 using Unity.Burst;
 using Unity.Collections;
-using static ValueFuncs;
-using CareBoo.Burst.Delegates;
 
 [BurstCompile]
 internal struct AppendJob : IJob
@@ -18,7 +16,8 @@ internal struct AppendJob : IJob
 
     public void Execute()
     {
-        Blinq.Append(Source, Item).Execute();
+        var result = Blinq.Append(Source, Item).ToNativeList(Allocator.Temp);
+        result.Dispose();
     }
 }
 

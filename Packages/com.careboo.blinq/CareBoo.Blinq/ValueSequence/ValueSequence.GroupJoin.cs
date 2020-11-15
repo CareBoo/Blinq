@@ -109,13 +109,12 @@ namespace CareBoo.Blinq
 
             if (!innerMap.IsCreated)
             {
-                var innerList = inner.ToList();
-                innerMap = new NativeMultiHashMap<TKey, TInner>(innerList.Length, Allocator.Persistent);
+                var innerList = inner.ToNativeList(Allocator.Temp);
+                innerMap = new NativeMultiHashMap<TKey, TInner>(innerList.Length, Allocator.Temp);
                 for (var i = 0; i < innerList.Length; i++)
                     innerMap.Add(innerKeySelector.Invoke(innerList[i]), innerList[i]);
                 innerList.Dispose();
             }
-
 
             var currentOuter = outer.Current;
             var key = outerKeySelector.Invoke(currentOuter);
@@ -130,12 +129,12 @@ namespace CareBoo.Blinq
             throw new NotSupportedException();
         }
 
-        public NativeList<TResult> ToList()
+        public NativeList<TResult> ToNativeList(Allocator allocator)
         {
-            var outerList = outer.ToList();
-            var innerList = inner.ToList();
+            var outerList = outer.ToNativeList(Allocator.Temp);
+            var innerList = inner.ToNativeList(Allocator.Temp);
             var groupMap = new NativeMultiHashMap<TKey, TInner>(innerList.Length, Allocator.Temp);
-            var result = Execute(outerList, innerList, groupMap);
+            var result = ToNativeList(outerList, innerList, groupMap, allocator);
             outerList.Dispose();
             innerList.Dispose();
             groupMap.Dispose();
@@ -143,12 +142,13 @@ namespace CareBoo.Blinq
 
         }
 
-        private NativeList<TResult> Execute(
+        private NativeList<TResult> ToNativeList(
             NativeList<TOuter> outerList,
             NativeList<TInner> innerList,
-            NativeMultiHashMap<TKey, TInner> groupMap)
+            NativeMultiHashMap<TKey, TInner> groupMap,
+            Allocator allocator)
         {
-            var result = new NativeList<TResult>(Allocator.Temp);
+            var result = new NativeList<TResult>(allocator);
             for (var i = 0; i < innerList.Length; i++)
             {
                 var item = innerList[i];

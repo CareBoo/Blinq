@@ -74,10 +74,10 @@ namespace CareBoo.Blinq
             throw new NotSupportedException();
         }
 
-        public NativeList<TResult> ToList()
+        public NativeList<TResult> ToNativeList(Allocator allocator)
         {
-            var sourceList = source.ToList();
-            var newList = new NativeList<TResult>(sourceList.Length, Allocator.Temp);
+            var sourceList = source.ToNativeList(Allocator.Temp);
+            var newList = new NativeList<TResult>(sourceList.Length, allocator);
             for (var i = 0; i < sourceList.Length; i++)
                 newList.AddNoResize(selector.Invoke(sourceList[i], i));
             sourceList.Dispose();
@@ -119,10 +119,10 @@ namespace CareBoo.Blinq
             throw new NotSupportedException();
         }
 
-        public NativeList<TResult> ToList()
+        public NativeList<TResult> ToNativeList(Allocator allocator)
         {
-            var sourceList = source.ToList();
-            var newList = new NativeList<TResult>(sourceList.Length, Allocator.Temp);
+            var sourceList = source.ToNativeList(Allocator.Temp);
+            var newList = new NativeList<TResult>(sourceList.Length, allocator);
             for (var i = 0; i < sourceList.Length; i++)
                 newList.AddNoResize(selector.Invoke(sourceList[i]));
             sourceList.Dispose();

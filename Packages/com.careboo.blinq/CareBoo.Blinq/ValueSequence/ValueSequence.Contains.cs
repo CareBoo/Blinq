@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Unity.Collections;
 
 namespace CareBoo.Blinq
 {
@@ -12,7 +13,7 @@ namespace CareBoo.Blinq
             where T : struct, IEquatable<T>
             where TSource : struct, ISequence<T>
         {
-            var sourceList = source.Execute();
+            var sourceList = source.ToNativeList(Allocator.Temp);
             for (var i = 0; i < sourceList.Length; i++)
                 if (sourceList[i].Equals(item))
                 {
@@ -32,7 +33,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T>
             where TComparer : struct, IEqualityComparer<T>
         {
-            var sourceList = source.Execute();
+            var sourceList = source.ToNativeList(Allocator.Temp);
             for (var i = 0; i < sourceList.Length; i++)
                 if (comparer.Equals(sourceList[i], item))
                 {

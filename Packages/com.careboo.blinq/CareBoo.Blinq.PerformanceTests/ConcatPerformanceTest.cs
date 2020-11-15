@@ -5,8 +5,6 @@ using Blinq = CareBoo.Blinq.Sequence;
 using Unity.Jobs;
 using Unity.Burst;
 using Unity.Collections;
-using static ValueFuncs;
-using CareBoo.Burst.Delegates;
 
 [BurstCompile]
 internal struct ConcatJob : IJob
@@ -19,7 +17,8 @@ internal struct ConcatJob : IJob
 
     public void Execute()
     {
-        Blinq.Concat(Source, Second).Execute();
+        var result = Blinq.Concat(Source, Second).ToNativeList(Allocator.Temp);
+        result.Dispose();
     }
 }
 

@@ -61,9 +61,9 @@ namespace CareBoo.Blinq
             throw new NotSupportedException();
         }
 
-        public NativeList<T> ToList()
+        public NativeList<T> ToNativeList(Allocator allocator)
         {
-            var sourceList = source.ToList();
+            var sourceList = source.ToNativeList(allocator);
             sourceList.Add(item);
             return sourceList;
         }

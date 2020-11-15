@@ -63,7 +63,7 @@ namespace CareBoo.Blinq
         {
             if (!set.IsCreated)
             {
-                var secondList = second.ToList();
+                var secondList = second.ToNativeList(Allocator.Temp);
                 set = new NativeHashSet<T>(secondList.Length, Allocator.Persistent);
                 for (var i = 0; i < secondList.Length; i++)
                     set.Add(secondList[i]);
@@ -80,11 +80,11 @@ namespace CareBoo.Blinq
             throw new NotSupportedException();
         }
 
-        public NativeList<T> ToList()
+        public NativeList<T> ToNativeList(Allocator allocator)
         {
-            var sourceList = source.ToList();
-            var secondList = second.ToList();
-            var list = new NativeList<T>(sourceList.Length, Allocator.Temp);
+            var sourceList = source.ToNativeList(Allocator.Temp);
+            var secondList = second.ToNativeList(Allocator.Temp);
+            var list = new NativeList<T>(sourceList.Length, allocator);
             var secondSet = new NativeHashSet<T>(secondList.Length, Allocator.Temp);
             for (var i = 0; i < secondList.Length; i++)
                 secondSet.Add(secondList[i]);

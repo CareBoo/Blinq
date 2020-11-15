@@ -108,8 +108,8 @@ namespace CareBoo.Blinq
         {
             if (!map.IsCreated)
             {
-                var outerList = outer.ToList();
-                map = new NativeHashMap<TKey, TOuter>(outerList.Length, Allocator.Persistent);
+                var outerList = outer.ToNativeList(Allocator.Temp);
+                map = new NativeHashMap<TKey, TOuter>(outerList.Length, Allocator.Temp);
                 for (var i = 0; i < outerList.Length; i++)
                 {
                     var val = outerList[i];
@@ -139,12 +139,12 @@ namespace CareBoo.Blinq
             throw new NotSupportedException();
         }
 
-        public NativeList<TResult> ToList()
+        public NativeList<TResult> ToNativeList(Allocator allocator)
         {
-            var outerList = outer.ToList();
-            var innerList = inner.ToList();
+            var outerList = outer.ToNativeList(Allocator.Temp);
+            var innerList = inner.ToNativeList(Allocator.Temp);
             var outerHashMap = new NativeHashMap<TKey, TOuter>(outerList.Length, Allocator.Temp);
-            var resultList = new NativeList<TResult>(innerList.Length, Allocator.Temp);
+            var resultList = new NativeList<TResult>(innerList.Length, allocator);
             for (var i = 0; i < outerList.Length; i++)
             {
                 var val = outerList[i];

@@ -79,9 +79,9 @@ namespace CareBoo.Blinq
             currentIndex = 0;
         }
 
-        public NativeList<T> ToList()
+        public NativeList<T> ToNativeList(Allocator allocator)
         {
-            var list = source.ToList();
+            var list = source.ToNativeList(allocator);
             for (var i = 0; i < list.Length; i++)
                 if (!predicate.Invoke(list[i], i))
                 {
@@ -136,9 +136,9 @@ namespace CareBoo.Blinq
             currentIndex = false;
         }
 
-        public NativeList<T> ToList()
+        public NativeList<T> ToNativeList(Allocator allocator)
         {
-            var list = source.ToList();
+            var list = source.ToNativeList(allocator);
             for (var i = 0; i < list.Length; i++)
                 if (!predicate.Invoke(list[i]))
                 {

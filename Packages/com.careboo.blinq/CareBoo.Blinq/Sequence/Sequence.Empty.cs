@@ -33,9 +33,9 @@ namespace CareBoo.Blinq
         {
         }
 
-        public NativeList<T> ToList()
+        public NativeList<T> ToNativeList(Allocator allocator)
         {
-            return new NativeList<T>(Allocator.Temp);
+            return new NativeList<T>(allocator);
         }
     }
 }

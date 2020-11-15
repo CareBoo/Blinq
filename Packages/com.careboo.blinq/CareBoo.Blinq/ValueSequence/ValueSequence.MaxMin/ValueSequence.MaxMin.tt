@@ -13,6 +13,7 @@
 //------------------------------------------------------------------------------
 
 using CareBoo.Burst.Delegates;
+using Unity.Collections;
 
 namespace CareBoo.Blinq
 {
@@ -28,7 +29,7 @@ foreach (string TYPE_FULL in TYPES)
             )
             where TSource : struct, ISequence<<#=TYPE_FULL#>>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -51,7 +52,7 @@ foreach (string TYPE_FULL in TYPES)
             )
             where TSource : struct, ISequence<<#=TYPE_FULL#>>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -77,7 +78,7 @@ foreach (string TYPE_FULL in TYPES)
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, <#=TYPE_FULL#>>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
@@ -103,7 +104,7 @@ foreach (string TYPE_FULL in TYPES)
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, <#=TYPE_FULL#>>
         {
-            var srcList = source.Execute();
+            var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
             {
                 srcList.Dispose();
