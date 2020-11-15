@@ -1,4 +1,4 @@
-﻿using NUnit.Framework;
+using NUnit.Framework;
 using Unity.PerformanceTesting;
 using Linq = System.Linq.Enumerable;
 using Blinq = CareBoo.Blinq.Sequence;
@@ -9,31 +9,31 @@ using static ValueFuncs;
 using CareBoo.Burst.Delegates;
 
 [BurstCompile]
-internal struct SelectJob<TSelector> : IJob
-    where TSelector : struct, IFunc<int, long>
+internal struct ExceptPerformanceJob : IJob
 {
     [ReadOnly]
     public NativeArray<int> Source;
+
     [ReadOnly]
-    public ValueFunc<int, long>.Struct<TSelector> Selector;
+    public NativeArray<int> Second;
 
     public void Execute()
     {
-        Blinq.Select(Source, Selector).Execute();
+        Blinq.Except(Source, Second).Execute();
     }
 }
 
-internal class SelectPerformanceTest : BaseBlinqPerformanceTest
+internal class ExceptPerformanceTest : BaseBlinqPerformanceTest
 {
     [Test, Performance, Category("Performance")]
     public void BlinqSequence()
     {
-        MeasureBlinq(() => new SelectJob<Functions.IntToLong> { Source = source, Selector = IntToLong }.Run()).Run();
+        MakeMeasurement(() => new ExceptPerformanceJob { Source = source, Second = source }.Run(), "Blinq").Run();
     }
 
     [Test, Performance, Category("Performance")]
     public void LinqSequence()
     {
-        MeasureLinq(() => Linq.ToList(Linq.Select(source, IntToLong.Invoke))).Run();
+        MakeMeasurement(() => Linq.ToList(Linq.Except(source, source)), "Linq").Run();
     }
 }
