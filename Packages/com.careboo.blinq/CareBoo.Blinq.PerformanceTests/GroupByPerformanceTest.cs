@@ -8,18 +8,19 @@ using Unity.Collections;
 using static ValueFuncs;
 using CareBoo.Burst.Delegates;
 using System.Collections.Generic;
+using CareBoo.Blinq;
 
 [BurstCompile]
 internal struct GroupByPerformanceJob<TKeySelector, TResultSelector> : IJob
     where TKeySelector : struct, IFunc<int, int>
-    where TResultSelector : struct, IFunc<int, NativeMultiHashMap<int, int>, int>
+    where TResultSelector : struct, IFunc<int, ValueGroupingValues<int, int>, int>
 {
     [ReadOnly]
     public NativeArray<int> Source;
 
     public ValueFunc<int, int>.Struct<TKeySelector> KeySelector;
 
-    public ValueFunc<int, NativeMultiHashMap<int, int>, int>.Struct<TResultSelector> ResultSelector;
+    public ValueFunc<int, ValueGroupingValues<int, int>, int>.Struct<TResultSelector> ResultSelector;
 
     public void Execute()
     {

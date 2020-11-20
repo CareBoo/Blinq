@@ -1,4 +1,5 @@
-﻿using CareBoo.Burst.Delegates;
+﻿using System;
+using CareBoo.Burst.Delegates;
 
 namespace CareBoo.Blinq
 {
@@ -31,26 +32,44 @@ namespace CareBoo.Blinq
         public T Invoke(T arg0) => arg0;
     }
 
+
+    public struct GroupSelector<TKey, T> : IFunc<TKey, ValueGroupingValues<TKey, T>, ValueGrouping<TKey, T>>
+        where T : struct
+        where TKey : struct, IEquatable<TKey>
+    {
+        public ValueGrouping<TKey, T> Invoke(TKey arg0, ValueGroupingValues<TKey, T> arg1)
+        {
+            return new ValueGrouping<TKey, T>(arg0, arg1);
+        }
+    }
+
     public static class UtilFunctions
     {
         public static ValueFunc<T, TResult, TResult>.Struct<RightSelector<T, TResult>> RightSelector<T, TResult>()
             where T : struct
             where TResult : struct
         {
-            return ValueFunc<T, TResult, TResult>.New<RightSelector<T, TResult>>();
+            return default;
         }
 
         public static ValueFunc<T, TResult, T>.Struct<LeftSelector<T, TResult>> LeftSelector<T, TResult>()
             where T : struct
             where TResult : struct
         {
-            return ValueFunc<T, TResult, T>.New<LeftSelector<T, TResult>>();
+            return default;
         }
 
         public static ValueFunc<T, T>.Struct<SameSelector<T>> SameSelector<T>()
             where T : struct
         {
-            return ValueFunc<T, T>.New<SameSelector<T>>();
+            return default;
+        }
+
+        public static ValueFunc<TKey, ValueGroupingValues<TKey, T>, ValueGrouping<TKey, T>>.Struct<GroupSelector<TKey, T>> GroupSelector<TKey, T>()
+            where T : struct
+            where TKey : struct, IEquatable<TKey>
+        {
+            return default;
         }
     }
 }

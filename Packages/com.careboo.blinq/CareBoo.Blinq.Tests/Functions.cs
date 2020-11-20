@@ -1,6 +1,7 @@
 ﻿using Unity.Collections;
 using Unity.Mathematics;
 using CareBoo.Burst.Delegates;
+using CareBoo.Blinq;
 
 internal static class ValueFuncs
 {
@@ -61,17 +62,21 @@ internal static class ValueFuncs
     public static readonly ValueFunc<int, int, NativeArray<int>>.Struct<Functions.RepeatAmountPlusIndex> RepeatAmountPlusIndex =
         ValueFunc<int, int, NativeArray<int>>.New<Functions.RepeatAmountPlusIndex>();
 
-
-
-    internal readonly static ValueFunc<int, NativeMultiHashMap<int, int>, int>.Struct<Functions.SelectGrouping> SelectGrouping =
-        ValueFunc<int, NativeMultiHashMap<int, int>, int>.New<Functions.SelectGrouping>();
+    internal readonly static ValueFunc<int, ValueGroupingValues<int, int>, int>.Struct<Functions.SelectGrouping> SelectGrouping =
+        ValueFunc<int, ValueGroupingValues<int, int>, int>.New<Functions.SelectGrouping>();
 }
 
 internal static class Functions
 {
-    internal struct SelectGrouping : IFunc<int, NativeMultiHashMap<int, int>, int>
+    internal struct SelectGrouping : IFunc<int, ValueGroupingValues<int, int>, int>
     {
-        public int Invoke(int arg0, NativeMultiHashMap<int, int> arg1) => arg0 + arg1.CountValuesForKey(arg0);
+        public int Invoke(int arg0, ValueGroupingValues<int, int> arg1)
+        {
+            var list = arg1.ToNativeList(Allocator.Temp);
+            var result = arg0 + list.Length;
+            list.Dispose();
+            return result;
+        }
     }
 
     public struct SelectSelf<T> : IFunc<T, T>
