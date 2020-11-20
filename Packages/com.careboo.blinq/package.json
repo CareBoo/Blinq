@@ -1,7 +1,7 @@
 {
   "name": "com.careboo.blinq",
   "displayName": "Blinq",
-  "version": "2.0.0-preview.3",
+  "version": "2.0.0",
   "unity": "2020.1",
   "description": "Adds Burst-compatible, LINQ extension methods like Select, Where, and Any to `NativeArray`.",
   "dependencies": {

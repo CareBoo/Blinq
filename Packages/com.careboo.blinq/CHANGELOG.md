@@ -1,3 +1,18 @@
+# [2.0.0](https://github.com/CareBoo/Blinq/compare/v1.0.0...v2.0.0) (2020-11-20)
+
+
+### Features
+
+* :sparkles: Add `IGrouping` GroupBy implementation ([df7c623](https://github.com/CareBoo/Blinq/commit/df7c62342fc610c96910b157e2b529b43027f80a)), closes [#56](https://github.com/CareBoo/Blinq/issues/56)
+* :sparkles: Add allocator API ([a8773d3](https://github.com/CareBoo/Blinq/commit/a8773d3a1df47fd4131000ef10e0ce7046ae5e30))
+* :sparkles: Use `Burst.Delegates` ValueFuncs ([61e4fe1](https://github.com/CareBoo/Blinq/commit/61e4fe16a58f43ff910aaf4327195cae626e42f8)), closes [#55](https://github.com/CareBoo/Blinq/issues/55)
+
+
+### BREAKING CHANGES
+
+* `Execute` API is removed in ValueSequence
+* ValueFunc API is now implemented by a package
+
 # [2.0.0-preview.3](https://github.com/CareBoo/Blinq/compare/v2.0.0-preview.2...v2.0.0-preview.3) (2020-11-20)
 
 
