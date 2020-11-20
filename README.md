@@ -13,8 +13,6 @@ Currently, support for the Github Package Registry is broken. See this thread [h
 Differences with Linq
 ---------------------
 
-Blinq aims to be as similar to Linq as possible, but there are some major differences.
-
 ### Delegates
 
 The Burst compiler doesn't support C# delegates. To get around this issue, Blinq requires you to create structs that implement the `IFunc` interface.
@@ -39,7 +37,3 @@ var selected = myArray.Select(selector);
 ```
 
 Current work is being made to allow burstable lambdas in the [Burst.Delegates](https://github.com/CareBoo/Burst.Delegates) project (WIP).
-
-### GroupBy
-
-`GroupBy` API returning `IGrouping` isn't supported at the moment.
