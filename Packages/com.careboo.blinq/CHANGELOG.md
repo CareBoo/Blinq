@@ -1,3 +1,10 @@
+# [2.0.0-preview.3](https://github.com/CareBoo/Blinq/compare/v2.0.0-preview.2...v2.0.0-preview.3) (2020-11-20)
+
+
+### Features
+
+* :sparkles: Add `IGrouping` GroupBy implementation ([a5a7cb8](https://github.com/CareBoo/Blinq/commit/a5a7cb816a54129b422162e990e7421acb3da405)), closes [#56](https://github.com/CareBoo/Blinq/issues/56)
+
 # [2.0.0-preview.2](https://github.com/CareBoo/Blinq/compare/v2.0.0-preview.1...v2.0.0-preview.2) (2020-11-15)
 
 
