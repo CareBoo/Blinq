@@ -12,7 +12,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System;
+using Unity.Burst;
 using Unity.Collections;
+using Unity.Jobs;
 using Unity.Mathematics;
 using CareBoo.Burst.Delegates;
 
@@ -20,6 +23,33 @@ namespace CareBoo.Blinq
 {
     public static partial class Sequence
     {
+
+        public struct AverageJobHandle_int : IDisposable
+        {
+            JobHandle handle;
+            NativeArray<int> output;
+
+            public AverageJobHandle_int(ref JobHandle handle, ref NativeArray<int> output)
+            {
+                this.handle = handle;
+                this.output = output;
+            }
+
+            public int Complete()
+            {
+                handle.Complete();
+                var result = output[0];
+                Dispose();
+                return result;
+            }
+
+            public void Dispose()
+            {
+                if (output.IsCreated)
+                    output.Dispose();
+                output = default;
+            }
+        }
 
         public static int Average<TSource>(
             this in ValueSequence<int, TSource> source
@@ -38,6 +68,54 @@ namespace CareBoo.Blinq
             var result = sum / srcList.Length;
             srcList.Dispose();
             return result;
+        }
+
+        [BurstCompile]
+        public struct AverageJob_int<TSource>
+            : IJob
+            where TSource : struct, ISequence<int>
+        {
+            [ReadOnly]
+            public ValueSequence<int, TSource> Source;
+
+            [WriteOnly]
+            public NativeArray<int> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average();
+            }
+        }
+
+        public static int RunAverage<TSource>(
+            this in ValueSequence<int, TSource> source
+            )
+            where TSource : struct, ISequence<int>
+        {
+            var output = new NativeArray<int>(1, Allocator.Persistent);
+            new AverageJob_int<TSource> { Source = source, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<TSource>(
+            this in ValueSequence<int, TSource> source,
+            in NativeArray<int> output
+            )
+            where TSource : struct, ISequence<int>
+        {
+            return new AverageJob_int<TSource> { Source = source, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_int ScheduleAverage<TSource>(
+            this in ValueSequence<int, TSource> source
+            )
+            where TSource : struct, ISequence<int>
+        {
+            var output = new NativeArray<int>(1, Allocator.Persistent);
+            var handle = new AverageJob_int<TSource> { Source = source, Output = output }.Schedule();
+            return new AverageJobHandle_int(ref handle, ref output);
         }
 
         public static int Average<T, TSource, TSelector>(
@@ -62,6 +140,93 @@ namespace CareBoo.Blinq
             return result;
         }
 
+        [BurstCompile]
+        public struct AverageJobSelector_int<T, TSource, TSelector>
+            : IJob
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, int>
+        {
+            [ReadOnly]
+            public ValueSequence<T, TSource> Source;
+            public ValueFunc<T, int>.Struct<TSelector> Selector;
+
+            [WriteOnly]
+            public NativeArray<int> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average(Selector);
+            }
+        }
+
+        public static int RunAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, int>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, int>
+        {
+            var output = new NativeArray<int>(1, Allocator.Persistent);
+            new AverageJobSelector_int<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, int>.Struct<TSelector> selector,
+            in NativeArray<int> output
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, int>
+        {
+            return new AverageJobSelector_int<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_int ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, int>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, int>
+        {
+            var output = new NativeArray<int>(1, Allocator.Persistent);
+            var handle = new AverageJobSelector_int<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+            return new AverageJobHandle_int(ref handle, ref output);
+        }
+
+
+        public struct AverageJobHandle_int2 : IDisposable
+        {
+            JobHandle handle;
+            NativeArray<int2> output;
+
+            public AverageJobHandle_int2(ref JobHandle handle, ref NativeArray<int2> output)
+            {
+                this.handle = handle;
+                this.output = output;
+            }
+
+            public int2 Complete()
+            {
+                handle.Complete();
+                var result = output[0];
+                Dispose();
+                return result;
+            }
+
+            public void Dispose()
+            {
+                if (output.IsCreated)
+                    output.Dispose();
+                output = default;
+            }
+        }
 
         public static int2 Average<TSource>(
             this in ValueSequence<int2, TSource> source
@@ -80,6 +245,54 @@ namespace CareBoo.Blinq
             var result = sum / srcList.Length;
             srcList.Dispose();
             return result;
+        }
+
+        [BurstCompile]
+        public struct AverageJob_int2<TSource>
+            : IJob
+            where TSource : struct, ISequence<int2>
+        {
+            [ReadOnly]
+            public ValueSequence<int2, TSource> Source;
+
+            [WriteOnly]
+            public NativeArray<int2> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average();
+            }
+        }
+
+        public static int2 RunAverage<TSource>(
+            this in ValueSequence<int2, TSource> source
+            )
+            where TSource : struct, ISequence<int2>
+        {
+            var output = new NativeArray<int2>(1, Allocator.Persistent);
+            new AverageJob_int2<TSource> { Source = source, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<TSource>(
+            this in ValueSequence<int2, TSource> source,
+            in NativeArray<int2> output
+            )
+            where TSource : struct, ISequence<int2>
+        {
+            return new AverageJob_int2<TSource> { Source = source, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_int2 ScheduleAverage<TSource>(
+            this in ValueSequence<int2, TSource> source
+            )
+            where TSource : struct, ISequence<int2>
+        {
+            var output = new NativeArray<int2>(1, Allocator.Persistent);
+            var handle = new AverageJob_int2<TSource> { Source = source, Output = output }.Schedule();
+            return new AverageJobHandle_int2(ref handle, ref output);
         }
 
         public static int2 Average<T, TSource, TSelector>(
@@ -104,6 +317,93 @@ namespace CareBoo.Blinq
             return result;
         }
 
+        [BurstCompile]
+        public struct AverageJobSelector_int2<T, TSource, TSelector>
+            : IJob
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, int2>
+        {
+            [ReadOnly]
+            public ValueSequence<T, TSource> Source;
+            public ValueFunc<T, int2>.Struct<TSelector> Selector;
+
+            [WriteOnly]
+            public NativeArray<int2> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average(Selector);
+            }
+        }
+
+        public static int2 RunAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, int2>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, int2>
+        {
+            var output = new NativeArray<int2>(1, Allocator.Persistent);
+            new AverageJobSelector_int2<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, int2>.Struct<TSelector> selector,
+            in NativeArray<int2> output
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, int2>
+        {
+            return new AverageJobSelector_int2<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_int2 ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, int2>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, int2>
+        {
+            var output = new NativeArray<int2>(1, Allocator.Persistent);
+            var handle = new AverageJobSelector_int2<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+            return new AverageJobHandle_int2(ref handle, ref output);
+        }
+
+
+        public struct AverageJobHandle_int2x2 : IDisposable
+        {
+            JobHandle handle;
+            NativeArray<int2x2> output;
+
+            public AverageJobHandle_int2x2(ref JobHandle handle, ref NativeArray<int2x2> output)
+            {
+                this.handle = handle;
+                this.output = output;
+            }
+
+            public int2x2 Complete()
+            {
+                handle.Complete();
+                var result = output[0];
+                Dispose();
+                return result;
+            }
+
+            public void Dispose()
+            {
+                if (output.IsCreated)
+                    output.Dispose();
+                output = default;
+            }
+        }
 
         public static int2x2 Average<TSource>(
             this in ValueSequence<int2x2, TSource> source
@@ -122,6 +422,54 @@ namespace CareBoo.Blinq
             var result = sum / srcList.Length;
             srcList.Dispose();
             return result;
+        }
+
+        [BurstCompile]
+        public struct AverageJob_int2x2<TSource>
+            : IJob
+            where TSource : struct, ISequence<int2x2>
+        {
+            [ReadOnly]
+            public ValueSequence<int2x2, TSource> Source;
+
+            [WriteOnly]
+            public NativeArray<int2x2> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average();
+            }
+        }
+
+        public static int2x2 RunAverage<TSource>(
+            this in ValueSequence<int2x2, TSource> source
+            )
+            where TSource : struct, ISequence<int2x2>
+        {
+            var output = new NativeArray<int2x2>(1, Allocator.Persistent);
+            new AverageJob_int2x2<TSource> { Source = source, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<TSource>(
+            this in ValueSequence<int2x2, TSource> source,
+            in NativeArray<int2x2> output
+            )
+            where TSource : struct, ISequence<int2x2>
+        {
+            return new AverageJob_int2x2<TSource> { Source = source, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_int2x2 ScheduleAverage<TSource>(
+            this in ValueSequence<int2x2, TSource> source
+            )
+            where TSource : struct, ISequence<int2x2>
+        {
+            var output = new NativeArray<int2x2>(1, Allocator.Persistent);
+            var handle = new AverageJob_int2x2<TSource> { Source = source, Output = output }.Schedule();
+            return new AverageJobHandle_int2x2(ref handle, ref output);
         }
 
         public static int2x2 Average<T, TSource, TSelector>(
@@ -146,6 +494,93 @@ namespace CareBoo.Blinq
             return result;
         }
 
+        [BurstCompile]
+        public struct AverageJobSelector_int2x2<T, TSource, TSelector>
+            : IJob
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, int2x2>
+        {
+            [ReadOnly]
+            public ValueSequence<T, TSource> Source;
+            public ValueFunc<T, int2x2>.Struct<TSelector> Selector;
+
+            [WriteOnly]
+            public NativeArray<int2x2> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average(Selector);
+            }
+        }
+
+        public static int2x2 RunAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, int2x2>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, int2x2>
+        {
+            var output = new NativeArray<int2x2>(1, Allocator.Persistent);
+            new AverageJobSelector_int2x2<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, int2x2>.Struct<TSelector> selector,
+            in NativeArray<int2x2> output
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, int2x2>
+        {
+            return new AverageJobSelector_int2x2<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_int2x2 ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, int2x2>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, int2x2>
+        {
+            var output = new NativeArray<int2x2>(1, Allocator.Persistent);
+            var handle = new AverageJobSelector_int2x2<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+            return new AverageJobHandle_int2x2(ref handle, ref output);
+        }
+
+
+        public struct AverageJobHandle_int2x3 : IDisposable
+        {
+            JobHandle handle;
+            NativeArray<int2x3> output;
+
+            public AverageJobHandle_int2x3(ref JobHandle handle, ref NativeArray<int2x3> output)
+            {
+                this.handle = handle;
+                this.output = output;
+            }
+
+            public int2x3 Complete()
+            {
+                handle.Complete();
+                var result = output[0];
+                Dispose();
+                return result;
+            }
+
+            public void Dispose()
+            {
+                if (output.IsCreated)
+                    output.Dispose();
+                output = default;
+            }
+        }
 
         public static int2x3 Average<TSource>(
             this in ValueSequence<int2x3, TSource> source
@@ -164,6 +599,54 @@ namespace CareBoo.Blinq
             var result = sum / srcList.Length;
             srcList.Dispose();
             return result;
+        }
+
+        [BurstCompile]
+        public struct AverageJob_int2x3<TSource>
+            : IJob
+            where TSource : struct, ISequence<int2x3>
+        {
+            [ReadOnly]
+            public ValueSequence<int2x3, TSource> Source;
+
+            [WriteOnly]
+            public NativeArray<int2x3> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average();
+            }
+        }
+
+        public static int2x3 RunAverage<TSource>(
+            this in ValueSequence<int2x3, TSource> source
+            )
+            where TSource : struct, ISequence<int2x3>
+        {
+            var output = new NativeArray<int2x3>(1, Allocator.Persistent);
+            new AverageJob_int2x3<TSource> { Source = source, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<TSource>(
+            this in ValueSequence<int2x3, TSource> source,
+            in NativeArray<int2x3> output
+            )
+            where TSource : struct, ISequence<int2x3>
+        {
+            return new AverageJob_int2x3<TSource> { Source = source, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_int2x3 ScheduleAverage<TSource>(
+            this in ValueSequence<int2x3, TSource> source
+            )
+            where TSource : struct, ISequence<int2x3>
+        {
+            var output = new NativeArray<int2x3>(1, Allocator.Persistent);
+            var handle = new AverageJob_int2x3<TSource> { Source = source, Output = output }.Schedule();
+            return new AverageJobHandle_int2x3(ref handle, ref output);
         }
 
         public static int2x3 Average<T, TSource, TSelector>(
@@ -188,6 +671,93 @@ namespace CareBoo.Blinq
             return result;
         }
 
+        [BurstCompile]
+        public struct AverageJobSelector_int2x3<T, TSource, TSelector>
+            : IJob
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, int2x3>
+        {
+            [ReadOnly]
+            public ValueSequence<T, TSource> Source;
+            public ValueFunc<T, int2x3>.Struct<TSelector> Selector;
+
+            [WriteOnly]
+            public NativeArray<int2x3> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average(Selector);
+            }
+        }
+
+        public static int2x3 RunAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, int2x3>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, int2x3>
+        {
+            var output = new NativeArray<int2x3>(1, Allocator.Persistent);
+            new AverageJobSelector_int2x3<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, int2x3>.Struct<TSelector> selector,
+            in NativeArray<int2x3> output
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, int2x3>
+        {
+            return new AverageJobSelector_int2x3<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_int2x3 ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, int2x3>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, int2x3>
+        {
+            var output = new NativeArray<int2x3>(1, Allocator.Persistent);
+            var handle = new AverageJobSelector_int2x3<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+            return new AverageJobHandle_int2x3(ref handle, ref output);
+        }
+
+
+        public struct AverageJobHandle_int2x4 : IDisposable
+        {
+            JobHandle handle;
+            NativeArray<int2x4> output;
+
+            public AverageJobHandle_int2x4(ref JobHandle handle, ref NativeArray<int2x4> output)
+            {
+                this.handle = handle;
+                this.output = output;
+            }
+
+            public int2x4 Complete()
+            {
+                handle.Complete();
+                var result = output[0];
+                Dispose();
+                return result;
+            }
+
+            public void Dispose()
+            {
+                if (output.IsCreated)
+                    output.Dispose();
+                output = default;
+            }
+        }
 
         public static int2x4 Average<TSource>(
             this in ValueSequence<int2x4, TSource> source
@@ -206,6 +776,54 @@ namespace CareBoo.Blinq
             var result = sum / srcList.Length;
             srcList.Dispose();
             return result;
+        }
+
+        [BurstCompile]
+        public struct AverageJob_int2x4<TSource>
+            : IJob
+            where TSource : struct, ISequence<int2x4>
+        {
+            [ReadOnly]
+            public ValueSequence<int2x4, TSource> Source;
+
+            [WriteOnly]
+            public NativeArray<int2x4> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average();
+            }
+        }
+
+        public static int2x4 RunAverage<TSource>(
+            this in ValueSequence<int2x4, TSource> source
+            )
+            where TSource : struct, ISequence<int2x4>
+        {
+            var output = new NativeArray<int2x4>(1, Allocator.Persistent);
+            new AverageJob_int2x4<TSource> { Source = source, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<TSource>(
+            this in ValueSequence<int2x4, TSource> source,
+            in NativeArray<int2x4> output
+            )
+            where TSource : struct, ISequence<int2x4>
+        {
+            return new AverageJob_int2x4<TSource> { Source = source, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_int2x4 ScheduleAverage<TSource>(
+            this in ValueSequence<int2x4, TSource> source
+            )
+            where TSource : struct, ISequence<int2x4>
+        {
+            var output = new NativeArray<int2x4>(1, Allocator.Persistent);
+            var handle = new AverageJob_int2x4<TSource> { Source = source, Output = output }.Schedule();
+            return new AverageJobHandle_int2x4(ref handle, ref output);
         }
 
         public static int2x4 Average<T, TSource, TSelector>(
@@ -230,6 +848,93 @@ namespace CareBoo.Blinq
             return result;
         }
 
+        [BurstCompile]
+        public struct AverageJobSelector_int2x4<T, TSource, TSelector>
+            : IJob
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, int2x4>
+        {
+            [ReadOnly]
+            public ValueSequence<T, TSource> Source;
+            public ValueFunc<T, int2x4>.Struct<TSelector> Selector;
+
+            [WriteOnly]
+            public NativeArray<int2x4> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average(Selector);
+            }
+        }
+
+        public static int2x4 RunAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, int2x4>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, int2x4>
+        {
+            var output = new NativeArray<int2x4>(1, Allocator.Persistent);
+            new AverageJobSelector_int2x4<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, int2x4>.Struct<TSelector> selector,
+            in NativeArray<int2x4> output
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, int2x4>
+        {
+            return new AverageJobSelector_int2x4<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_int2x4 ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, int2x4>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, int2x4>
+        {
+            var output = new NativeArray<int2x4>(1, Allocator.Persistent);
+            var handle = new AverageJobSelector_int2x4<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+            return new AverageJobHandle_int2x4(ref handle, ref output);
+        }
+
+
+        public struct AverageJobHandle_int3 : IDisposable
+        {
+            JobHandle handle;
+            NativeArray<int3> output;
+
+            public AverageJobHandle_int3(ref JobHandle handle, ref NativeArray<int3> output)
+            {
+                this.handle = handle;
+                this.output = output;
+            }
+
+            public int3 Complete()
+            {
+                handle.Complete();
+                var result = output[0];
+                Dispose();
+                return result;
+            }
+
+            public void Dispose()
+            {
+                if (output.IsCreated)
+                    output.Dispose();
+                output = default;
+            }
+        }
 
         public static int3 Average<TSource>(
             this in ValueSequence<int3, TSource> source
@@ -248,6 +953,54 @@ namespace CareBoo.Blinq
             var result = sum / srcList.Length;
             srcList.Dispose();
             return result;
+        }
+
+        [BurstCompile]
+        public struct AverageJob_int3<TSource>
+            : IJob
+            where TSource : struct, ISequence<int3>
+        {
+            [ReadOnly]
+            public ValueSequence<int3, TSource> Source;
+
+            [WriteOnly]
+            public NativeArray<int3> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average();
+            }
+        }
+
+        public static int3 RunAverage<TSource>(
+            this in ValueSequence<int3, TSource> source
+            )
+            where TSource : struct, ISequence<int3>
+        {
+            var output = new NativeArray<int3>(1, Allocator.Persistent);
+            new AverageJob_int3<TSource> { Source = source, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<TSource>(
+            this in ValueSequence<int3, TSource> source,
+            in NativeArray<int3> output
+            )
+            where TSource : struct, ISequence<int3>
+        {
+            return new AverageJob_int3<TSource> { Source = source, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_int3 ScheduleAverage<TSource>(
+            this in ValueSequence<int3, TSource> source
+            )
+            where TSource : struct, ISequence<int3>
+        {
+            var output = new NativeArray<int3>(1, Allocator.Persistent);
+            var handle = new AverageJob_int3<TSource> { Source = source, Output = output }.Schedule();
+            return new AverageJobHandle_int3(ref handle, ref output);
         }
 
         public static int3 Average<T, TSource, TSelector>(
@@ -272,6 +1025,93 @@ namespace CareBoo.Blinq
             return result;
         }
 
+        [BurstCompile]
+        public struct AverageJobSelector_int3<T, TSource, TSelector>
+            : IJob
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, int3>
+        {
+            [ReadOnly]
+            public ValueSequence<T, TSource> Source;
+            public ValueFunc<T, int3>.Struct<TSelector> Selector;
+
+            [WriteOnly]
+            public NativeArray<int3> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average(Selector);
+            }
+        }
+
+        public static int3 RunAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, int3>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, int3>
+        {
+            var output = new NativeArray<int3>(1, Allocator.Persistent);
+            new AverageJobSelector_int3<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, int3>.Struct<TSelector> selector,
+            in NativeArray<int3> output
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, int3>
+        {
+            return new AverageJobSelector_int3<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_int3 ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, int3>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, int3>
+        {
+            var output = new NativeArray<int3>(1, Allocator.Persistent);
+            var handle = new AverageJobSelector_int3<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+            return new AverageJobHandle_int3(ref handle, ref output);
+        }
+
+
+        public struct AverageJobHandle_int3x2 : IDisposable
+        {
+            JobHandle handle;
+            NativeArray<int3x2> output;
+
+            public AverageJobHandle_int3x2(ref JobHandle handle, ref NativeArray<int3x2> output)
+            {
+                this.handle = handle;
+                this.output = output;
+            }
+
+            public int3x2 Complete()
+            {
+                handle.Complete();
+                var result = output[0];
+                Dispose();
+                return result;
+            }
+
+            public void Dispose()
+            {
+                if (output.IsCreated)
+                    output.Dispose();
+                output = default;
+            }
+        }
 
         public static int3x2 Average<TSource>(
             this in ValueSequence<int3x2, TSource> source
@@ -290,6 +1130,54 @@ namespace CareBoo.Blinq
             var result = sum / srcList.Length;
             srcList.Dispose();
             return result;
+        }
+
+        [BurstCompile]
+        public struct AverageJob_int3x2<TSource>
+            : IJob
+            where TSource : struct, ISequence<int3x2>
+        {
+            [ReadOnly]
+            public ValueSequence<int3x2, TSource> Source;
+
+            [WriteOnly]
+            public NativeArray<int3x2> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average();
+            }
+        }
+
+        public static int3x2 RunAverage<TSource>(
+            this in ValueSequence<int3x2, TSource> source
+            )
+            where TSource : struct, ISequence<int3x2>
+        {
+            var output = new NativeArray<int3x2>(1, Allocator.Persistent);
+            new AverageJob_int3x2<TSource> { Source = source, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<TSource>(
+            this in ValueSequence<int3x2, TSource> source,
+            in NativeArray<int3x2> output
+            )
+            where TSource : struct, ISequence<int3x2>
+        {
+            return new AverageJob_int3x2<TSource> { Source = source, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_int3x2 ScheduleAverage<TSource>(
+            this in ValueSequence<int3x2, TSource> source
+            )
+            where TSource : struct, ISequence<int3x2>
+        {
+            var output = new NativeArray<int3x2>(1, Allocator.Persistent);
+            var handle = new AverageJob_int3x2<TSource> { Source = source, Output = output }.Schedule();
+            return new AverageJobHandle_int3x2(ref handle, ref output);
         }
 
         public static int3x2 Average<T, TSource, TSelector>(
@@ -314,6 +1202,93 @@ namespace CareBoo.Blinq
             return result;
         }
 
+        [BurstCompile]
+        public struct AverageJobSelector_int3x2<T, TSource, TSelector>
+            : IJob
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, int3x2>
+        {
+            [ReadOnly]
+            public ValueSequence<T, TSource> Source;
+            public ValueFunc<T, int3x2>.Struct<TSelector> Selector;
+
+            [WriteOnly]
+            public NativeArray<int3x2> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average(Selector);
+            }
+        }
+
+        public static int3x2 RunAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, int3x2>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, int3x2>
+        {
+            var output = new NativeArray<int3x2>(1, Allocator.Persistent);
+            new AverageJobSelector_int3x2<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, int3x2>.Struct<TSelector> selector,
+            in NativeArray<int3x2> output
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, int3x2>
+        {
+            return new AverageJobSelector_int3x2<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_int3x2 ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, int3x2>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, int3x2>
+        {
+            var output = new NativeArray<int3x2>(1, Allocator.Persistent);
+            var handle = new AverageJobSelector_int3x2<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+            return new AverageJobHandle_int3x2(ref handle, ref output);
+        }
+
+
+        public struct AverageJobHandle_int3x3 : IDisposable
+        {
+            JobHandle handle;
+            NativeArray<int3x3> output;
+
+            public AverageJobHandle_int3x3(ref JobHandle handle, ref NativeArray<int3x3> output)
+            {
+                this.handle = handle;
+                this.output = output;
+            }
+
+            public int3x3 Complete()
+            {
+                handle.Complete();
+                var result = output[0];
+                Dispose();
+                return result;
+            }
+
+            public void Dispose()
+            {
+                if (output.IsCreated)
+                    output.Dispose();
+                output = default;
+            }
+        }
 
         public static int3x3 Average<TSource>(
             this in ValueSequence<int3x3, TSource> source
@@ -332,6 +1307,54 @@ namespace CareBoo.Blinq
             var result = sum / srcList.Length;
             srcList.Dispose();
             return result;
+        }
+
+        [BurstCompile]
+        public struct AverageJob_int3x3<TSource>
+            : IJob
+            where TSource : struct, ISequence<int3x3>
+        {
+            [ReadOnly]
+            public ValueSequence<int3x3, TSource> Source;
+
+            [WriteOnly]
+            public NativeArray<int3x3> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average();
+            }
+        }
+
+        public static int3x3 RunAverage<TSource>(
+            this in ValueSequence<int3x3, TSource> source
+            )
+            where TSource : struct, ISequence<int3x3>
+        {
+            var output = new NativeArray<int3x3>(1, Allocator.Persistent);
+            new AverageJob_int3x3<TSource> { Source = source, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<TSource>(
+            this in ValueSequence<int3x3, TSource> source,
+            in NativeArray<int3x3> output
+            )
+            where TSource : struct, ISequence<int3x3>
+        {
+            return new AverageJob_int3x3<TSource> { Source = source, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_int3x3 ScheduleAverage<TSource>(
+            this in ValueSequence<int3x3, TSource> source
+            )
+            where TSource : struct, ISequence<int3x3>
+        {
+            var output = new NativeArray<int3x3>(1, Allocator.Persistent);
+            var handle = new AverageJob_int3x3<TSource> { Source = source, Output = output }.Schedule();
+            return new AverageJobHandle_int3x3(ref handle, ref output);
         }
 
         public static int3x3 Average<T, TSource, TSelector>(
@@ -356,6 +1379,93 @@ namespace CareBoo.Blinq
             return result;
         }
 
+        [BurstCompile]
+        public struct AverageJobSelector_int3x3<T, TSource, TSelector>
+            : IJob
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, int3x3>
+        {
+            [ReadOnly]
+            public ValueSequence<T, TSource> Source;
+            public ValueFunc<T, int3x3>.Struct<TSelector> Selector;
+
+            [WriteOnly]
+            public NativeArray<int3x3> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average(Selector);
+            }
+        }
+
+        public static int3x3 RunAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, int3x3>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, int3x3>
+        {
+            var output = new NativeArray<int3x3>(1, Allocator.Persistent);
+            new AverageJobSelector_int3x3<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, int3x3>.Struct<TSelector> selector,
+            in NativeArray<int3x3> output
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, int3x3>
+        {
+            return new AverageJobSelector_int3x3<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_int3x3 ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, int3x3>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, int3x3>
+        {
+            var output = new NativeArray<int3x3>(1, Allocator.Persistent);
+            var handle = new AverageJobSelector_int3x3<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+            return new AverageJobHandle_int3x3(ref handle, ref output);
+        }
+
+
+        public struct AverageJobHandle_int3x4 : IDisposable
+        {
+            JobHandle handle;
+            NativeArray<int3x4> output;
+
+            public AverageJobHandle_int3x4(ref JobHandle handle, ref NativeArray<int3x4> output)
+            {
+                this.handle = handle;
+                this.output = output;
+            }
+
+            public int3x4 Complete()
+            {
+                handle.Complete();
+                var result = output[0];
+                Dispose();
+                return result;
+            }
+
+            public void Dispose()
+            {
+                if (output.IsCreated)
+                    output.Dispose();
+                output = default;
+            }
+        }
 
         public static int3x4 Average<TSource>(
             this in ValueSequence<int3x4, TSource> source
@@ -374,6 +1484,54 @@ namespace CareBoo.Blinq
             var result = sum / srcList.Length;
             srcList.Dispose();
             return result;
+        }
+
+        [BurstCompile]
+        public struct AverageJob_int3x4<TSource>
+            : IJob
+            where TSource : struct, ISequence<int3x4>
+        {
+            [ReadOnly]
+            public ValueSequence<int3x4, TSource> Source;
+
+            [WriteOnly]
+            public NativeArray<int3x4> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average();
+            }
+        }
+
+        public static int3x4 RunAverage<TSource>(
+            this in ValueSequence<int3x4, TSource> source
+            )
+            where TSource : struct, ISequence<int3x4>
+        {
+            var output = new NativeArray<int3x4>(1, Allocator.Persistent);
+            new AverageJob_int3x4<TSource> { Source = source, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<TSource>(
+            this in ValueSequence<int3x4, TSource> source,
+            in NativeArray<int3x4> output
+            )
+            where TSource : struct, ISequence<int3x4>
+        {
+            return new AverageJob_int3x4<TSource> { Source = source, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_int3x4 ScheduleAverage<TSource>(
+            this in ValueSequence<int3x4, TSource> source
+            )
+            where TSource : struct, ISequence<int3x4>
+        {
+            var output = new NativeArray<int3x4>(1, Allocator.Persistent);
+            var handle = new AverageJob_int3x4<TSource> { Source = source, Output = output }.Schedule();
+            return new AverageJobHandle_int3x4(ref handle, ref output);
         }
 
         public static int3x4 Average<T, TSource, TSelector>(
@@ -398,6 +1556,93 @@ namespace CareBoo.Blinq
             return result;
         }
 
+        [BurstCompile]
+        public struct AverageJobSelector_int3x4<T, TSource, TSelector>
+            : IJob
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, int3x4>
+        {
+            [ReadOnly]
+            public ValueSequence<T, TSource> Source;
+            public ValueFunc<T, int3x4>.Struct<TSelector> Selector;
+
+            [WriteOnly]
+            public NativeArray<int3x4> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average(Selector);
+            }
+        }
+
+        public static int3x4 RunAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, int3x4>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, int3x4>
+        {
+            var output = new NativeArray<int3x4>(1, Allocator.Persistent);
+            new AverageJobSelector_int3x4<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, int3x4>.Struct<TSelector> selector,
+            in NativeArray<int3x4> output
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, int3x4>
+        {
+            return new AverageJobSelector_int3x4<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_int3x4 ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, int3x4>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, int3x4>
+        {
+            var output = new NativeArray<int3x4>(1, Allocator.Persistent);
+            var handle = new AverageJobSelector_int3x4<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+            return new AverageJobHandle_int3x4(ref handle, ref output);
+        }
+
+
+        public struct AverageJobHandle_int4 : IDisposable
+        {
+            JobHandle handle;
+            NativeArray<int4> output;
+
+            public AverageJobHandle_int4(ref JobHandle handle, ref NativeArray<int4> output)
+            {
+                this.handle = handle;
+                this.output = output;
+            }
+
+            public int4 Complete()
+            {
+                handle.Complete();
+                var result = output[0];
+                Dispose();
+                return result;
+            }
+
+            public void Dispose()
+            {
+                if (output.IsCreated)
+                    output.Dispose();
+                output = default;
+            }
+        }
 
         public static int4 Average<TSource>(
             this in ValueSequence<int4, TSource> source
@@ -416,6 +1661,54 @@ namespace CareBoo.Blinq
             var result = sum / srcList.Length;
             srcList.Dispose();
             return result;
+        }
+
+        [BurstCompile]
+        public struct AverageJob_int4<TSource>
+            : IJob
+            where TSource : struct, ISequence<int4>
+        {
+            [ReadOnly]
+            public ValueSequence<int4, TSource> Source;
+
+            [WriteOnly]
+            public NativeArray<int4> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average();
+            }
+        }
+
+        public static int4 RunAverage<TSource>(
+            this in ValueSequence<int4, TSource> source
+            )
+            where TSource : struct, ISequence<int4>
+        {
+            var output = new NativeArray<int4>(1, Allocator.Persistent);
+            new AverageJob_int4<TSource> { Source = source, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<TSource>(
+            this in ValueSequence<int4, TSource> source,
+            in NativeArray<int4> output
+            )
+            where TSource : struct, ISequence<int4>
+        {
+            return new AverageJob_int4<TSource> { Source = source, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_int4 ScheduleAverage<TSource>(
+            this in ValueSequence<int4, TSource> source
+            )
+            where TSource : struct, ISequence<int4>
+        {
+            var output = new NativeArray<int4>(1, Allocator.Persistent);
+            var handle = new AverageJob_int4<TSource> { Source = source, Output = output }.Schedule();
+            return new AverageJobHandle_int4(ref handle, ref output);
         }
 
         public static int4 Average<T, TSource, TSelector>(
@@ -440,6 +1733,93 @@ namespace CareBoo.Blinq
             return result;
         }
 
+        [BurstCompile]
+        public struct AverageJobSelector_int4<T, TSource, TSelector>
+            : IJob
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, int4>
+        {
+            [ReadOnly]
+            public ValueSequence<T, TSource> Source;
+            public ValueFunc<T, int4>.Struct<TSelector> Selector;
+
+            [WriteOnly]
+            public NativeArray<int4> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average(Selector);
+            }
+        }
+
+        public static int4 RunAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, int4>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, int4>
+        {
+            var output = new NativeArray<int4>(1, Allocator.Persistent);
+            new AverageJobSelector_int4<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, int4>.Struct<TSelector> selector,
+            in NativeArray<int4> output
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, int4>
+        {
+            return new AverageJobSelector_int4<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_int4 ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, int4>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, int4>
+        {
+            var output = new NativeArray<int4>(1, Allocator.Persistent);
+            var handle = new AverageJobSelector_int4<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+            return new AverageJobHandle_int4(ref handle, ref output);
+        }
+
+
+        public struct AverageJobHandle_int4x2 : IDisposable
+        {
+            JobHandle handle;
+            NativeArray<int4x2> output;
+
+            public AverageJobHandle_int4x2(ref JobHandle handle, ref NativeArray<int4x2> output)
+            {
+                this.handle = handle;
+                this.output = output;
+            }
+
+            public int4x2 Complete()
+            {
+                handle.Complete();
+                var result = output[0];
+                Dispose();
+                return result;
+            }
+
+            public void Dispose()
+            {
+                if (output.IsCreated)
+                    output.Dispose();
+                output = default;
+            }
+        }
 
         public static int4x2 Average<TSource>(
             this in ValueSequence<int4x2, TSource> source
@@ -458,6 +1838,54 @@ namespace CareBoo.Blinq
             var result = sum / srcList.Length;
             srcList.Dispose();
             return result;
+        }
+
+        [BurstCompile]
+        public struct AverageJob_int4x2<TSource>
+            : IJob
+            where TSource : struct, ISequence<int4x2>
+        {
+            [ReadOnly]
+            public ValueSequence<int4x2, TSource> Source;
+
+            [WriteOnly]
+            public NativeArray<int4x2> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average();
+            }
+        }
+
+        public static int4x2 RunAverage<TSource>(
+            this in ValueSequence<int4x2, TSource> source
+            )
+            where TSource : struct, ISequence<int4x2>
+        {
+            var output = new NativeArray<int4x2>(1, Allocator.Persistent);
+            new AverageJob_int4x2<TSource> { Source = source, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<TSource>(
+            this in ValueSequence<int4x2, TSource> source,
+            in NativeArray<int4x2> output
+            )
+            where TSource : struct, ISequence<int4x2>
+        {
+            return new AverageJob_int4x2<TSource> { Source = source, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_int4x2 ScheduleAverage<TSource>(
+            this in ValueSequence<int4x2, TSource> source
+            )
+            where TSource : struct, ISequence<int4x2>
+        {
+            var output = new NativeArray<int4x2>(1, Allocator.Persistent);
+            var handle = new AverageJob_int4x2<TSource> { Source = source, Output = output }.Schedule();
+            return new AverageJobHandle_int4x2(ref handle, ref output);
         }
 
         public static int4x2 Average<T, TSource, TSelector>(
@@ -482,6 +1910,93 @@ namespace CareBoo.Blinq
             return result;
         }
 
+        [BurstCompile]
+        public struct AverageJobSelector_int4x2<T, TSource, TSelector>
+            : IJob
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, int4x2>
+        {
+            [ReadOnly]
+            public ValueSequence<T, TSource> Source;
+            public ValueFunc<T, int4x2>.Struct<TSelector> Selector;
+
+            [WriteOnly]
+            public NativeArray<int4x2> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average(Selector);
+            }
+        }
+
+        public static int4x2 RunAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, int4x2>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, int4x2>
+        {
+            var output = new NativeArray<int4x2>(1, Allocator.Persistent);
+            new AverageJobSelector_int4x2<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, int4x2>.Struct<TSelector> selector,
+            in NativeArray<int4x2> output
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, int4x2>
+        {
+            return new AverageJobSelector_int4x2<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_int4x2 ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, int4x2>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, int4x2>
+        {
+            var output = new NativeArray<int4x2>(1, Allocator.Persistent);
+            var handle = new AverageJobSelector_int4x2<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+            return new AverageJobHandle_int4x2(ref handle, ref output);
+        }
+
+
+        public struct AverageJobHandle_int4x3 : IDisposable
+        {
+            JobHandle handle;
+            NativeArray<int4x3> output;
+
+            public AverageJobHandle_int4x3(ref JobHandle handle, ref NativeArray<int4x3> output)
+            {
+                this.handle = handle;
+                this.output = output;
+            }
+
+            public int4x3 Complete()
+            {
+                handle.Complete();
+                var result = output[0];
+                Dispose();
+                return result;
+            }
+
+            public void Dispose()
+            {
+                if (output.IsCreated)
+                    output.Dispose();
+                output = default;
+            }
+        }
 
         public static int4x3 Average<TSource>(
             this in ValueSequence<int4x3, TSource> source
@@ -500,6 +2015,54 @@ namespace CareBoo.Blinq
             var result = sum / srcList.Length;
             srcList.Dispose();
             return result;
+        }
+
+        [BurstCompile]
+        public struct AverageJob_int4x3<TSource>
+            : IJob
+            where TSource : struct, ISequence<int4x3>
+        {
+            [ReadOnly]
+            public ValueSequence<int4x3, TSource> Source;
+
+            [WriteOnly]
+            public NativeArray<int4x3> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average();
+            }
+        }
+
+        public static int4x3 RunAverage<TSource>(
+            this in ValueSequence<int4x3, TSource> source
+            )
+            where TSource : struct, ISequence<int4x3>
+        {
+            var output = new NativeArray<int4x3>(1, Allocator.Persistent);
+            new AverageJob_int4x3<TSource> { Source = source, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<TSource>(
+            this in ValueSequence<int4x3, TSource> source,
+            in NativeArray<int4x3> output
+            )
+            where TSource : struct, ISequence<int4x3>
+        {
+            return new AverageJob_int4x3<TSource> { Source = source, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_int4x3 ScheduleAverage<TSource>(
+            this in ValueSequence<int4x3, TSource> source
+            )
+            where TSource : struct, ISequence<int4x3>
+        {
+            var output = new NativeArray<int4x3>(1, Allocator.Persistent);
+            var handle = new AverageJob_int4x3<TSource> { Source = source, Output = output }.Schedule();
+            return new AverageJobHandle_int4x3(ref handle, ref output);
         }
 
         public static int4x3 Average<T, TSource, TSelector>(
@@ -524,6 +2087,93 @@ namespace CareBoo.Blinq
             return result;
         }
 
+        [BurstCompile]
+        public struct AverageJobSelector_int4x3<T, TSource, TSelector>
+            : IJob
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, int4x3>
+        {
+            [ReadOnly]
+            public ValueSequence<T, TSource> Source;
+            public ValueFunc<T, int4x3>.Struct<TSelector> Selector;
+
+            [WriteOnly]
+            public NativeArray<int4x3> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average(Selector);
+            }
+        }
+
+        public static int4x3 RunAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, int4x3>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, int4x3>
+        {
+            var output = new NativeArray<int4x3>(1, Allocator.Persistent);
+            new AverageJobSelector_int4x3<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, int4x3>.Struct<TSelector> selector,
+            in NativeArray<int4x3> output
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, int4x3>
+        {
+            return new AverageJobSelector_int4x3<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_int4x3 ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, int4x3>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, int4x3>
+        {
+            var output = new NativeArray<int4x3>(1, Allocator.Persistent);
+            var handle = new AverageJobSelector_int4x3<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+            return new AverageJobHandle_int4x3(ref handle, ref output);
+        }
+
+
+        public struct AverageJobHandle_int4x4 : IDisposable
+        {
+            JobHandle handle;
+            NativeArray<int4x4> output;
+
+            public AverageJobHandle_int4x4(ref JobHandle handle, ref NativeArray<int4x4> output)
+            {
+                this.handle = handle;
+                this.output = output;
+            }
+
+            public int4x4 Complete()
+            {
+                handle.Complete();
+                var result = output[0];
+                Dispose();
+                return result;
+            }
+
+            public void Dispose()
+            {
+                if (output.IsCreated)
+                    output.Dispose();
+                output = default;
+            }
+        }
 
         public static int4x4 Average<TSource>(
             this in ValueSequence<int4x4, TSource> source
@@ -542,6 +2192,54 @@ namespace CareBoo.Blinq
             var result = sum / srcList.Length;
             srcList.Dispose();
             return result;
+        }
+
+        [BurstCompile]
+        public struct AverageJob_int4x4<TSource>
+            : IJob
+            where TSource : struct, ISequence<int4x4>
+        {
+            [ReadOnly]
+            public ValueSequence<int4x4, TSource> Source;
+
+            [WriteOnly]
+            public NativeArray<int4x4> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average();
+            }
+        }
+
+        public static int4x4 RunAverage<TSource>(
+            this in ValueSequence<int4x4, TSource> source
+            )
+            where TSource : struct, ISequence<int4x4>
+        {
+            var output = new NativeArray<int4x4>(1, Allocator.Persistent);
+            new AverageJob_int4x4<TSource> { Source = source, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<TSource>(
+            this in ValueSequence<int4x4, TSource> source,
+            in NativeArray<int4x4> output
+            )
+            where TSource : struct, ISequence<int4x4>
+        {
+            return new AverageJob_int4x4<TSource> { Source = source, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_int4x4 ScheduleAverage<TSource>(
+            this in ValueSequence<int4x4, TSource> source
+            )
+            where TSource : struct, ISequence<int4x4>
+        {
+            var output = new NativeArray<int4x4>(1, Allocator.Persistent);
+            var handle = new AverageJob_int4x4<TSource> { Source = source, Output = output }.Schedule();
+            return new AverageJobHandle_int4x4(ref handle, ref output);
         }
 
         public static int4x4 Average<T, TSource, TSelector>(
@@ -566,6 +2264,93 @@ namespace CareBoo.Blinq
             return result;
         }
 
+        [BurstCompile]
+        public struct AverageJobSelector_int4x4<T, TSource, TSelector>
+            : IJob
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, int4x4>
+        {
+            [ReadOnly]
+            public ValueSequence<T, TSource> Source;
+            public ValueFunc<T, int4x4>.Struct<TSelector> Selector;
+
+            [WriteOnly]
+            public NativeArray<int4x4> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average(Selector);
+            }
+        }
+
+        public static int4x4 RunAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, int4x4>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, int4x4>
+        {
+            var output = new NativeArray<int4x4>(1, Allocator.Persistent);
+            new AverageJobSelector_int4x4<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, int4x4>.Struct<TSelector> selector,
+            in NativeArray<int4x4> output
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, int4x4>
+        {
+            return new AverageJobSelector_int4x4<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_int4x4 ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, int4x4>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, int4x4>
+        {
+            var output = new NativeArray<int4x4>(1, Allocator.Persistent);
+            var handle = new AverageJobSelector_int4x4<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+            return new AverageJobHandle_int4x4(ref handle, ref output);
+        }
+
+
+        public struct AverageJobHandle_uint : IDisposable
+        {
+            JobHandle handle;
+            NativeArray<uint> output;
+
+            public AverageJobHandle_uint(ref JobHandle handle, ref NativeArray<uint> output)
+            {
+                this.handle = handle;
+                this.output = output;
+            }
+
+            public uint Complete()
+            {
+                handle.Complete();
+                var result = output[0];
+                Dispose();
+                return result;
+            }
+
+            public void Dispose()
+            {
+                if (output.IsCreated)
+                    output.Dispose();
+                output = default;
+            }
+        }
 
         public static uint Average<TSource>(
             this in ValueSequence<uint, TSource> source
@@ -584,6 +2369,54 @@ namespace CareBoo.Blinq
             var result = sum / (uint)srcList.Length;
             srcList.Dispose();
             return result;
+        }
+
+        [BurstCompile]
+        public struct AverageJob_uint<TSource>
+            : IJob
+            where TSource : struct, ISequence<uint>
+        {
+            [ReadOnly]
+            public ValueSequence<uint, TSource> Source;
+
+            [WriteOnly]
+            public NativeArray<uint> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average();
+            }
+        }
+
+        public static uint RunAverage<TSource>(
+            this in ValueSequence<uint, TSource> source
+            )
+            where TSource : struct, ISequence<uint>
+        {
+            var output = new NativeArray<uint>(1, Allocator.Persistent);
+            new AverageJob_uint<TSource> { Source = source, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<TSource>(
+            this in ValueSequence<uint, TSource> source,
+            in NativeArray<uint> output
+            )
+            where TSource : struct, ISequence<uint>
+        {
+            return new AverageJob_uint<TSource> { Source = source, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_uint ScheduleAverage<TSource>(
+            this in ValueSequence<uint, TSource> source
+            )
+            where TSource : struct, ISequence<uint>
+        {
+            var output = new NativeArray<uint>(1, Allocator.Persistent);
+            var handle = new AverageJob_uint<TSource> { Source = source, Output = output }.Schedule();
+            return new AverageJobHandle_uint(ref handle, ref output);
         }
 
         public static uint Average<T, TSource, TSelector>(
@@ -608,6 +2441,93 @@ namespace CareBoo.Blinq
             return result;
         }
 
+        [BurstCompile]
+        public struct AverageJobSelector_uint<T, TSource, TSelector>
+            : IJob
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, uint>
+        {
+            [ReadOnly]
+            public ValueSequence<T, TSource> Source;
+            public ValueFunc<T, uint>.Struct<TSelector> Selector;
+
+            [WriteOnly]
+            public NativeArray<uint> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average(Selector);
+            }
+        }
+
+        public static uint RunAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, uint>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, uint>
+        {
+            var output = new NativeArray<uint>(1, Allocator.Persistent);
+            new AverageJobSelector_uint<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, uint>.Struct<TSelector> selector,
+            in NativeArray<uint> output
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, uint>
+        {
+            return new AverageJobSelector_uint<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_uint ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, uint>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, uint>
+        {
+            var output = new NativeArray<uint>(1, Allocator.Persistent);
+            var handle = new AverageJobSelector_uint<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+            return new AverageJobHandle_uint(ref handle, ref output);
+        }
+
+
+        public struct AverageJobHandle_uint2 : IDisposable
+        {
+            JobHandle handle;
+            NativeArray<uint2> output;
+
+            public AverageJobHandle_uint2(ref JobHandle handle, ref NativeArray<uint2> output)
+            {
+                this.handle = handle;
+                this.output = output;
+            }
+
+            public uint2 Complete()
+            {
+                handle.Complete();
+                var result = output[0];
+                Dispose();
+                return result;
+            }
+
+            public void Dispose()
+            {
+                if (output.IsCreated)
+                    output.Dispose();
+                output = default;
+            }
+        }
 
         public static uint2 Average<TSource>(
             this in ValueSequence<uint2, TSource> source
@@ -626,6 +2546,54 @@ namespace CareBoo.Blinq
             var result = sum / (uint)srcList.Length;
             srcList.Dispose();
             return result;
+        }
+
+        [BurstCompile]
+        public struct AverageJob_uint2<TSource>
+            : IJob
+            where TSource : struct, ISequence<uint2>
+        {
+            [ReadOnly]
+            public ValueSequence<uint2, TSource> Source;
+
+            [WriteOnly]
+            public NativeArray<uint2> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average();
+            }
+        }
+
+        public static uint2 RunAverage<TSource>(
+            this in ValueSequence<uint2, TSource> source
+            )
+            where TSource : struct, ISequence<uint2>
+        {
+            var output = new NativeArray<uint2>(1, Allocator.Persistent);
+            new AverageJob_uint2<TSource> { Source = source, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<TSource>(
+            this in ValueSequence<uint2, TSource> source,
+            in NativeArray<uint2> output
+            )
+            where TSource : struct, ISequence<uint2>
+        {
+            return new AverageJob_uint2<TSource> { Source = source, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_uint2 ScheduleAverage<TSource>(
+            this in ValueSequence<uint2, TSource> source
+            )
+            where TSource : struct, ISequence<uint2>
+        {
+            var output = new NativeArray<uint2>(1, Allocator.Persistent);
+            var handle = new AverageJob_uint2<TSource> { Source = source, Output = output }.Schedule();
+            return new AverageJobHandle_uint2(ref handle, ref output);
         }
 
         public static uint2 Average<T, TSource, TSelector>(
@@ -650,6 +2618,93 @@ namespace CareBoo.Blinq
             return result;
         }
 
+        [BurstCompile]
+        public struct AverageJobSelector_uint2<T, TSource, TSelector>
+            : IJob
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, uint2>
+        {
+            [ReadOnly]
+            public ValueSequence<T, TSource> Source;
+            public ValueFunc<T, uint2>.Struct<TSelector> Selector;
+
+            [WriteOnly]
+            public NativeArray<uint2> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average(Selector);
+            }
+        }
+
+        public static uint2 RunAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, uint2>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, uint2>
+        {
+            var output = new NativeArray<uint2>(1, Allocator.Persistent);
+            new AverageJobSelector_uint2<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, uint2>.Struct<TSelector> selector,
+            in NativeArray<uint2> output
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, uint2>
+        {
+            return new AverageJobSelector_uint2<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_uint2 ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, uint2>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, uint2>
+        {
+            var output = new NativeArray<uint2>(1, Allocator.Persistent);
+            var handle = new AverageJobSelector_uint2<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+            return new AverageJobHandle_uint2(ref handle, ref output);
+        }
+
+
+        public struct AverageJobHandle_uint2x2 : IDisposable
+        {
+            JobHandle handle;
+            NativeArray<uint2x2> output;
+
+            public AverageJobHandle_uint2x2(ref JobHandle handle, ref NativeArray<uint2x2> output)
+            {
+                this.handle = handle;
+                this.output = output;
+            }
+
+            public uint2x2 Complete()
+            {
+                handle.Complete();
+                var result = output[0];
+                Dispose();
+                return result;
+            }
+
+            public void Dispose()
+            {
+                if (output.IsCreated)
+                    output.Dispose();
+                output = default;
+            }
+        }
 
         public static uint2x2 Average<TSource>(
             this in ValueSequence<uint2x2, TSource> source
@@ -668,6 +2723,54 @@ namespace CareBoo.Blinq
             var result = sum / (uint)srcList.Length;
             srcList.Dispose();
             return result;
+        }
+
+        [BurstCompile]
+        public struct AverageJob_uint2x2<TSource>
+            : IJob
+            where TSource : struct, ISequence<uint2x2>
+        {
+            [ReadOnly]
+            public ValueSequence<uint2x2, TSource> Source;
+
+            [WriteOnly]
+            public NativeArray<uint2x2> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average();
+            }
+        }
+
+        public static uint2x2 RunAverage<TSource>(
+            this in ValueSequence<uint2x2, TSource> source
+            )
+            where TSource : struct, ISequence<uint2x2>
+        {
+            var output = new NativeArray<uint2x2>(1, Allocator.Persistent);
+            new AverageJob_uint2x2<TSource> { Source = source, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<TSource>(
+            this in ValueSequence<uint2x2, TSource> source,
+            in NativeArray<uint2x2> output
+            )
+            where TSource : struct, ISequence<uint2x2>
+        {
+            return new AverageJob_uint2x2<TSource> { Source = source, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_uint2x2 ScheduleAverage<TSource>(
+            this in ValueSequence<uint2x2, TSource> source
+            )
+            where TSource : struct, ISequence<uint2x2>
+        {
+            var output = new NativeArray<uint2x2>(1, Allocator.Persistent);
+            var handle = new AverageJob_uint2x2<TSource> { Source = source, Output = output }.Schedule();
+            return new AverageJobHandle_uint2x2(ref handle, ref output);
         }
 
         public static uint2x2 Average<T, TSource, TSelector>(
@@ -692,6 +2795,93 @@ namespace CareBoo.Blinq
             return result;
         }
 
+        [BurstCompile]
+        public struct AverageJobSelector_uint2x2<T, TSource, TSelector>
+            : IJob
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, uint2x2>
+        {
+            [ReadOnly]
+            public ValueSequence<T, TSource> Source;
+            public ValueFunc<T, uint2x2>.Struct<TSelector> Selector;
+
+            [WriteOnly]
+            public NativeArray<uint2x2> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average(Selector);
+            }
+        }
+
+        public static uint2x2 RunAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, uint2x2>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, uint2x2>
+        {
+            var output = new NativeArray<uint2x2>(1, Allocator.Persistent);
+            new AverageJobSelector_uint2x2<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, uint2x2>.Struct<TSelector> selector,
+            in NativeArray<uint2x2> output
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, uint2x2>
+        {
+            return new AverageJobSelector_uint2x2<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_uint2x2 ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, uint2x2>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, uint2x2>
+        {
+            var output = new NativeArray<uint2x2>(1, Allocator.Persistent);
+            var handle = new AverageJobSelector_uint2x2<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+            return new AverageJobHandle_uint2x2(ref handle, ref output);
+        }
+
+
+        public struct AverageJobHandle_uint2x3 : IDisposable
+        {
+            JobHandle handle;
+            NativeArray<uint2x3> output;
+
+            public AverageJobHandle_uint2x3(ref JobHandle handle, ref NativeArray<uint2x3> output)
+            {
+                this.handle = handle;
+                this.output = output;
+            }
+
+            public uint2x3 Complete()
+            {
+                handle.Complete();
+                var result = output[0];
+                Dispose();
+                return result;
+            }
+
+            public void Dispose()
+            {
+                if (output.IsCreated)
+                    output.Dispose();
+                output = default;
+            }
+        }
 
         public static uint2x3 Average<TSource>(
             this in ValueSequence<uint2x3, TSource> source
@@ -710,6 +2900,54 @@ namespace CareBoo.Blinq
             var result = sum / (uint)srcList.Length;
             srcList.Dispose();
             return result;
+        }
+
+        [BurstCompile]
+        public struct AverageJob_uint2x3<TSource>
+            : IJob
+            where TSource : struct, ISequence<uint2x3>
+        {
+            [ReadOnly]
+            public ValueSequence<uint2x3, TSource> Source;
+
+            [WriteOnly]
+            public NativeArray<uint2x3> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average();
+            }
+        }
+
+        public static uint2x3 RunAverage<TSource>(
+            this in ValueSequence<uint2x3, TSource> source
+            )
+            where TSource : struct, ISequence<uint2x3>
+        {
+            var output = new NativeArray<uint2x3>(1, Allocator.Persistent);
+            new AverageJob_uint2x3<TSource> { Source = source, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<TSource>(
+            this in ValueSequence<uint2x3, TSource> source,
+            in NativeArray<uint2x3> output
+            )
+            where TSource : struct, ISequence<uint2x3>
+        {
+            return new AverageJob_uint2x3<TSource> { Source = source, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_uint2x3 ScheduleAverage<TSource>(
+            this in ValueSequence<uint2x3, TSource> source
+            )
+            where TSource : struct, ISequence<uint2x3>
+        {
+            var output = new NativeArray<uint2x3>(1, Allocator.Persistent);
+            var handle = new AverageJob_uint2x3<TSource> { Source = source, Output = output }.Schedule();
+            return new AverageJobHandle_uint2x3(ref handle, ref output);
         }
 
         public static uint2x3 Average<T, TSource, TSelector>(
@@ -734,6 +2972,93 @@ namespace CareBoo.Blinq
             return result;
         }
 
+        [BurstCompile]
+        public struct AverageJobSelector_uint2x3<T, TSource, TSelector>
+            : IJob
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, uint2x3>
+        {
+            [ReadOnly]
+            public ValueSequence<T, TSource> Source;
+            public ValueFunc<T, uint2x3>.Struct<TSelector> Selector;
+
+            [WriteOnly]
+            public NativeArray<uint2x3> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average(Selector);
+            }
+        }
+
+        public static uint2x3 RunAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, uint2x3>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, uint2x3>
+        {
+            var output = new NativeArray<uint2x3>(1, Allocator.Persistent);
+            new AverageJobSelector_uint2x3<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, uint2x3>.Struct<TSelector> selector,
+            in NativeArray<uint2x3> output
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, uint2x3>
+        {
+            return new AverageJobSelector_uint2x3<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_uint2x3 ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, uint2x3>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, uint2x3>
+        {
+            var output = new NativeArray<uint2x3>(1, Allocator.Persistent);
+            var handle = new AverageJobSelector_uint2x3<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+            return new AverageJobHandle_uint2x3(ref handle, ref output);
+        }
+
+
+        public struct AverageJobHandle_uint2x4 : IDisposable
+        {
+            JobHandle handle;
+            NativeArray<uint2x4> output;
+
+            public AverageJobHandle_uint2x4(ref JobHandle handle, ref NativeArray<uint2x4> output)
+            {
+                this.handle = handle;
+                this.output = output;
+            }
+
+            public uint2x4 Complete()
+            {
+                handle.Complete();
+                var result = output[0];
+                Dispose();
+                return result;
+            }
+
+            public void Dispose()
+            {
+                if (output.IsCreated)
+                    output.Dispose();
+                output = default;
+            }
+        }
 
         public static uint2x4 Average<TSource>(
             this in ValueSequence<uint2x4, TSource> source
@@ -752,6 +3077,54 @@ namespace CareBoo.Blinq
             var result = sum / (uint)srcList.Length;
             srcList.Dispose();
             return result;
+        }
+
+        [BurstCompile]
+        public struct AverageJob_uint2x4<TSource>
+            : IJob
+            where TSource : struct, ISequence<uint2x4>
+        {
+            [ReadOnly]
+            public ValueSequence<uint2x4, TSource> Source;
+
+            [WriteOnly]
+            public NativeArray<uint2x4> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average();
+            }
+        }
+
+        public static uint2x4 RunAverage<TSource>(
+            this in ValueSequence<uint2x4, TSource> source
+            )
+            where TSource : struct, ISequence<uint2x4>
+        {
+            var output = new NativeArray<uint2x4>(1, Allocator.Persistent);
+            new AverageJob_uint2x4<TSource> { Source = source, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<TSource>(
+            this in ValueSequence<uint2x4, TSource> source,
+            in NativeArray<uint2x4> output
+            )
+            where TSource : struct, ISequence<uint2x4>
+        {
+            return new AverageJob_uint2x4<TSource> { Source = source, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_uint2x4 ScheduleAverage<TSource>(
+            this in ValueSequence<uint2x4, TSource> source
+            )
+            where TSource : struct, ISequence<uint2x4>
+        {
+            var output = new NativeArray<uint2x4>(1, Allocator.Persistent);
+            var handle = new AverageJob_uint2x4<TSource> { Source = source, Output = output }.Schedule();
+            return new AverageJobHandle_uint2x4(ref handle, ref output);
         }
 
         public static uint2x4 Average<T, TSource, TSelector>(
@@ -776,6 +3149,93 @@ namespace CareBoo.Blinq
             return result;
         }
 
+        [BurstCompile]
+        public struct AverageJobSelector_uint2x4<T, TSource, TSelector>
+            : IJob
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, uint2x4>
+        {
+            [ReadOnly]
+            public ValueSequence<T, TSource> Source;
+            public ValueFunc<T, uint2x4>.Struct<TSelector> Selector;
+
+            [WriteOnly]
+            public NativeArray<uint2x4> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average(Selector);
+            }
+        }
+
+        public static uint2x4 RunAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, uint2x4>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, uint2x4>
+        {
+            var output = new NativeArray<uint2x4>(1, Allocator.Persistent);
+            new AverageJobSelector_uint2x4<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, uint2x4>.Struct<TSelector> selector,
+            in NativeArray<uint2x4> output
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, uint2x4>
+        {
+            return new AverageJobSelector_uint2x4<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_uint2x4 ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, uint2x4>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, uint2x4>
+        {
+            var output = new NativeArray<uint2x4>(1, Allocator.Persistent);
+            var handle = new AverageJobSelector_uint2x4<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+            return new AverageJobHandle_uint2x4(ref handle, ref output);
+        }
+
+
+        public struct AverageJobHandle_uint3 : IDisposable
+        {
+            JobHandle handle;
+            NativeArray<uint3> output;
+
+            public AverageJobHandle_uint3(ref JobHandle handle, ref NativeArray<uint3> output)
+            {
+                this.handle = handle;
+                this.output = output;
+            }
+
+            public uint3 Complete()
+            {
+                handle.Complete();
+                var result = output[0];
+                Dispose();
+                return result;
+            }
+
+            public void Dispose()
+            {
+                if (output.IsCreated)
+                    output.Dispose();
+                output = default;
+            }
+        }
 
         public static uint3 Average<TSource>(
             this in ValueSequence<uint3, TSource> source
@@ -794,6 +3254,54 @@ namespace CareBoo.Blinq
             var result = sum / (uint)srcList.Length;
             srcList.Dispose();
             return result;
+        }
+
+        [BurstCompile]
+        public struct AverageJob_uint3<TSource>
+            : IJob
+            where TSource : struct, ISequence<uint3>
+        {
+            [ReadOnly]
+            public ValueSequence<uint3, TSource> Source;
+
+            [WriteOnly]
+            public NativeArray<uint3> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average();
+            }
+        }
+
+        public static uint3 RunAverage<TSource>(
+            this in ValueSequence<uint3, TSource> source
+            )
+            where TSource : struct, ISequence<uint3>
+        {
+            var output = new NativeArray<uint3>(1, Allocator.Persistent);
+            new AverageJob_uint3<TSource> { Source = source, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<TSource>(
+            this in ValueSequence<uint3, TSource> source,
+            in NativeArray<uint3> output
+            )
+            where TSource : struct, ISequence<uint3>
+        {
+            return new AverageJob_uint3<TSource> { Source = source, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_uint3 ScheduleAverage<TSource>(
+            this in ValueSequence<uint3, TSource> source
+            )
+            where TSource : struct, ISequence<uint3>
+        {
+            var output = new NativeArray<uint3>(1, Allocator.Persistent);
+            var handle = new AverageJob_uint3<TSource> { Source = source, Output = output }.Schedule();
+            return new AverageJobHandle_uint3(ref handle, ref output);
         }
 
         public static uint3 Average<T, TSource, TSelector>(
@@ -818,6 +3326,93 @@ namespace CareBoo.Blinq
             return result;
         }
 
+        [BurstCompile]
+        public struct AverageJobSelector_uint3<T, TSource, TSelector>
+            : IJob
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, uint3>
+        {
+            [ReadOnly]
+            public ValueSequence<T, TSource> Source;
+            public ValueFunc<T, uint3>.Struct<TSelector> Selector;
+
+            [WriteOnly]
+            public NativeArray<uint3> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average(Selector);
+            }
+        }
+
+        public static uint3 RunAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, uint3>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, uint3>
+        {
+            var output = new NativeArray<uint3>(1, Allocator.Persistent);
+            new AverageJobSelector_uint3<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, uint3>.Struct<TSelector> selector,
+            in NativeArray<uint3> output
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, uint3>
+        {
+            return new AverageJobSelector_uint3<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_uint3 ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, uint3>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, uint3>
+        {
+            var output = new NativeArray<uint3>(1, Allocator.Persistent);
+            var handle = new AverageJobSelector_uint3<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+            return new AverageJobHandle_uint3(ref handle, ref output);
+        }
+
+
+        public struct AverageJobHandle_uint3x2 : IDisposable
+        {
+            JobHandle handle;
+            NativeArray<uint3x2> output;
+
+            public AverageJobHandle_uint3x2(ref JobHandle handle, ref NativeArray<uint3x2> output)
+            {
+                this.handle = handle;
+                this.output = output;
+            }
+
+            public uint3x2 Complete()
+            {
+                handle.Complete();
+                var result = output[0];
+                Dispose();
+                return result;
+            }
+
+            public void Dispose()
+            {
+                if (output.IsCreated)
+                    output.Dispose();
+                output = default;
+            }
+        }
 
         public static uint3x2 Average<TSource>(
             this in ValueSequence<uint3x2, TSource> source
@@ -836,6 +3431,54 @@ namespace CareBoo.Blinq
             var result = sum / (uint)srcList.Length;
             srcList.Dispose();
             return result;
+        }
+
+        [BurstCompile]
+        public struct AverageJob_uint3x2<TSource>
+            : IJob
+            where TSource : struct, ISequence<uint3x2>
+        {
+            [ReadOnly]
+            public ValueSequence<uint3x2, TSource> Source;
+
+            [WriteOnly]
+            public NativeArray<uint3x2> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average();
+            }
+        }
+
+        public static uint3x2 RunAverage<TSource>(
+            this in ValueSequence<uint3x2, TSource> source
+            )
+            where TSource : struct, ISequence<uint3x2>
+        {
+            var output = new NativeArray<uint3x2>(1, Allocator.Persistent);
+            new AverageJob_uint3x2<TSource> { Source = source, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<TSource>(
+            this in ValueSequence<uint3x2, TSource> source,
+            in NativeArray<uint3x2> output
+            )
+            where TSource : struct, ISequence<uint3x2>
+        {
+            return new AverageJob_uint3x2<TSource> { Source = source, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_uint3x2 ScheduleAverage<TSource>(
+            this in ValueSequence<uint3x2, TSource> source
+            )
+            where TSource : struct, ISequence<uint3x2>
+        {
+            var output = new NativeArray<uint3x2>(1, Allocator.Persistent);
+            var handle = new AverageJob_uint3x2<TSource> { Source = source, Output = output }.Schedule();
+            return new AverageJobHandle_uint3x2(ref handle, ref output);
         }
 
         public static uint3x2 Average<T, TSource, TSelector>(
@@ -860,6 +3503,93 @@ namespace CareBoo.Blinq
             return result;
         }
 
+        [BurstCompile]
+        public struct AverageJobSelector_uint3x2<T, TSource, TSelector>
+            : IJob
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, uint3x2>
+        {
+            [ReadOnly]
+            public ValueSequence<T, TSource> Source;
+            public ValueFunc<T, uint3x2>.Struct<TSelector> Selector;
+
+            [WriteOnly]
+            public NativeArray<uint3x2> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average(Selector);
+            }
+        }
+
+        public static uint3x2 RunAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, uint3x2>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, uint3x2>
+        {
+            var output = new NativeArray<uint3x2>(1, Allocator.Persistent);
+            new AverageJobSelector_uint3x2<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, uint3x2>.Struct<TSelector> selector,
+            in NativeArray<uint3x2> output
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, uint3x2>
+        {
+            return new AverageJobSelector_uint3x2<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_uint3x2 ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, uint3x2>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, uint3x2>
+        {
+            var output = new NativeArray<uint3x2>(1, Allocator.Persistent);
+            var handle = new AverageJobSelector_uint3x2<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+            return new AverageJobHandle_uint3x2(ref handle, ref output);
+        }
+
+
+        public struct AverageJobHandle_uint3x3 : IDisposable
+        {
+            JobHandle handle;
+            NativeArray<uint3x3> output;
+
+            public AverageJobHandle_uint3x3(ref JobHandle handle, ref NativeArray<uint3x3> output)
+            {
+                this.handle = handle;
+                this.output = output;
+            }
+
+            public uint3x3 Complete()
+            {
+                handle.Complete();
+                var result = output[0];
+                Dispose();
+                return result;
+            }
+
+            public void Dispose()
+            {
+                if (output.IsCreated)
+                    output.Dispose();
+                output = default;
+            }
+        }
 
         public static uint3x3 Average<TSource>(
             this in ValueSequence<uint3x3, TSource> source
@@ -878,6 +3608,54 @@ namespace CareBoo.Blinq
             var result = sum / (uint)srcList.Length;
             srcList.Dispose();
             return result;
+        }
+
+        [BurstCompile]
+        public struct AverageJob_uint3x3<TSource>
+            : IJob
+            where TSource : struct, ISequence<uint3x3>
+        {
+            [ReadOnly]
+            public ValueSequence<uint3x3, TSource> Source;
+
+            [WriteOnly]
+            public NativeArray<uint3x3> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average();
+            }
+        }
+
+        public static uint3x3 RunAverage<TSource>(
+            this in ValueSequence<uint3x3, TSource> source
+            )
+            where TSource : struct, ISequence<uint3x3>
+        {
+            var output = new NativeArray<uint3x3>(1, Allocator.Persistent);
+            new AverageJob_uint3x3<TSource> { Source = source, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<TSource>(
+            this in ValueSequence<uint3x3, TSource> source,
+            in NativeArray<uint3x3> output
+            )
+            where TSource : struct, ISequence<uint3x3>
+        {
+            return new AverageJob_uint3x3<TSource> { Source = source, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_uint3x3 ScheduleAverage<TSource>(
+            this in ValueSequence<uint3x3, TSource> source
+            )
+            where TSource : struct, ISequence<uint3x3>
+        {
+            var output = new NativeArray<uint3x3>(1, Allocator.Persistent);
+            var handle = new AverageJob_uint3x3<TSource> { Source = source, Output = output }.Schedule();
+            return new AverageJobHandle_uint3x3(ref handle, ref output);
         }
 
         public static uint3x3 Average<T, TSource, TSelector>(
@@ -902,6 +3680,93 @@ namespace CareBoo.Blinq
             return result;
         }
 
+        [BurstCompile]
+        public struct AverageJobSelector_uint3x3<T, TSource, TSelector>
+            : IJob
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, uint3x3>
+        {
+            [ReadOnly]
+            public ValueSequence<T, TSource> Source;
+            public ValueFunc<T, uint3x3>.Struct<TSelector> Selector;
+
+            [WriteOnly]
+            public NativeArray<uint3x3> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average(Selector);
+            }
+        }
+
+        public static uint3x3 RunAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, uint3x3>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, uint3x3>
+        {
+            var output = new NativeArray<uint3x3>(1, Allocator.Persistent);
+            new AverageJobSelector_uint3x3<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, uint3x3>.Struct<TSelector> selector,
+            in NativeArray<uint3x3> output
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, uint3x3>
+        {
+            return new AverageJobSelector_uint3x3<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_uint3x3 ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, uint3x3>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, uint3x3>
+        {
+            var output = new NativeArray<uint3x3>(1, Allocator.Persistent);
+            var handle = new AverageJobSelector_uint3x3<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+            return new AverageJobHandle_uint3x3(ref handle, ref output);
+        }
+
+
+        public struct AverageJobHandle_uint3x4 : IDisposable
+        {
+            JobHandle handle;
+            NativeArray<uint3x4> output;
+
+            public AverageJobHandle_uint3x4(ref JobHandle handle, ref NativeArray<uint3x4> output)
+            {
+                this.handle = handle;
+                this.output = output;
+            }
+
+            public uint3x4 Complete()
+            {
+                handle.Complete();
+                var result = output[0];
+                Dispose();
+                return result;
+            }
+
+            public void Dispose()
+            {
+                if (output.IsCreated)
+                    output.Dispose();
+                output = default;
+            }
+        }
 
         public static uint3x4 Average<TSource>(
             this in ValueSequence<uint3x4, TSource> source
@@ -920,6 +3785,54 @@ namespace CareBoo.Blinq
             var result = sum / (uint)srcList.Length;
             srcList.Dispose();
             return result;
+        }
+
+        [BurstCompile]
+        public struct AverageJob_uint3x4<TSource>
+            : IJob
+            where TSource : struct, ISequence<uint3x4>
+        {
+            [ReadOnly]
+            public ValueSequence<uint3x4, TSource> Source;
+
+            [WriteOnly]
+            public NativeArray<uint3x4> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average();
+            }
+        }
+
+        public static uint3x4 RunAverage<TSource>(
+            this in ValueSequence<uint3x4, TSource> source
+            )
+            where TSource : struct, ISequence<uint3x4>
+        {
+            var output = new NativeArray<uint3x4>(1, Allocator.Persistent);
+            new AverageJob_uint3x4<TSource> { Source = source, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<TSource>(
+            this in ValueSequence<uint3x4, TSource> source,
+            in NativeArray<uint3x4> output
+            )
+            where TSource : struct, ISequence<uint3x4>
+        {
+            return new AverageJob_uint3x4<TSource> { Source = source, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_uint3x4 ScheduleAverage<TSource>(
+            this in ValueSequence<uint3x4, TSource> source
+            )
+            where TSource : struct, ISequence<uint3x4>
+        {
+            var output = new NativeArray<uint3x4>(1, Allocator.Persistent);
+            var handle = new AverageJob_uint3x4<TSource> { Source = source, Output = output }.Schedule();
+            return new AverageJobHandle_uint3x4(ref handle, ref output);
         }
 
         public static uint3x4 Average<T, TSource, TSelector>(
@@ -944,6 +3857,93 @@ namespace CareBoo.Blinq
             return result;
         }
 
+        [BurstCompile]
+        public struct AverageJobSelector_uint3x4<T, TSource, TSelector>
+            : IJob
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, uint3x4>
+        {
+            [ReadOnly]
+            public ValueSequence<T, TSource> Source;
+            public ValueFunc<T, uint3x4>.Struct<TSelector> Selector;
+
+            [WriteOnly]
+            public NativeArray<uint3x4> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average(Selector);
+            }
+        }
+
+        public static uint3x4 RunAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, uint3x4>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, uint3x4>
+        {
+            var output = new NativeArray<uint3x4>(1, Allocator.Persistent);
+            new AverageJobSelector_uint3x4<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, uint3x4>.Struct<TSelector> selector,
+            in NativeArray<uint3x4> output
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, uint3x4>
+        {
+            return new AverageJobSelector_uint3x4<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_uint3x4 ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, uint3x4>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, uint3x4>
+        {
+            var output = new NativeArray<uint3x4>(1, Allocator.Persistent);
+            var handle = new AverageJobSelector_uint3x4<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+            return new AverageJobHandle_uint3x4(ref handle, ref output);
+        }
+
+
+        public struct AverageJobHandle_uint4 : IDisposable
+        {
+            JobHandle handle;
+            NativeArray<uint4> output;
+
+            public AverageJobHandle_uint4(ref JobHandle handle, ref NativeArray<uint4> output)
+            {
+                this.handle = handle;
+                this.output = output;
+            }
+
+            public uint4 Complete()
+            {
+                handle.Complete();
+                var result = output[0];
+                Dispose();
+                return result;
+            }
+
+            public void Dispose()
+            {
+                if (output.IsCreated)
+                    output.Dispose();
+                output = default;
+            }
+        }
 
         public static uint4 Average<TSource>(
             this in ValueSequence<uint4, TSource> source
@@ -962,6 +3962,54 @@ namespace CareBoo.Blinq
             var result = sum / (uint)srcList.Length;
             srcList.Dispose();
             return result;
+        }
+
+        [BurstCompile]
+        public struct AverageJob_uint4<TSource>
+            : IJob
+            where TSource : struct, ISequence<uint4>
+        {
+            [ReadOnly]
+            public ValueSequence<uint4, TSource> Source;
+
+            [WriteOnly]
+            public NativeArray<uint4> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average();
+            }
+        }
+
+        public static uint4 RunAverage<TSource>(
+            this in ValueSequence<uint4, TSource> source
+            )
+            where TSource : struct, ISequence<uint4>
+        {
+            var output = new NativeArray<uint4>(1, Allocator.Persistent);
+            new AverageJob_uint4<TSource> { Source = source, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<TSource>(
+            this in ValueSequence<uint4, TSource> source,
+            in NativeArray<uint4> output
+            )
+            where TSource : struct, ISequence<uint4>
+        {
+            return new AverageJob_uint4<TSource> { Source = source, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_uint4 ScheduleAverage<TSource>(
+            this in ValueSequence<uint4, TSource> source
+            )
+            where TSource : struct, ISequence<uint4>
+        {
+            var output = new NativeArray<uint4>(1, Allocator.Persistent);
+            var handle = new AverageJob_uint4<TSource> { Source = source, Output = output }.Schedule();
+            return new AverageJobHandle_uint4(ref handle, ref output);
         }
 
         public static uint4 Average<T, TSource, TSelector>(
@@ -986,6 +4034,93 @@ namespace CareBoo.Blinq
             return result;
         }
 
+        [BurstCompile]
+        public struct AverageJobSelector_uint4<T, TSource, TSelector>
+            : IJob
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, uint4>
+        {
+            [ReadOnly]
+            public ValueSequence<T, TSource> Source;
+            public ValueFunc<T, uint4>.Struct<TSelector> Selector;
+
+            [WriteOnly]
+            public NativeArray<uint4> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average(Selector);
+            }
+        }
+
+        public static uint4 RunAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, uint4>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, uint4>
+        {
+            var output = new NativeArray<uint4>(1, Allocator.Persistent);
+            new AverageJobSelector_uint4<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, uint4>.Struct<TSelector> selector,
+            in NativeArray<uint4> output
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, uint4>
+        {
+            return new AverageJobSelector_uint4<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_uint4 ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, uint4>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, uint4>
+        {
+            var output = new NativeArray<uint4>(1, Allocator.Persistent);
+            var handle = new AverageJobSelector_uint4<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+            return new AverageJobHandle_uint4(ref handle, ref output);
+        }
+
+
+        public struct AverageJobHandle_uint4x2 : IDisposable
+        {
+            JobHandle handle;
+            NativeArray<uint4x2> output;
+
+            public AverageJobHandle_uint4x2(ref JobHandle handle, ref NativeArray<uint4x2> output)
+            {
+                this.handle = handle;
+                this.output = output;
+            }
+
+            public uint4x2 Complete()
+            {
+                handle.Complete();
+                var result = output[0];
+                Dispose();
+                return result;
+            }
+
+            public void Dispose()
+            {
+                if (output.IsCreated)
+                    output.Dispose();
+                output = default;
+            }
+        }
 
         public static uint4x2 Average<TSource>(
             this in ValueSequence<uint4x2, TSource> source
@@ -1004,6 +4139,54 @@ namespace CareBoo.Blinq
             var result = sum / (uint)srcList.Length;
             srcList.Dispose();
             return result;
+        }
+
+        [BurstCompile]
+        public struct AverageJob_uint4x2<TSource>
+            : IJob
+            where TSource : struct, ISequence<uint4x2>
+        {
+            [ReadOnly]
+            public ValueSequence<uint4x2, TSource> Source;
+
+            [WriteOnly]
+            public NativeArray<uint4x2> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average();
+            }
+        }
+
+        public static uint4x2 RunAverage<TSource>(
+            this in ValueSequence<uint4x2, TSource> source
+            )
+            where TSource : struct, ISequence<uint4x2>
+        {
+            var output = new NativeArray<uint4x2>(1, Allocator.Persistent);
+            new AverageJob_uint4x2<TSource> { Source = source, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<TSource>(
+            this in ValueSequence<uint4x2, TSource> source,
+            in NativeArray<uint4x2> output
+            )
+            where TSource : struct, ISequence<uint4x2>
+        {
+            return new AverageJob_uint4x2<TSource> { Source = source, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_uint4x2 ScheduleAverage<TSource>(
+            this in ValueSequence<uint4x2, TSource> source
+            )
+            where TSource : struct, ISequence<uint4x2>
+        {
+            var output = new NativeArray<uint4x2>(1, Allocator.Persistent);
+            var handle = new AverageJob_uint4x2<TSource> { Source = source, Output = output }.Schedule();
+            return new AverageJobHandle_uint4x2(ref handle, ref output);
         }
 
         public static uint4x2 Average<T, TSource, TSelector>(
@@ -1028,6 +4211,93 @@ namespace CareBoo.Blinq
             return result;
         }
 
+        [BurstCompile]
+        public struct AverageJobSelector_uint4x2<T, TSource, TSelector>
+            : IJob
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, uint4x2>
+        {
+            [ReadOnly]
+            public ValueSequence<T, TSource> Source;
+            public ValueFunc<T, uint4x2>.Struct<TSelector> Selector;
+
+            [WriteOnly]
+            public NativeArray<uint4x2> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average(Selector);
+            }
+        }
+
+        public static uint4x2 RunAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, uint4x2>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, uint4x2>
+        {
+            var output = new NativeArray<uint4x2>(1, Allocator.Persistent);
+            new AverageJobSelector_uint4x2<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, uint4x2>.Struct<TSelector> selector,
+            in NativeArray<uint4x2> output
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, uint4x2>
+        {
+            return new AverageJobSelector_uint4x2<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_uint4x2 ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, uint4x2>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, uint4x2>
+        {
+            var output = new NativeArray<uint4x2>(1, Allocator.Persistent);
+            var handle = new AverageJobSelector_uint4x2<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+            return new AverageJobHandle_uint4x2(ref handle, ref output);
+        }
+
+
+        public struct AverageJobHandle_uint4x3 : IDisposable
+        {
+            JobHandle handle;
+            NativeArray<uint4x3> output;
+
+            public AverageJobHandle_uint4x3(ref JobHandle handle, ref NativeArray<uint4x3> output)
+            {
+                this.handle = handle;
+                this.output = output;
+            }
+
+            public uint4x3 Complete()
+            {
+                handle.Complete();
+                var result = output[0];
+                Dispose();
+                return result;
+            }
+
+            public void Dispose()
+            {
+                if (output.IsCreated)
+                    output.Dispose();
+                output = default;
+            }
+        }
 
         public static uint4x3 Average<TSource>(
             this in ValueSequence<uint4x3, TSource> source
@@ -1046,6 +4316,54 @@ namespace CareBoo.Blinq
             var result = sum / (uint)srcList.Length;
             srcList.Dispose();
             return result;
+        }
+
+        [BurstCompile]
+        public struct AverageJob_uint4x3<TSource>
+            : IJob
+            where TSource : struct, ISequence<uint4x3>
+        {
+            [ReadOnly]
+            public ValueSequence<uint4x3, TSource> Source;
+
+            [WriteOnly]
+            public NativeArray<uint4x3> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average();
+            }
+        }
+
+        public static uint4x3 RunAverage<TSource>(
+            this in ValueSequence<uint4x3, TSource> source
+            )
+            where TSource : struct, ISequence<uint4x3>
+        {
+            var output = new NativeArray<uint4x3>(1, Allocator.Persistent);
+            new AverageJob_uint4x3<TSource> { Source = source, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<TSource>(
+            this in ValueSequence<uint4x3, TSource> source,
+            in NativeArray<uint4x3> output
+            )
+            where TSource : struct, ISequence<uint4x3>
+        {
+            return new AverageJob_uint4x3<TSource> { Source = source, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_uint4x3 ScheduleAverage<TSource>(
+            this in ValueSequence<uint4x3, TSource> source
+            )
+            where TSource : struct, ISequence<uint4x3>
+        {
+            var output = new NativeArray<uint4x3>(1, Allocator.Persistent);
+            var handle = new AverageJob_uint4x3<TSource> { Source = source, Output = output }.Schedule();
+            return new AverageJobHandle_uint4x3(ref handle, ref output);
         }
 
         public static uint4x3 Average<T, TSource, TSelector>(
@@ -1070,6 +4388,93 @@ namespace CareBoo.Blinq
             return result;
         }
 
+        [BurstCompile]
+        public struct AverageJobSelector_uint4x3<T, TSource, TSelector>
+            : IJob
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, uint4x3>
+        {
+            [ReadOnly]
+            public ValueSequence<T, TSource> Source;
+            public ValueFunc<T, uint4x3>.Struct<TSelector> Selector;
+
+            [WriteOnly]
+            public NativeArray<uint4x3> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average(Selector);
+            }
+        }
+
+        public static uint4x3 RunAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, uint4x3>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, uint4x3>
+        {
+            var output = new NativeArray<uint4x3>(1, Allocator.Persistent);
+            new AverageJobSelector_uint4x3<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, uint4x3>.Struct<TSelector> selector,
+            in NativeArray<uint4x3> output
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, uint4x3>
+        {
+            return new AverageJobSelector_uint4x3<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_uint4x3 ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, uint4x3>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, uint4x3>
+        {
+            var output = new NativeArray<uint4x3>(1, Allocator.Persistent);
+            var handle = new AverageJobSelector_uint4x3<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+            return new AverageJobHandle_uint4x3(ref handle, ref output);
+        }
+
+
+        public struct AverageJobHandle_uint4x4 : IDisposable
+        {
+            JobHandle handle;
+            NativeArray<uint4x4> output;
+
+            public AverageJobHandle_uint4x4(ref JobHandle handle, ref NativeArray<uint4x4> output)
+            {
+                this.handle = handle;
+                this.output = output;
+            }
+
+            public uint4x4 Complete()
+            {
+                handle.Complete();
+                var result = output[0];
+                Dispose();
+                return result;
+            }
+
+            public void Dispose()
+            {
+                if (output.IsCreated)
+                    output.Dispose();
+                output = default;
+            }
+        }
 
         public static uint4x4 Average<TSource>(
             this in ValueSequence<uint4x4, TSource> source
@@ -1088,6 +4493,54 @@ namespace CareBoo.Blinq
             var result = sum / (uint)srcList.Length;
             srcList.Dispose();
             return result;
+        }
+
+        [BurstCompile]
+        public struct AverageJob_uint4x4<TSource>
+            : IJob
+            where TSource : struct, ISequence<uint4x4>
+        {
+            [ReadOnly]
+            public ValueSequence<uint4x4, TSource> Source;
+
+            [WriteOnly]
+            public NativeArray<uint4x4> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average();
+            }
+        }
+
+        public static uint4x4 RunAverage<TSource>(
+            this in ValueSequence<uint4x4, TSource> source
+            )
+            where TSource : struct, ISequence<uint4x4>
+        {
+            var output = new NativeArray<uint4x4>(1, Allocator.Persistent);
+            new AverageJob_uint4x4<TSource> { Source = source, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<TSource>(
+            this in ValueSequence<uint4x4, TSource> source,
+            in NativeArray<uint4x4> output
+            )
+            where TSource : struct, ISequence<uint4x4>
+        {
+            return new AverageJob_uint4x4<TSource> { Source = source, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_uint4x4 ScheduleAverage<TSource>(
+            this in ValueSequence<uint4x4, TSource> source
+            )
+            where TSource : struct, ISequence<uint4x4>
+        {
+            var output = new NativeArray<uint4x4>(1, Allocator.Persistent);
+            var handle = new AverageJob_uint4x4<TSource> { Source = source, Output = output }.Schedule();
+            return new AverageJobHandle_uint4x4(ref handle, ref output);
         }
 
         public static uint4x4 Average<T, TSource, TSelector>(
@@ -1112,6 +4565,93 @@ namespace CareBoo.Blinq
             return result;
         }
 
+        [BurstCompile]
+        public struct AverageJobSelector_uint4x4<T, TSource, TSelector>
+            : IJob
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, uint4x4>
+        {
+            [ReadOnly]
+            public ValueSequence<T, TSource> Source;
+            public ValueFunc<T, uint4x4>.Struct<TSelector> Selector;
+
+            [WriteOnly]
+            public NativeArray<uint4x4> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average(Selector);
+            }
+        }
+
+        public static uint4x4 RunAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, uint4x4>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, uint4x4>
+        {
+            var output = new NativeArray<uint4x4>(1, Allocator.Persistent);
+            new AverageJobSelector_uint4x4<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, uint4x4>.Struct<TSelector> selector,
+            in NativeArray<uint4x4> output
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, uint4x4>
+        {
+            return new AverageJobSelector_uint4x4<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_uint4x4 ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, uint4x4>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, uint4x4>
+        {
+            var output = new NativeArray<uint4x4>(1, Allocator.Persistent);
+            var handle = new AverageJobSelector_uint4x4<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+            return new AverageJobHandle_uint4x4(ref handle, ref output);
+        }
+
+
+        public struct AverageJobHandle_float : IDisposable
+        {
+            JobHandle handle;
+            NativeArray<float> output;
+
+            public AverageJobHandle_float(ref JobHandle handle, ref NativeArray<float> output)
+            {
+                this.handle = handle;
+                this.output = output;
+            }
+
+            public float Complete()
+            {
+                handle.Complete();
+                var result = output[0];
+                Dispose();
+                return result;
+            }
+
+            public void Dispose()
+            {
+                if (output.IsCreated)
+                    output.Dispose();
+                output = default;
+            }
+        }
 
         public static float Average<TSource>(
             this in ValueSequence<float, TSource> source
@@ -1130,6 +4670,54 @@ namespace CareBoo.Blinq
             var result = sum / srcList.Length;
             srcList.Dispose();
             return result;
+        }
+
+        [BurstCompile]
+        public struct AverageJob_float<TSource>
+            : IJob
+            where TSource : struct, ISequence<float>
+        {
+            [ReadOnly]
+            public ValueSequence<float, TSource> Source;
+
+            [WriteOnly]
+            public NativeArray<float> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average();
+            }
+        }
+
+        public static float RunAverage<TSource>(
+            this in ValueSequence<float, TSource> source
+            )
+            where TSource : struct, ISequence<float>
+        {
+            var output = new NativeArray<float>(1, Allocator.Persistent);
+            new AverageJob_float<TSource> { Source = source, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<TSource>(
+            this in ValueSequence<float, TSource> source,
+            in NativeArray<float> output
+            )
+            where TSource : struct, ISequence<float>
+        {
+            return new AverageJob_float<TSource> { Source = source, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_float ScheduleAverage<TSource>(
+            this in ValueSequence<float, TSource> source
+            )
+            where TSource : struct, ISequence<float>
+        {
+            var output = new NativeArray<float>(1, Allocator.Persistent);
+            var handle = new AverageJob_float<TSource> { Source = source, Output = output }.Schedule();
+            return new AverageJobHandle_float(ref handle, ref output);
         }
 
         public static float Average<T, TSource, TSelector>(
@@ -1154,6 +4742,93 @@ namespace CareBoo.Blinq
             return result;
         }
 
+        [BurstCompile]
+        public struct AverageJobSelector_float<T, TSource, TSelector>
+            : IJob
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, float>
+        {
+            [ReadOnly]
+            public ValueSequence<T, TSource> Source;
+            public ValueFunc<T, float>.Struct<TSelector> Selector;
+
+            [WriteOnly]
+            public NativeArray<float> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average(Selector);
+            }
+        }
+
+        public static float RunAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, float>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, float>
+        {
+            var output = new NativeArray<float>(1, Allocator.Persistent);
+            new AverageJobSelector_float<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, float>.Struct<TSelector> selector,
+            in NativeArray<float> output
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, float>
+        {
+            return new AverageJobSelector_float<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_float ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, float>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, float>
+        {
+            var output = new NativeArray<float>(1, Allocator.Persistent);
+            var handle = new AverageJobSelector_float<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+            return new AverageJobHandle_float(ref handle, ref output);
+        }
+
+
+        public struct AverageJobHandle_float2 : IDisposable
+        {
+            JobHandle handle;
+            NativeArray<float2> output;
+
+            public AverageJobHandle_float2(ref JobHandle handle, ref NativeArray<float2> output)
+            {
+                this.handle = handle;
+                this.output = output;
+            }
+
+            public float2 Complete()
+            {
+                handle.Complete();
+                var result = output[0];
+                Dispose();
+                return result;
+            }
+
+            public void Dispose()
+            {
+                if (output.IsCreated)
+                    output.Dispose();
+                output = default;
+            }
+        }
 
         public static float2 Average<TSource>(
             this in ValueSequence<float2, TSource> source
@@ -1172,6 +4847,54 @@ namespace CareBoo.Blinq
             var result = sum / srcList.Length;
             srcList.Dispose();
             return result;
+        }
+
+        [BurstCompile]
+        public struct AverageJob_float2<TSource>
+            : IJob
+            where TSource : struct, ISequence<float2>
+        {
+            [ReadOnly]
+            public ValueSequence<float2, TSource> Source;
+
+            [WriteOnly]
+            public NativeArray<float2> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average();
+            }
+        }
+
+        public static float2 RunAverage<TSource>(
+            this in ValueSequence<float2, TSource> source
+            )
+            where TSource : struct, ISequence<float2>
+        {
+            var output = new NativeArray<float2>(1, Allocator.Persistent);
+            new AverageJob_float2<TSource> { Source = source, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<TSource>(
+            this in ValueSequence<float2, TSource> source,
+            in NativeArray<float2> output
+            )
+            where TSource : struct, ISequence<float2>
+        {
+            return new AverageJob_float2<TSource> { Source = source, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_float2 ScheduleAverage<TSource>(
+            this in ValueSequence<float2, TSource> source
+            )
+            where TSource : struct, ISequence<float2>
+        {
+            var output = new NativeArray<float2>(1, Allocator.Persistent);
+            var handle = new AverageJob_float2<TSource> { Source = source, Output = output }.Schedule();
+            return new AverageJobHandle_float2(ref handle, ref output);
         }
 
         public static float2 Average<T, TSource, TSelector>(
@@ -1196,6 +4919,93 @@ namespace CareBoo.Blinq
             return result;
         }
 
+        [BurstCompile]
+        public struct AverageJobSelector_float2<T, TSource, TSelector>
+            : IJob
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, float2>
+        {
+            [ReadOnly]
+            public ValueSequence<T, TSource> Source;
+            public ValueFunc<T, float2>.Struct<TSelector> Selector;
+
+            [WriteOnly]
+            public NativeArray<float2> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average(Selector);
+            }
+        }
+
+        public static float2 RunAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, float2>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, float2>
+        {
+            var output = new NativeArray<float2>(1, Allocator.Persistent);
+            new AverageJobSelector_float2<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, float2>.Struct<TSelector> selector,
+            in NativeArray<float2> output
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, float2>
+        {
+            return new AverageJobSelector_float2<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_float2 ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, float2>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, float2>
+        {
+            var output = new NativeArray<float2>(1, Allocator.Persistent);
+            var handle = new AverageJobSelector_float2<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+            return new AverageJobHandle_float2(ref handle, ref output);
+        }
+
+
+        public struct AverageJobHandle_float2x2 : IDisposable
+        {
+            JobHandle handle;
+            NativeArray<float2x2> output;
+
+            public AverageJobHandle_float2x2(ref JobHandle handle, ref NativeArray<float2x2> output)
+            {
+                this.handle = handle;
+                this.output = output;
+            }
+
+            public float2x2 Complete()
+            {
+                handle.Complete();
+                var result = output[0];
+                Dispose();
+                return result;
+            }
+
+            public void Dispose()
+            {
+                if (output.IsCreated)
+                    output.Dispose();
+                output = default;
+            }
+        }
 
         public static float2x2 Average<TSource>(
             this in ValueSequence<float2x2, TSource> source
@@ -1214,6 +5024,54 @@ namespace CareBoo.Blinq
             var result = sum / srcList.Length;
             srcList.Dispose();
             return result;
+        }
+
+        [BurstCompile]
+        public struct AverageJob_float2x2<TSource>
+            : IJob
+            where TSource : struct, ISequence<float2x2>
+        {
+            [ReadOnly]
+            public ValueSequence<float2x2, TSource> Source;
+
+            [WriteOnly]
+            public NativeArray<float2x2> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average();
+            }
+        }
+
+        public static float2x2 RunAverage<TSource>(
+            this in ValueSequence<float2x2, TSource> source
+            )
+            where TSource : struct, ISequence<float2x2>
+        {
+            var output = new NativeArray<float2x2>(1, Allocator.Persistent);
+            new AverageJob_float2x2<TSource> { Source = source, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<TSource>(
+            this in ValueSequence<float2x2, TSource> source,
+            in NativeArray<float2x2> output
+            )
+            where TSource : struct, ISequence<float2x2>
+        {
+            return new AverageJob_float2x2<TSource> { Source = source, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_float2x2 ScheduleAverage<TSource>(
+            this in ValueSequence<float2x2, TSource> source
+            )
+            where TSource : struct, ISequence<float2x2>
+        {
+            var output = new NativeArray<float2x2>(1, Allocator.Persistent);
+            var handle = new AverageJob_float2x2<TSource> { Source = source, Output = output }.Schedule();
+            return new AverageJobHandle_float2x2(ref handle, ref output);
         }
 
         public static float2x2 Average<T, TSource, TSelector>(
@@ -1238,6 +5096,93 @@ namespace CareBoo.Blinq
             return result;
         }
 
+        [BurstCompile]
+        public struct AverageJobSelector_float2x2<T, TSource, TSelector>
+            : IJob
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, float2x2>
+        {
+            [ReadOnly]
+            public ValueSequence<T, TSource> Source;
+            public ValueFunc<T, float2x2>.Struct<TSelector> Selector;
+
+            [WriteOnly]
+            public NativeArray<float2x2> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average(Selector);
+            }
+        }
+
+        public static float2x2 RunAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, float2x2>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, float2x2>
+        {
+            var output = new NativeArray<float2x2>(1, Allocator.Persistent);
+            new AverageJobSelector_float2x2<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, float2x2>.Struct<TSelector> selector,
+            in NativeArray<float2x2> output
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, float2x2>
+        {
+            return new AverageJobSelector_float2x2<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_float2x2 ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, float2x2>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, float2x2>
+        {
+            var output = new NativeArray<float2x2>(1, Allocator.Persistent);
+            var handle = new AverageJobSelector_float2x2<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+            return new AverageJobHandle_float2x2(ref handle, ref output);
+        }
+
+
+        public struct AverageJobHandle_float2x3 : IDisposable
+        {
+            JobHandle handle;
+            NativeArray<float2x3> output;
+
+            public AverageJobHandle_float2x3(ref JobHandle handle, ref NativeArray<float2x3> output)
+            {
+                this.handle = handle;
+                this.output = output;
+            }
+
+            public float2x3 Complete()
+            {
+                handle.Complete();
+                var result = output[0];
+                Dispose();
+                return result;
+            }
+
+            public void Dispose()
+            {
+                if (output.IsCreated)
+                    output.Dispose();
+                output = default;
+            }
+        }
 
         public static float2x3 Average<TSource>(
             this in ValueSequence<float2x3, TSource> source
@@ -1256,6 +5201,54 @@ namespace CareBoo.Blinq
             var result = sum / srcList.Length;
             srcList.Dispose();
             return result;
+        }
+
+        [BurstCompile]
+        public struct AverageJob_float2x3<TSource>
+            : IJob
+            where TSource : struct, ISequence<float2x3>
+        {
+            [ReadOnly]
+            public ValueSequence<float2x3, TSource> Source;
+
+            [WriteOnly]
+            public NativeArray<float2x3> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average();
+            }
+        }
+
+        public static float2x3 RunAverage<TSource>(
+            this in ValueSequence<float2x3, TSource> source
+            )
+            where TSource : struct, ISequence<float2x3>
+        {
+            var output = new NativeArray<float2x3>(1, Allocator.Persistent);
+            new AverageJob_float2x3<TSource> { Source = source, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<TSource>(
+            this in ValueSequence<float2x3, TSource> source,
+            in NativeArray<float2x3> output
+            )
+            where TSource : struct, ISequence<float2x3>
+        {
+            return new AverageJob_float2x3<TSource> { Source = source, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_float2x3 ScheduleAverage<TSource>(
+            this in ValueSequence<float2x3, TSource> source
+            )
+            where TSource : struct, ISequence<float2x3>
+        {
+            var output = new NativeArray<float2x3>(1, Allocator.Persistent);
+            var handle = new AverageJob_float2x3<TSource> { Source = source, Output = output }.Schedule();
+            return new AverageJobHandle_float2x3(ref handle, ref output);
         }
 
         public static float2x3 Average<T, TSource, TSelector>(
@@ -1280,6 +5273,93 @@ namespace CareBoo.Blinq
             return result;
         }
 
+        [BurstCompile]
+        public struct AverageJobSelector_float2x3<T, TSource, TSelector>
+            : IJob
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, float2x3>
+        {
+            [ReadOnly]
+            public ValueSequence<T, TSource> Source;
+            public ValueFunc<T, float2x3>.Struct<TSelector> Selector;
+
+            [WriteOnly]
+            public NativeArray<float2x3> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average(Selector);
+            }
+        }
+
+        public static float2x3 RunAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, float2x3>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, float2x3>
+        {
+            var output = new NativeArray<float2x3>(1, Allocator.Persistent);
+            new AverageJobSelector_float2x3<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, float2x3>.Struct<TSelector> selector,
+            in NativeArray<float2x3> output
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, float2x3>
+        {
+            return new AverageJobSelector_float2x3<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_float2x3 ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, float2x3>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, float2x3>
+        {
+            var output = new NativeArray<float2x3>(1, Allocator.Persistent);
+            var handle = new AverageJobSelector_float2x3<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+            return new AverageJobHandle_float2x3(ref handle, ref output);
+        }
+
+
+        public struct AverageJobHandle_float2x4 : IDisposable
+        {
+            JobHandle handle;
+            NativeArray<float2x4> output;
+
+            public AverageJobHandle_float2x4(ref JobHandle handle, ref NativeArray<float2x4> output)
+            {
+                this.handle = handle;
+                this.output = output;
+            }
+
+            public float2x4 Complete()
+            {
+                handle.Complete();
+                var result = output[0];
+                Dispose();
+                return result;
+            }
+
+            public void Dispose()
+            {
+                if (output.IsCreated)
+                    output.Dispose();
+                output = default;
+            }
+        }
 
         public static float2x4 Average<TSource>(
             this in ValueSequence<float2x4, TSource> source
@@ -1298,6 +5378,54 @@ namespace CareBoo.Blinq
             var result = sum / srcList.Length;
             srcList.Dispose();
             return result;
+        }
+
+        [BurstCompile]
+        public struct AverageJob_float2x4<TSource>
+            : IJob
+            where TSource : struct, ISequence<float2x4>
+        {
+            [ReadOnly]
+            public ValueSequence<float2x4, TSource> Source;
+
+            [WriteOnly]
+            public NativeArray<float2x4> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average();
+            }
+        }
+
+        public static float2x4 RunAverage<TSource>(
+            this in ValueSequence<float2x4, TSource> source
+            )
+            where TSource : struct, ISequence<float2x4>
+        {
+            var output = new NativeArray<float2x4>(1, Allocator.Persistent);
+            new AverageJob_float2x4<TSource> { Source = source, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<TSource>(
+            this in ValueSequence<float2x4, TSource> source,
+            in NativeArray<float2x4> output
+            )
+            where TSource : struct, ISequence<float2x4>
+        {
+            return new AverageJob_float2x4<TSource> { Source = source, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_float2x4 ScheduleAverage<TSource>(
+            this in ValueSequence<float2x4, TSource> source
+            )
+            where TSource : struct, ISequence<float2x4>
+        {
+            var output = new NativeArray<float2x4>(1, Allocator.Persistent);
+            var handle = new AverageJob_float2x4<TSource> { Source = source, Output = output }.Schedule();
+            return new AverageJobHandle_float2x4(ref handle, ref output);
         }
 
         public static float2x4 Average<T, TSource, TSelector>(
@@ -1322,6 +5450,93 @@ namespace CareBoo.Blinq
             return result;
         }
 
+        [BurstCompile]
+        public struct AverageJobSelector_float2x4<T, TSource, TSelector>
+            : IJob
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, float2x4>
+        {
+            [ReadOnly]
+            public ValueSequence<T, TSource> Source;
+            public ValueFunc<T, float2x4>.Struct<TSelector> Selector;
+
+            [WriteOnly]
+            public NativeArray<float2x4> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average(Selector);
+            }
+        }
+
+        public static float2x4 RunAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, float2x4>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, float2x4>
+        {
+            var output = new NativeArray<float2x4>(1, Allocator.Persistent);
+            new AverageJobSelector_float2x4<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, float2x4>.Struct<TSelector> selector,
+            in NativeArray<float2x4> output
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, float2x4>
+        {
+            return new AverageJobSelector_float2x4<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_float2x4 ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, float2x4>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, float2x4>
+        {
+            var output = new NativeArray<float2x4>(1, Allocator.Persistent);
+            var handle = new AverageJobSelector_float2x4<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+            return new AverageJobHandle_float2x4(ref handle, ref output);
+        }
+
+
+        public struct AverageJobHandle_float3 : IDisposable
+        {
+            JobHandle handle;
+            NativeArray<float3> output;
+
+            public AverageJobHandle_float3(ref JobHandle handle, ref NativeArray<float3> output)
+            {
+                this.handle = handle;
+                this.output = output;
+            }
+
+            public float3 Complete()
+            {
+                handle.Complete();
+                var result = output[0];
+                Dispose();
+                return result;
+            }
+
+            public void Dispose()
+            {
+                if (output.IsCreated)
+                    output.Dispose();
+                output = default;
+            }
+        }
 
         public static float3 Average<TSource>(
             this in ValueSequence<float3, TSource> source
@@ -1340,6 +5555,54 @@ namespace CareBoo.Blinq
             var result = sum / srcList.Length;
             srcList.Dispose();
             return result;
+        }
+
+        [BurstCompile]
+        public struct AverageJob_float3<TSource>
+            : IJob
+            where TSource : struct, ISequence<float3>
+        {
+            [ReadOnly]
+            public ValueSequence<float3, TSource> Source;
+
+            [WriteOnly]
+            public NativeArray<float3> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average();
+            }
+        }
+
+        public static float3 RunAverage<TSource>(
+            this in ValueSequence<float3, TSource> source
+            )
+            where TSource : struct, ISequence<float3>
+        {
+            var output = new NativeArray<float3>(1, Allocator.Persistent);
+            new AverageJob_float3<TSource> { Source = source, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<TSource>(
+            this in ValueSequence<float3, TSource> source,
+            in NativeArray<float3> output
+            )
+            where TSource : struct, ISequence<float3>
+        {
+            return new AverageJob_float3<TSource> { Source = source, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_float3 ScheduleAverage<TSource>(
+            this in ValueSequence<float3, TSource> source
+            )
+            where TSource : struct, ISequence<float3>
+        {
+            var output = new NativeArray<float3>(1, Allocator.Persistent);
+            var handle = new AverageJob_float3<TSource> { Source = source, Output = output }.Schedule();
+            return new AverageJobHandle_float3(ref handle, ref output);
         }
 
         public static float3 Average<T, TSource, TSelector>(
@@ -1364,6 +5627,93 @@ namespace CareBoo.Blinq
             return result;
         }
 
+        [BurstCompile]
+        public struct AverageJobSelector_float3<T, TSource, TSelector>
+            : IJob
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, float3>
+        {
+            [ReadOnly]
+            public ValueSequence<T, TSource> Source;
+            public ValueFunc<T, float3>.Struct<TSelector> Selector;
+
+            [WriteOnly]
+            public NativeArray<float3> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average(Selector);
+            }
+        }
+
+        public static float3 RunAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, float3>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, float3>
+        {
+            var output = new NativeArray<float3>(1, Allocator.Persistent);
+            new AverageJobSelector_float3<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, float3>.Struct<TSelector> selector,
+            in NativeArray<float3> output
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, float3>
+        {
+            return new AverageJobSelector_float3<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_float3 ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, float3>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, float3>
+        {
+            var output = new NativeArray<float3>(1, Allocator.Persistent);
+            var handle = new AverageJobSelector_float3<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+            return new AverageJobHandle_float3(ref handle, ref output);
+        }
+
+
+        public struct AverageJobHandle_float3x2 : IDisposable
+        {
+            JobHandle handle;
+            NativeArray<float3x2> output;
+
+            public AverageJobHandle_float3x2(ref JobHandle handle, ref NativeArray<float3x2> output)
+            {
+                this.handle = handle;
+                this.output = output;
+            }
+
+            public float3x2 Complete()
+            {
+                handle.Complete();
+                var result = output[0];
+                Dispose();
+                return result;
+            }
+
+            public void Dispose()
+            {
+                if (output.IsCreated)
+                    output.Dispose();
+                output = default;
+            }
+        }
 
         public static float3x2 Average<TSource>(
             this in ValueSequence<float3x2, TSource> source
@@ -1382,6 +5732,54 @@ namespace CareBoo.Blinq
             var result = sum / srcList.Length;
             srcList.Dispose();
             return result;
+        }
+
+        [BurstCompile]
+        public struct AverageJob_float3x2<TSource>
+            : IJob
+            where TSource : struct, ISequence<float3x2>
+        {
+            [ReadOnly]
+            public ValueSequence<float3x2, TSource> Source;
+
+            [WriteOnly]
+            public NativeArray<float3x2> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average();
+            }
+        }
+
+        public static float3x2 RunAverage<TSource>(
+            this in ValueSequence<float3x2, TSource> source
+            )
+            where TSource : struct, ISequence<float3x2>
+        {
+            var output = new NativeArray<float3x2>(1, Allocator.Persistent);
+            new AverageJob_float3x2<TSource> { Source = source, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<TSource>(
+            this in ValueSequence<float3x2, TSource> source,
+            in NativeArray<float3x2> output
+            )
+            where TSource : struct, ISequence<float3x2>
+        {
+            return new AverageJob_float3x2<TSource> { Source = source, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_float3x2 ScheduleAverage<TSource>(
+            this in ValueSequence<float3x2, TSource> source
+            )
+            where TSource : struct, ISequence<float3x2>
+        {
+            var output = new NativeArray<float3x2>(1, Allocator.Persistent);
+            var handle = new AverageJob_float3x2<TSource> { Source = source, Output = output }.Schedule();
+            return new AverageJobHandle_float3x2(ref handle, ref output);
         }
 
         public static float3x2 Average<T, TSource, TSelector>(
@@ -1406,6 +5804,93 @@ namespace CareBoo.Blinq
             return result;
         }
 
+        [BurstCompile]
+        public struct AverageJobSelector_float3x2<T, TSource, TSelector>
+            : IJob
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, float3x2>
+        {
+            [ReadOnly]
+            public ValueSequence<T, TSource> Source;
+            public ValueFunc<T, float3x2>.Struct<TSelector> Selector;
+
+            [WriteOnly]
+            public NativeArray<float3x2> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average(Selector);
+            }
+        }
+
+        public static float3x2 RunAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, float3x2>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, float3x2>
+        {
+            var output = new NativeArray<float3x2>(1, Allocator.Persistent);
+            new AverageJobSelector_float3x2<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, float3x2>.Struct<TSelector> selector,
+            in NativeArray<float3x2> output
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, float3x2>
+        {
+            return new AverageJobSelector_float3x2<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_float3x2 ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, float3x2>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, float3x2>
+        {
+            var output = new NativeArray<float3x2>(1, Allocator.Persistent);
+            var handle = new AverageJobSelector_float3x2<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+            return new AverageJobHandle_float3x2(ref handle, ref output);
+        }
+
+
+        public struct AverageJobHandle_float3x3 : IDisposable
+        {
+            JobHandle handle;
+            NativeArray<float3x3> output;
+
+            public AverageJobHandle_float3x3(ref JobHandle handle, ref NativeArray<float3x3> output)
+            {
+                this.handle = handle;
+                this.output = output;
+            }
+
+            public float3x3 Complete()
+            {
+                handle.Complete();
+                var result = output[0];
+                Dispose();
+                return result;
+            }
+
+            public void Dispose()
+            {
+                if (output.IsCreated)
+                    output.Dispose();
+                output = default;
+            }
+        }
 
         public static float3x3 Average<TSource>(
             this in ValueSequence<float3x3, TSource> source
@@ -1424,6 +5909,54 @@ namespace CareBoo.Blinq
             var result = sum / srcList.Length;
             srcList.Dispose();
             return result;
+        }
+
+        [BurstCompile]
+        public struct AverageJob_float3x3<TSource>
+            : IJob
+            where TSource : struct, ISequence<float3x3>
+        {
+            [ReadOnly]
+            public ValueSequence<float3x3, TSource> Source;
+
+            [WriteOnly]
+            public NativeArray<float3x3> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average();
+            }
+        }
+
+        public static float3x3 RunAverage<TSource>(
+            this in ValueSequence<float3x3, TSource> source
+            )
+            where TSource : struct, ISequence<float3x3>
+        {
+            var output = new NativeArray<float3x3>(1, Allocator.Persistent);
+            new AverageJob_float3x3<TSource> { Source = source, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<TSource>(
+            this in ValueSequence<float3x3, TSource> source,
+            in NativeArray<float3x3> output
+            )
+            where TSource : struct, ISequence<float3x3>
+        {
+            return new AverageJob_float3x3<TSource> { Source = source, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_float3x3 ScheduleAverage<TSource>(
+            this in ValueSequence<float3x3, TSource> source
+            )
+            where TSource : struct, ISequence<float3x3>
+        {
+            var output = new NativeArray<float3x3>(1, Allocator.Persistent);
+            var handle = new AverageJob_float3x3<TSource> { Source = source, Output = output }.Schedule();
+            return new AverageJobHandle_float3x3(ref handle, ref output);
         }
 
         public static float3x3 Average<T, TSource, TSelector>(
@@ -1448,6 +5981,93 @@ namespace CareBoo.Blinq
             return result;
         }
 
+        [BurstCompile]
+        public struct AverageJobSelector_float3x3<T, TSource, TSelector>
+            : IJob
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, float3x3>
+        {
+            [ReadOnly]
+            public ValueSequence<T, TSource> Source;
+            public ValueFunc<T, float3x3>.Struct<TSelector> Selector;
+
+            [WriteOnly]
+            public NativeArray<float3x3> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average(Selector);
+            }
+        }
+
+        public static float3x3 RunAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, float3x3>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, float3x3>
+        {
+            var output = new NativeArray<float3x3>(1, Allocator.Persistent);
+            new AverageJobSelector_float3x3<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, float3x3>.Struct<TSelector> selector,
+            in NativeArray<float3x3> output
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, float3x3>
+        {
+            return new AverageJobSelector_float3x3<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_float3x3 ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, float3x3>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, float3x3>
+        {
+            var output = new NativeArray<float3x3>(1, Allocator.Persistent);
+            var handle = new AverageJobSelector_float3x3<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+            return new AverageJobHandle_float3x3(ref handle, ref output);
+        }
+
+
+        public struct AverageJobHandle_float3x4 : IDisposable
+        {
+            JobHandle handle;
+            NativeArray<float3x4> output;
+
+            public AverageJobHandle_float3x4(ref JobHandle handle, ref NativeArray<float3x4> output)
+            {
+                this.handle = handle;
+                this.output = output;
+            }
+
+            public float3x4 Complete()
+            {
+                handle.Complete();
+                var result = output[0];
+                Dispose();
+                return result;
+            }
+
+            public void Dispose()
+            {
+                if (output.IsCreated)
+                    output.Dispose();
+                output = default;
+            }
+        }
 
         public static float3x4 Average<TSource>(
             this in ValueSequence<float3x4, TSource> source
@@ -1466,6 +6086,54 @@ namespace CareBoo.Blinq
             var result = sum / srcList.Length;
             srcList.Dispose();
             return result;
+        }
+
+        [BurstCompile]
+        public struct AverageJob_float3x4<TSource>
+            : IJob
+            where TSource : struct, ISequence<float3x4>
+        {
+            [ReadOnly]
+            public ValueSequence<float3x4, TSource> Source;
+
+            [WriteOnly]
+            public NativeArray<float3x4> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average();
+            }
+        }
+
+        public static float3x4 RunAverage<TSource>(
+            this in ValueSequence<float3x4, TSource> source
+            )
+            where TSource : struct, ISequence<float3x4>
+        {
+            var output = new NativeArray<float3x4>(1, Allocator.Persistent);
+            new AverageJob_float3x4<TSource> { Source = source, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<TSource>(
+            this in ValueSequence<float3x4, TSource> source,
+            in NativeArray<float3x4> output
+            )
+            where TSource : struct, ISequence<float3x4>
+        {
+            return new AverageJob_float3x4<TSource> { Source = source, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_float3x4 ScheduleAverage<TSource>(
+            this in ValueSequence<float3x4, TSource> source
+            )
+            where TSource : struct, ISequence<float3x4>
+        {
+            var output = new NativeArray<float3x4>(1, Allocator.Persistent);
+            var handle = new AverageJob_float3x4<TSource> { Source = source, Output = output }.Schedule();
+            return new AverageJobHandle_float3x4(ref handle, ref output);
         }
 
         public static float3x4 Average<T, TSource, TSelector>(
@@ -1490,6 +6158,93 @@ namespace CareBoo.Blinq
             return result;
         }
 
+        [BurstCompile]
+        public struct AverageJobSelector_float3x4<T, TSource, TSelector>
+            : IJob
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, float3x4>
+        {
+            [ReadOnly]
+            public ValueSequence<T, TSource> Source;
+            public ValueFunc<T, float3x4>.Struct<TSelector> Selector;
+
+            [WriteOnly]
+            public NativeArray<float3x4> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average(Selector);
+            }
+        }
+
+        public static float3x4 RunAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, float3x4>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, float3x4>
+        {
+            var output = new NativeArray<float3x4>(1, Allocator.Persistent);
+            new AverageJobSelector_float3x4<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, float3x4>.Struct<TSelector> selector,
+            in NativeArray<float3x4> output
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, float3x4>
+        {
+            return new AverageJobSelector_float3x4<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_float3x4 ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, float3x4>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, float3x4>
+        {
+            var output = new NativeArray<float3x4>(1, Allocator.Persistent);
+            var handle = new AverageJobSelector_float3x4<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+            return new AverageJobHandle_float3x4(ref handle, ref output);
+        }
+
+
+        public struct AverageJobHandle_float4 : IDisposable
+        {
+            JobHandle handle;
+            NativeArray<float4> output;
+
+            public AverageJobHandle_float4(ref JobHandle handle, ref NativeArray<float4> output)
+            {
+                this.handle = handle;
+                this.output = output;
+            }
+
+            public float4 Complete()
+            {
+                handle.Complete();
+                var result = output[0];
+                Dispose();
+                return result;
+            }
+
+            public void Dispose()
+            {
+                if (output.IsCreated)
+                    output.Dispose();
+                output = default;
+            }
+        }
 
         public static float4 Average<TSource>(
             this in ValueSequence<float4, TSource> source
@@ -1508,6 +6263,54 @@ namespace CareBoo.Blinq
             var result = sum / srcList.Length;
             srcList.Dispose();
             return result;
+        }
+
+        [BurstCompile]
+        public struct AverageJob_float4<TSource>
+            : IJob
+            where TSource : struct, ISequence<float4>
+        {
+            [ReadOnly]
+            public ValueSequence<float4, TSource> Source;
+
+            [WriteOnly]
+            public NativeArray<float4> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average();
+            }
+        }
+
+        public static float4 RunAverage<TSource>(
+            this in ValueSequence<float4, TSource> source
+            )
+            where TSource : struct, ISequence<float4>
+        {
+            var output = new NativeArray<float4>(1, Allocator.Persistent);
+            new AverageJob_float4<TSource> { Source = source, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<TSource>(
+            this in ValueSequence<float4, TSource> source,
+            in NativeArray<float4> output
+            )
+            where TSource : struct, ISequence<float4>
+        {
+            return new AverageJob_float4<TSource> { Source = source, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_float4 ScheduleAverage<TSource>(
+            this in ValueSequence<float4, TSource> source
+            )
+            where TSource : struct, ISequence<float4>
+        {
+            var output = new NativeArray<float4>(1, Allocator.Persistent);
+            var handle = new AverageJob_float4<TSource> { Source = source, Output = output }.Schedule();
+            return new AverageJobHandle_float4(ref handle, ref output);
         }
 
         public static float4 Average<T, TSource, TSelector>(
@@ -1532,6 +6335,93 @@ namespace CareBoo.Blinq
             return result;
         }
 
+        [BurstCompile]
+        public struct AverageJobSelector_float4<T, TSource, TSelector>
+            : IJob
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, float4>
+        {
+            [ReadOnly]
+            public ValueSequence<T, TSource> Source;
+            public ValueFunc<T, float4>.Struct<TSelector> Selector;
+
+            [WriteOnly]
+            public NativeArray<float4> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average(Selector);
+            }
+        }
+
+        public static float4 RunAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, float4>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, float4>
+        {
+            var output = new NativeArray<float4>(1, Allocator.Persistent);
+            new AverageJobSelector_float4<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, float4>.Struct<TSelector> selector,
+            in NativeArray<float4> output
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, float4>
+        {
+            return new AverageJobSelector_float4<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_float4 ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, float4>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, float4>
+        {
+            var output = new NativeArray<float4>(1, Allocator.Persistent);
+            var handle = new AverageJobSelector_float4<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+            return new AverageJobHandle_float4(ref handle, ref output);
+        }
+
+
+        public struct AverageJobHandle_float4x2 : IDisposable
+        {
+            JobHandle handle;
+            NativeArray<float4x2> output;
+
+            public AverageJobHandle_float4x2(ref JobHandle handle, ref NativeArray<float4x2> output)
+            {
+                this.handle = handle;
+                this.output = output;
+            }
+
+            public float4x2 Complete()
+            {
+                handle.Complete();
+                var result = output[0];
+                Dispose();
+                return result;
+            }
+
+            public void Dispose()
+            {
+                if (output.IsCreated)
+                    output.Dispose();
+                output = default;
+            }
+        }
 
         public static float4x2 Average<TSource>(
             this in ValueSequence<float4x2, TSource> source
@@ -1550,6 +6440,54 @@ namespace CareBoo.Blinq
             var result = sum / srcList.Length;
             srcList.Dispose();
             return result;
+        }
+
+        [BurstCompile]
+        public struct AverageJob_float4x2<TSource>
+            : IJob
+            where TSource : struct, ISequence<float4x2>
+        {
+            [ReadOnly]
+            public ValueSequence<float4x2, TSource> Source;
+
+            [WriteOnly]
+            public NativeArray<float4x2> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average();
+            }
+        }
+
+        public static float4x2 RunAverage<TSource>(
+            this in ValueSequence<float4x2, TSource> source
+            )
+            where TSource : struct, ISequence<float4x2>
+        {
+            var output = new NativeArray<float4x2>(1, Allocator.Persistent);
+            new AverageJob_float4x2<TSource> { Source = source, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<TSource>(
+            this in ValueSequence<float4x2, TSource> source,
+            in NativeArray<float4x2> output
+            )
+            where TSource : struct, ISequence<float4x2>
+        {
+            return new AverageJob_float4x2<TSource> { Source = source, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_float4x2 ScheduleAverage<TSource>(
+            this in ValueSequence<float4x2, TSource> source
+            )
+            where TSource : struct, ISequence<float4x2>
+        {
+            var output = new NativeArray<float4x2>(1, Allocator.Persistent);
+            var handle = new AverageJob_float4x2<TSource> { Source = source, Output = output }.Schedule();
+            return new AverageJobHandle_float4x2(ref handle, ref output);
         }
 
         public static float4x2 Average<T, TSource, TSelector>(
@@ -1574,6 +6512,93 @@ namespace CareBoo.Blinq
             return result;
         }
 
+        [BurstCompile]
+        public struct AverageJobSelector_float4x2<T, TSource, TSelector>
+            : IJob
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, float4x2>
+        {
+            [ReadOnly]
+            public ValueSequence<T, TSource> Source;
+            public ValueFunc<T, float4x2>.Struct<TSelector> Selector;
+
+            [WriteOnly]
+            public NativeArray<float4x2> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average(Selector);
+            }
+        }
+
+        public static float4x2 RunAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, float4x2>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, float4x2>
+        {
+            var output = new NativeArray<float4x2>(1, Allocator.Persistent);
+            new AverageJobSelector_float4x2<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, float4x2>.Struct<TSelector> selector,
+            in NativeArray<float4x2> output
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, float4x2>
+        {
+            return new AverageJobSelector_float4x2<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_float4x2 ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, float4x2>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, float4x2>
+        {
+            var output = new NativeArray<float4x2>(1, Allocator.Persistent);
+            var handle = new AverageJobSelector_float4x2<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+            return new AverageJobHandle_float4x2(ref handle, ref output);
+        }
+
+
+        public struct AverageJobHandle_float4x3 : IDisposable
+        {
+            JobHandle handle;
+            NativeArray<float4x3> output;
+
+            public AverageJobHandle_float4x3(ref JobHandle handle, ref NativeArray<float4x3> output)
+            {
+                this.handle = handle;
+                this.output = output;
+            }
+
+            public float4x3 Complete()
+            {
+                handle.Complete();
+                var result = output[0];
+                Dispose();
+                return result;
+            }
+
+            public void Dispose()
+            {
+                if (output.IsCreated)
+                    output.Dispose();
+                output = default;
+            }
+        }
 
         public static float4x3 Average<TSource>(
             this in ValueSequence<float4x3, TSource> source
@@ -1592,6 +6617,54 @@ namespace CareBoo.Blinq
             var result = sum / srcList.Length;
             srcList.Dispose();
             return result;
+        }
+
+        [BurstCompile]
+        public struct AverageJob_float4x3<TSource>
+            : IJob
+            where TSource : struct, ISequence<float4x3>
+        {
+            [ReadOnly]
+            public ValueSequence<float4x3, TSource> Source;
+
+            [WriteOnly]
+            public NativeArray<float4x3> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average();
+            }
+        }
+
+        public static float4x3 RunAverage<TSource>(
+            this in ValueSequence<float4x3, TSource> source
+            )
+            where TSource : struct, ISequence<float4x3>
+        {
+            var output = new NativeArray<float4x3>(1, Allocator.Persistent);
+            new AverageJob_float4x3<TSource> { Source = source, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<TSource>(
+            this in ValueSequence<float4x3, TSource> source,
+            in NativeArray<float4x3> output
+            )
+            where TSource : struct, ISequence<float4x3>
+        {
+            return new AverageJob_float4x3<TSource> { Source = source, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_float4x3 ScheduleAverage<TSource>(
+            this in ValueSequence<float4x3, TSource> source
+            )
+            where TSource : struct, ISequence<float4x3>
+        {
+            var output = new NativeArray<float4x3>(1, Allocator.Persistent);
+            var handle = new AverageJob_float4x3<TSource> { Source = source, Output = output }.Schedule();
+            return new AverageJobHandle_float4x3(ref handle, ref output);
         }
 
         public static float4x3 Average<T, TSource, TSelector>(
@@ -1616,6 +6689,93 @@ namespace CareBoo.Blinq
             return result;
         }
 
+        [BurstCompile]
+        public struct AverageJobSelector_float4x3<T, TSource, TSelector>
+            : IJob
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, float4x3>
+        {
+            [ReadOnly]
+            public ValueSequence<T, TSource> Source;
+            public ValueFunc<T, float4x3>.Struct<TSelector> Selector;
+
+            [WriteOnly]
+            public NativeArray<float4x3> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average(Selector);
+            }
+        }
+
+        public static float4x3 RunAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, float4x3>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, float4x3>
+        {
+            var output = new NativeArray<float4x3>(1, Allocator.Persistent);
+            new AverageJobSelector_float4x3<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, float4x3>.Struct<TSelector> selector,
+            in NativeArray<float4x3> output
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, float4x3>
+        {
+            return new AverageJobSelector_float4x3<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_float4x3 ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, float4x3>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, float4x3>
+        {
+            var output = new NativeArray<float4x3>(1, Allocator.Persistent);
+            var handle = new AverageJobSelector_float4x3<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+            return new AverageJobHandle_float4x3(ref handle, ref output);
+        }
+
+
+        public struct AverageJobHandle_float4x4 : IDisposable
+        {
+            JobHandle handle;
+            NativeArray<float4x4> output;
+
+            public AverageJobHandle_float4x4(ref JobHandle handle, ref NativeArray<float4x4> output)
+            {
+                this.handle = handle;
+                this.output = output;
+            }
+
+            public float4x4 Complete()
+            {
+                handle.Complete();
+                var result = output[0];
+                Dispose();
+                return result;
+            }
+
+            public void Dispose()
+            {
+                if (output.IsCreated)
+                    output.Dispose();
+                output = default;
+            }
+        }
 
         public static float4x4 Average<TSource>(
             this in ValueSequence<float4x4, TSource> source
@@ -1634,6 +6794,54 @@ namespace CareBoo.Blinq
             var result = sum / srcList.Length;
             srcList.Dispose();
             return result;
+        }
+
+        [BurstCompile]
+        public struct AverageJob_float4x4<TSource>
+            : IJob
+            where TSource : struct, ISequence<float4x4>
+        {
+            [ReadOnly]
+            public ValueSequence<float4x4, TSource> Source;
+
+            [WriteOnly]
+            public NativeArray<float4x4> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average();
+            }
+        }
+
+        public static float4x4 RunAverage<TSource>(
+            this in ValueSequence<float4x4, TSource> source
+            )
+            where TSource : struct, ISequence<float4x4>
+        {
+            var output = new NativeArray<float4x4>(1, Allocator.Persistent);
+            new AverageJob_float4x4<TSource> { Source = source, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<TSource>(
+            this in ValueSequence<float4x4, TSource> source,
+            in NativeArray<float4x4> output
+            )
+            where TSource : struct, ISequence<float4x4>
+        {
+            return new AverageJob_float4x4<TSource> { Source = source, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_float4x4 ScheduleAverage<TSource>(
+            this in ValueSequence<float4x4, TSource> source
+            )
+            where TSource : struct, ISequence<float4x4>
+        {
+            var output = new NativeArray<float4x4>(1, Allocator.Persistent);
+            var handle = new AverageJob_float4x4<TSource> { Source = source, Output = output }.Schedule();
+            return new AverageJobHandle_float4x4(ref handle, ref output);
         }
 
         public static float4x4 Average<T, TSource, TSelector>(
@@ -1658,6 +6866,93 @@ namespace CareBoo.Blinq
             return result;
         }
 
+        [BurstCompile]
+        public struct AverageJobSelector_float4x4<T, TSource, TSelector>
+            : IJob
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, float4x4>
+        {
+            [ReadOnly]
+            public ValueSequence<T, TSource> Source;
+            public ValueFunc<T, float4x4>.Struct<TSelector> Selector;
+
+            [WriteOnly]
+            public NativeArray<float4x4> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average(Selector);
+            }
+        }
+
+        public static float4x4 RunAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, float4x4>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, float4x4>
+        {
+            var output = new NativeArray<float4x4>(1, Allocator.Persistent);
+            new AverageJobSelector_float4x4<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, float4x4>.Struct<TSelector> selector,
+            in NativeArray<float4x4> output
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, float4x4>
+        {
+            return new AverageJobSelector_float4x4<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_float4x4 ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, float4x4>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, float4x4>
+        {
+            var output = new NativeArray<float4x4>(1, Allocator.Persistent);
+            var handle = new AverageJobSelector_float4x4<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+            return new AverageJobHandle_float4x4(ref handle, ref output);
+        }
+
+
+        public struct AverageJobHandle_double : IDisposable
+        {
+            JobHandle handle;
+            NativeArray<double> output;
+
+            public AverageJobHandle_double(ref JobHandle handle, ref NativeArray<double> output)
+            {
+                this.handle = handle;
+                this.output = output;
+            }
+
+            public double Complete()
+            {
+                handle.Complete();
+                var result = output[0];
+                Dispose();
+                return result;
+            }
+
+            public void Dispose()
+            {
+                if (output.IsCreated)
+                    output.Dispose();
+                output = default;
+            }
+        }
 
         public static double Average<TSource>(
             this in ValueSequence<double, TSource> source
@@ -1676,6 +6971,54 @@ namespace CareBoo.Blinq
             var result = sum / srcList.Length;
             srcList.Dispose();
             return result;
+        }
+
+        [BurstCompile]
+        public struct AverageJob_double<TSource>
+            : IJob
+            where TSource : struct, ISequence<double>
+        {
+            [ReadOnly]
+            public ValueSequence<double, TSource> Source;
+
+            [WriteOnly]
+            public NativeArray<double> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average();
+            }
+        }
+
+        public static double RunAverage<TSource>(
+            this in ValueSequence<double, TSource> source
+            )
+            where TSource : struct, ISequence<double>
+        {
+            var output = new NativeArray<double>(1, Allocator.Persistent);
+            new AverageJob_double<TSource> { Source = source, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<TSource>(
+            this in ValueSequence<double, TSource> source,
+            in NativeArray<double> output
+            )
+            where TSource : struct, ISequence<double>
+        {
+            return new AverageJob_double<TSource> { Source = source, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_double ScheduleAverage<TSource>(
+            this in ValueSequence<double, TSource> source
+            )
+            where TSource : struct, ISequence<double>
+        {
+            var output = new NativeArray<double>(1, Allocator.Persistent);
+            var handle = new AverageJob_double<TSource> { Source = source, Output = output }.Schedule();
+            return new AverageJobHandle_double(ref handle, ref output);
         }
 
         public static double Average<T, TSource, TSelector>(
@@ -1700,6 +7043,93 @@ namespace CareBoo.Blinq
             return result;
         }
 
+        [BurstCompile]
+        public struct AverageJobSelector_double<T, TSource, TSelector>
+            : IJob
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, double>
+        {
+            [ReadOnly]
+            public ValueSequence<T, TSource> Source;
+            public ValueFunc<T, double>.Struct<TSelector> Selector;
+
+            [WriteOnly]
+            public NativeArray<double> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average(Selector);
+            }
+        }
+
+        public static double RunAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, double>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, double>
+        {
+            var output = new NativeArray<double>(1, Allocator.Persistent);
+            new AverageJobSelector_double<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, double>.Struct<TSelector> selector,
+            in NativeArray<double> output
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, double>
+        {
+            return new AverageJobSelector_double<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_double ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, double>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, double>
+        {
+            var output = new NativeArray<double>(1, Allocator.Persistent);
+            var handle = new AverageJobSelector_double<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+            return new AverageJobHandle_double(ref handle, ref output);
+        }
+
+
+        public struct AverageJobHandle_double2 : IDisposable
+        {
+            JobHandle handle;
+            NativeArray<double2> output;
+
+            public AverageJobHandle_double2(ref JobHandle handle, ref NativeArray<double2> output)
+            {
+                this.handle = handle;
+                this.output = output;
+            }
+
+            public double2 Complete()
+            {
+                handle.Complete();
+                var result = output[0];
+                Dispose();
+                return result;
+            }
+
+            public void Dispose()
+            {
+                if (output.IsCreated)
+                    output.Dispose();
+                output = default;
+            }
+        }
 
         public static double2 Average<TSource>(
             this in ValueSequence<double2, TSource> source
@@ -1718,6 +7148,54 @@ namespace CareBoo.Blinq
             var result = sum / srcList.Length;
             srcList.Dispose();
             return result;
+        }
+
+        [BurstCompile]
+        public struct AverageJob_double2<TSource>
+            : IJob
+            where TSource : struct, ISequence<double2>
+        {
+            [ReadOnly]
+            public ValueSequence<double2, TSource> Source;
+
+            [WriteOnly]
+            public NativeArray<double2> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average();
+            }
+        }
+
+        public static double2 RunAverage<TSource>(
+            this in ValueSequence<double2, TSource> source
+            )
+            where TSource : struct, ISequence<double2>
+        {
+            var output = new NativeArray<double2>(1, Allocator.Persistent);
+            new AverageJob_double2<TSource> { Source = source, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<TSource>(
+            this in ValueSequence<double2, TSource> source,
+            in NativeArray<double2> output
+            )
+            where TSource : struct, ISequence<double2>
+        {
+            return new AverageJob_double2<TSource> { Source = source, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_double2 ScheduleAverage<TSource>(
+            this in ValueSequence<double2, TSource> source
+            )
+            where TSource : struct, ISequence<double2>
+        {
+            var output = new NativeArray<double2>(1, Allocator.Persistent);
+            var handle = new AverageJob_double2<TSource> { Source = source, Output = output }.Schedule();
+            return new AverageJobHandle_double2(ref handle, ref output);
         }
 
         public static double2 Average<T, TSource, TSelector>(
@@ -1742,6 +7220,93 @@ namespace CareBoo.Blinq
             return result;
         }
 
+        [BurstCompile]
+        public struct AverageJobSelector_double2<T, TSource, TSelector>
+            : IJob
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, double2>
+        {
+            [ReadOnly]
+            public ValueSequence<T, TSource> Source;
+            public ValueFunc<T, double2>.Struct<TSelector> Selector;
+
+            [WriteOnly]
+            public NativeArray<double2> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average(Selector);
+            }
+        }
+
+        public static double2 RunAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, double2>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, double2>
+        {
+            var output = new NativeArray<double2>(1, Allocator.Persistent);
+            new AverageJobSelector_double2<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, double2>.Struct<TSelector> selector,
+            in NativeArray<double2> output
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, double2>
+        {
+            return new AverageJobSelector_double2<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_double2 ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, double2>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, double2>
+        {
+            var output = new NativeArray<double2>(1, Allocator.Persistent);
+            var handle = new AverageJobSelector_double2<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+            return new AverageJobHandle_double2(ref handle, ref output);
+        }
+
+
+        public struct AverageJobHandle_double2x2 : IDisposable
+        {
+            JobHandle handle;
+            NativeArray<double2x2> output;
+
+            public AverageJobHandle_double2x2(ref JobHandle handle, ref NativeArray<double2x2> output)
+            {
+                this.handle = handle;
+                this.output = output;
+            }
+
+            public double2x2 Complete()
+            {
+                handle.Complete();
+                var result = output[0];
+                Dispose();
+                return result;
+            }
+
+            public void Dispose()
+            {
+                if (output.IsCreated)
+                    output.Dispose();
+                output = default;
+            }
+        }
 
         public static double2x2 Average<TSource>(
             this in ValueSequence<double2x2, TSource> source
@@ -1760,6 +7325,54 @@ namespace CareBoo.Blinq
             var result = sum / srcList.Length;
             srcList.Dispose();
             return result;
+        }
+
+        [BurstCompile]
+        public struct AverageJob_double2x2<TSource>
+            : IJob
+            where TSource : struct, ISequence<double2x2>
+        {
+            [ReadOnly]
+            public ValueSequence<double2x2, TSource> Source;
+
+            [WriteOnly]
+            public NativeArray<double2x2> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average();
+            }
+        }
+
+        public static double2x2 RunAverage<TSource>(
+            this in ValueSequence<double2x2, TSource> source
+            )
+            where TSource : struct, ISequence<double2x2>
+        {
+            var output = new NativeArray<double2x2>(1, Allocator.Persistent);
+            new AverageJob_double2x2<TSource> { Source = source, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<TSource>(
+            this in ValueSequence<double2x2, TSource> source,
+            in NativeArray<double2x2> output
+            )
+            where TSource : struct, ISequence<double2x2>
+        {
+            return new AverageJob_double2x2<TSource> { Source = source, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_double2x2 ScheduleAverage<TSource>(
+            this in ValueSequence<double2x2, TSource> source
+            )
+            where TSource : struct, ISequence<double2x2>
+        {
+            var output = new NativeArray<double2x2>(1, Allocator.Persistent);
+            var handle = new AverageJob_double2x2<TSource> { Source = source, Output = output }.Schedule();
+            return new AverageJobHandle_double2x2(ref handle, ref output);
         }
 
         public static double2x2 Average<T, TSource, TSelector>(
@@ -1784,6 +7397,93 @@ namespace CareBoo.Blinq
             return result;
         }
 
+        [BurstCompile]
+        public struct AverageJobSelector_double2x2<T, TSource, TSelector>
+            : IJob
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, double2x2>
+        {
+            [ReadOnly]
+            public ValueSequence<T, TSource> Source;
+            public ValueFunc<T, double2x2>.Struct<TSelector> Selector;
+
+            [WriteOnly]
+            public NativeArray<double2x2> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average(Selector);
+            }
+        }
+
+        public static double2x2 RunAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, double2x2>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, double2x2>
+        {
+            var output = new NativeArray<double2x2>(1, Allocator.Persistent);
+            new AverageJobSelector_double2x2<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, double2x2>.Struct<TSelector> selector,
+            in NativeArray<double2x2> output
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, double2x2>
+        {
+            return new AverageJobSelector_double2x2<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_double2x2 ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, double2x2>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, double2x2>
+        {
+            var output = new NativeArray<double2x2>(1, Allocator.Persistent);
+            var handle = new AverageJobSelector_double2x2<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+            return new AverageJobHandle_double2x2(ref handle, ref output);
+        }
+
+
+        public struct AverageJobHandle_double2x3 : IDisposable
+        {
+            JobHandle handle;
+            NativeArray<double2x3> output;
+
+            public AverageJobHandle_double2x3(ref JobHandle handle, ref NativeArray<double2x3> output)
+            {
+                this.handle = handle;
+                this.output = output;
+            }
+
+            public double2x3 Complete()
+            {
+                handle.Complete();
+                var result = output[0];
+                Dispose();
+                return result;
+            }
+
+            public void Dispose()
+            {
+                if (output.IsCreated)
+                    output.Dispose();
+                output = default;
+            }
+        }
 
         public static double2x3 Average<TSource>(
             this in ValueSequence<double2x3, TSource> source
@@ -1802,6 +7502,54 @@ namespace CareBoo.Blinq
             var result = sum / srcList.Length;
             srcList.Dispose();
             return result;
+        }
+
+        [BurstCompile]
+        public struct AverageJob_double2x3<TSource>
+            : IJob
+            where TSource : struct, ISequence<double2x3>
+        {
+            [ReadOnly]
+            public ValueSequence<double2x3, TSource> Source;
+
+            [WriteOnly]
+            public NativeArray<double2x3> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average();
+            }
+        }
+
+        public static double2x3 RunAverage<TSource>(
+            this in ValueSequence<double2x3, TSource> source
+            )
+            where TSource : struct, ISequence<double2x3>
+        {
+            var output = new NativeArray<double2x3>(1, Allocator.Persistent);
+            new AverageJob_double2x3<TSource> { Source = source, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<TSource>(
+            this in ValueSequence<double2x3, TSource> source,
+            in NativeArray<double2x3> output
+            )
+            where TSource : struct, ISequence<double2x3>
+        {
+            return new AverageJob_double2x3<TSource> { Source = source, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_double2x3 ScheduleAverage<TSource>(
+            this in ValueSequence<double2x3, TSource> source
+            )
+            where TSource : struct, ISequence<double2x3>
+        {
+            var output = new NativeArray<double2x3>(1, Allocator.Persistent);
+            var handle = new AverageJob_double2x3<TSource> { Source = source, Output = output }.Schedule();
+            return new AverageJobHandle_double2x3(ref handle, ref output);
         }
 
         public static double2x3 Average<T, TSource, TSelector>(
@@ -1826,6 +7574,93 @@ namespace CareBoo.Blinq
             return result;
         }
 
+        [BurstCompile]
+        public struct AverageJobSelector_double2x3<T, TSource, TSelector>
+            : IJob
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, double2x3>
+        {
+            [ReadOnly]
+            public ValueSequence<T, TSource> Source;
+            public ValueFunc<T, double2x3>.Struct<TSelector> Selector;
+
+            [WriteOnly]
+            public NativeArray<double2x3> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average(Selector);
+            }
+        }
+
+        public static double2x3 RunAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, double2x3>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, double2x3>
+        {
+            var output = new NativeArray<double2x3>(1, Allocator.Persistent);
+            new AverageJobSelector_double2x3<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, double2x3>.Struct<TSelector> selector,
+            in NativeArray<double2x3> output
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, double2x3>
+        {
+            return new AverageJobSelector_double2x3<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_double2x3 ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, double2x3>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, double2x3>
+        {
+            var output = new NativeArray<double2x3>(1, Allocator.Persistent);
+            var handle = new AverageJobSelector_double2x3<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+            return new AverageJobHandle_double2x3(ref handle, ref output);
+        }
+
+
+        public struct AverageJobHandle_double2x4 : IDisposable
+        {
+            JobHandle handle;
+            NativeArray<double2x4> output;
+
+            public AverageJobHandle_double2x4(ref JobHandle handle, ref NativeArray<double2x4> output)
+            {
+                this.handle = handle;
+                this.output = output;
+            }
+
+            public double2x4 Complete()
+            {
+                handle.Complete();
+                var result = output[0];
+                Dispose();
+                return result;
+            }
+
+            public void Dispose()
+            {
+                if (output.IsCreated)
+                    output.Dispose();
+                output = default;
+            }
+        }
 
         public static double2x4 Average<TSource>(
             this in ValueSequence<double2x4, TSource> source
@@ -1844,6 +7679,54 @@ namespace CareBoo.Blinq
             var result = sum / srcList.Length;
             srcList.Dispose();
             return result;
+        }
+
+        [BurstCompile]
+        public struct AverageJob_double2x4<TSource>
+            : IJob
+            where TSource : struct, ISequence<double2x4>
+        {
+            [ReadOnly]
+            public ValueSequence<double2x4, TSource> Source;
+
+            [WriteOnly]
+            public NativeArray<double2x4> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average();
+            }
+        }
+
+        public static double2x4 RunAverage<TSource>(
+            this in ValueSequence<double2x4, TSource> source
+            )
+            where TSource : struct, ISequence<double2x4>
+        {
+            var output = new NativeArray<double2x4>(1, Allocator.Persistent);
+            new AverageJob_double2x4<TSource> { Source = source, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<TSource>(
+            this in ValueSequence<double2x4, TSource> source,
+            in NativeArray<double2x4> output
+            )
+            where TSource : struct, ISequence<double2x4>
+        {
+            return new AverageJob_double2x4<TSource> { Source = source, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_double2x4 ScheduleAverage<TSource>(
+            this in ValueSequence<double2x4, TSource> source
+            )
+            where TSource : struct, ISequence<double2x4>
+        {
+            var output = new NativeArray<double2x4>(1, Allocator.Persistent);
+            var handle = new AverageJob_double2x4<TSource> { Source = source, Output = output }.Schedule();
+            return new AverageJobHandle_double2x4(ref handle, ref output);
         }
 
         public static double2x4 Average<T, TSource, TSelector>(
@@ -1868,6 +7751,93 @@ namespace CareBoo.Blinq
             return result;
         }
 
+        [BurstCompile]
+        public struct AverageJobSelector_double2x4<T, TSource, TSelector>
+            : IJob
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, double2x4>
+        {
+            [ReadOnly]
+            public ValueSequence<T, TSource> Source;
+            public ValueFunc<T, double2x4>.Struct<TSelector> Selector;
+
+            [WriteOnly]
+            public NativeArray<double2x4> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average(Selector);
+            }
+        }
+
+        public static double2x4 RunAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, double2x4>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, double2x4>
+        {
+            var output = new NativeArray<double2x4>(1, Allocator.Persistent);
+            new AverageJobSelector_double2x4<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, double2x4>.Struct<TSelector> selector,
+            in NativeArray<double2x4> output
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, double2x4>
+        {
+            return new AverageJobSelector_double2x4<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_double2x4 ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, double2x4>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, double2x4>
+        {
+            var output = new NativeArray<double2x4>(1, Allocator.Persistent);
+            var handle = new AverageJobSelector_double2x4<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+            return new AverageJobHandle_double2x4(ref handle, ref output);
+        }
+
+
+        public struct AverageJobHandle_double3 : IDisposable
+        {
+            JobHandle handle;
+            NativeArray<double3> output;
+
+            public AverageJobHandle_double3(ref JobHandle handle, ref NativeArray<double3> output)
+            {
+                this.handle = handle;
+                this.output = output;
+            }
+
+            public double3 Complete()
+            {
+                handle.Complete();
+                var result = output[0];
+                Dispose();
+                return result;
+            }
+
+            public void Dispose()
+            {
+                if (output.IsCreated)
+                    output.Dispose();
+                output = default;
+            }
+        }
 
         public static double3 Average<TSource>(
             this in ValueSequence<double3, TSource> source
@@ -1886,6 +7856,54 @@ namespace CareBoo.Blinq
             var result = sum / srcList.Length;
             srcList.Dispose();
             return result;
+        }
+
+        [BurstCompile]
+        public struct AverageJob_double3<TSource>
+            : IJob
+            where TSource : struct, ISequence<double3>
+        {
+            [ReadOnly]
+            public ValueSequence<double3, TSource> Source;
+
+            [WriteOnly]
+            public NativeArray<double3> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average();
+            }
+        }
+
+        public static double3 RunAverage<TSource>(
+            this in ValueSequence<double3, TSource> source
+            )
+            where TSource : struct, ISequence<double3>
+        {
+            var output = new NativeArray<double3>(1, Allocator.Persistent);
+            new AverageJob_double3<TSource> { Source = source, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<TSource>(
+            this in ValueSequence<double3, TSource> source,
+            in NativeArray<double3> output
+            )
+            where TSource : struct, ISequence<double3>
+        {
+            return new AverageJob_double3<TSource> { Source = source, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_double3 ScheduleAverage<TSource>(
+            this in ValueSequence<double3, TSource> source
+            )
+            where TSource : struct, ISequence<double3>
+        {
+            var output = new NativeArray<double3>(1, Allocator.Persistent);
+            var handle = new AverageJob_double3<TSource> { Source = source, Output = output }.Schedule();
+            return new AverageJobHandle_double3(ref handle, ref output);
         }
 
         public static double3 Average<T, TSource, TSelector>(
@@ -1910,6 +7928,93 @@ namespace CareBoo.Blinq
             return result;
         }
 
+        [BurstCompile]
+        public struct AverageJobSelector_double3<T, TSource, TSelector>
+            : IJob
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, double3>
+        {
+            [ReadOnly]
+            public ValueSequence<T, TSource> Source;
+            public ValueFunc<T, double3>.Struct<TSelector> Selector;
+
+            [WriteOnly]
+            public NativeArray<double3> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average(Selector);
+            }
+        }
+
+        public static double3 RunAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, double3>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, double3>
+        {
+            var output = new NativeArray<double3>(1, Allocator.Persistent);
+            new AverageJobSelector_double3<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, double3>.Struct<TSelector> selector,
+            in NativeArray<double3> output
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, double3>
+        {
+            return new AverageJobSelector_double3<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_double3 ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, double3>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, double3>
+        {
+            var output = new NativeArray<double3>(1, Allocator.Persistent);
+            var handle = new AverageJobSelector_double3<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+            return new AverageJobHandle_double3(ref handle, ref output);
+        }
+
+
+        public struct AverageJobHandle_double3x2 : IDisposable
+        {
+            JobHandle handle;
+            NativeArray<double3x2> output;
+
+            public AverageJobHandle_double3x2(ref JobHandle handle, ref NativeArray<double3x2> output)
+            {
+                this.handle = handle;
+                this.output = output;
+            }
+
+            public double3x2 Complete()
+            {
+                handle.Complete();
+                var result = output[0];
+                Dispose();
+                return result;
+            }
+
+            public void Dispose()
+            {
+                if (output.IsCreated)
+                    output.Dispose();
+                output = default;
+            }
+        }
 
         public static double3x2 Average<TSource>(
             this in ValueSequence<double3x2, TSource> source
@@ -1928,6 +8033,54 @@ namespace CareBoo.Blinq
             var result = sum / srcList.Length;
             srcList.Dispose();
             return result;
+        }
+
+        [BurstCompile]
+        public struct AverageJob_double3x2<TSource>
+            : IJob
+            where TSource : struct, ISequence<double3x2>
+        {
+            [ReadOnly]
+            public ValueSequence<double3x2, TSource> Source;
+
+            [WriteOnly]
+            public NativeArray<double3x2> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average();
+            }
+        }
+
+        public static double3x2 RunAverage<TSource>(
+            this in ValueSequence<double3x2, TSource> source
+            )
+            where TSource : struct, ISequence<double3x2>
+        {
+            var output = new NativeArray<double3x2>(1, Allocator.Persistent);
+            new AverageJob_double3x2<TSource> { Source = source, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<TSource>(
+            this in ValueSequence<double3x2, TSource> source,
+            in NativeArray<double3x2> output
+            )
+            where TSource : struct, ISequence<double3x2>
+        {
+            return new AverageJob_double3x2<TSource> { Source = source, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_double3x2 ScheduleAverage<TSource>(
+            this in ValueSequence<double3x2, TSource> source
+            )
+            where TSource : struct, ISequence<double3x2>
+        {
+            var output = new NativeArray<double3x2>(1, Allocator.Persistent);
+            var handle = new AverageJob_double3x2<TSource> { Source = source, Output = output }.Schedule();
+            return new AverageJobHandle_double3x2(ref handle, ref output);
         }
 
         public static double3x2 Average<T, TSource, TSelector>(
@@ -1952,6 +8105,93 @@ namespace CareBoo.Blinq
             return result;
         }
 
+        [BurstCompile]
+        public struct AverageJobSelector_double3x2<T, TSource, TSelector>
+            : IJob
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, double3x2>
+        {
+            [ReadOnly]
+            public ValueSequence<T, TSource> Source;
+            public ValueFunc<T, double3x2>.Struct<TSelector> Selector;
+
+            [WriteOnly]
+            public NativeArray<double3x2> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average(Selector);
+            }
+        }
+
+        public static double3x2 RunAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, double3x2>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, double3x2>
+        {
+            var output = new NativeArray<double3x2>(1, Allocator.Persistent);
+            new AverageJobSelector_double3x2<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, double3x2>.Struct<TSelector> selector,
+            in NativeArray<double3x2> output
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, double3x2>
+        {
+            return new AverageJobSelector_double3x2<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_double3x2 ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, double3x2>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, double3x2>
+        {
+            var output = new NativeArray<double3x2>(1, Allocator.Persistent);
+            var handle = new AverageJobSelector_double3x2<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+            return new AverageJobHandle_double3x2(ref handle, ref output);
+        }
+
+
+        public struct AverageJobHandle_double3x3 : IDisposable
+        {
+            JobHandle handle;
+            NativeArray<double3x3> output;
+
+            public AverageJobHandle_double3x3(ref JobHandle handle, ref NativeArray<double3x3> output)
+            {
+                this.handle = handle;
+                this.output = output;
+            }
+
+            public double3x3 Complete()
+            {
+                handle.Complete();
+                var result = output[0];
+                Dispose();
+                return result;
+            }
+
+            public void Dispose()
+            {
+                if (output.IsCreated)
+                    output.Dispose();
+                output = default;
+            }
+        }
 
         public static double3x3 Average<TSource>(
             this in ValueSequence<double3x3, TSource> source
@@ -1970,6 +8210,54 @@ namespace CareBoo.Blinq
             var result = sum / srcList.Length;
             srcList.Dispose();
             return result;
+        }
+
+        [BurstCompile]
+        public struct AverageJob_double3x3<TSource>
+            : IJob
+            where TSource : struct, ISequence<double3x3>
+        {
+            [ReadOnly]
+            public ValueSequence<double3x3, TSource> Source;
+
+            [WriteOnly]
+            public NativeArray<double3x3> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average();
+            }
+        }
+
+        public static double3x3 RunAverage<TSource>(
+            this in ValueSequence<double3x3, TSource> source
+            )
+            where TSource : struct, ISequence<double3x3>
+        {
+            var output = new NativeArray<double3x3>(1, Allocator.Persistent);
+            new AverageJob_double3x3<TSource> { Source = source, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<TSource>(
+            this in ValueSequence<double3x3, TSource> source,
+            in NativeArray<double3x3> output
+            )
+            where TSource : struct, ISequence<double3x3>
+        {
+            return new AverageJob_double3x3<TSource> { Source = source, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_double3x3 ScheduleAverage<TSource>(
+            this in ValueSequence<double3x3, TSource> source
+            )
+            where TSource : struct, ISequence<double3x3>
+        {
+            var output = new NativeArray<double3x3>(1, Allocator.Persistent);
+            var handle = new AverageJob_double3x3<TSource> { Source = source, Output = output }.Schedule();
+            return new AverageJobHandle_double3x3(ref handle, ref output);
         }
 
         public static double3x3 Average<T, TSource, TSelector>(
@@ -1994,6 +8282,93 @@ namespace CareBoo.Blinq
             return result;
         }
 
+        [BurstCompile]
+        public struct AverageJobSelector_double3x3<T, TSource, TSelector>
+            : IJob
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, double3x3>
+        {
+            [ReadOnly]
+            public ValueSequence<T, TSource> Source;
+            public ValueFunc<T, double3x3>.Struct<TSelector> Selector;
+
+            [WriteOnly]
+            public NativeArray<double3x3> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average(Selector);
+            }
+        }
+
+        public static double3x3 RunAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, double3x3>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, double3x3>
+        {
+            var output = new NativeArray<double3x3>(1, Allocator.Persistent);
+            new AverageJobSelector_double3x3<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, double3x3>.Struct<TSelector> selector,
+            in NativeArray<double3x3> output
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, double3x3>
+        {
+            return new AverageJobSelector_double3x3<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_double3x3 ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, double3x3>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, double3x3>
+        {
+            var output = new NativeArray<double3x3>(1, Allocator.Persistent);
+            var handle = new AverageJobSelector_double3x3<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+            return new AverageJobHandle_double3x3(ref handle, ref output);
+        }
+
+
+        public struct AverageJobHandle_double3x4 : IDisposable
+        {
+            JobHandle handle;
+            NativeArray<double3x4> output;
+
+            public AverageJobHandle_double3x4(ref JobHandle handle, ref NativeArray<double3x4> output)
+            {
+                this.handle = handle;
+                this.output = output;
+            }
+
+            public double3x4 Complete()
+            {
+                handle.Complete();
+                var result = output[0];
+                Dispose();
+                return result;
+            }
+
+            public void Dispose()
+            {
+                if (output.IsCreated)
+                    output.Dispose();
+                output = default;
+            }
+        }
 
         public static double3x4 Average<TSource>(
             this in ValueSequence<double3x4, TSource> source
@@ -2012,6 +8387,54 @@ namespace CareBoo.Blinq
             var result = sum / srcList.Length;
             srcList.Dispose();
             return result;
+        }
+
+        [BurstCompile]
+        public struct AverageJob_double3x4<TSource>
+            : IJob
+            where TSource : struct, ISequence<double3x4>
+        {
+            [ReadOnly]
+            public ValueSequence<double3x4, TSource> Source;
+
+            [WriteOnly]
+            public NativeArray<double3x4> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average();
+            }
+        }
+
+        public static double3x4 RunAverage<TSource>(
+            this in ValueSequence<double3x4, TSource> source
+            )
+            where TSource : struct, ISequence<double3x4>
+        {
+            var output = new NativeArray<double3x4>(1, Allocator.Persistent);
+            new AverageJob_double3x4<TSource> { Source = source, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<TSource>(
+            this in ValueSequence<double3x4, TSource> source,
+            in NativeArray<double3x4> output
+            )
+            where TSource : struct, ISequence<double3x4>
+        {
+            return new AverageJob_double3x4<TSource> { Source = source, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_double3x4 ScheduleAverage<TSource>(
+            this in ValueSequence<double3x4, TSource> source
+            )
+            where TSource : struct, ISequence<double3x4>
+        {
+            var output = new NativeArray<double3x4>(1, Allocator.Persistent);
+            var handle = new AverageJob_double3x4<TSource> { Source = source, Output = output }.Schedule();
+            return new AverageJobHandle_double3x4(ref handle, ref output);
         }
 
         public static double3x4 Average<T, TSource, TSelector>(
@@ -2036,6 +8459,93 @@ namespace CareBoo.Blinq
             return result;
         }
 
+        [BurstCompile]
+        public struct AverageJobSelector_double3x4<T, TSource, TSelector>
+            : IJob
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, double3x4>
+        {
+            [ReadOnly]
+            public ValueSequence<T, TSource> Source;
+            public ValueFunc<T, double3x4>.Struct<TSelector> Selector;
+
+            [WriteOnly]
+            public NativeArray<double3x4> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average(Selector);
+            }
+        }
+
+        public static double3x4 RunAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, double3x4>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, double3x4>
+        {
+            var output = new NativeArray<double3x4>(1, Allocator.Persistent);
+            new AverageJobSelector_double3x4<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, double3x4>.Struct<TSelector> selector,
+            in NativeArray<double3x4> output
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, double3x4>
+        {
+            return new AverageJobSelector_double3x4<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_double3x4 ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, double3x4>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, double3x4>
+        {
+            var output = new NativeArray<double3x4>(1, Allocator.Persistent);
+            var handle = new AverageJobSelector_double3x4<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+            return new AverageJobHandle_double3x4(ref handle, ref output);
+        }
+
+
+        public struct AverageJobHandle_double4 : IDisposable
+        {
+            JobHandle handle;
+            NativeArray<double4> output;
+
+            public AverageJobHandle_double4(ref JobHandle handle, ref NativeArray<double4> output)
+            {
+                this.handle = handle;
+                this.output = output;
+            }
+
+            public double4 Complete()
+            {
+                handle.Complete();
+                var result = output[0];
+                Dispose();
+                return result;
+            }
+
+            public void Dispose()
+            {
+                if (output.IsCreated)
+                    output.Dispose();
+                output = default;
+            }
+        }
 
         public static double4 Average<TSource>(
             this in ValueSequence<double4, TSource> source
@@ -2054,6 +8564,54 @@ namespace CareBoo.Blinq
             var result = sum / srcList.Length;
             srcList.Dispose();
             return result;
+        }
+
+        [BurstCompile]
+        public struct AverageJob_double4<TSource>
+            : IJob
+            where TSource : struct, ISequence<double4>
+        {
+            [ReadOnly]
+            public ValueSequence<double4, TSource> Source;
+
+            [WriteOnly]
+            public NativeArray<double4> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average();
+            }
+        }
+
+        public static double4 RunAverage<TSource>(
+            this in ValueSequence<double4, TSource> source
+            )
+            where TSource : struct, ISequence<double4>
+        {
+            var output = new NativeArray<double4>(1, Allocator.Persistent);
+            new AverageJob_double4<TSource> { Source = source, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<TSource>(
+            this in ValueSequence<double4, TSource> source,
+            in NativeArray<double4> output
+            )
+            where TSource : struct, ISequence<double4>
+        {
+            return new AverageJob_double4<TSource> { Source = source, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_double4 ScheduleAverage<TSource>(
+            this in ValueSequence<double4, TSource> source
+            )
+            where TSource : struct, ISequence<double4>
+        {
+            var output = new NativeArray<double4>(1, Allocator.Persistent);
+            var handle = new AverageJob_double4<TSource> { Source = source, Output = output }.Schedule();
+            return new AverageJobHandle_double4(ref handle, ref output);
         }
 
         public static double4 Average<T, TSource, TSelector>(
@@ -2078,6 +8636,93 @@ namespace CareBoo.Blinq
             return result;
         }
 
+        [BurstCompile]
+        public struct AverageJobSelector_double4<T, TSource, TSelector>
+            : IJob
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, double4>
+        {
+            [ReadOnly]
+            public ValueSequence<T, TSource> Source;
+            public ValueFunc<T, double4>.Struct<TSelector> Selector;
+
+            [WriteOnly]
+            public NativeArray<double4> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average(Selector);
+            }
+        }
+
+        public static double4 RunAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, double4>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, double4>
+        {
+            var output = new NativeArray<double4>(1, Allocator.Persistent);
+            new AverageJobSelector_double4<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, double4>.Struct<TSelector> selector,
+            in NativeArray<double4> output
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, double4>
+        {
+            return new AverageJobSelector_double4<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_double4 ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, double4>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, double4>
+        {
+            var output = new NativeArray<double4>(1, Allocator.Persistent);
+            var handle = new AverageJobSelector_double4<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+            return new AverageJobHandle_double4(ref handle, ref output);
+        }
+
+
+        public struct AverageJobHandle_double4x2 : IDisposable
+        {
+            JobHandle handle;
+            NativeArray<double4x2> output;
+
+            public AverageJobHandle_double4x2(ref JobHandle handle, ref NativeArray<double4x2> output)
+            {
+                this.handle = handle;
+                this.output = output;
+            }
+
+            public double4x2 Complete()
+            {
+                handle.Complete();
+                var result = output[0];
+                Dispose();
+                return result;
+            }
+
+            public void Dispose()
+            {
+                if (output.IsCreated)
+                    output.Dispose();
+                output = default;
+            }
+        }
 
         public static double4x2 Average<TSource>(
             this in ValueSequence<double4x2, TSource> source
@@ -2096,6 +8741,54 @@ namespace CareBoo.Blinq
             var result = sum / srcList.Length;
             srcList.Dispose();
             return result;
+        }
+
+        [BurstCompile]
+        public struct AverageJob_double4x2<TSource>
+            : IJob
+            where TSource : struct, ISequence<double4x2>
+        {
+            [ReadOnly]
+            public ValueSequence<double4x2, TSource> Source;
+
+            [WriteOnly]
+            public NativeArray<double4x2> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average();
+            }
+        }
+
+        public static double4x2 RunAverage<TSource>(
+            this in ValueSequence<double4x2, TSource> source
+            )
+            where TSource : struct, ISequence<double4x2>
+        {
+            var output = new NativeArray<double4x2>(1, Allocator.Persistent);
+            new AverageJob_double4x2<TSource> { Source = source, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<TSource>(
+            this in ValueSequence<double4x2, TSource> source,
+            in NativeArray<double4x2> output
+            )
+            where TSource : struct, ISequence<double4x2>
+        {
+            return new AverageJob_double4x2<TSource> { Source = source, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_double4x2 ScheduleAverage<TSource>(
+            this in ValueSequence<double4x2, TSource> source
+            )
+            where TSource : struct, ISequence<double4x2>
+        {
+            var output = new NativeArray<double4x2>(1, Allocator.Persistent);
+            var handle = new AverageJob_double4x2<TSource> { Source = source, Output = output }.Schedule();
+            return new AverageJobHandle_double4x2(ref handle, ref output);
         }
 
         public static double4x2 Average<T, TSource, TSelector>(
@@ -2120,6 +8813,93 @@ namespace CareBoo.Blinq
             return result;
         }
 
+        [BurstCompile]
+        public struct AverageJobSelector_double4x2<T, TSource, TSelector>
+            : IJob
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, double4x2>
+        {
+            [ReadOnly]
+            public ValueSequence<T, TSource> Source;
+            public ValueFunc<T, double4x2>.Struct<TSelector> Selector;
+
+            [WriteOnly]
+            public NativeArray<double4x2> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average(Selector);
+            }
+        }
+
+        public static double4x2 RunAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, double4x2>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, double4x2>
+        {
+            var output = new NativeArray<double4x2>(1, Allocator.Persistent);
+            new AverageJobSelector_double4x2<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, double4x2>.Struct<TSelector> selector,
+            in NativeArray<double4x2> output
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, double4x2>
+        {
+            return new AverageJobSelector_double4x2<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_double4x2 ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, double4x2>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, double4x2>
+        {
+            var output = new NativeArray<double4x2>(1, Allocator.Persistent);
+            var handle = new AverageJobSelector_double4x2<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+            return new AverageJobHandle_double4x2(ref handle, ref output);
+        }
+
+
+        public struct AverageJobHandle_double4x3 : IDisposable
+        {
+            JobHandle handle;
+            NativeArray<double4x3> output;
+
+            public AverageJobHandle_double4x3(ref JobHandle handle, ref NativeArray<double4x3> output)
+            {
+                this.handle = handle;
+                this.output = output;
+            }
+
+            public double4x3 Complete()
+            {
+                handle.Complete();
+                var result = output[0];
+                Dispose();
+                return result;
+            }
+
+            public void Dispose()
+            {
+                if (output.IsCreated)
+                    output.Dispose();
+                output = default;
+            }
+        }
 
         public static double4x3 Average<TSource>(
             this in ValueSequence<double4x3, TSource> source
@@ -2138,6 +8918,54 @@ namespace CareBoo.Blinq
             var result = sum / srcList.Length;
             srcList.Dispose();
             return result;
+        }
+
+        [BurstCompile]
+        public struct AverageJob_double4x3<TSource>
+            : IJob
+            where TSource : struct, ISequence<double4x3>
+        {
+            [ReadOnly]
+            public ValueSequence<double4x3, TSource> Source;
+
+            [WriteOnly]
+            public NativeArray<double4x3> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average();
+            }
+        }
+
+        public static double4x3 RunAverage<TSource>(
+            this in ValueSequence<double4x3, TSource> source
+            )
+            where TSource : struct, ISequence<double4x3>
+        {
+            var output = new NativeArray<double4x3>(1, Allocator.Persistent);
+            new AverageJob_double4x3<TSource> { Source = source, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<TSource>(
+            this in ValueSequence<double4x3, TSource> source,
+            in NativeArray<double4x3> output
+            )
+            where TSource : struct, ISequence<double4x3>
+        {
+            return new AverageJob_double4x3<TSource> { Source = source, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_double4x3 ScheduleAverage<TSource>(
+            this in ValueSequence<double4x3, TSource> source
+            )
+            where TSource : struct, ISequence<double4x3>
+        {
+            var output = new NativeArray<double4x3>(1, Allocator.Persistent);
+            var handle = new AverageJob_double4x3<TSource> { Source = source, Output = output }.Schedule();
+            return new AverageJobHandle_double4x3(ref handle, ref output);
         }
 
         public static double4x3 Average<T, TSource, TSelector>(
@@ -2162,6 +8990,93 @@ namespace CareBoo.Blinq
             return result;
         }
 
+        [BurstCompile]
+        public struct AverageJobSelector_double4x3<T, TSource, TSelector>
+            : IJob
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, double4x3>
+        {
+            [ReadOnly]
+            public ValueSequence<T, TSource> Source;
+            public ValueFunc<T, double4x3>.Struct<TSelector> Selector;
+
+            [WriteOnly]
+            public NativeArray<double4x3> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average(Selector);
+            }
+        }
+
+        public static double4x3 RunAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, double4x3>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, double4x3>
+        {
+            var output = new NativeArray<double4x3>(1, Allocator.Persistent);
+            new AverageJobSelector_double4x3<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, double4x3>.Struct<TSelector> selector,
+            in NativeArray<double4x3> output
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, double4x3>
+        {
+            return new AverageJobSelector_double4x3<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_double4x3 ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, double4x3>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, double4x3>
+        {
+            var output = new NativeArray<double4x3>(1, Allocator.Persistent);
+            var handle = new AverageJobSelector_double4x3<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+            return new AverageJobHandle_double4x3(ref handle, ref output);
+        }
+
+
+        public struct AverageJobHandle_double4x4 : IDisposable
+        {
+            JobHandle handle;
+            NativeArray<double4x4> output;
+
+            public AverageJobHandle_double4x4(ref JobHandle handle, ref NativeArray<double4x4> output)
+            {
+                this.handle = handle;
+                this.output = output;
+            }
+
+            public double4x4 Complete()
+            {
+                handle.Complete();
+                var result = output[0];
+                Dispose();
+                return result;
+            }
+
+            public void Dispose()
+            {
+                if (output.IsCreated)
+                    output.Dispose();
+                output = default;
+            }
+        }
 
         public static double4x4 Average<TSource>(
             this in ValueSequence<double4x4, TSource> source
@@ -2180,6 +9095,54 @@ namespace CareBoo.Blinq
             var result = sum / srcList.Length;
             srcList.Dispose();
             return result;
+        }
+
+        [BurstCompile]
+        public struct AverageJob_double4x4<TSource>
+            : IJob
+            where TSource : struct, ISequence<double4x4>
+        {
+            [ReadOnly]
+            public ValueSequence<double4x4, TSource> Source;
+
+            [WriteOnly]
+            public NativeArray<double4x4> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average();
+            }
+        }
+
+        public static double4x4 RunAverage<TSource>(
+            this in ValueSequence<double4x4, TSource> source
+            )
+            where TSource : struct, ISequence<double4x4>
+        {
+            var output = new NativeArray<double4x4>(1, Allocator.Persistent);
+            new AverageJob_double4x4<TSource> { Source = source, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<TSource>(
+            this in ValueSequence<double4x4, TSource> source,
+            in NativeArray<double4x4> output
+            )
+            where TSource : struct, ISequence<double4x4>
+        {
+            return new AverageJob_double4x4<TSource> { Source = source, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_double4x4 ScheduleAverage<TSource>(
+            this in ValueSequence<double4x4, TSource> source
+            )
+            where TSource : struct, ISequence<double4x4>
+        {
+            var output = new NativeArray<double4x4>(1, Allocator.Persistent);
+            var handle = new AverageJob_double4x4<TSource> { Source = source, Output = output }.Schedule();
+            return new AverageJobHandle_double4x4(ref handle, ref output);
         }
 
         public static double4x4 Average<T, TSource, TSelector>(
@@ -2202,6 +9165,66 @@ namespace CareBoo.Blinq
             var result = sum / srcList.Length;
             srcList.Dispose();
             return result;
+        }
+
+        [BurstCompile]
+        public struct AverageJobSelector_double4x4<T, TSource, TSelector>
+            : IJob
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, double4x4>
+        {
+            [ReadOnly]
+            public ValueSequence<T, TSource> Source;
+            public ValueFunc<T, double4x4>.Struct<TSelector> Selector;
+
+            [WriteOnly]
+            public NativeArray<double4x4> Output;
+
+            public void Execute()
+            {
+                Output[0] = Source.Average(Selector);
+            }
+        }
+
+        public static double4x4 RunAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, double4x4>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, double4x4>
+        {
+            var output = new NativeArray<double4x4>(1, Allocator.Persistent);
+            new AverageJobSelector_double4x4<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Run();
+            var result = output[0];
+            output.Dispose();
+            return result;
+        }
+
+        public static JobHandle ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, double4x4>.Struct<TSelector> selector,
+            in NativeArray<double4x4> output
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, double4x4>
+        {
+            return new AverageJobSelector_double4x4<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+        }
+
+        public static AverageJobHandle_double4x4 ScheduleAverage<T, TSource, TSelector>(
+            this in ValueSequence<T, TSource> source,
+            in ValueFunc<T, double4x4>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T>
+            where TSelector : struct, IFunc<T, double4x4>
+        {
+            var output = new NativeArray<double4x4>(1, Allocator.Persistent);
+            var handle = new AverageJobSelector_double4x4<T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+            return new AverageJobHandle_double4x4(ref handle, ref output);
         }
 
 
