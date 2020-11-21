@@ -1,3 +1,10 @@
+# [2.1.0-preview.1](https://github.com/CareBoo/Blinq/compare/v2.0.0...v2.1.0-preview.1) (2020-11-21)
+
+
+### Features
+
+* :sparkles: Implement RunAverage and ScheduleAverage ([fb94dc6](https://github.com/CareBoo/Blinq/commit/fb94dc6b3c76a2cea204d61ec26d8637bfe3f71e)), closes [#64](https://github.com/CareBoo/Blinq/issues/64)
+
 # [2.0.0](https://github.com/CareBoo/Blinq/compare/v1.0.0...v2.0.0) (2020-11-20)
 
 
