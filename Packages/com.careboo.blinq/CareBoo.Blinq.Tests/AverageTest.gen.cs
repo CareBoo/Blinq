@@ -44,6 +44,7 @@ internal class AverageTest
         var expected = ExceptionAndValue(() => Linq.Average(srcNativeArray));
         var actual = ExceptionAndValue(() => Blinq.Average(srcNativeArray));
         srcNativeArray.Dispose();
+        AssertAreEqual(expected, actual);
     }
 
     [Test, Parallelizable, Timeout(5000)]
@@ -55,6 +56,63 @@ internal class AverageTest
         var expected = ExceptionAndValue(() => Linq.Average(srcNativeArray, SelectSelf<int>().Invoke));
         var actual = ExceptionAndValue(() => Blinq.Average(srcNativeArray, SelectSelf<int>()));
         srcNativeArray.Dispose();
+        AssertAreEqual(expected, actual);
+    }
+
+    [Test, Parallelizable, Timeout(5000)]
+    public void BlinqShouldEqualLinqNativeArrayRunAverage_int(
+        [ValueSource(typeof(Values_int), nameof(Values_int.Values))] int[] sourceArr
+        )
+    {
+        var srcNativeArray = new NativeArray<int>(sourceArr, Allocator.Persistent);
+        var expected = ExceptionAndValue(() => Linq.Average(srcNativeArray));
+        if (expected.Item1 != null)
+            return; // Exceptions are not supported in Burst
+        var actual = ExceptionAndValue(() => Blinq.RunAverage(srcNativeArray));
+        srcNativeArray.Dispose();
+        AssertAreEqual(expected, actual);
+    }
+
+    [Test, Parallelizable, Timeout(5000)]
+    public void BlinqShouldEqualLinqNativeArrayRunAverageSelector_int(
+        [ValueSource(typeof(Values_int), nameof(Values_int.Values))] int[] sourceArr
+        )
+    {
+        var srcNativeArray = new NativeArray<int>(sourceArr, Allocator.Persistent);
+        var expected = ExceptionAndValue(() => Linq.Average(srcNativeArray, SelectSelf<int>().Invoke));
+        if (expected.Item1 != null)
+            return; // Exceptions are not supported in Burst
+        var actual = ExceptionAndValue(() => Blinq.RunAverage(srcNativeArray, SelectSelf<int>()));
+        srcNativeArray.Dispose();
+        AssertAreEqual(expected, actual);
+    }
+
+    [Test, Parallelizable, Timeout(5000)]
+    public void BlinqShouldEqualLinqNativeArrayScheduleAverage_int(
+        [ValueSource(typeof(Values_int), nameof(Values_int.Values))] int[] sourceArr
+        )
+    {
+        var srcNativeArray = new NativeArray<int>(sourceArr, Allocator.Persistent);
+        var expected = ExceptionAndValue(() => Linq.Average(srcNativeArray));
+        if (expected.Item1 != null)
+            return; // Exceptions are not supported in Burst
+        var actual = ExceptionAndValue(() => Blinq.ScheduleAverage(srcNativeArray).Complete());
+        srcNativeArray.Dispose();
+        AssertAreEqual(expected, actual);
+    }
+
+    [Test, Parallelizable, Timeout(5000)]
+    public void BlinqShouldEqualLinqNativeArrayScheduleAverageSelector_int(
+        [ValueSource(typeof(Values_int), nameof(Values_int.Values))] int[] sourceArr
+        )
+    {
+        var srcNativeArray = new NativeArray<int>(sourceArr, Allocator.Persistent);
+        var expected = ExceptionAndValue(() => Linq.Average(srcNativeArray, SelectSelf<int>().Invoke));
+        if (expected.Item1 != null)
+            return; // Exceptions are not supported in Burst
+        var actual = ExceptionAndValue(() => Blinq.ScheduleAverage(srcNativeArray, SelectSelf<int>()).Complete());
+        srcNativeArray.Dispose();
+        AssertAreEqual(expected, actual);
     }
 
 
@@ -80,6 +138,7 @@ internal class AverageTest
         var expected = ExceptionAndValue(() => Linq.Average(srcNativeArray));
         var actual = ExceptionAndValue(() => Blinq.Average(srcNativeArray));
         srcNativeArray.Dispose();
+        AssertAreEqual(expected, actual);
     }
 
     [Test, Parallelizable, Timeout(5000)]
@@ -91,6 +150,63 @@ internal class AverageTest
         var expected = ExceptionAndValue(() => Linq.Average(srcNativeArray, SelectSelf<float>().Invoke));
         var actual = ExceptionAndValue(() => Blinq.Average(srcNativeArray, SelectSelf<float>()));
         srcNativeArray.Dispose();
+        AssertAreEqual(expected, actual);
+    }
+
+    [Test, Parallelizable, Timeout(5000)]
+    public void BlinqShouldEqualLinqNativeArrayRunAverage_float(
+        [ValueSource(typeof(Values_float), nameof(Values_float.Values))] float[] sourceArr
+        )
+    {
+        var srcNativeArray = new NativeArray<float>(sourceArr, Allocator.Persistent);
+        var expected = ExceptionAndValue(() => Linq.Average(srcNativeArray));
+        if (expected.Item1 != null)
+            return; // Exceptions are not supported in Burst
+        var actual = ExceptionAndValue(() => Blinq.RunAverage(srcNativeArray));
+        srcNativeArray.Dispose();
+        AssertAreEqual(expected, actual);
+    }
+
+    [Test, Parallelizable, Timeout(5000)]
+    public void BlinqShouldEqualLinqNativeArrayRunAverageSelector_float(
+        [ValueSource(typeof(Values_float), nameof(Values_float.Values))] float[] sourceArr
+        )
+    {
+        var srcNativeArray = new NativeArray<float>(sourceArr, Allocator.Persistent);
+        var expected = ExceptionAndValue(() => Linq.Average(srcNativeArray, SelectSelf<float>().Invoke));
+        if (expected.Item1 != null)
+            return; // Exceptions are not supported in Burst
+        var actual = ExceptionAndValue(() => Blinq.RunAverage(srcNativeArray, SelectSelf<float>()));
+        srcNativeArray.Dispose();
+        AssertAreEqual(expected, actual);
+    }
+
+    [Test, Parallelizable, Timeout(5000)]
+    public void BlinqShouldEqualLinqNativeArrayScheduleAverage_float(
+        [ValueSource(typeof(Values_float), nameof(Values_float.Values))] float[] sourceArr
+        )
+    {
+        var srcNativeArray = new NativeArray<float>(sourceArr, Allocator.Persistent);
+        var expected = ExceptionAndValue(() => Linq.Average(srcNativeArray));
+        if (expected.Item1 != null)
+            return; // Exceptions are not supported in Burst
+        var actual = ExceptionAndValue(() => Blinq.ScheduleAverage(srcNativeArray).Complete());
+        srcNativeArray.Dispose();
+        AssertAreEqual(expected, actual);
+    }
+
+    [Test, Parallelizable, Timeout(5000)]
+    public void BlinqShouldEqualLinqNativeArrayScheduleAverageSelector_float(
+        [ValueSource(typeof(Values_float), nameof(Values_float.Values))] float[] sourceArr
+        )
+    {
+        var srcNativeArray = new NativeArray<float>(sourceArr, Allocator.Persistent);
+        var expected = ExceptionAndValue(() => Linq.Average(srcNativeArray, SelectSelf<float>().Invoke));
+        if (expected.Item1 != null)
+            return; // Exceptions are not supported in Burst
+        var actual = ExceptionAndValue(() => Blinq.ScheduleAverage(srcNativeArray, SelectSelf<float>()).Complete());
+        srcNativeArray.Dispose();
+        AssertAreEqual(expected, actual);
     }
 
 
@@ -116,6 +232,7 @@ internal class AverageTest
         var expected = ExceptionAndValue(() => Linq.Average(srcNativeArray));
         var actual = ExceptionAndValue(() => Blinq.Average(srcNativeArray));
         srcNativeArray.Dispose();
+        AssertAreEqual(expected, actual);
     }
 
     [Test, Parallelizable, Timeout(5000)]
@@ -127,6 +244,63 @@ internal class AverageTest
         var expected = ExceptionAndValue(() => Linq.Average(srcNativeArray, SelectSelf<double>().Invoke));
         var actual = ExceptionAndValue(() => Blinq.Average(srcNativeArray, SelectSelf<double>()));
         srcNativeArray.Dispose();
+        AssertAreEqual(expected, actual);
+    }
+
+    [Test, Parallelizable, Timeout(5000)]
+    public void BlinqShouldEqualLinqNativeArrayRunAverage_double(
+        [ValueSource(typeof(Values_double), nameof(Values_double.Values))] double[] sourceArr
+        )
+    {
+        var srcNativeArray = new NativeArray<double>(sourceArr, Allocator.Persistent);
+        var expected = ExceptionAndValue(() => Linq.Average(srcNativeArray));
+        if (expected.Item1 != null)
+            return; // Exceptions are not supported in Burst
+        var actual = ExceptionAndValue(() => Blinq.RunAverage(srcNativeArray));
+        srcNativeArray.Dispose();
+        AssertAreEqual(expected, actual);
+    }
+
+    [Test, Parallelizable, Timeout(5000)]
+    public void BlinqShouldEqualLinqNativeArrayRunAverageSelector_double(
+        [ValueSource(typeof(Values_double), nameof(Values_double.Values))] double[] sourceArr
+        )
+    {
+        var srcNativeArray = new NativeArray<double>(sourceArr, Allocator.Persistent);
+        var expected = ExceptionAndValue(() => Linq.Average(srcNativeArray, SelectSelf<double>().Invoke));
+        if (expected.Item1 != null)
+            return; // Exceptions are not supported in Burst
+        var actual = ExceptionAndValue(() => Blinq.RunAverage(srcNativeArray, SelectSelf<double>()));
+        srcNativeArray.Dispose();
+        AssertAreEqual(expected, actual);
+    }
+
+    [Test, Parallelizable, Timeout(5000)]
+    public void BlinqShouldEqualLinqNativeArrayScheduleAverage_double(
+        [ValueSource(typeof(Values_double), nameof(Values_double.Values))] double[] sourceArr
+        )
+    {
+        var srcNativeArray = new NativeArray<double>(sourceArr, Allocator.Persistent);
+        var expected = ExceptionAndValue(() => Linq.Average(srcNativeArray));
+        if (expected.Item1 != null)
+            return; // Exceptions are not supported in Burst
+        var actual = ExceptionAndValue(() => Blinq.ScheduleAverage(srcNativeArray).Complete());
+        srcNativeArray.Dispose();
+        AssertAreEqual(expected, actual);
+    }
+
+    [Test, Parallelizable, Timeout(5000)]
+    public void BlinqShouldEqualLinqNativeArrayScheduleAverageSelector_double(
+        [ValueSource(typeof(Values_double), nameof(Values_double.Values))] double[] sourceArr
+        )
+    {
+        var srcNativeArray = new NativeArray<double>(sourceArr, Allocator.Persistent);
+        var expected = ExceptionAndValue(() => Linq.Average(srcNativeArray, SelectSelf<double>().Invoke));
+        if (expected.Item1 != null)
+            return; // Exceptions are not supported in Burst
+        var actual = ExceptionAndValue(() => Blinq.ScheduleAverage(srcNativeArray, SelectSelf<double>()).Complete());
+        srcNativeArray.Dispose();
+        AssertAreEqual(expected, actual);
     }
 
 

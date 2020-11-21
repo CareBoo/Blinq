@@ -50,32 +50,6 @@ var TYPES = new[] { "int", "float", "double" };
 foreach (string TYPE_FULL in TYPES)
 {
 #>
-    [BurstCompile]
-    internal struct AverageJob_<#=TYPE_FULL#> : IJob
-    {
-        [ReadOnly]
-        public NativeArray<<#=TYPE_FULL#>> Source;
-
-        public void Execute()
-        {
-            Blinq.Average(Source);
-        }
-    }
-
-    [BurstCompile]
-    internal struct AverageSelectJob_<#=TYPE_FULL#><TSelector> : IJob
-        where TSelector : struct, IFunc<int, <#=TYPE_FULL#>>
-    {
-        [ReadOnly]
-        public NativeArray<int> Source;
-
-        public ValueFunc<int, <#=TYPE_FULL#>>.Struct<TSelector> Selector;
-
-        public void Execute()
-        {
-            Blinq.Average(Source, Selector);
-        }
-    }
 
     internal class Values_<#=TYPE_FULL#>
     {
@@ -103,7 +77,7 @@ foreach (string TYPE_FULL in TYPES)
         )
     {
         var src = new NativeArray<<#=TYPE_FULL#>>(sourceArr, Allocator.Persistent);
-        MakeMeasurement("Blinq_<#=TYPE_FULL#>", () => new AverageJob_<#=TYPE_FULL#> { Source = src, }.Run()).Run();
+        MakeMeasurement("Blinq_<#=TYPE_FULL#>", () => Blinq.RunAverage(src)).Run();
         src.Dispose();
     }
 
@@ -123,7 +97,7 @@ foreach (string TYPE_FULL in TYPES)
         )
     {
         var src = new NativeArray<int>(sourceArr, Allocator.Persistent);
-        MakeMeasurement("Blinq_<#=TYPE_FULL#>", () => new AverageSelectJob_<#=TYPE_FULL#><StructIntTo_<#=TYPE_FULL#>> { Source = src, Selector = IntTo_<#=TYPE_FULL#> }.Run()).Run();
+        MakeMeasurement("Blinq_<#=TYPE_FULL#>", () => Blinq.RunAverage(src, in IntTo_<#=TYPE_FULL#>)).Run();
         src.Dispose();
     }
 
