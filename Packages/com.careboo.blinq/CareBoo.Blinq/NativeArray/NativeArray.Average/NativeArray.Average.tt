@@ -12,6 +12,7 @@
 //------------------------------------------------------------------------------
 
 using Unity.Collections;
+using Unity.Jobs;
 using Unity.Mathematics;
 using CareBoo.Burst.Delegates;
 
@@ -55,6 +56,59 @@ foreach (string TYPE in TYPES)
             for (var i = 1; i < source.Length; i++)
                 sum += selector.Invoke(source[i]);
             return sum / <#=UINT_CAST#>source.Length;
+        }
+
+        public static <#=TYPE_FULL#> RunAverage(
+            this in NativeArray<<#=TYPE_FULL#>> source
+            )
+        {
+            return source.ToValueSequence().RunAverage();
+        }
+
+        public static JobHandle ScheduleAverage(
+            this in NativeArray<<#=TYPE_FULL#>> source,
+            in NativeArray<<#=TYPE_FULL#>> output
+            )
+        {
+            return source.ToValueSequence().ScheduleAverage(output);
+        }
+
+        public static AverageJobHandle_<#=TYPE_FULL#> ScheduleAverage(
+            this in NativeArray<<#=TYPE_FULL#>> source
+            )
+        {
+            return source.ToValueSequence().ScheduleAverage();
+        }
+
+        public static <#=TYPE_FULL#> RunAverage<T, TSelector>(
+            this in NativeArray<T> source,
+            in ValueFunc<T, <#=TYPE_FULL#>>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSelector : struct, IFunc<T, <#=TYPE_FULL#>>
+        {
+            return source.ToValueSequence().RunAverage(selector);
+        }
+
+        public static JobHandle ScheduleAverage<T, TSelector>(
+            this in NativeArray<T> source,
+            in ValueFunc<T, <#=TYPE_FULL#>>.Struct<TSelector> selector,
+            in NativeArray<<#=TYPE_FULL#>> output
+            )
+            where T : struct
+            where TSelector : struct, IFunc<T, <#=TYPE_FULL#>>
+        {
+            return source.ToValueSequence().ScheduleAverage(selector, output);
+        }
+
+        public static AverageJobHandle_<#=TYPE_FULL#> ScheduleAverage<T, TSelector>(
+            this in NativeArray<T> source,
+            in ValueFunc<T, <#=TYPE_FULL#>>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSelector : struct, IFunc<T, <#=TYPE_FULL#>>
+        {
+            return source.ToValueSequence().ScheduleAverage(selector);
         }
 
 <#
