@@ -38,33 +38,6 @@ foreach (string TYPE in TYPES)
             string TYPE_FULL = $"{TYPE}{NUM1}{SEP}{NUM2}";
             string UINT_CAST = TYPE == "uint" ? "(uint)" : "";
 #>
-        public struct AverageJobHandle_<#=TYPE_FULL#> : IDisposable
-        {
-            JobHandle handle;
-            NativeArray<<#=TYPE_FULL#>> output;
-
-            public AverageJobHandle_<#=TYPE_FULL#>(ref JobHandle handle, ref NativeArray<<#=TYPE_FULL#>> output)
-            {
-                this.handle = handle;
-                this.output = output;
-            }
-
-            public <#=TYPE_FULL#> Complete()
-            {
-                handle.Complete();
-                var result = output[0];
-                Dispose();
-                return result;
-            }
-
-            public void Dispose()
-            {
-                if (output.IsCreated)
-                    output.Dispose();
-                output = default;
-            }
-        }
-
         public static <#=TYPE_FULL#> Average<TSource>(
             this in ValueSequence<<#=TYPE_FULL#>, TSource> source
             )
@@ -84,20 +57,12 @@ foreach (string TYPE in TYPES)
             return result;
         }
 
-        [BurstCompile]
-        public struct AverageJob_<#=TYPE_FULL#><TSource>
-            : IJob
+        public struct AverageFunc_<#=TYPE_FULL#><TSource> : IFunc<ValueSequence<<#=TYPE_FULL#>, TSource>, <#=TYPE_FULL#>>
             where TSource : struct, ISequence<<#=TYPE_FULL#>>
         {
-            [ReadOnly]
-            public ValueSequence<<#=TYPE_FULL#>, TSource> Source;
-
-            [WriteOnly]
-            public NativeArray<<#=TYPE_FULL#>> Output;
-
-            public void Execute()
+            public <#=TYPE_FULL#> Invoke(ValueSequence<<#=TYPE_FULL#>, TSource> seq)
             {
-                Output[0] = Source.Average();
+                return seq.Average();
             }
         }
 
@@ -106,30 +71,27 @@ foreach (string TYPE in TYPES)
             )
             where TSource : struct, ISequence<<#=TYPE_FULL#>>
         {
-            var output = new NativeArray<<#=TYPE_FULL#>>(1, Allocator.Persistent);
-            new AverageJob_<#=TYPE_FULL#><TSource> { Source = source, Output = output }.Run();
-            var result = output[0];
-            output.Dispose();
-            return result;
+            var func = ValueFunc<ValueSequence<<#=TYPE_FULL#>, TSource>, <#=TYPE_FULL#>>.New<AverageFunc_<#=TYPE_FULL#><TSource>>();
+            return source.Run(func);
         }
 
         public static JobHandle ScheduleAverage<TSource>(
             this in ValueSequence<<#=TYPE_FULL#>, TSource> source,
-            in NativeArray<<#=TYPE_FULL#>> output
+            ref NativeArray<<#=TYPE_FULL#>> output
             )
             where TSource : struct, ISequence<<#=TYPE_FULL#>>
         {
-            return new AverageJob_<#=TYPE_FULL#><TSource> { Source = source, Output = output }.Schedule();
+            var func = ValueFunc<ValueSequence<<#=TYPE_FULL#>, TSource>, <#=TYPE_FULL#>>.New<AverageFunc_<#=TYPE_FULL#><TSource>>();
+            return source.Schedule(func, ref output);
         }
 
-        public static AverageJobHandle_<#=TYPE_FULL#> ScheduleAverage<TSource>(
+        public static JobHandle<<#=TYPE_FULL#>> ScheduleAverage<TSource>(
             this in ValueSequence<<#=TYPE_FULL#>, TSource> source
             )
             where TSource : struct, ISequence<<#=TYPE_FULL#>>
         {
-            var output = new NativeArray<<#=TYPE_FULL#>>(1, Allocator.Persistent);
-            var handle = new AverageJob_<#=TYPE_FULL#><TSource> { Source = source, Output = output }.Schedule();
-            return new AverageJobHandle_<#=TYPE_FULL#>(ref handle, ref output);
+            var func = ValueFunc<ValueSequence<<#=TYPE_FULL#>, TSource>, <#=TYPE_FULL#>>.New<AverageFunc_<#=TYPE_FULL#><TSource>>();
+            return source.Schedule(func);
         }
 
         public static <#=TYPE_FULL#> Average<T, TSource, TSelector>(
@@ -154,23 +116,22 @@ foreach (string TYPE in TYPES)
             return result;
         }
 
-        [BurstCompile]
-        public struct AverageJobSelector_<#=TYPE_FULL#><T, TSource, TSelector>
-            : IJob
+        public struct AverageSelectorFunc_<#=TYPE_FULL#><T, TSource, TSelector>
+            : IFunc<ValueSequence<T, TSource>, <#=TYPE_FULL#>>
             where T : struct
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, <#=TYPE_FULL#>>
         {
-            [ReadOnly]
-            public ValueSequence<T, TSource> Source;
-            public ValueFunc<T, <#=TYPE_FULL#>>.Struct<TSelector> Selector;
+            readonly ValueFunc<T, <#=TYPE_FULL#>>.Struct<TSelector> selector;
 
-            [WriteOnly]
-            public NativeArray<<#=TYPE_FULL#>> Output;
-
-            public void Execute()
+            public AverageSelectorFunc_<#=TYPE_FULL#>(ValueFunc<T, <#=TYPE_FULL#>>.Struct<TSelector> selector)
             {
-                Output[0] = Source.Average(Selector);
+                this.selector = selector;
+            }
+
+            public <#=TYPE_FULL#> Invoke(ValueSequence<T, TSource> seq)
+            {
+                return seq.Average(selector);
             }
         }
 
@@ -182,26 +143,24 @@ foreach (string TYPE in TYPES)
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, <#=TYPE_FULL#>>
         {
-            var output = new NativeArray<<#=TYPE_FULL#>>(1, Allocator.Persistent);
-            new AverageJobSelector_<#=TYPE_FULL#><T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Run();
-            var result = output[0];
-            output.Dispose();
-            return result;
+            var func = ValueFunc<ValueSequence<T, TSource>, <#=TYPE_FULL#>>.New(new AverageSelectorFunc_<#=TYPE_FULL#><T, TSource, TSelector>(selector));
+            return source.Run(func);
         }
 
         public static JobHandle ScheduleAverage<T, TSource, TSelector>(
             this in ValueSequence<T, TSource> source,
             in ValueFunc<T, <#=TYPE_FULL#>>.Struct<TSelector> selector,
-            in NativeArray<<#=TYPE_FULL#>> output
+            ref NativeArray<<#=TYPE_FULL#>> output
             )
             where T : struct
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, <#=TYPE_FULL#>>
         {
-            return new AverageJobSelector_<#=TYPE_FULL#><T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
+            var func = ValueFunc<ValueSequence<T, TSource>, <#=TYPE_FULL#>>.New(new AverageSelectorFunc_<#=TYPE_FULL#><T, TSource, TSelector>(selector));
+            return source.Schedule(func, ref output);
         }
 
-        public static AverageJobHandle_<#=TYPE_FULL#> ScheduleAverage<T, TSource, TSelector>(
+        public static JobHandle<<#=TYPE_FULL#>> ScheduleAverage<T, TSource, TSelector>(
             this in ValueSequence<T, TSource> source,
             in ValueFunc<T, <#=TYPE_FULL#>>.Struct<TSelector> selector
             )
@@ -209,9 +168,8 @@ foreach (string TYPE in TYPES)
             where TSource : struct, ISequence<T>
             where TSelector : struct, IFunc<T, <#=TYPE_FULL#>>
         {
-            var output = new NativeArray<<#=TYPE_FULL#>>(1, Allocator.Persistent);
-            var handle = new AverageJobSelector_<#=TYPE_FULL#><T, TSource, TSelector> { Source = source, Selector = selector, Output = output }.Schedule();
-            return new AverageJobHandle_<#=TYPE_FULL#>(ref handle, ref output);
+            var func = ValueFunc<ValueSequence<T, TSource>, <#=TYPE_FULL#>>.New(new AverageSelectorFunc_<#=TYPE_FULL#><T, TSource, TSelector>(selector));
+            return source.Schedule(func);
         }
 
 <#
