@@ -53,13 +53,13 @@ namespace CareBoo.Blinq
 
         public static JobHandle ScheduleAverage(
             this in NativeArray<int> source,
-            in NativeArray<int> output
+            ref NativeArray<int> output
             )
         {
-            return source.ToValueSequence().ScheduleAverage(output);
+            return source.ToValueSequence().ScheduleAverage(ref output);
         }
 
-        public static AverageJobHandle_int ScheduleAverage(
+        public static Sequence.JobHandle<int> ScheduleAverage(
             this in NativeArray<int> source
             )
         {
@@ -79,15 +79,15 @@ namespace CareBoo.Blinq
         public static JobHandle ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, int>.Struct<TSelector> selector,
-            in NativeArray<int> output
+            ref NativeArray<int> output
             )
             where T : struct
             where TSelector : struct, IFunc<T, int>
         {
-            return source.ToValueSequence().ScheduleAverage(selector, output);
+            return source.ToValueSequence().ScheduleAverage(selector, ref output);
         }
 
-        public static AverageJobHandle_int ScheduleAverage<T, TSelector>(
+        public static Sequence.JobHandle<int> ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, int>.Struct<TSelector> selector
             )
@@ -130,13 +130,13 @@ namespace CareBoo.Blinq
 
         public static JobHandle ScheduleAverage(
             this in NativeArray<int2> source,
-            in NativeArray<int2> output
+            ref NativeArray<int2> output
             )
         {
-            return source.ToValueSequence().ScheduleAverage(output);
+            return source.ToValueSequence().ScheduleAverage(ref output);
         }
 
-        public static AverageJobHandle_int2 ScheduleAverage(
+        public static Sequence.JobHandle<int2> ScheduleAverage(
             this in NativeArray<int2> source
             )
         {
@@ -156,15 +156,15 @@ namespace CareBoo.Blinq
         public static JobHandle ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, int2>.Struct<TSelector> selector,
-            in NativeArray<int2> output
+            ref NativeArray<int2> output
             )
             where T : struct
             where TSelector : struct, IFunc<T, int2>
         {
-            return source.ToValueSequence().ScheduleAverage(selector, output);
+            return source.ToValueSequence().ScheduleAverage(selector, ref output);
         }
 
-        public static AverageJobHandle_int2 ScheduleAverage<T, TSelector>(
+        public static Sequence.JobHandle<int2> ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, int2>.Struct<TSelector> selector
             )
@@ -207,13 +207,13 @@ namespace CareBoo.Blinq
 
         public static JobHandle ScheduleAverage(
             this in NativeArray<int2x2> source,
-            in NativeArray<int2x2> output
+            ref NativeArray<int2x2> output
             )
         {
-            return source.ToValueSequence().ScheduleAverage(output);
+            return source.ToValueSequence().ScheduleAverage(ref output);
         }
 
-        public static AverageJobHandle_int2x2 ScheduleAverage(
+        public static Sequence.JobHandle<int2x2> ScheduleAverage(
             this in NativeArray<int2x2> source
             )
         {
@@ -233,15 +233,15 @@ namespace CareBoo.Blinq
         public static JobHandle ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, int2x2>.Struct<TSelector> selector,
-            in NativeArray<int2x2> output
+            ref NativeArray<int2x2> output
             )
             where T : struct
             where TSelector : struct, IFunc<T, int2x2>
         {
-            return source.ToValueSequence().ScheduleAverage(selector, output);
+            return source.ToValueSequence().ScheduleAverage(selector, ref output);
         }
 
-        public static AverageJobHandle_int2x2 ScheduleAverage<T, TSelector>(
+        public static Sequence.JobHandle<int2x2> ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, int2x2>.Struct<TSelector> selector
             )
@@ -284,13 +284,13 @@ namespace CareBoo.Blinq
 
         public static JobHandle ScheduleAverage(
             this in NativeArray<int2x3> source,
-            in NativeArray<int2x3> output
+            ref NativeArray<int2x3> output
             )
         {
-            return source.ToValueSequence().ScheduleAverage(output);
+            return source.ToValueSequence().ScheduleAverage(ref output);
         }
 
-        public static AverageJobHandle_int2x3 ScheduleAverage(
+        public static Sequence.JobHandle<int2x3> ScheduleAverage(
             this in NativeArray<int2x3> source
             )
         {
@@ -310,15 +310,15 @@ namespace CareBoo.Blinq
         public static JobHandle ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, int2x3>.Struct<TSelector> selector,
-            in NativeArray<int2x3> output
+            ref NativeArray<int2x3> output
             )
             where T : struct
             where TSelector : struct, IFunc<T, int2x3>
         {
-            return source.ToValueSequence().ScheduleAverage(selector, output);
+            return source.ToValueSequence().ScheduleAverage(selector, ref output);
         }
 
-        public static AverageJobHandle_int2x3 ScheduleAverage<T, TSelector>(
+        public static Sequence.JobHandle<int2x3> ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, int2x3>.Struct<TSelector> selector
             )
@@ -361,13 +361,13 @@ namespace CareBoo.Blinq
 
         public static JobHandle ScheduleAverage(
             this in NativeArray<int2x4> source,
-            in NativeArray<int2x4> output
+            ref NativeArray<int2x4> output
             )
         {
-            return source.ToValueSequence().ScheduleAverage(output);
+            return source.ToValueSequence().ScheduleAverage(ref output);
         }
 
-        public static AverageJobHandle_int2x4 ScheduleAverage(
+        public static Sequence.JobHandle<int2x4> ScheduleAverage(
             this in NativeArray<int2x4> source
             )
         {
@@ -387,15 +387,15 @@ namespace CareBoo.Blinq
         public static JobHandle ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, int2x4>.Struct<TSelector> selector,
-            in NativeArray<int2x4> output
+            ref NativeArray<int2x4> output
             )
             where T : struct
             where TSelector : struct, IFunc<T, int2x4>
         {
-            return source.ToValueSequence().ScheduleAverage(selector, output);
+            return source.ToValueSequence().ScheduleAverage(selector, ref output);
         }
 
-        public static AverageJobHandle_int2x4 ScheduleAverage<T, TSelector>(
+        public static Sequence.JobHandle<int2x4> ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, int2x4>.Struct<TSelector> selector
             )
@@ -438,13 +438,13 @@ namespace CareBoo.Blinq
 
         public static JobHandle ScheduleAverage(
             this in NativeArray<int3> source,
-            in NativeArray<int3> output
+            ref NativeArray<int3> output
             )
         {
-            return source.ToValueSequence().ScheduleAverage(output);
+            return source.ToValueSequence().ScheduleAverage(ref output);
         }
 
-        public static AverageJobHandle_int3 ScheduleAverage(
+        public static Sequence.JobHandle<int3> ScheduleAverage(
             this in NativeArray<int3> source
             )
         {
@@ -464,15 +464,15 @@ namespace CareBoo.Blinq
         public static JobHandle ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, int3>.Struct<TSelector> selector,
-            in NativeArray<int3> output
+            ref NativeArray<int3> output
             )
             where T : struct
             where TSelector : struct, IFunc<T, int3>
         {
-            return source.ToValueSequence().ScheduleAverage(selector, output);
+            return source.ToValueSequence().ScheduleAverage(selector, ref output);
         }
 
-        public static AverageJobHandle_int3 ScheduleAverage<T, TSelector>(
+        public static Sequence.JobHandle<int3> ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, int3>.Struct<TSelector> selector
             )
@@ -515,13 +515,13 @@ namespace CareBoo.Blinq
 
         public static JobHandle ScheduleAverage(
             this in NativeArray<int3x2> source,
-            in NativeArray<int3x2> output
+            ref NativeArray<int3x2> output
             )
         {
-            return source.ToValueSequence().ScheduleAverage(output);
+            return source.ToValueSequence().ScheduleAverage(ref output);
         }
 
-        public static AverageJobHandle_int3x2 ScheduleAverage(
+        public static Sequence.JobHandle<int3x2> ScheduleAverage(
             this in NativeArray<int3x2> source
             )
         {
@@ -541,15 +541,15 @@ namespace CareBoo.Blinq
         public static JobHandle ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, int3x2>.Struct<TSelector> selector,
-            in NativeArray<int3x2> output
+            ref NativeArray<int3x2> output
             )
             where T : struct
             where TSelector : struct, IFunc<T, int3x2>
         {
-            return source.ToValueSequence().ScheduleAverage(selector, output);
+            return source.ToValueSequence().ScheduleAverage(selector, ref output);
         }
 
-        public static AverageJobHandle_int3x2 ScheduleAverage<T, TSelector>(
+        public static Sequence.JobHandle<int3x2> ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, int3x2>.Struct<TSelector> selector
             )
@@ -592,13 +592,13 @@ namespace CareBoo.Blinq
 
         public static JobHandle ScheduleAverage(
             this in NativeArray<int3x3> source,
-            in NativeArray<int3x3> output
+            ref NativeArray<int3x3> output
             )
         {
-            return source.ToValueSequence().ScheduleAverage(output);
+            return source.ToValueSequence().ScheduleAverage(ref output);
         }
 
-        public static AverageJobHandle_int3x3 ScheduleAverage(
+        public static Sequence.JobHandle<int3x3> ScheduleAverage(
             this in NativeArray<int3x3> source
             )
         {
@@ -618,15 +618,15 @@ namespace CareBoo.Blinq
         public static JobHandle ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, int3x3>.Struct<TSelector> selector,
-            in NativeArray<int3x3> output
+            ref NativeArray<int3x3> output
             )
             where T : struct
             where TSelector : struct, IFunc<T, int3x3>
         {
-            return source.ToValueSequence().ScheduleAverage(selector, output);
+            return source.ToValueSequence().ScheduleAverage(selector, ref output);
         }
 
-        public static AverageJobHandle_int3x3 ScheduleAverage<T, TSelector>(
+        public static Sequence.JobHandle<int3x3> ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, int3x3>.Struct<TSelector> selector
             )
@@ -669,13 +669,13 @@ namespace CareBoo.Blinq
 
         public static JobHandle ScheduleAverage(
             this in NativeArray<int3x4> source,
-            in NativeArray<int3x4> output
+            ref NativeArray<int3x4> output
             )
         {
-            return source.ToValueSequence().ScheduleAverage(output);
+            return source.ToValueSequence().ScheduleAverage(ref output);
         }
 
-        public static AverageJobHandle_int3x4 ScheduleAverage(
+        public static Sequence.JobHandle<int3x4> ScheduleAverage(
             this in NativeArray<int3x4> source
             )
         {
@@ -695,15 +695,15 @@ namespace CareBoo.Blinq
         public static JobHandle ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, int3x4>.Struct<TSelector> selector,
-            in NativeArray<int3x4> output
+            ref NativeArray<int3x4> output
             )
             where T : struct
             where TSelector : struct, IFunc<T, int3x4>
         {
-            return source.ToValueSequence().ScheduleAverage(selector, output);
+            return source.ToValueSequence().ScheduleAverage(selector, ref output);
         }
 
-        public static AverageJobHandle_int3x4 ScheduleAverage<T, TSelector>(
+        public static Sequence.JobHandle<int3x4> ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, int3x4>.Struct<TSelector> selector
             )
@@ -746,13 +746,13 @@ namespace CareBoo.Blinq
 
         public static JobHandle ScheduleAverage(
             this in NativeArray<int4> source,
-            in NativeArray<int4> output
+            ref NativeArray<int4> output
             )
         {
-            return source.ToValueSequence().ScheduleAverage(output);
+            return source.ToValueSequence().ScheduleAverage(ref output);
         }
 
-        public static AverageJobHandle_int4 ScheduleAverage(
+        public static Sequence.JobHandle<int4> ScheduleAverage(
             this in NativeArray<int4> source
             )
         {
@@ -772,15 +772,15 @@ namespace CareBoo.Blinq
         public static JobHandle ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, int4>.Struct<TSelector> selector,
-            in NativeArray<int4> output
+            ref NativeArray<int4> output
             )
             where T : struct
             where TSelector : struct, IFunc<T, int4>
         {
-            return source.ToValueSequence().ScheduleAverage(selector, output);
+            return source.ToValueSequence().ScheduleAverage(selector, ref output);
         }
 
-        public static AverageJobHandle_int4 ScheduleAverage<T, TSelector>(
+        public static Sequence.JobHandle<int4> ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, int4>.Struct<TSelector> selector
             )
@@ -823,13 +823,13 @@ namespace CareBoo.Blinq
 
         public static JobHandle ScheduleAverage(
             this in NativeArray<int4x2> source,
-            in NativeArray<int4x2> output
+            ref NativeArray<int4x2> output
             )
         {
-            return source.ToValueSequence().ScheduleAverage(output);
+            return source.ToValueSequence().ScheduleAverage(ref output);
         }
 
-        public static AverageJobHandle_int4x2 ScheduleAverage(
+        public static Sequence.JobHandle<int4x2> ScheduleAverage(
             this in NativeArray<int4x2> source
             )
         {
@@ -849,15 +849,15 @@ namespace CareBoo.Blinq
         public static JobHandle ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, int4x2>.Struct<TSelector> selector,
-            in NativeArray<int4x2> output
+            ref NativeArray<int4x2> output
             )
             where T : struct
             where TSelector : struct, IFunc<T, int4x2>
         {
-            return source.ToValueSequence().ScheduleAverage(selector, output);
+            return source.ToValueSequence().ScheduleAverage(selector, ref output);
         }
 
-        public static AverageJobHandle_int4x2 ScheduleAverage<T, TSelector>(
+        public static Sequence.JobHandle<int4x2> ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, int4x2>.Struct<TSelector> selector
             )
@@ -900,13 +900,13 @@ namespace CareBoo.Blinq
 
         public static JobHandle ScheduleAverage(
             this in NativeArray<int4x3> source,
-            in NativeArray<int4x3> output
+            ref NativeArray<int4x3> output
             )
         {
-            return source.ToValueSequence().ScheduleAverage(output);
+            return source.ToValueSequence().ScheduleAverage(ref output);
         }
 
-        public static AverageJobHandle_int4x3 ScheduleAverage(
+        public static Sequence.JobHandle<int4x3> ScheduleAverage(
             this in NativeArray<int4x3> source
             )
         {
@@ -926,15 +926,15 @@ namespace CareBoo.Blinq
         public static JobHandle ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, int4x3>.Struct<TSelector> selector,
-            in NativeArray<int4x3> output
+            ref NativeArray<int4x3> output
             )
             where T : struct
             where TSelector : struct, IFunc<T, int4x3>
         {
-            return source.ToValueSequence().ScheduleAverage(selector, output);
+            return source.ToValueSequence().ScheduleAverage(selector, ref output);
         }
 
-        public static AverageJobHandle_int4x3 ScheduleAverage<T, TSelector>(
+        public static Sequence.JobHandle<int4x3> ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, int4x3>.Struct<TSelector> selector
             )
@@ -977,13 +977,13 @@ namespace CareBoo.Blinq
 
         public static JobHandle ScheduleAverage(
             this in NativeArray<int4x4> source,
-            in NativeArray<int4x4> output
+            ref NativeArray<int4x4> output
             )
         {
-            return source.ToValueSequence().ScheduleAverage(output);
+            return source.ToValueSequence().ScheduleAverage(ref output);
         }
 
-        public static AverageJobHandle_int4x4 ScheduleAverage(
+        public static Sequence.JobHandle<int4x4> ScheduleAverage(
             this in NativeArray<int4x4> source
             )
         {
@@ -1003,15 +1003,15 @@ namespace CareBoo.Blinq
         public static JobHandle ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, int4x4>.Struct<TSelector> selector,
-            in NativeArray<int4x4> output
+            ref NativeArray<int4x4> output
             )
             where T : struct
             where TSelector : struct, IFunc<T, int4x4>
         {
-            return source.ToValueSequence().ScheduleAverage(selector, output);
+            return source.ToValueSequence().ScheduleAverage(selector, ref output);
         }
 
-        public static AverageJobHandle_int4x4 ScheduleAverage<T, TSelector>(
+        public static Sequence.JobHandle<int4x4> ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, int4x4>.Struct<TSelector> selector
             )
@@ -1054,13 +1054,13 @@ namespace CareBoo.Blinq
 
         public static JobHandle ScheduleAverage(
             this in NativeArray<uint> source,
-            in NativeArray<uint> output
+            ref NativeArray<uint> output
             )
         {
-            return source.ToValueSequence().ScheduleAverage(output);
+            return source.ToValueSequence().ScheduleAverage(ref output);
         }
 
-        public static AverageJobHandle_uint ScheduleAverage(
+        public static Sequence.JobHandle<uint> ScheduleAverage(
             this in NativeArray<uint> source
             )
         {
@@ -1080,15 +1080,15 @@ namespace CareBoo.Blinq
         public static JobHandle ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, uint>.Struct<TSelector> selector,
-            in NativeArray<uint> output
+            ref NativeArray<uint> output
             )
             where T : struct
             where TSelector : struct, IFunc<T, uint>
         {
-            return source.ToValueSequence().ScheduleAverage(selector, output);
+            return source.ToValueSequence().ScheduleAverage(selector, ref output);
         }
 
-        public static AverageJobHandle_uint ScheduleAverage<T, TSelector>(
+        public static Sequence.JobHandle<uint> ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, uint>.Struct<TSelector> selector
             )
@@ -1131,13 +1131,13 @@ namespace CareBoo.Blinq
 
         public static JobHandle ScheduleAverage(
             this in NativeArray<uint2> source,
-            in NativeArray<uint2> output
+            ref NativeArray<uint2> output
             )
         {
-            return source.ToValueSequence().ScheduleAverage(output);
+            return source.ToValueSequence().ScheduleAverage(ref output);
         }
 
-        public static AverageJobHandle_uint2 ScheduleAverage(
+        public static Sequence.JobHandle<uint2> ScheduleAverage(
             this in NativeArray<uint2> source
             )
         {
@@ -1157,15 +1157,15 @@ namespace CareBoo.Blinq
         public static JobHandle ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, uint2>.Struct<TSelector> selector,
-            in NativeArray<uint2> output
+            ref NativeArray<uint2> output
             )
             where T : struct
             where TSelector : struct, IFunc<T, uint2>
         {
-            return source.ToValueSequence().ScheduleAverage(selector, output);
+            return source.ToValueSequence().ScheduleAverage(selector, ref output);
         }
 
-        public static AverageJobHandle_uint2 ScheduleAverage<T, TSelector>(
+        public static Sequence.JobHandle<uint2> ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, uint2>.Struct<TSelector> selector
             )
@@ -1208,13 +1208,13 @@ namespace CareBoo.Blinq
 
         public static JobHandle ScheduleAverage(
             this in NativeArray<uint2x2> source,
-            in NativeArray<uint2x2> output
+            ref NativeArray<uint2x2> output
             )
         {
-            return source.ToValueSequence().ScheduleAverage(output);
+            return source.ToValueSequence().ScheduleAverage(ref output);
         }
 
-        public static AverageJobHandle_uint2x2 ScheduleAverage(
+        public static Sequence.JobHandle<uint2x2> ScheduleAverage(
             this in NativeArray<uint2x2> source
             )
         {
@@ -1234,15 +1234,15 @@ namespace CareBoo.Blinq
         public static JobHandle ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, uint2x2>.Struct<TSelector> selector,
-            in NativeArray<uint2x2> output
+            ref NativeArray<uint2x2> output
             )
             where T : struct
             where TSelector : struct, IFunc<T, uint2x2>
         {
-            return source.ToValueSequence().ScheduleAverage(selector, output);
+            return source.ToValueSequence().ScheduleAverage(selector, ref output);
         }
 
-        public static AverageJobHandle_uint2x2 ScheduleAverage<T, TSelector>(
+        public static Sequence.JobHandle<uint2x2> ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, uint2x2>.Struct<TSelector> selector
             )
@@ -1285,13 +1285,13 @@ namespace CareBoo.Blinq
 
         public static JobHandle ScheduleAverage(
             this in NativeArray<uint2x3> source,
-            in NativeArray<uint2x3> output
+            ref NativeArray<uint2x3> output
             )
         {
-            return source.ToValueSequence().ScheduleAverage(output);
+            return source.ToValueSequence().ScheduleAverage(ref output);
         }
 
-        public static AverageJobHandle_uint2x3 ScheduleAverage(
+        public static Sequence.JobHandle<uint2x3> ScheduleAverage(
             this in NativeArray<uint2x3> source
             )
         {
@@ -1311,15 +1311,15 @@ namespace CareBoo.Blinq
         public static JobHandle ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, uint2x3>.Struct<TSelector> selector,
-            in NativeArray<uint2x3> output
+            ref NativeArray<uint2x3> output
             )
             where T : struct
             where TSelector : struct, IFunc<T, uint2x3>
         {
-            return source.ToValueSequence().ScheduleAverage(selector, output);
+            return source.ToValueSequence().ScheduleAverage(selector, ref output);
         }
 
-        public static AverageJobHandle_uint2x3 ScheduleAverage<T, TSelector>(
+        public static Sequence.JobHandle<uint2x3> ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, uint2x3>.Struct<TSelector> selector
             )
@@ -1362,13 +1362,13 @@ namespace CareBoo.Blinq
 
         public static JobHandle ScheduleAverage(
             this in NativeArray<uint2x4> source,
-            in NativeArray<uint2x4> output
+            ref NativeArray<uint2x4> output
             )
         {
-            return source.ToValueSequence().ScheduleAverage(output);
+            return source.ToValueSequence().ScheduleAverage(ref output);
         }
 
-        public static AverageJobHandle_uint2x4 ScheduleAverage(
+        public static Sequence.JobHandle<uint2x4> ScheduleAverage(
             this in NativeArray<uint2x4> source
             )
         {
@@ -1388,15 +1388,15 @@ namespace CareBoo.Blinq
         public static JobHandle ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, uint2x4>.Struct<TSelector> selector,
-            in NativeArray<uint2x4> output
+            ref NativeArray<uint2x4> output
             )
             where T : struct
             where TSelector : struct, IFunc<T, uint2x4>
         {
-            return source.ToValueSequence().ScheduleAverage(selector, output);
+            return source.ToValueSequence().ScheduleAverage(selector, ref output);
         }
 
-        public static AverageJobHandle_uint2x4 ScheduleAverage<T, TSelector>(
+        public static Sequence.JobHandle<uint2x4> ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, uint2x4>.Struct<TSelector> selector
             )
@@ -1439,13 +1439,13 @@ namespace CareBoo.Blinq
 
         public static JobHandle ScheduleAverage(
             this in NativeArray<uint3> source,
-            in NativeArray<uint3> output
+            ref NativeArray<uint3> output
             )
         {
-            return source.ToValueSequence().ScheduleAverage(output);
+            return source.ToValueSequence().ScheduleAverage(ref output);
         }
 
-        public static AverageJobHandle_uint3 ScheduleAverage(
+        public static Sequence.JobHandle<uint3> ScheduleAverage(
             this in NativeArray<uint3> source
             )
         {
@@ -1465,15 +1465,15 @@ namespace CareBoo.Blinq
         public static JobHandle ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, uint3>.Struct<TSelector> selector,
-            in NativeArray<uint3> output
+            ref NativeArray<uint3> output
             )
             where T : struct
             where TSelector : struct, IFunc<T, uint3>
         {
-            return source.ToValueSequence().ScheduleAverage(selector, output);
+            return source.ToValueSequence().ScheduleAverage(selector, ref output);
         }
 
-        public static AverageJobHandle_uint3 ScheduleAverage<T, TSelector>(
+        public static Sequence.JobHandle<uint3> ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, uint3>.Struct<TSelector> selector
             )
@@ -1516,13 +1516,13 @@ namespace CareBoo.Blinq
 
         public static JobHandle ScheduleAverage(
             this in NativeArray<uint3x2> source,
-            in NativeArray<uint3x2> output
+            ref NativeArray<uint3x2> output
             )
         {
-            return source.ToValueSequence().ScheduleAverage(output);
+            return source.ToValueSequence().ScheduleAverage(ref output);
         }
 
-        public static AverageJobHandle_uint3x2 ScheduleAverage(
+        public static Sequence.JobHandle<uint3x2> ScheduleAverage(
             this in NativeArray<uint3x2> source
             )
         {
@@ -1542,15 +1542,15 @@ namespace CareBoo.Blinq
         public static JobHandle ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, uint3x2>.Struct<TSelector> selector,
-            in NativeArray<uint3x2> output
+            ref NativeArray<uint3x2> output
             )
             where T : struct
             where TSelector : struct, IFunc<T, uint3x2>
         {
-            return source.ToValueSequence().ScheduleAverage(selector, output);
+            return source.ToValueSequence().ScheduleAverage(selector, ref output);
         }
 
-        public static AverageJobHandle_uint3x2 ScheduleAverage<T, TSelector>(
+        public static Sequence.JobHandle<uint3x2> ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, uint3x2>.Struct<TSelector> selector
             )
@@ -1593,13 +1593,13 @@ namespace CareBoo.Blinq
 
         public static JobHandle ScheduleAverage(
             this in NativeArray<uint3x3> source,
-            in NativeArray<uint3x3> output
+            ref NativeArray<uint3x3> output
             )
         {
-            return source.ToValueSequence().ScheduleAverage(output);
+            return source.ToValueSequence().ScheduleAverage(ref output);
         }
 
-        public static AverageJobHandle_uint3x3 ScheduleAverage(
+        public static Sequence.JobHandle<uint3x3> ScheduleAverage(
             this in NativeArray<uint3x3> source
             )
         {
@@ -1619,15 +1619,15 @@ namespace CareBoo.Blinq
         public static JobHandle ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, uint3x3>.Struct<TSelector> selector,
-            in NativeArray<uint3x3> output
+            ref NativeArray<uint3x3> output
             )
             where T : struct
             where TSelector : struct, IFunc<T, uint3x3>
         {
-            return source.ToValueSequence().ScheduleAverage(selector, output);
+            return source.ToValueSequence().ScheduleAverage(selector, ref output);
         }
 
-        public static AverageJobHandle_uint3x3 ScheduleAverage<T, TSelector>(
+        public static Sequence.JobHandle<uint3x3> ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, uint3x3>.Struct<TSelector> selector
             )
@@ -1670,13 +1670,13 @@ namespace CareBoo.Blinq
 
         public static JobHandle ScheduleAverage(
             this in NativeArray<uint3x4> source,
-            in NativeArray<uint3x4> output
+            ref NativeArray<uint3x4> output
             )
         {
-            return source.ToValueSequence().ScheduleAverage(output);
+            return source.ToValueSequence().ScheduleAverage(ref output);
         }
 
-        public static AverageJobHandle_uint3x4 ScheduleAverage(
+        public static Sequence.JobHandle<uint3x4> ScheduleAverage(
             this in NativeArray<uint3x4> source
             )
         {
@@ -1696,15 +1696,15 @@ namespace CareBoo.Blinq
         public static JobHandle ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, uint3x4>.Struct<TSelector> selector,
-            in NativeArray<uint3x4> output
+            ref NativeArray<uint3x4> output
             )
             where T : struct
             where TSelector : struct, IFunc<T, uint3x4>
         {
-            return source.ToValueSequence().ScheduleAverage(selector, output);
+            return source.ToValueSequence().ScheduleAverage(selector, ref output);
         }
 
-        public static AverageJobHandle_uint3x4 ScheduleAverage<T, TSelector>(
+        public static Sequence.JobHandle<uint3x4> ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, uint3x4>.Struct<TSelector> selector
             )
@@ -1747,13 +1747,13 @@ namespace CareBoo.Blinq
 
         public static JobHandle ScheduleAverage(
             this in NativeArray<uint4> source,
-            in NativeArray<uint4> output
+            ref NativeArray<uint4> output
             )
         {
-            return source.ToValueSequence().ScheduleAverage(output);
+            return source.ToValueSequence().ScheduleAverage(ref output);
         }
 
-        public static AverageJobHandle_uint4 ScheduleAverage(
+        public static Sequence.JobHandle<uint4> ScheduleAverage(
             this in NativeArray<uint4> source
             )
         {
@@ -1773,15 +1773,15 @@ namespace CareBoo.Blinq
         public static JobHandle ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, uint4>.Struct<TSelector> selector,
-            in NativeArray<uint4> output
+            ref NativeArray<uint4> output
             )
             where T : struct
             where TSelector : struct, IFunc<T, uint4>
         {
-            return source.ToValueSequence().ScheduleAverage(selector, output);
+            return source.ToValueSequence().ScheduleAverage(selector, ref output);
         }
 
-        public static AverageJobHandle_uint4 ScheduleAverage<T, TSelector>(
+        public static Sequence.JobHandle<uint4> ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, uint4>.Struct<TSelector> selector
             )
@@ -1824,13 +1824,13 @@ namespace CareBoo.Blinq
 
         public static JobHandle ScheduleAverage(
             this in NativeArray<uint4x2> source,
-            in NativeArray<uint4x2> output
+            ref NativeArray<uint4x2> output
             )
         {
-            return source.ToValueSequence().ScheduleAverage(output);
+            return source.ToValueSequence().ScheduleAverage(ref output);
         }
 
-        public static AverageJobHandle_uint4x2 ScheduleAverage(
+        public static Sequence.JobHandle<uint4x2> ScheduleAverage(
             this in NativeArray<uint4x2> source
             )
         {
@@ -1850,15 +1850,15 @@ namespace CareBoo.Blinq
         public static JobHandle ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, uint4x2>.Struct<TSelector> selector,
-            in NativeArray<uint4x2> output
+            ref NativeArray<uint4x2> output
             )
             where T : struct
             where TSelector : struct, IFunc<T, uint4x2>
         {
-            return source.ToValueSequence().ScheduleAverage(selector, output);
+            return source.ToValueSequence().ScheduleAverage(selector, ref output);
         }
 
-        public static AverageJobHandle_uint4x2 ScheduleAverage<T, TSelector>(
+        public static Sequence.JobHandle<uint4x2> ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, uint4x2>.Struct<TSelector> selector
             )
@@ -1901,13 +1901,13 @@ namespace CareBoo.Blinq
 
         public static JobHandle ScheduleAverage(
             this in NativeArray<uint4x3> source,
-            in NativeArray<uint4x3> output
+            ref NativeArray<uint4x3> output
             )
         {
-            return source.ToValueSequence().ScheduleAverage(output);
+            return source.ToValueSequence().ScheduleAverage(ref output);
         }
 
-        public static AverageJobHandle_uint4x3 ScheduleAverage(
+        public static Sequence.JobHandle<uint4x3> ScheduleAverage(
             this in NativeArray<uint4x3> source
             )
         {
@@ -1927,15 +1927,15 @@ namespace CareBoo.Blinq
         public static JobHandle ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, uint4x3>.Struct<TSelector> selector,
-            in NativeArray<uint4x3> output
+            ref NativeArray<uint4x3> output
             )
             where T : struct
             where TSelector : struct, IFunc<T, uint4x3>
         {
-            return source.ToValueSequence().ScheduleAverage(selector, output);
+            return source.ToValueSequence().ScheduleAverage(selector, ref output);
         }
 
-        public static AverageJobHandle_uint4x3 ScheduleAverage<T, TSelector>(
+        public static Sequence.JobHandle<uint4x3> ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, uint4x3>.Struct<TSelector> selector
             )
@@ -1978,13 +1978,13 @@ namespace CareBoo.Blinq
 
         public static JobHandle ScheduleAverage(
             this in NativeArray<uint4x4> source,
-            in NativeArray<uint4x4> output
+            ref NativeArray<uint4x4> output
             )
         {
-            return source.ToValueSequence().ScheduleAverage(output);
+            return source.ToValueSequence().ScheduleAverage(ref output);
         }
 
-        public static AverageJobHandle_uint4x4 ScheduleAverage(
+        public static Sequence.JobHandle<uint4x4> ScheduleAverage(
             this in NativeArray<uint4x4> source
             )
         {
@@ -2004,15 +2004,15 @@ namespace CareBoo.Blinq
         public static JobHandle ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, uint4x4>.Struct<TSelector> selector,
-            in NativeArray<uint4x4> output
+            ref NativeArray<uint4x4> output
             )
             where T : struct
             where TSelector : struct, IFunc<T, uint4x4>
         {
-            return source.ToValueSequence().ScheduleAverage(selector, output);
+            return source.ToValueSequence().ScheduleAverage(selector, ref output);
         }
 
-        public static AverageJobHandle_uint4x4 ScheduleAverage<T, TSelector>(
+        public static Sequence.JobHandle<uint4x4> ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, uint4x4>.Struct<TSelector> selector
             )
@@ -2055,13 +2055,13 @@ namespace CareBoo.Blinq
 
         public static JobHandle ScheduleAverage(
             this in NativeArray<float> source,
-            in NativeArray<float> output
+            ref NativeArray<float> output
             )
         {
-            return source.ToValueSequence().ScheduleAverage(output);
+            return source.ToValueSequence().ScheduleAverage(ref output);
         }
 
-        public static AverageJobHandle_float ScheduleAverage(
+        public static Sequence.JobHandle<float> ScheduleAverage(
             this in NativeArray<float> source
             )
         {
@@ -2081,15 +2081,15 @@ namespace CareBoo.Blinq
         public static JobHandle ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, float>.Struct<TSelector> selector,
-            in NativeArray<float> output
+            ref NativeArray<float> output
             )
             where T : struct
             where TSelector : struct, IFunc<T, float>
         {
-            return source.ToValueSequence().ScheduleAverage(selector, output);
+            return source.ToValueSequence().ScheduleAverage(selector, ref output);
         }
 
-        public static AverageJobHandle_float ScheduleAverage<T, TSelector>(
+        public static Sequence.JobHandle<float> ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, float>.Struct<TSelector> selector
             )
@@ -2132,13 +2132,13 @@ namespace CareBoo.Blinq
 
         public static JobHandle ScheduleAverage(
             this in NativeArray<float2> source,
-            in NativeArray<float2> output
+            ref NativeArray<float2> output
             )
         {
-            return source.ToValueSequence().ScheduleAverage(output);
+            return source.ToValueSequence().ScheduleAverage(ref output);
         }
 
-        public static AverageJobHandle_float2 ScheduleAverage(
+        public static Sequence.JobHandle<float2> ScheduleAverage(
             this in NativeArray<float2> source
             )
         {
@@ -2158,15 +2158,15 @@ namespace CareBoo.Blinq
         public static JobHandle ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, float2>.Struct<TSelector> selector,
-            in NativeArray<float2> output
+            ref NativeArray<float2> output
             )
             where T : struct
             where TSelector : struct, IFunc<T, float2>
         {
-            return source.ToValueSequence().ScheduleAverage(selector, output);
+            return source.ToValueSequence().ScheduleAverage(selector, ref output);
         }
 
-        public static AverageJobHandle_float2 ScheduleAverage<T, TSelector>(
+        public static Sequence.JobHandle<float2> ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, float2>.Struct<TSelector> selector
             )
@@ -2209,13 +2209,13 @@ namespace CareBoo.Blinq
 
         public static JobHandle ScheduleAverage(
             this in NativeArray<float2x2> source,
-            in NativeArray<float2x2> output
+            ref NativeArray<float2x2> output
             )
         {
-            return source.ToValueSequence().ScheduleAverage(output);
+            return source.ToValueSequence().ScheduleAverage(ref output);
         }
 
-        public static AverageJobHandle_float2x2 ScheduleAverage(
+        public static Sequence.JobHandle<float2x2> ScheduleAverage(
             this in NativeArray<float2x2> source
             )
         {
@@ -2235,15 +2235,15 @@ namespace CareBoo.Blinq
         public static JobHandle ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, float2x2>.Struct<TSelector> selector,
-            in NativeArray<float2x2> output
+            ref NativeArray<float2x2> output
             )
             where T : struct
             where TSelector : struct, IFunc<T, float2x2>
         {
-            return source.ToValueSequence().ScheduleAverage(selector, output);
+            return source.ToValueSequence().ScheduleAverage(selector, ref output);
         }
 
-        public static AverageJobHandle_float2x2 ScheduleAverage<T, TSelector>(
+        public static Sequence.JobHandle<float2x2> ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, float2x2>.Struct<TSelector> selector
             )
@@ -2286,13 +2286,13 @@ namespace CareBoo.Blinq
 
         public static JobHandle ScheduleAverage(
             this in NativeArray<float2x3> source,
-            in NativeArray<float2x3> output
+            ref NativeArray<float2x3> output
             )
         {
-            return source.ToValueSequence().ScheduleAverage(output);
+            return source.ToValueSequence().ScheduleAverage(ref output);
         }
 
-        public static AverageJobHandle_float2x3 ScheduleAverage(
+        public static Sequence.JobHandle<float2x3> ScheduleAverage(
             this in NativeArray<float2x3> source
             )
         {
@@ -2312,15 +2312,15 @@ namespace CareBoo.Blinq
         public static JobHandle ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, float2x3>.Struct<TSelector> selector,
-            in NativeArray<float2x3> output
+            ref NativeArray<float2x3> output
             )
             where T : struct
             where TSelector : struct, IFunc<T, float2x3>
         {
-            return source.ToValueSequence().ScheduleAverage(selector, output);
+            return source.ToValueSequence().ScheduleAverage(selector, ref output);
         }
 
-        public static AverageJobHandle_float2x3 ScheduleAverage<T, TSelector>(
+        public static Sequence.JobHandle<float2x3> ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, float2x3>.Struct<TSelector> selector
             )
@@ -2363,13 +2363,13 @@ namespace CareBoo.Blinq
 
         public static JobHandle ScheduleAverage(
             this in NativeArray<float2x4> source,
-            in NativeArray<float2x4> output
+            ref NativeArray<float2x4> output
             )
         {
-            return source.ToValueSequence().ScheduleAverage(output);
+            return source.ToValueSequence().ScheduleAverage(ref output);
         }
 
-        public static AverageJobHandle_float2x4 ScheduleAverage(
+        public static Sequence.JobHandle<float2x4> ScheduleAverage(
             this in NativeArray<float2x4> source
             )
         {
@@ -2389,15 +2389,15 @@ namespace CareBoo.Blinq
         public static JobHandle ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, float2x4>.Struct<TSelector> selector,
-            in NativeArray<float2x4> output
+            ref NativeArray<float2x4> output
             )
             where T : struct
             where TSelector : struct, IFunc<T, float2x4>
         {
-            return source.ToValueSequence().ScheduleAverage(selector, output);
+            return source.ToValueSequence().ScheduleAverage(selector, ref output);
         }
 
-        public static AverageJobHandle_float2x4 ScheduleAverage<T, TSelector>(
+        public static Sequence.JobHandle<float2x4> ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, float2x4>.Struct<TSelector> selector
             )
@@ -2440,13 +2440,13 @@ namespace CareBoo.Blinq
 
         public static JobHandle ScheduleAverage(
             this in NativeArray<float3> source,
-            in NativeArray<float3> output
+            ref NativeArray<float3> output
             )
         {
-            return source.ToValueSequence().ScheduleAverage(output);
+            return source.ToValueSequence().ScheduleAverage(ref output);
         }
 
-        public static AverageJobHandle_float3 ScheduleAverage(
+        public static Sequence.JobHandle<float3> ScheduleAverage(
             this in NativeArray<float3> source
             )
         {
@@ -2466,15 +2466,15 @@ namespace CareBoo.Blinq
         public static JobHandle ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, float3>.Struct<TSelector> selector,
-            in NativeArray<float3> output
+            ref NativeArray<float3> output
             )
             where T : struct
             where TSelector : struct, IFunc<T, float3>
         {
-            return source.ToValueSequence().ScheduleAverage(selector, output);
+            return source.ToValueSequence().ScheduleAverage(selector, ref output);
         }
 
-        public static AverageJobHandle_float3 ScheduleAverage<T, TSelector>(
+        public static Sequence.JobHandle<float3> ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, float3>.Struct<TSelector> selector
             )
@@ -2517,13 +2517,13 @@ namespace CareBoo.Blinq
 
         public static JobHandle ScheduleAverage(
             this in NativeArray<float3x2> source,
-            in NativeArray<float3x2> output
+            ref NativeArray<float3x2> output
             )
         {
-            return source.ToValueSequence().ScheduleAverage(output);
+            return source.ToValueSequence().ScheduleAverage(ref output);
         }
 
-        public static AverageJobHandle_float3x2 ScheduleAverage(
+        public static Sequence.JobHandle<float3x2> ScheduleAverage(
             this in NativeArray<float3x2> source
             )
         {
@@ -2543,15 +2543,15 @@ namespace CareBoo.Blinq
         public static JobHandle ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, float3x2>.Struct<TSelector> selector,
-            in NativeArray<float3x2> output
+            ref NativeArray<float3x2> output
             )
             where T : struct
             where TSelector : struct, IFunc<T, float3x2>
         {
-            return source.ToValueSequence().ScheduleAverage(selector, output);
+            return source.ToValueSequence().ScheduleAverage(selector, ref output);
         }
 
-        public static AverageJobHandle_float3x2 ScheduleAverage<T, TSelector>(
+        public static Sequence.JobHandle<float3x2> ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, float3x2>.Struct<TSelector> selector
             )
@@ -2594,13 +2594,13 @@ namespace CareBoo.Blinq
 
         public static JobHandle ScheduleAverage(
             this in NativeArray<float3x3> source,
-            in NativeArray<float3x3> output
+            ref NativeArray<float3x3> output
             )
         {
-            return source.ToValueSequence().ScheduleAverage(output);
+            return source.ToValueSequence().ScheduleAverage(ref output);
         }
 
-        public static AverageJobHandle_float3x3 ScheduleAverage(
+        public static Sequence.JobHandle<float3x3> ScheduleAverage(
             this in NativeArray<float3x3> source
             )
         {
@@ -2620,15 +2620,15 @@ namespace CareBoo.Blinq
         public static JobHandle ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, float3x3>.Struct<TSelector> selector,
-            in NativeArray<float3x3> output
+            ref NativeArray<float3x3> output
             )
             where T : struct
             where TSelector : struct, IFunc<T, float3x3>
         {
-            return source.ToValueSequence().ScheduleAverage(selector, output);
+            return source.ToValueSequence().ScheduleAverage(selector, ref output);
         }
 
-        public static AverageJobHandle_float3x3 ScheduleAverage<T, TSelector>(
+        public static Sequence.JobHandle<float3x3> ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, float3x3>.Struct<TSelector> selector
             )
@@ -2671,13 +2671,13 @@ namespace CareBoo.Blinq
 
         public static JobHandle ScheduleAverage(
             this in NativeArray<float3x4> source,
-            in NativeArray<float3x4> output
+            ref NativeArray<float3x4> output
             )
         {
-            return source.ToValueSequence().ScheduleAverage(output);
+            return source.ToValueSequence().ScheduleAverage(ref output);
         }
 
-        public static AverageJobHandle_float3x4 ScheduleAverage(
+        public static Sequence.JobHandle<float3x4> ScheduleAverage(
             this in NativeArray<float3x4> source
             )
         {
@@ -2697,15 +2697,15 @@ namespace CareBoo.Blinq
         public static JobHandle ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, float3x4>.Struct<TSelector> selector,
-            in NativeArray<float3x4> output
+            ref NativeArray<float3x4> output
             )
             where T : struct
             where TSelector : struct, IFunc<T, float3x4>
         {
-            return source.ToValueSequence().ScheduleAverage(selector, output);
+            return source.ToValueSequence().ScheduleAverage(selector, ref output);
         }
 
-        public static AverageJobHandle_float3x4 ScheduleAverage<T, TSelector>(
+        public static Sequence.JobHandle<float3x4> ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, float3x4>.Struct<TSelector> selector
             )
@@ -2748,13 +2748,13 @@ namespace CareBoo.Blinq
 
         public static JobHandle ScheduleAverage(
             this in NativeArray<float4> source,
-            in NativeArray<float4> output
+            ref NativeArray<float4> output
             )
         {
-            return source.ToValueSequence().ScheduleAverage(output);
+            return source.ToValueSequence().ScheduleAverage(ref output);
         }
 
-        public static AverageJobHandle_float4 ScheduleAverage(
+        public static Sequence.JobHandle<float4> ScheduleAverage(
             this in NativeArray<float4> source
             )
         {
@@ -2774,15 +2774,15 @@ namespace CareBoo.Blinq
         public static JobHandle ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, float4>.Struct<TSelector> selector,
-            in NativeArray<float4> output
+            ref NativeArray<float4> output
             )
             where T : struct
             where TSelector : struct, IFunc<T, float4>
         {
-            return source.ToValueSequence().ScheduleAverage(selector, output);
+            return source.ToValueSequence().ScheduleAverage(selector, ref output);
         }
 
-        public static AverageJobHandle_float4 ScheduleAverage<T, TSelector>(
+        public static Sequence.JobHandle<float4> ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, float4>.Struct<TSelector> selector
             )
@@ -2825,13 +2825,13 @@ namespace CareBoo.Blinq
 
         public static JobHandle ScheduleAverage(
             this in NativeArray<float4x2> source,
-            in NativeArray<float4x2> output
+            ref NativeArray<float4x2> output
             )
         {
-            return source.ToValueSequence().ScheduleAverage(output);
+            return source.ToValueSequence().ScheduleAverage(ref output);
         }
 
-        public static AverageJobHandle_float4x2 ScheduleAverage(
+        public static Sequence.JobHandle<float4x2> ScheduleAverage(
             this in NativeArray<float4x2> source
             )
         {
@@ -2851,15 +2851,15 @@ namespace CareBoo.Blinq
         public static JobHandle ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, float4x2>.Struct<TSelector> selector,
-            in NativeArray<float4x2> output
+            ref NativeArray<float4x2> output
             )
             where T : struct
             where TSelector : struct, IFunc<T, float4x2>
         {
-            return source.ToValueSequence().ScheduleAverage(selector, output);
+            return source.ToValueSequence().ScheduleAverage(selector, ref output);
         }
 
-        public static AverageJobHandle_float4x2 ScheduleAverage<T, TSelector>(
+        public static Sequence.JobHandle<float4x2> ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, float4x2>.Struct<TSelector> selector
             )
@@ -2902,13 +2902,13 @@ namespace CareBoo.Blinq
 
         public static JobHandle ScheduleAverage(
             this in NativeArray<float4x3> source,
-            in NativeArray<float4x3> output
+            ref NativeArray<float4x3> output
             )
         {
-            return source.ToValueSequence().ScheduleAverage(output);
+            return source.ToValueSequence().ScheduleAverage(ref output);
         }
 
-        public static AverageJobHandle_float4x3 ScheduleAverage(
+        public static Sequence.JobHandle<float4x3> ScheduleAverage(
             this in NativeArray<float4x3> source
             )
         {
@@ -2928,15 +2928,15 @@ namespace CareBoo.Blinq
         public static JobHandle ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, float4x3>.Struct<TSelector> selector,
-            in NativeArray<float4x3> output
+            ref NativeArray<float4x3> output
             )
             where T : struct
             where TSelector : struct, IFunc<T, float4x3>
         {
-            return source.ToValueSequence().ScheduleAverage(selector, output);
+            return source.ToValueSequence().ScheduleAverage(selector, ref output);
         }
 
-        public static AverageJobHandle_float4x3 ScheduleAverage<T, TSelector>(
+        public static Sequence.JobHandle<float4x3> ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, float4x3>.Struct<TSelector> selector
             )
@@ -2979,13 +2979,13 @@ namespace CareBoo.Blinq
 
         public static JobHandle ScheduleAverage(
             this in NativeArray<float4x4> source,
-            in NativeArray<float4x4> output
+            ref NativeArray<float4x4> output
             )
         {
-            return source.ToValueSequence().ScheduleAverage(output);
+            return source.ToValueSequence().ScheduleAverage(ref output);
         }
 
-        public static AverageJobHandle_float4x4 ScheduleAverage(
+        public static Sequence.JobHandle<float4x4> ScheduleAverage(
             this in NativeArray<float4x4> source
             )
         {
@@ -3005,15 +3005,15 @@ namespace CareBoo.Blinq
         public static JobHandle ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, float4x4>.Struct<TSelector> selector,
-            in NativeArray<float4x4> output
+            ref NativeArray<float4x4> output
             )
             where T : struct
             where TSelector : struct, IFunc<T, float4x4>
         {
-            return source.ToValueSequence().ScheduleAverage(selector, output);
+            return source.ToValueSequence().ScheduleAverage(selector, ref output);
         }
 
-        public static AverageJobHandle_float4x4 ScheduleAverage<T, TSelector>(
+        public static Sequence.JobHandle<float4x4> ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, float4x4>.Struct<TSelector> selector
             )
@@ -3056,13 +3056,13 @@ namespace CareBoo.Blinq
 
         public static JobHandle ScheduleAverage(
             this in NativeArray<double> source,
-            in NativeArray<double> output
+            ref NativeArray<double> output
             )
         {
-            return source.ToValueSequence().ScheduleAverage(output);
+            return source.ToValueSequence().ScheduleAverage(ref output);
         }
 
-        public static AverageJobHandle_double ScheduleAverage(
+        public static Sequence.JobHandle<double> ScheduleAverage(
             this in NativeArray<double> source
             )
         {
@@ -3082,15 +3082,15 @@ namespace CareBoo.Blinq
         public static JobHandle ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, double>.Struct<TSelector> selector,
-            in NativeArray<double> output
+            ref NativeArray<double> output
             )
             where T : struct
             where TSelector : struct, IFunc<T, double>
         {
-            return source.ToValueSequence().ScheduleAverage(selector, output);
+            return source.ToValueSequence().ScheduleAverage(selector, ref output);
         }
 
-        public static AverageJobHandle_double ScheduleAverage<T, TSelector>(
+        public static Sequence.JobHandle<double> ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, double>.Struct<TSelector> selector
             )
@@ -3133,13 +3133,13 @@ namespace CareBoo.Blinq
 
         public static JobHandle ScheduleAverage(
             this in NativeArray<double2> source,
-            in NativeArray<double2> output
+            ref NativeArray<double2> output
             )
         {
-            return source.ToValueSequence().ScheduleAverage(output);
+            return source.ToValueSequence().ScheduleAverage(ref output);
         }
 
-        public static AverageJobHandle_double2 ScheduleAverage(
+        public static Sequence.JobHandle<double2> ScheduleAverage(
             this in NativeArray<double2> source
             )
         {
@@ -3159,15 +3159,15 @@ namespace CareBoo.Blinq
         public static JobHandle ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, double2>.Struct<TSelector> selector,
-            in NativeArray<double2> output
+            ref NativeArray<double2> output
             )
             where T : struct
             where TSelector : struct, IFunc<T, double2>
         {
-            return source.ToValueSequence().ScheduleAverage(selector, output);
+            return source.ToValueSequence().ScheduleAverage(selector, ref output);
         }
 
-        public static AverageJobHandle_double2 ScheduleAverage<T, TSelector>(
+        public static Sequence.JobHandle<double2> ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, double2>.Struct<TSelector> selector
             )
@@ -3210,13 +3210,13 @@ namespace CareBoo.Blinq
 
         public static JobHandle ScheduleAverage(
             this in NativeArray<double2x2> source,
-            in NativeArray<double2x2> output
+            ref NativeArray<double2x2> output
             )
         {
-            return source.ToValueSequence().ScheduleAverage(output);
+            return source.ToValueSequence().ScheduleAverage(ref output);
         }
 
-        public static AverageJobHandle_double2x2 ScheduleAverage(
+        public static Sequence.JobHandle<double2x2> ScheduleAverage(
             this in NativeArray<double2x2> source
             )
         {
@@ -3236,15 +3236,15 @@ namespace CareBoo.Blinq
         public static JobHandle ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, double2x2>.Struct<TSelector> selector,
-            in NativeArray<double2x2> output
+            ref NativeArray<double2x2> output
             )
             where T : struct
             where TSelector : struct, IFunc<T, double2x2>
         {
-            return source.ToValueSequence().ScheduleAverage(selector, output);
+            return source.ToValueSequence().ScheduleAverage(selector, ref output);
         }
 
-        public static AverageJobHandle_double2x2 ScheduleAverage<T, TSelector>(
+        public static Sequence.JobHandle<double2x2> ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, double2x2>.Struct<TSelector> selector
             )
@@ -3287,13 +3287,13 @@ namespace CareBoo.Blinq
 
         public static JobHandle ScheduleAverage(
             this in NativeArray<double2x3> source,
-            in NativeArray<double2x3> output
+            ref NativeArray<double2x3> output
             )
         {
-            return source.ToValueSequence().ScheduleAverage(output);
+            return source.ToValueSequence().ScheduleAverage(ref output);
         }
 
-        public static AverageJobHandle_double2x3 ScheduleAverage(
+        public static Sequence.JobHandle<double2x3> ScheduleAverage(
             this in NativeArray<double2x3> source
             )
         {
@@ -3313,15 +3313,15 @@ namespace CareBoo.Blinq
         public static JobHandle ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, double2x3>.Struct<TSelector> selector,
-            in NativeArray<double2x3> output
+            ref NativeArray<double2x3> output
             )
             where T : struct
             where TSelector : struct, IFunc<T, double2x3>
         {
-            return source.ToValueSequence().ScheduleAverage(selector, output);
+            return source.ToValueSequence().ScheduleAverage(selector, ref output);
         }
 
-        public static AverageJobHandle_double2x3 ScheduleAverage<T, TSelector>(
+        public static Sequence.JobHandle<double2x3> ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, double2x3>.Struct<TSelector> selector
             )
@@ -3364,13 +3364,13 @@ namespace CareBoo.Blinq
 
         public static JobHandle ScheduleAverage(
             this in NativeArray<double2x4> source,
-            in NativeArray<double2x4> output
+            ref NativeArray<double2x4> output
             )
         {
-            return source.ToValueSequence().ScheduleAverage(output);
+            return source.ToValueSequence().ScheduleAverage(ref output);
         }
 
-        public static AverageJobHandle_double2x4 ScheduleAverage(
+        public static Sequence.JobHandle<double2x4> ScheduleAverage(
             this in NativeArray<double2x4> source
             )
         {
@@ -3390,15 +3390,15 @@ namespace CareBoo.Blinq
         public static JobHandle ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, double2x4>.Struct<TSelector> selector,
-            in NativeArray<double2x4> output
+            ref NativeArray<double2x4> output
             )
             where T : struct
             where TSelector : struct, IFunc<T, double2x4>
         {
-            return source.ToValueSequence().ScheduleAverage(selector, output);
+            return source.ToValueSequence().ScheduleAverage(selector, ref output);
         }
 
-        public static AverageJobHandle_double2x4 ScheduleAverage<T, TSelector>(
+        public static Sequence.JobHandle<double2x4> ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, double2x4>.Struct<TSelector> selector
             )
@@ -3441,13 +3441,13 @@ namespace CareBoo.Blinq
 
         public static JobHandle ScheduleAverage(
             this in NativeArray<double3> source,
-            in NativeArray<double3> output
+            ref NativeArray<double3> output
             )
         {
-            return source.ToValueSequence().ScheduleAverage(output);
+            return source.ToValueSequence().ScheduleAverage(ref output);
         }
 
-        public static AverageJobHandle_double3 ScheduleAverage(
+        public static Sequence.JobHandle<double3> ScheduleAverage(
             this in NativeArray<double3> source
             )
         {
@@ -3467,15 +3467,15 @@ namespace CareBoo.Blinq
         public static JobHandle ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, double3>.Struct<TSelector> selector,
-            in NativeArray<double3> output
+            ref NativeArray<double3> output
             )
             where T : struct
             where TSelector : struct, IFunc<T, double3>
         {
-            return source.ToValueSequence().ScheduleAverage(selector, output);
+            return source.ToValueSequence().ScheduleAverage(selector, ref output);
         }
 
-        public static AverageJobHandle_double3 ScheduleAverage<T, TSelector>(
+        public static Sequence.JobHandle<double3> ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, double3>.Struct<TSelector> selector
             )
@@ -3518,13 +3518,13 @@ namespace CareBoo.Blinq
 
         public static JobHandle ScheduleAverage(
             this in NativeArray<double3x2> source,
-            in NativeArray<double3x2> output
+            ref NativeArray<double3x2> output
             )
         {
-            return source.ToValueSequence().ScheduleAverage(output);
+            return source.ToValueSequence().ScheduleAverage(ref output);
         }
 
-        public static AverageJobHandle_double3x2 ScheduleAverage(
+        public static Sequence.JobHandle<double3x2> ScheduleAverage(
             this in NativeArray<double3x2> source
             )
         {
@@ -3544,15 +3544,15 @@ namespace CareBoo.Blinq
         public static JobHandle ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, double3x2>.Struct<TSelector> selector,
-            in NativeArray<double3x2> output
+            ref NativeArray<double3x2> output
             )
             where T : struct
             where TSelector : struct, IFunc<T, double3x2>
         {
-            return source.ToValueSequence().ScheduleAverage(selector, output);
+            return source.ToValueSequence().ScheduleAverage(selector, ref output);
         }
 
-        public static AverageJobHandle_double3x2 ScheduleAverage<T, TSelector>(
+        public static Sequence.JobHandle<double3x2> ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, double3x2>.Struct<TSelector> selector
             )
@@ -3595,13 +3595,13 @@ namespace CareBoo.Blinq
 
         public static JobHandle ScheduleAverage(
             this in NativeArray<double3x3> source,
-            in NativeArray<double3x3> output
+            ref NativeArray<double3x3> output
             )
         {
-            return source.ToValueSequence().ScheduleAverage(output);
+            return source.ToValueSequence().ScheduleAverage(ref output);
         }
 
-        public static AverageJobHandle_double3x3 ScheduleAverage(
+        public static Sequence.JobHandle<double3x3> ScheduleAverage(
             this in NativeArray<double3x3> source
             )
         {
@@ -3621,15 +3621,15 @@ namespace CareBoo.Blinq
         public static JobHandle ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, double3x3>.Struct<TSelector> selector,
-            in NativeArray<double3x3> output
+            ref NativeArray<double3x3> output
             )
             where T : struct
             where TSelector : struct, IFunc<T, double3x3>
         {
-            return source.ToValueSequence().ScheduleAverage(selector, output);
+            return source.ToValueSequence().ScheduleAverage(selector, ref output);
         }
 
-        public static AverageJobHandle_double3x3 ScheduleAverage<T, TSelector>(
+        public static Sequence.JobHandle<double3x3> ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, double3x3>.Struct<TSelector> selector
             )
@@ -3672,13 +3672,13 @@ namespace CareBoo.Blinq
 
         public static JobHandle ScheduleAverage(
             this in NativeArray<double3x4> source,
-            in NativeArray<double3x4> output
+            ref NativeArray<double3x4> output
             )
         {
-            return source.ToValueSequence().ScheduleAverage(output);
+            return source.ToValueSequence().ScheduleAverage(ref output);
         }
 
-        public static AverageJobHandle_double3x4 ScheduleAverage(
+        public static Sequence.JobHandle<double3x4> ScheduleAverage(
             this in NativeArray<double3x4> source
             )
         {
@@ -3698,15 +3698,15 @@ namespace CareBoo.Blinq
         public static JobHandle ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, double3x4>.Struct<TSelector> selector,
-            in NativeArray<double3x4> output
+            ref NativeArray<double3x4> output
             )
             where T : struct
             where TSelector : struct, IFunc<T, double3x4>
         {
-            return source.ToValueSequence().ScheduleAverage(selector, output);
+            return source.ToValueSequence().ScheduleAverage(selector, ref output);
         }
 
-        public static AverageJobHandle_double3x4 ScheduleAverage<T, TSelector>(
+        public static Sequence.JobHandle<double3x4> ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, double3x4>.Struct<TSelector> selector
             )
@@ -3749,13 +3749,13 @@ namespace CareBoo.Blinq
 
         public static JobHandle ScheduleAverage(
             this in NativeArray<double4> source,
-            in NativeArray<double4> output
+            ref NativeArray<double4> output
             )
         {
-            return source.ToValueSequence().ScheduleAverage(output);
+            return source.ToValueSequence().ScheduleAverage(ref output);
         }
 
-        public static AverageJobHandle_double4 ScheduleAverage(
+        public static Sequence.JobHandle<double4> ScheduleAverage(
             this in NativeArray<double4> source
             )
         {
@@ -3775,15 +3775,15 @@ namespace CareBoo.Blinq
         public static JobHandle ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, double4>.Struct<TSelector> selector,
-            in NativeArray<double4> output
+            ref NativeArray<double4> output
             )
             where T : struct
             where TSelector : struct, IFunc<T, double4>
         {
-            return source.ToValueSequence().ScheduleAverage(selector, output);
+            return source.ToValueSequence().ScheduleAverage(selector, ref output);
         }
 
-        public static AverageJobHandle_double4 ScheduleAverage<T, TSelector>(
+        public static Sequence.JobHandle<double4> ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, double4>.Struct<TSelector> selector
             )
@@ -3826,13 +3826,13 @@ namespace CareBoo.Blinq
 
         public static JobHandle ScheduleAverage(
             this in NativeArray<double4x2> source,
-            in NativeArray<double4x2> output
+            ref NativeArray<double4x2> output
             )
         {
-            return source.ToValueSequence().ScheduleAverage(output);
+            return source.ToValueSequence().ScheduleAverage(ref output);
         }
 
-        public static AverageJobHandle_double4x2 ScheduleAverage(
+        public static Sequence.JobHandle<double4x2> ScheduleAverage(
             this in NativeArray<double4x2> source
             )
         {
@@ -3852,15 +3852,15 @@ namespace CareBoo.Blinq
         public static JobHandle ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, double4x2>.Struct<TSelector> selector,
-            in NativeArray<double4x2> output
+            ref NativeArray<double4x2> output
             )
             where T : struct
             where TSelector : struct, IFunc<T, double4x2>
         {
-            return source.ToValueSequence().ScheduleAverage(selector, output);
+            return source.ToValueSequence().ScheduleAverage(selector, ref output);
         }
 
-        public static AverageJobHandle_double4x2 ScheduleAverage<T, TSelector>(
+        public static Sequence.JobHandle<double4x2> ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, double4x2>.Struct<TSelector> selector
             )
@@ -3903,13 +3903,13 @@ namespace CareBoo.Blinq
 
         public static JobHandle ScheduleAverage(
             this in NativeArray<double4x3> source,
-            in NativeArray<double4x3> output
+            ref NativeArray<double4x3> output
             )
         {
-            return source.ToValueSequence().ScheduleAverage(output);
+            return source.ToValueSequence().ScheduleAverage(ref output);
         }
 
-        public static AverageJobHandle_double4x3 ScheduleAverage(
+        public static Sequence.JobHandle<double4x3> ScheduleAverage(
             this in NativeArray<double4x3> source
             )
         {
@@ -3929,15 +3929,15 @@ namespace CareBoo.Blinq
         public static JobHandle ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, double4x3>.Struct<TSelector> selector,
-            in NativeArray<double4x3> output
+            ref NativeArray<double4x3> output
             )
             where T : struct
             where TSelector : struct, IFunc<T, double4x3>
         {
-            return source.ToValueSequence().ScheduleAverage(selector, output);
+            return source.ToValueSequence().ScheduleAverage(selector, ref output);
         }
 
-        public static AverageJobHandle_double4x3 ScheduleAverage<T, TSelector>(
+        public static Sequence.JobHandle<double4x3> ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, double4x3>.Struct<TSelector> selector
             )
@@ -3980,13 +3980,13 @@ namespace CareBoo.Blinq
 
         public static JobHandle ScheduleAverage(
             this in NativeArray<double4x4> source,
-            in NativeArray<double4x4> output
+            ref NativeArray<double4x4> output
             )
         {
-            return source.ToValueSequence().ScheduleAverage(output);
+            return source.ToValueSequence().ScheduleAverage(ref output);
         }
 
-        public static AverageJobHandle_double4x4 ScheduleAverage(
+        public static Sequence.JobHandle<double4x4> ScheduleAverage(
             this in NativeArray<double4x4> source
             )
         {
@@ -4006,15 +4006,15 @@ namespace CareBoo.Blinq
         public static JobHandle ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, double4x4>.Struct<TSelector> selector,
-            in NativeArray<double4x4> output
+            ref NativeArray<double4x4> output
             )
             where T : struct
             where TSelector : struct, IFunc<T, double4x4>
         {
-            return source.ToValueSequence().ScheduleAverage(selector, output);
+            return source.ToValueSequence().ScheduleAverage(selector, ref output);
         }
 
-        public static AverageJobHandle_double4x4 ScheduleAverage<T, TSelector>(
+        public static Sequence.JobHandle<double4x4> ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, double4x4>.Struct<TSelector> selector
             )

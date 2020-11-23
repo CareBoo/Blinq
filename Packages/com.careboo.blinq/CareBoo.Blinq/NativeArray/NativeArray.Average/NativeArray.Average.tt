@@ -67,13 +67,13 @@ foreach (string TYPE in TYPES)
 
         public static JobHandle ScheduleAverage(
             this in NativeArray<<#=TYPE_FULL#>> source,
-            in NativeArray<<#=TYPE_FULL#>> output
+            ref NativeArray<<#=TYPE_FULL#>> output
             )
         {
-            return source.ToValueSequence().ScheduleAverage(output);
+            return source.ToValueSequence().ScheduleAverage(ref output);
         }
 
-        public static AverageJobHandle_<#=TYPE_FULL#> ScheduleAverage(
+        public static Sequence.JobHandle<<#=TYPE_FULL#>> ScheduleAverage(
             this in NativeArray<<#=TYPE_FULL#>> source
             )
         {
@@ -93,15 +93,15 @@ foreach (string TYPE in TYPES)
         public static JobHandle ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, <#=TYPE_FULL#>>.Struct<TSelector> selector,
-            in NativeArray<<#=TYPE_FULL#>> output
+            ref NativeArray<<#=TYPE_FULL#>> output
             )
             where T : struct
             where TSelector : struct, IFunc<T, <#=TYPE_FULL#>>
         {
-            return source.ToValueSequence().ScheduleAverage(selector, output);
+            return source.ToValueSequence().ScheduleAverage(selector, ref output);
         }
 
-        public static AverageJobHandle_<#=TYPE_FULL#> ScheduleAverage<T, TSelector>(
+        public static Sequence.JobHandle<<#=TYPE_FULL#>> ScheduleAverage<T, TSelector>(
             this in NativeArray<T> source,
             in ValueFunc<T, <#=TYPE_FULL#>>.Struct<TSelector> selector
             )
