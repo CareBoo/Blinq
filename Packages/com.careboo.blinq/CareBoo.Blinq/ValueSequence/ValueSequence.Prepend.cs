@@ -1,65 +1,85 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using Unity.Collections;
 
 namespace CareBoo.Blinq
 {
     public static partial class Sequence
     {
-        public static ValueSequence<T, PrependSequence<T, TSource>> Prepend<T, TSource>(
-            this in ValueSequence<T, TSource> source,
+        public static ValueSequence<T, PrependSequence<T, TSource, TSourceEnumerator>, PrependSequence<T, TSource, TSourceEnumerator>.Enumerator> Prepend<T, TSource, TSourceEnumerator>(
+            this in ValueSequence<T, TSource, TSourceEnumerator> source,
             in T item
             )
             where T : struct
-            where TSource : struct, ISequence<T>
+            where TSource : struct, ISequence<T, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<T>
         {
-            var sourceSeq = source.GetEnumerator();
-            var seq = new PrependSequence<T, TSource>(ref sourceSeq, in item);
-            return ValueSequence<T>.New(ref seq);
+            var sourceSeq = source.Source;
+            var seq = new PrependSequence<T, TSource, TSourceEnumerator>(in sourceSeq, in item);
+            return ValueSequence<T, PrependSequence<T, TSource, TSourceEnumerator>.Enumerator>.New(in seq);
         }
     }
 
-    public struct PrependSequence<T, TSource> : ISequence<T>
+    public struct PrependSequence<T, TSource, TSourceEnumerator>
+        : ISequence<T, PrependSequence<T, TSource, TSourceEnumerator>.Enumerator>
         where T : struct
-        where TSource : struct, ISequence<T>
+        where TSource : struct, ISequence<T, TSourceEnumerator>
+        where TSourceEnumerator : struct, IEnumerator<T>
     {
-        TSource source;
-        readonly T item;
-        int currentIndex;
+        public struct Enumerator : IEnumerator<T>
+        {
+            TSourceEnumerator sourceEnumerator;
+            bool currentIndex;
 
-        public PrependSequence(ref TSource source, in T item)
+            public Enumerator(
+                in TSource source,
+                T item
+                )
+            {
+                sourceEnumerator = source.GetEnumerator();
+                Current = item;
+                currentIndex = false;
+            }
+
+            public T Current { get; private set; }
+
+            object IEnumerator.Current => Current;
+
+            public void Dispose()
+            {
+                sourceEnumerator.Dispose();
+            }
+
+            public bool MoveNext()
+            {
+                if (!currentIndex)
+                {
+                    currentIndex = true;
+                    return true;
+                }
+                if (sourceEnumerator.MoveNext())
+                {
+                    Current = sourceEnumerator.Current;
+                    return true;
+                }
+                return false;
+            }
+
+            public void Reset()
+            {
+                throw new NotSupportedException();
+            }
+        }
+
+        readonly TSource source;
+
+        readonly T item;
+
+        public PrependSequence(in TSource source, in T item)
         {
             this.source = source;
             this.item = item;
-            currentIndex = 0;
-        }
-
-        public T Current => currentIndex > 1
-            ? source.Current
-            : item;
-
-        object IEnumerator.Current => Current;
-
-        public void Dispose()
-        {
-            source.Dispose();
-        }
-
-        public bool MoveNext()
-        {
-            if (currentIndex == 0)
-            {
-                currentIndex = 1;
-                return true;
-            }
-            else if (currentIndex == 1)
-                currentIndex = 2;
-            return source.MoveNext();
-        }
-
-        public void Reset()
-        {
-            throw new NotSupportedException();
         }
 
         public NativeList<T> ToNativeList(Allocator allocator)
@@ -70,6 +90,21 @@ namespace CareBoo.Blinq
             list.AddRangeNoResize(sourceList);
             sourceList.Dispose();
             return list;
+        }
+
+        public Enumerator GetEnumerator()
+        {
+            return new Enumerator(in source, item);
+        }
+
+        IEnumerator<T> IEnumerable<T>.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }

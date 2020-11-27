@@ -6,23 +6,25 @@ namespace CareBoo.Blinq
 {
     public static partial class Sequence
     {
-        public static bool SequenceEqual<T, TSecond>(
+        public static bool SequenceEqual<T, TSecond, TSecondEnumerator>(
             this in NativeArray<T> source,
-            in ValueSequence<T, TSecond> second
+            in ValueSequence<T, TSecond, TSecondEnumerator> second
             )
             where T : struct, IEquatable<T>
-            where TSecond : struct, ISequence<T>
+            where TSecond : struct, ISequence<T, TSecondEnumerator>
+            where TSecondEnumerator : struct, IEnumerator<T>
         {
             return source.ToValueSequence().SequenceEqual(in second);
         }
 
-        public static bool SequenceEqual<T, TSecond, TComparer>(
+        public static bool SequenceEqual<T, TSecond, TSecondEnumerator, TComparer>(
             this in NativeArray<T> source,
-            in ValueSequence<T, TSecond> second,
+            in ValueSequence<T, TSecond, TSecondEnumerator> second,
             in TComparer comparer
             )
             where T : struct, IEquatable<T>
-            where TSecond : struct, ISequence<T>
+            where TSecond : struct, ISequence<T, TSecondEnumerator>
+            where TSecondEnumerator : struct, IEnumerator<T>
             where TComparer : struct, IEqualityComparer<T>
         {
             return source.ToValueSequence().SequenceEqual(in second, in comparer);

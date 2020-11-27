@@ -3,71 +3,107 @@ using Unity.Mathematics;
 using CareBoo.Burst.Delegates;
 using System.Collections;
 using System;
+using System.Collections.Generic;
 
 namespace CareBoo.Blinq
 {
     public static partial class Sequence
     {
-        public static ValueSequence<TResult, ZipSequence<T, TSource, TSecondElement, TSecond, TResult, TResultSelector>> Zip<T, TSource, TSecondElement, TResult, TSecond, TResultSelector>(
-            this in ValueSequence<T, TSource> source,
-            in ValueSequence<TSecondElement, TSecond> second,
-            in ValueFunc<T, TSecondElement, TResult>.Struct<TResultSelector> resultSelector
+        public static ValueSequence<
+            TResult,
+            ZipSequence<T, TSource, TSourceEnumerator, TSecondElement, TSecond, TSecondEnumerator, TResult, TResultSelector>,
+            ZipSequence<T, TSource, TSourceEnumerator, TSecondElement, TSecond, TSecondEnumerator, TResult, TResultSelector>.Enumerator>
+        Zip<T, TSource, TSourceEnumerator, TSecondElement, TSecond, TSecondEnumerator, TResult, TResultSelector>(
+            this in ValueSequence<T, TSource, TSourceEnumerator> source,
+            in ValueSequence<TSecondElement, TSecond, TSecondEnumerator> second,
+            ValueFunc<T, TSecondElement, TResult>.Struct<TResultSelector> resultSelector
             )
             where T : struct
-            where TSource : struct, ISequence<T>
+            where TSource : struct, ISequence<T, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<T>
             where TSecondElement : struct
+            where TSecond : struct, ISequence<TSecondElement, TSecondEnumerator>
+            where TSecondEnumerator : struct, IEnumerator<TSecondElement>
             where TResult : struct
-            where TSecond : struct, ISequence<TSecondElement>
             where TResultSelector : struct, IFunc<T, TSecondElement, TResult>
         {
-            var sourceSeq = source.GetEnumerator();
-            var secondSeq = second.GetEnumerator();
-            var seq = ZipSequence<T, TSecondElement>.New(ref sourceSeq, ref secondSeq, in resultSelector);
-            return ValueSequence<TResult>.New(ref seq);
+            var sourceSeq = source.Source;
+            var secondSeq = second.Source;
+            var seq = new ZipSequence<T, TSource, TSourceEnumerator, TSecondElement, TSecond, TSecondEnumerator, TResult, TResultSelector>(in sourceSeq, in secondSeq, resultSelector);
+            return ValueSequence<TResult, ZipSequence<T, TSource, TSourceEnumerator, TSecondElement, TSecond, TSecondEnumerator, TResult, TResultSelector>.Enumerator>.New(in seq);
         }
     }
 
-    public struct ZipSequence<T, TSource, TSecondElement, TSecond, TResult, TResultSelector> : ISequence<TResult>
+    public struct ZipSequence<T, TSource, TSourceEnumerator, TSecondElement, TSecond, TSecondEnumerator, TResult, TResultSelector>
+        : ISequence<TResult, ZipSequence<T, TSource, TSourceEnumerator, TSecondElement, TSecond, TSecondEnumerator, TResult, TResultSelector>.Enumerator>
         where T : struct
-        where TSource : struct, ISequence<T>
+        where TSource : struct, ISequence<T, TSourceEnumerator>
+        where TSourceEnumerator : struct, IEnumerator<T>
         where TSecondElement : struct
-        where TSecond : struct, ISequence<TSecondElement>
+        where TSecond : struct, ISequence<TSecondElement, TSecondEnumerator>
+        where TSecondEnumerator : struct, IEnumerator<TSecondElement>
         where TResult : struct
         where TResultSelector : struct, IFunc<T, TSecondElement, TResult>
     {
+        public struct Enumerator : IEnumerator<TResult>
+        {
+            readonly ValueFunc<T, TSecondElement, TResult>.Struct<TResultSelector> resultSelector;
+            TSourceEnumerator sourceEnumerator;
+            TSecondEnumerator secondEnumerator;
+
+            public Enumerator(
+                in TSource source,
+                in TSecond second,
+                ValueFunc<T, TSecondElement, TResult>.Struct<TResultSelector> resultSelector
+                )
+            {
+                this.resultSelector = resultSelector;
+                sourceEnumerator = source.GetEnumerator();
+                secondEnumerator = second.GetEnumerator();
+                Current = default;
+            }
+
+            public TResult Current { get; private set; }
+
+            object IEnumerator.Current => Current;
+
+            public void Dispose()
+            {
+                sourceEnumerator.Dispose();
+                secondEnumerator.Dispose();
+            }
+
+            public bool MoveNext()
+            {
+                if (sourceEnumerator.MoveNext() && secondEnumerator.MoveNext())
+                {
+                    Current = resultSelector.Invoke(sourceEnumerator.Current, secondEnumerator.Current);
+                    return true;
+                }
+                return false;
+            }
+
+            public void Reset()
+            {
+                throw new NotSupportedException();
+            }
+        }
+
         TSource source;
+
         TSecond second;
+
         readonly ValueFunc<T, TSecondElement, TResult>.Struct<TResultSelector> resultSelector;
 
         public ZipSequence(
-            ref TSource source,
-            ref TSecond second,
-            in ValueFunc<T, TSecondElement, TResult>.Struct<TResultSelector> resultSelector
+            in TSource source,
+            in TSecond second,
+            ValueFunc<T, TSecondElement, TResult>.Struct<TResultSelector> resultSelector
             )
         {
             this.source = source;
             this.second = second;
             this.resultSelector = resultSelector;
-        }
-
-        public TResult Current => resultSelector.Invoke(source.Current, second.Current);
-
-        object IEnumerator.Current => Current;
-
-        public void Dispose()
-        {
-            source.Dispose();
-            second.Dispose();
-        }
-
-        public bool MoveNext()
-        {
-            return source.MoveNext() && second.MoveNext();
-        }
-
-        public void Reset()
-        {
-            throw new NotSupportedException();
         }
 
         public NativeList<TResult> ToNativeList(Allocator allocator)
@@ -82,23 +118,20 @@ namespace CareBoo.Blinq
             secondList.Dispose();
             return result;
         }
-    }
 
-    public static class ZipSequence<T, TSecondElement>
-        where T : struct
-        where TSecondElement : struct
-    {
-        public static ZipSequence<T, TSource, TSecondElement, TSecond, TResult, TResultSelector> New<TSource, TSecond, TResult, TResultSelector>(
-            ref TSource source,
-            ref TSecond second,
-            in ValueFunc<T, TSecondElement, TResult>.Struct<TResultSelector> resultSelector
-            )
-            where TSource : struct, ISequence<T>
-            where TResult : struct
-            where TSecond : struct, ISequence<TSecondElement>
-            where TResultSelector : struct, IFunc<T, TSecondElement, TResult>
+        public Enumerator GetEnumerator()
         {
-            return new ZipSequence<T, TSource, TSecondElement, TSecond, TResult, TResultSelector>(ref source, ref second, in resultSelector);
+            return new Enumerator(in source, in second, resultSelector);
+        }
+
+        IEnumerator<TResult> IEnumerable<TResult>.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }

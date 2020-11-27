@@ -8,7 +8,7 @@ namespace CareBoo.Blinq
     {
         public static TResult Max<T, TResult, TSelector>(
             this in NativeArray<T> source,
-            in ValueFunc<T, TResult>.Struct<TSelector> selector
+            ValueFunc<T, TResult>.Struct<TSelector> selector
             )
             where T : struct
             where TResult : struct, IComparable<TResult>
@@ -41,7 +41,7 @@ namespace CareBoo.Blinq
 
         public static TResult Min<T, TResult, TSelector>(
             in NativeArray<T> source,
-            in ValueFunc<T, TResult>.Struct<TSelector> selector
+            ValueFunc<T, TResult>.Struct<TSelector> selector
             )
             where T : struct
             where TResult : struct, IComparable<TResult>

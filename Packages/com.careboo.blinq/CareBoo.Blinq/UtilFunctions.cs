@@ -43,6 +43,21 @@ namespace CareBoo.Blinq
         }
     }
 
+    public struct IgnoreIndex<T, TResult, TSelector> : IFunc<T, int, TResult>
+        where T : struct
+        where TResult : struct
+        where TSelector : struct, IFunc<T, TResult>
+    {
+        readonly ValueFunc<T, TResult>.Struct<TSelector> selector;
+
+        public IgnoreIndex(ValueFunc<T, TResult>.Struct<TSelector> selector)
+        {
+            this.selector = selector;
+        }
+
+        public TResult Invoke(T item, int index) => selector.Invoke(item);
+    }
+
     public static class UtilFunctions
     {
         public static ValueFunc<T, TResult, TResult>.Struct<RightSelector<T, TResult>> RightSelector<T, TResult>()
@@ -70,6 +85,16 @@ namespace CareBoo.Blinq
             where TKey : struct, IEquatable<TKey>
         {
             return default;
+        }
+
+        public static ValueFunc<T, int, TResult>.Struct<IgnoreIndex<T, TResult, TFunc>> IgnoreIndex<T, TResult, TFunc>(
+            ValueFunc<T, TResult>.Struct<TFunc> func
+            )
+            where T : struct
+            where TResult : struct
+            where TFunc : struct, IFunc<T, TResult>
+        {
+            return ValueFunc<T, int, TResult>.New(new IgnoreIndex<T, TResult, TFunc>(func));
         }
     }
 }

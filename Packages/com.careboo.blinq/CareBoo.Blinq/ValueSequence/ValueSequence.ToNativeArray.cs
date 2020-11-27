@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Unity.Collections;
 using Unity.Jobs;
 
@@ -6,17 +7,18 @@ namespace CareBoo.Blinq
 {
     public static partial class Sequence
     {
-        public struct ToNativeArrayJob<T, TSource> : IJob
+        public struct ToNativeArrayJob<T, TSource, TSourceEnumerator> : IJob
             where T : struct
-            where TSource : struct, ISequence<T>
+            where TSource : struct, ISequence<T, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<T>
         {
             [ReadOnly]
-            ValueSequence<T, TSource> seq;
+            ValueSequence<T, TSource, TSourceEnumerator> seq;
 
             [WriteOnly]
             NativeArray<T> output;
 
-            public ToNativeArrayJob(ValueSequence<T, TSource> seq, NativeArray<T> output)
+            public ToNativeArrayJob(ValueSequence<T, TSource, TSourceEnumerator> seq, NativeArray<T> output)
             {
                 this.seq = seq;
                 this.output = output;
@@ -51,12 +53,13 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static NativeArray<T> ToNativeArray<T, TSource>(
-            this in ValueSequence<T, TSource> source,
+        public static NativeArray<T> ToNativeArray<T, TSource, TSourceEnumerator>(
+            this in ValueSequence<T, TSource, TSourceEnumerator> source,
             in Allocator allocator
             )
             where T : struct
-            where TSource : struct, ISequence<T>
+            where TSource : struct, ISequence<T, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<T>
         {
             var list = source.ToNativeList(Allocator.Temp);
             var result = new NativeArray<T>(list, allocator);
@@ -64,12 +67,13 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public static NativeArray<T> RunToNativeArray<T, TSource>(
-            this in ValueSequence<T, TSource> source,
+        public static NativeArray<T> RunToNativeArray<T, TSource, TSourceEnumerator>(
+            this in ValueSequence<T, TSource, TSourceEnumerator> source,
             in Allocator allocator
             )
             where T : struct
-            where TSource : struct, ISequence<T>
+            where TSource : struct, ISequence<T, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<T>
         {
             var outputList = source.RunToNativeList(Allocator.Persistent);
             var result = new NativeArray<T>(outputList, allocator);
@@ -77,35 +81,38 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public static ToNativeArrayJobHandle<T> ScheduleToNativeArray<T, TSource>(
-            this in ValueSequence<T, TSource> source,
+        public static ToNativeArrayJobHandle<T> ScheduleToNativeArray<T, TSource, TSourceEnumerator>(
+            this in ValueSequence<T, TSource, TSourceEnumerator> source,
             in Allocator allocator
             )
             where T : struct
-            where TSource : struct, ISequence<T>
+            where TSource : struct, ISequence<T, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<T>
         {
             var collectionJobHandle = source.ScheduleToNativeList(Allocator.Persistent);
             return new ToNativeArrayJobHandle<T>(collectionJobHandle, allocator);
         }
 
-        public static NativeArray<T> ToNativeArray<T, TSource>(
-            this in ValueSequence<T, TSource> source,
+        public static NativeArray<T> ToNativeArray<T, TSource, TSourceEnumerator>(
+            this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ref NativeArray<T> output
             )
             where T : struct
-            where TSource : struct, ISequence<T>
+            where TSource : struct, ISequence<T, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<T>
         {
             var list = source.ToNativeList(Allocator.Temp);
             NativeArray<T>.Copy(list, output);
             return output;
         }
 
-        public static NativeArray<T> RunToNativeArray<T, TSource>(
-            this in ValueSequence<T, TSource> source,
+        public static NativeArray<T> RunToNativeArray<T, TSource, TSourceEnumerator>(
+            this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ref NativeArray<T> output
             )
             where T : struct
-            where TSource : struct, ISequence<T>
+            where TSource : struct, ISequence<T, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<T>
         {
             var list = source.RunToNativeList(Allocator.Persistent);
             NativeArray<T>.Copy(list, output);
@@ -113,14 +120,15 @@ namespace CareBoo.Blinq
             return output;
         }
 
-        public static JobHandle ScheduleToNativeArray<T, TSource>(
-            this in ValueSequence<T, TSource> source,
+        public static JobHandle ScheduleToNativeArray<T, TSource, TSourceEnumerator>(
+            this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ref NativeArray<T> output
             )
             where T : struct
-            where TSource : struct, ISequence<T>
+            where TSource : struct, ISequence<T, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<T>
         {
-            return new ToNativeArrayJob<T, TSource>(source, output).Schedule();
+            return new ToNativeArrayJob<T, TSource, TSourceEnumerator>(source, output).Schedule();
         }
     }
 }

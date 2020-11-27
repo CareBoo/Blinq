@@ -1,37 +1,23 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using Unity.Collections;
 
 namespace CareBoo.Blinq
 {
-    public struct NativeArraySequence<T> : ISequence<T>
+    public struct NativeArraySequence<T> : ISequence<T, NativeArray<T>.Enumerator>
         where T : struct
     {
         readonly NativeArray<T> source;
-        NativeArray<T>.Enumerator sourceEnum;
 
         public NativeArraySequence(in NativeArray<T> source)
         {
             this.source = source;
-            sourceEnum = source.GetEnumerator();
         }
 
-        public T Current => sourceEnum.Current;
-
-        object IEnumerator.Current => Current;
-
-        public void Dispose()
+        public NativeArray<T>.Enumerator GetEnumerator()
         {
-        }
-
-        public bool MoveNext()
-        {
-            return sourceEnum.MoveNext();
-        }
-
-        public void Reset()
-        {
-            throw new NotSupportedException();
+            return source.GetEnumerator();
         }
 
         public NativeList<T> ToNativeList(Allocator allocator)
@@ -41,15 +27,25 @@ namespace CareBoo.Blinq
                 list.AddNoResize(source[i]);
             return list;
         }
+
+        IEnumerator<T> IEnumerable<T>.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
     }
 
     public static partial class Sequence
     {
-        public static ValueSequence<T, NativeArraySequence<T>> ToValueSequence<T>(this in NativeArray<T> nativeArray)
+        public static ValueSequence<T, NativeArraySequence<T>, NativeArray<T>.Enumerator> ToValueSequence<T>(this in NativeArray<T> nativeArray)
             where T : struct
         {
             var newSequence = new NativeArraySequence<T>(in nativeArray);
-            return ValueSequence<T>.New(ref newSequence);
+            return ValueSequence<T, NativeArray<T>.Enumerator>.New(in newSequence);
         }
     }
 }
