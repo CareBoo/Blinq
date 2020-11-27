@@ -6,7 +6,7 @@ namespace CareBoo.Blinq
     {
         public static T ElementAt<T>(
             this in NativeArray<T> source,
-            in int index
+            int index
             )
             where T : struct
         {
@@ -15,7 +15,7 @@ namespace CareBoo.Blinq
 
         public static T ElementAtOrDefault<T>(
             this in NativeArray<T> source,
-            in int index,
+            int index,
             in T defaultVal = default
             )
             where T : struct

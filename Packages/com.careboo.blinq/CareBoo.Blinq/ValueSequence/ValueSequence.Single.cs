@@ -1,17 +1,19 @@
 ﻿using System;
 using Unity.Collections;
 using CareBoo.Burst.Delegates;
+using System.Collections.Generic;
 
 namespace CareBoo.Blinq
 {
     public static partial class Sequence
     {
-        public static T Single<T, TSource, TPredicate>(
-            this in ValueSequence<T, TSource> source,
-            in ValueFunc<T, bool>.Struct<TPredicate> predicate
+        public static T Single<T, TSource, TSourceEnumerator, TPredicate>(
+            this in ValueSequence<T, TSource, TSourceEnumerator> source,
+            ValueFunc<T, bool>.Struct<TPredicate> predicate
             )
             where T : unmanaged, IEquatable<T>
-            where TSource : struct, ISequence<T>
+            where TSource : struct, ISequence<T, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<T>
             where TPredicate : struct, IFunc<T, bool>
         {
             var list = source.ToNativeList(Allocator.Temp);
@@ -39,13 +41,14 @@ namespace CareBoo.Blinq
             throw Error.NoMatch();
         }
 
-        public static T SingleOrDefault<T, TSource, TPredicate>(
-            this in ValueSequence<T, TSource> source,
-            in ValueFunc<T, bool>.Struct<TPredicate> predicate,
+        public static T SingleOrDefault<T, TSource, TSourceEnumerator, TPredicate>(
+            this in ValueSequence<T, TSource, TSourceEnumerator> source,
+            ValueFunc<T, bool>.Struct<TPredicate> predicate,
             in T defaultVal = default
             )
             where T : unmanaged, IEquatable<T>
-            where TSource : struct, ISequence<T>
+            where TSource : struct, ISequence<T, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<T>
             where TPredicate : struct, IFunc<T, bool>
         {
             var list = source.ToNativeList(Allocator.Temp);
@@ -69,11 +72,12 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public static T Single<T, TSource>(
-            this in ValueSequence<T, TSource> source
+        public static T Single<T, TSource, TSourceEnumerator>(
+            this in ValueSequence<T, TSource, TSourceEnumerator> source
             )
             where T : struct
-            where TSource : struct, ISequence<T>
+            where TSource : struct, ISequence<T, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<T>
         {
             var list = source.ToNativeList(Allocator.Temp);
             if (list.Length > 1)
@@ -91,12 +95,13 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public static T SingleOrDefault<T, TSource>(
-            this in ValueSequence<T, TSource> source,
+        public static T SingleOrDefault<T, TSource, TSourceEnumerator>(
+            this in ValueSequence<T, TSource, TSourceEnumerator> source,
             in T defaultVal = default
             )
             where T : struct
-            where TSource : struct, ISequence<T>
+            where TSource : struct, ISequence<T, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<T>
         {
             var list = source.ToNativeList(Allocator.Temp);
             if (list.Length > 1)

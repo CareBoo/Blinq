@@ -8,8 +8,8 @@ namespace CareBoo.Blinq
         public static TResult Aggregate<T, TAccumulate, TResult, TFunc, TResultSelector>(
             this in NativeArray<T> source,
             TAccumulate seed,
-            in ValueFunc<TAccumulate, T, TAccumulate>.Struct<TFunc> func,
-            in ValueFunc<TAccumulate, TResult>.Struct<TResultSelector> resultSelector
+            ValueFunc<TAccumulate, T, TAccumulate>.Struct<TFunc> func,
+            ValueFunc<TAccumulate, TResult>.Struct<TResultSelector> resultSelector
             )
             where T : struct
             where TAccumulate : struct
@@ -25,7 +25,7 @@ namespace CareBoo.Blinq
         public static TAccumulate Aggregate<T, TAccumulate, TFunc>(
             this in NativeArray<T> source,
             TAccumulate seed,
-            in ValueFunc<TAccumulate, T, TAccumulate>.Struct<TFunc> func
+            ValueFunc<TAccumulate, T, TAccumulate>.Struct<TFunc> func
             )
             where T : struct
             where TAccumulate : struct
@@ -38,7 +38,7 @@ namespace CareBoo.Blinq
 
         public static T Aggregate<T, TFunc>(
             this in NativeArray<T> source,
-            in ValueFunc<T, T, T>.Struct<TFunc> func
+            ValueFunc<T, T, T>.Struct<TFunc> func
             )
             where T : struct
             where TFunc : struct, IFunc<T, T, T>

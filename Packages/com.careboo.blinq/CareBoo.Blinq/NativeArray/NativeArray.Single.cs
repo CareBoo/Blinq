@@ -8,7 +8,7 @@ namespace CareBoo.Blinq
     {
         public static T Single<T, TPredicate>(
             this in NativeArray<T> source,
-            in ValueFunc<T, bool>.Struct<TPredicate> predicate
+            ValueFunc<T, bool>.Struct<TPredicate> predicate
             )
             where T : unmanaged, IEquatable<T>
             where TPredicate : struct, IFunc<T, bool>
@@ -29,7 +29,7 @@ namespace CareBoo.Blinq
 
         public static T SingleOrDefault<T, TPredicate>(
             this in NativeArray<T> source,
-            in ValueFunc<T, bool>.Struct<TPredicate> predicate,
+            ValueFunc<T, bool>.Struct<TPredicate> predicate,
             in T defaultVal = default
             )
             where T : unmanaged, IEquatable<T>

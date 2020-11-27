@@ -1,62 +1,40 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using Unity.Collections;
 
 namespace CareBoo.Blinq
 {
     public static partial class Sequence
     {
-        public static ValueSequence<T, ReverseSequence<T, TSource>> Reverse<T, TSource>(
-            this in ValueSequence<T, TSource> source
+        public static ValueSequence<T, ReverseSequence<T, TSource>, SequenceEnumerator<T, ReverseSequence<T, TSource>>> Reverse<T, TSource, TSourceEnumerator>(
+            this in ValueSequence<T, TSource, TSourceEnumerator> source
             )
             where T : struct
-            where TSource : struct, ISequence<T>
+            where TSource : struct, ISequence<T, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<T>
         {
-            var sourceSeq = source.GetEnumerator();
-            var seq = new ReverseSequence<T, TSource>(ref sourceSeq);
-            return ValueSequence<T>.New(ref seq);
+            var sourceSeq = source.Source;
+            var seq = new ReverseSequence<T, TSource>(in sourceSeq);
+            return ValueSequence<T, SequenceEnumerator<T, ReverseSequence<T, TSource>>>.New(in seq);
         }
     }
 
-    public struct ReverseSequence<T, TSource> : ISequence<T>
+    public struct ReverseSequence<T, TSource>
+        : ISequence<T, SequenceEnumerator<T, ReverseSequence<T, TSource>>>
         where T : struct
-        where TSource : struct, ISequence<T>
+        where TSource : struct, INativeListConvertible<T>
     {
-        TSource source;
+        readonly TSource source;
 
-        int currentIndex;
-        NativeList<T> sourceList;
-
-        public ReverseSequence(ref TSource source)
+        public ReverseSequence(in TSource source)
         {
             this.source = source;
-            currentIndex = 0;
-            sourceList = default;
         }
 
-        public T Current => sourceList[currentIndex];
-
-        object IEnumerator.Current => Current;
-
-        public void Dispose()
+        public SequenceEnumerator<T, ReverseSequence<T, TSource>> GetEnumerator()
         {
-            source.Dispose();
-            if (sourceList.IsCreated)
-                sourceList.Dispose();
-        }
-
-        public bool MoveNext()
-        {
-            if (!sourceList.IsCreated)
-                sourceList = ToNativeList(Allocator.Temp);
-            else
-                currentIndex += 1;
-            return currentIndex < sourceList.Length;
-        }
-
-        public void Reset()
-        {
-            throw new NotSupportedException();
+            return SequenceEnumerator<T>.New(in this);
         }
 
         public NativeList<T> ToNativeList(Allocator allocator)
@@ -70,6 +48,16 @@ namespace CareBoo.Blinq
                 list[swap] = tmp;
             }
             return list;
+        }
+
+        IEnumerator<T> IEnumerable<T>.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }

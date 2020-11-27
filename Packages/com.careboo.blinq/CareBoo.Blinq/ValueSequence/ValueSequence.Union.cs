@@ -1,88 +1,116 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using Unity.Collections;
 
 namespace CareBoo.Blinq
 {
     public static partial class Sequence
     {
-        public static ValueSequence<T, UnionSequence<T, TSource, TSecond>> Union<T, TSource, TSecond>(
-            this in ValueSequence<T, TSource> source,
-            in ValueSequence<T, TSecond> second
+        public static ValueSequence<
+            T,
+            UnionSequence<T, TSource, TSourceEnumerator, TSecond, TSecondEnumerator>,
+            UnionSequence<T, TSource, TSourceEnumerator, TSecond, TSecondEnumerator>.Enumerator>
+        Union<T, TSource, TSourceEnumerator, TSecond, TSecondEnumerator>(
+            this in ValueSequence<T, TSource, TSourceEnumerator> source,
+            in ValueSequence<T, TSecond, TSecondEnumerator> second
             )
             where T : unmanaged, IEquatable<T>
-            where TSource : struct, ISequence<T>
-            where TSecond : struct, ISequence<T>
+            where TSource : struct, ISequence<T, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<T>
+            where TSecond : struct, ISequence<T, TSecondEnumerator>
+            where TSecondEnumerator : struct, IEnumerator<T>
         {
-            var sourceSeq = source.GetEnumerator();
-            var secondSeq = second.GetEnumerator();
-            var seq = new UnionSequence<T, TSource, TSecond>(ref sourceSeq, ref secondSeq);
-            return ValueSequence<T>.New(ref seq);
+            var sourceSeq = source.Source;
+            var secondSeq = second.Source;
+            var seq = new UnionSequence<T, TSource, TSourceEnumerator, TSecond, TSecondEnumerator>(in sourceSeq, in secondSeq);
+            return ValueSequence<T, UnionSequence<T, TSource, TSourceEnumerator, TSecond, TSecondEnumerator>.Enumerator>.New(in seq);
         }
 
-        public static ValueSequence<T, UnionSequence<T, TSource, NativeArraySequence<T>>> Union<T, TSource>(
-            this in ValueSequence<T, TSource> source,
+        public static ValueSequence<
+            T,
+            UnionSequence<T, TSource, TSourceEnumerator, NativeArraySequence<T>, NativeArray<T>.Enumerator>,
+            UnionSequence<T, TSource, TSourceEnumerator, NativeArraySequence<T>, NativeArray<T>.Enumerator>.Enumerator>
+        Union<T, TSource, TSourceEnumerator>(
+            this in ValueSequence<T, TSource, TSourceEnumerator> source,
             in NativeArray<T> second
             )
             where T : unmanaged, IEquatable<T>
-            where TSource : struct, ISequence<T>
+            where TSource : struct, ISequence<T, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<T>
         {
             var secondSeq = second.ToValueSequence();
             return source.Union(in secondSeq);
         }
     }
 
-    public struct UnionSequence<T, TSource, TSecond> : ISequence<T>
+    public struct UnionSequence<T, TSource, TSourceEnumerator, TSecond, TSecondEnumerator>
+        : ISequence<T, UnionSequence<T, TSource, TSourceEnumerator, TSecond, TSecondEnumerator>.Enumerator>
         where T : unmanaged, IEquatable<T>
-        where TSource : struct, ISequence<T>
-        where TSecond : struct, ISequence<T>
+        where TSource : struct, ISequence<T, TSourceEnumerator>
+        where TSourceEnumerator : struct, IEnumerator<T>
+        where TSecond : struct, ISequence<T, TSecondEnumerator>
+        where TSecondEnumerator : struct, IEnumerator<T>
     {
-        public TSource source;
-        public TSecond second;
+        public struct Enumerator : IEnumerator<T>
+        {
+            TSourceEnumerator sourceEnumerator;
+            TSecondEnumerator secondEnumerator;
+            NativeHashSet<T> union;
 
-        NativeHashSet<T> union;
+            public Enumerator(
+                in TSource source,
+                in TSecond second
+                )
+            {
+                sourceEnumerator = source.GetEnumerator();
+                secondEnumerator = second.GetEnumerator();
+                union = new NativeHashSet<T>(1, Allocator.Temp);
+                Current = default;
+            }
 
-        public UnionSequence(ref TSource source, ref TSecond second)
+            public T Current { get; private set; }
+
+            object IEnumerator.Current => Current;
+
+            public void Dispose()
+            {
+                sourceEnumerator.Dispose();
+                secondEnumerator.Dispose();
+                union.Dispose();
+            }
+
+            public bool MoveNext()
+            {
+                while (sourceEnumerator.MoveNext())
+                {
+                    Current = sourceEnumerator.Current;
+                    if (union.Add(Current))
+                        return true;
+                }
+                while (secondEnumerator.MoveNext())
+                {
+                    Current = secondEnumerator.Current;
+                    if (union.Add(Current))
+                        return true;
+                }
+                return false;
+            }
+
+            public void Reset()
+            {
+                throw new NotSupportedException();
+            }
+        }
+
+        readonly TSource source;
+
+        readonly TSecond second;
+
+        public UnionSequence(in TSource source, in TSecond second)
         {
             this.source = source;
             this.second = second;
-            union = default;
-            Current = default;
-        }
-
-        public T Current { get; private set; }
-
-        object IEnumerator.Current => Current;
-
-        public void Dispose()
-        {
-            source.Dispose();
-            second.Dispose();
-            union.Dispose();
-        }
-
-        public bool MoveNext()
-        {
-            if (!union.IsCreated)
-                union = new NativeHashSet<T>(0, Allocator.Temp);
-            while (source.MoveNext())
-            {
-                Current = source.Current;
-                if (union.Add(Current))
-                    return true;
-            }
-            while (second.MoveNext())
-            {
-                Current = second.Current;
-                if (union.Add(Current))
-                    return true;
-            }
-            return false;
-        }
-
-        public void Reset()
-        {
-            throw new NotSupportedException();
         }
 
         public NativeList<T> ToNativeList(Allocator allocator)
@@ -100,6 +128,21 @@ namespace CareBoo.Blinq
             secondList.Dispose();
             set.Dispose();
             return sourceList;
+        }
+
+        public Enumerator GetEnumerator()
+        {
+            return new Enumerator(in source, in second);
+        }
+
+        IEnumerator<T> IEnumerable<T>.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }

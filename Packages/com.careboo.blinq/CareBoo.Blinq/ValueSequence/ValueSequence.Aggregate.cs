@@ -1,18 +1,20 @@
-﻿using CareBoo.Burst.Delegates;
+﻿using System.Collections.Generic;
+using CareBoo.Burst.Delegates;
 using Unity.Collections;
 
 namespace CareBoo.Blinq
 {
     public static partial class Sequence
     {
-        public static TResult Aggregate<T, TSource, TAccumulate, TResult, TFunc, TResultSelector>(
-            this in ValueSequence<T, TSource> source,
+        public static TResult Aggregate<T, TSource, TSourceEnumerator, TAccumulate, TResult, TFunc, TResultSelector>(
+            this in ValueSequence<T, TSource, TSourceEnumerator> source,
             TAccumulate seed,
-            in ValueFunc<TAccumulate, T, TAccumulate>.Struct<TFunc> func,
-            in ValueFunc<TAccumulate, TResult>.Struct<TResultSelector> resultSelector
+            ValueFunc<TAccumulate, T, TAccumulate>.Struct<TFunc> func,
+            ValueFunc<TAccumulate, TResult>.Struct<TResultSelector> resultSelector
             )
             where T : struct
-            where TSource : struct, ISequence<T>
+            where TSource : struct, ISequence<T, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<T>
             where TAccumulate : struct
             where TResult : struct
             where TFunc : struct, IFunc<TAccumulate, T, TAccumulate>
@@ -26,13 +28,14 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public static TAccumulate Aggregate<T, TSource, TAccumulate, TFunc>(
-            this in ValueSequence<T, TSource> source,
+        public static TAccumulate Aggregate<T, TSource, TSourceEnumerator, TAccumulate, TFunc>(
+            this in ValueSequence<T, TSource, TSourceEnumerator> source,
             TAccumulate seed,
-            in ValueFunc<TAccumulate, T, TAccumulate>.Struct<TFunc> func
+            ValueFunc<TAccumulate, T, TAccumulate>.Struct<TFunc> func
             )
             where T : struct
-            where TSource : struct, ISequence<T>
+            where TSource : struct, ISequence<T, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<T>
             where TAccumulate : struct
             where TFunc : struct, IFunc<TAccumulate, T, TAccumulate>
         {
@@ -43,12 +46,13 @@ namespace CareBoo.Blinq
             return seed;
         }
 
-        public static T Aggregate<T, TSource, TFunc>(
-            this in ValueSequence<T, TSource> source,
-            in ValueFunc<T, T, T>.Struct<TFunc> func
+        public static T Aggregate<T, TSource, TSourceEnumerator, TFunc>(
+            this in ValueSequence<T, TSource, TSourceEnumerator> source,
+            ValueFunc<T, T, T>.Struct<TFunc> func
             )
             where T : struct
-            where TSource : struct, ISequence<T>
+            where TSource : struct, ISequence<T, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<T>
             where TFunc : struct, IFunc<T, T, T>
         {
             var sourceList = source.ToNativeList(Allocator.Temp);

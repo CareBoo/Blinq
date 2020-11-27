@@ -1,81 +1,109 @@
 using Unity.Collections;
 using CareBoo.Burst.Delegates;
 using System.Collections;
+using System.Collections.Generic;
+using System;
 
 namespace CareBoo.Blinq
 {
     public static partial class Sequence
     {
-        public static ValueSequence<T, SkipWhileIndexSequence<T, TSource, TPredicate>> SkipWhile<T, TSource, TPredicate>(
-            this in ValueSequence<T, TSource> source,
-            in ValueFunc<T, int, bool>.Struct<TPredicate> predicate
+        public static ValueSequence<
+            T,
+            SkipWhileSequence<T, TSource, TSourceEnumerator, TPredicate>,
+            SkipWhileSequence<T, TSource, TSourceEnumerator, TPredicate>.Enumerator>
+        SkipWhile<T, TSource, TSourceEnumerator, TPredicate>(
+            this in ValueSequence<T, TSource, TSourceEnumerator> source,
+            ValueFunc<T, int, bool>.Struct<TPredicate> predicate
             )
             where T : struct
-            where TSource : struct, ISequence<T>
+            where TSource : struct, ISequence<T, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<T>
             where TPredicate : struct, IFunc<T, int, bool>
         {
-            var sourceSeq = source.GetEnumerator();
-            var seq = new SkipWhileIndexSequence<T, TSource, TPredicate>(ref sourceSeq, in predicate);
-            return ValueSequence<T>.New(ref seq);
+            var sourceSeq = source.Source;
+            var seq = new SkipWhileSequence<T, TSource, TSourceEnumerator, TPredicate>(in sourceSeq, predicate);
+            return ValueSequence<T, SkipWhileSequence<T, TSource, TSourceEnumerator, TPredicate>.Enumerator>.New(in seq);
         }
 
-        public static ValueSequence<T, SkipWhileSequence<T, TSource, TPredicate>> SkipWhile<T, TSource, TPredicate>(
-            this in ValueSequence<T, TSource> source,
-            in ValueFunc<T, bool>.Struct<TPredicate> predicate
+        public static ValueSequence<
+            T,
+            SkipWhileSequence<T, TSource, TSourceEnumerator, IgnoreIndex<T, bool, TPredicate>>,
+            SkipWhileSequence<T, TSource, TSourceEnumerator, IgnoreIndex<T, bool, TPredicate>>.Enumerator>
+        SkipWhile<T, TSource, TSourceEnumerator, TPredicate>(
+            this in ValueSequence<T, TSource, TSourceEnumerator> source,
+            ValueFunc<T, bool>.Struct<TPredicate> predicate
             )
             where T : struct
-            where TSource : struct, ISequence<T>
+            where TSource : struct, ISequence<T, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<T>
             where TPredicate : struct, IFunc<T, bool>
         {
-            var sourceSeq = source.GetEnumerator();
-            var seq = new SkipWhileSequence<T, TSource, TPredicate>(ref sourceSeq, in predicate);
-            return ValueSequence<T>.New(ref seq);
+            var indexPredicate = UtilFunctions.IgnoreIndex(predicate);
+            return source.SkipWhile(indexPredicate);
         }
     }
 
-    public struct SkipWhileIndexSequence<T, TSource, TPredicate> : ISequence<T>
+    public struct SkipWhileSequence<T, TSource, TSourceEnumerator, TPredicate>
+        : ISequence<T, SkipWhileSequence<T, TSource, TSourceEnumerator, TPredicate>.Enumerator>
         where T : struct
-        where TSource : struct, ISequence<T>
+        where TSource : struct, ISequence<T, TSourceEnumerator>
+        where TSourceEnumerator : struct, IEnumerator<T>
         where TPredicate : struct, IFunc<T, int, bool>
     {
-        TSource source;
+        public struct Enumerator : IEnumerator<T>
+        {
+            readonly ValueFunc<T, int, bool>.Struct<TPredicate> predicate;
+            TSourceEnumerator sourceEnumerator;
+            int currentIndex;
+
+            public Enumerator(
+                in TSource source,
+                ValueFunc<T, int, bool>.Struct<TPredicate> predicate
+                )
+            {
+                this.predicate = predicate;
+                sourceEnumerator = source.GetEnumerator();
+                currentIndex = -1;
+            }
+
+            public T Current => sourceEnumerator.Current;
+
+            object IEnumerator.Current => Current;
+
+            public void Dispose()
+            {
+                sourceEnumerator.Dispose();
+            }
+
+            public bool MoveNext()
+            {
+                if (currentIndex > -1)
+                    return sourceEnumerator.MoveNext();
+                while (sourceEnumerator.MoveNext())
+                {
+                    currentIndex += 1;
+                    if (!predicate.Invoke(sourceEnumerator.Current, currentIndex))
+                        return true;
+                }
+                return false;
+            }
+
+            public void Reset()
+            {
+                throw new NotSupportedException();
+            }
+        }
+
+        readonly TSource source;
+
         readonly ValueFunc<T, int, bool>.Struct<TPredicate> predicate;
 
-        int currentIndex;
 
-        public SkipWhileIndexSequence(ref TSource source, in ValueFunc<T, int, bool>.Struct<TPredicate> predicate)
+        public SkipWhileSequence(in TSource source, ValueFunc<T, int, bool>.Struct<TPredicate> predicate)
         {
             this.source = source;
             this.predicate = predicate;
-            currentIndex = 0;
-        }
-
-        public T Current => source.Current;
-
-        object IEnumerator.Current => Current;
-
-        public void Dispose()
-        {
-            source.Dispose();
-        }
-
-        public bool MoveNext()
-        {
-            if (currentIndex > 0)
-                return source.MoveNext();
-            var isNext = source.MoveNext();
-            while (isNext && predicate.Invoke(source.Current, currentIndex))
-            {
-                currentIndex += 1;
-                isNext = source.MoveNext();
-            }
-            return isNext;
-        }
-
-        public void Reset()
-        {
-            currentIndex = default;
-            source.Reset();
         }
 
         public NativeList<T> ToNativeList(Allocator allocator)
@@ -90,62 +118,20 @@ namespace CareBoo.Blinq
             list.Clear();
             return list;
         }
-    }
 
-    public struct SkipWhileSequence<T, TSource, TPredicate> : ISequence<T>
-        where T : struct
-        where TSource : struct, ISequence<T>
-        where TPredicate : struct, IFunc<T, bool>
-    {
-        public TSource source;
-        public ValueFunc<T, bool>.Struct<TPredicate> predicate;
-
-        bool currentIndex;
-
-        public SkipWhileSequence(ref TSource source, in ValueFunc<T, bool>.Struct<TPredicate> predicate)
+        public Enumerator GetEnumerator()
         {
-            this.source = source;
-            this.predicate = predicate;
-            currentIndex = false;
+            return new Enumerator(in source, predicate);
         }
 
-        public T Current => source.Current;
-
-        object IEnumerator.Current => Current;
-
-        public void Dispose()
+        IEnumerator<T> IEnumerable<T>.GetEnumerator()
         {
-            source.Dispose();
+            return GetEnumerator();
         }
 
-        public bool MoveNext()
+        IEnumerator IEnumerable.GetEnumerator()
         {
-            if (currentIndex)
-                return source.MoveNext();
-            currentIndex = true;
-            var isNext = source.MoveNext();
-            while (isNext && predicate.Invoke(source.Current))
-                isNext = source.MoveNext();
-            return isNext;
-        }
-
-        public void Reset()
-        {
-            currentIndex = default;
-            source.Reset();
-        }
-
-        public NativeList<T> ToNativeList(Allocator allocator)
-        {
-            var list = source.ToNativeList(allocator);
-            for (var i = 0; i < list.Length; i++)
-                if (!predicate.Invoke(list[i]))
-                {
-                    list.RemoveRangeWithBeginEnd(0, i);
-                    return list;
-                }
-            list.Clear();
-            return list;
+            return GetEnumerator();
         }
     }
 }

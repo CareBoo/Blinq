@@ -2,43 +2,55 @@
 using Unity.Collections;
 using CareBoo.Burst.Delegates;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace CareBoo.Blinq
 {
     public static partial class Sequence
     {
-        public static ValueSequence<TResult, GroupJoinSequence<TOuter, TOuterSequence, TInner, TInnerSequence, TKey, TOuterKeySelector, TInnerKeySelector, TResult, TResultSelector>> GroupJoin<TOuter, TOuterSequence, TInner, TInnerSequence, TKey, TOuterKeySelector, TInnerKeySelector, TResult, TResultSelector>(
-            this in ValueSequence<TOuter, TOuterSequence> outer,
-            in ValueSequence<TInner, TInnerSequence> inner,
-            in ValueFunc<TOuter, TKey>.Struct<TOuterKeySelector> outerKeySelector,
-            in ValueFunc<TInner, TKey>.Struct<TInnerKeySelector> innerKeySelector,
-            in ValueFunc<TOuter, NativeArray<TInner>, TResult>.Struct<TResultSelector> resultSelector
+        public static ValueSequence<
+            TResult,
+            GroupJoinSequence<TOuter, TOuterSequence, TOuterEnumerator, TInner, TInnerSequence, TInnerEnumerator, TKey, TOuterKeySelector, TInnerKeySelector, TResult, TResultSelector>,
+            GroupJoinSequence<TOuter, TOuterSequence, TOuterEnumerator, TInner, TInnerSequence, TInnerEnumerator, TKey, TOuterKeySelector, TInnerKeySelector, TResult, TResultSelector>.Enumerator>
+        GroupJoin<TOuter, TOuterSequence, TOuterEnumerator, TInner, TInnerSequence, TInnerEnumerator, TKey, TOuterKeySelector, TInnerKeySelector, TResult, TResultSelector>(
+            this in ValueSequence<TOuter, TOuterSequence, TOuterEnumerator> outer,
+            in ValueSequence<TInner, TInnerSequence, TInnerEnumerator> inner,
+            ValueFunc<TOuter, TKey>.Struct<TOuterKeySelector> outerKeySelector,
+            ValueFunc<TInner, TKey>.Struct<TInnerKeySelector> innerKeySelector,
+            ValueFunc<TOuter, NativeArray<TInner>, TResult>.Struct<TResultSelector> resultSelector
             )
             where TOuter : struct
-            where TOuterSequence : struct, ISequence<TOuter>
+            where TOuterSequence : struct, ISequence<TOuter, TOuterEnumerator>
+            where TOuterEnumerator : struct, IEnumerator<TOuter>
             where TInner : struct
-            where TInnerSequence : struct, ISequence<TInner>
+            where TInnerSequence : struct, ISequence<TInner, TInnerEnumerator>
+            where TInnerEnumerator : struct, IEnumerator<TInner>
             where TKey : struct, IEquatable<TKey>
             where TOuterKeySelector : struct, IFunc<TOuter, TKey>
             where TInnerKeySelector : struct, IFunc<TInner, TKey>
             where TResult : struct
             where TResultSelector : struct, IFunc<TOuter, NativeArray<TInner>, TResult>
         {
-            var outerSeq = outer.GetEnumerator();
-            var innerSeq = inner.GetEnumerator();
-            var seq = GroupJoinSequence.New(ref outerSeq, ref innerSeq, in outerKeySelector, in innerKeySelector, in resultSelector);
-            return ValueSequence<TResult>.New(ref seq);
+            var outerSeq = outer.Source;
+            var innerSeq = inner.Source;
+            var seq = new GroupJoinSequence<TOuter, TOuterSequence, TOuterEnumerator, TInner, TInnerSequence, TInnerEnumerator, TKey, TOuterKeySelector, TInnerKeySelector, TResult, TResultSelector>(in outerSeq, in innerSeq, outerKeySelector, innerKeySelector, resultSelector);
+            return ValueSequence<TResult, GroupJoinSequence<TOuter, TOuterSequence, TOuterEnumerator, TInner, TInnerSequence, TInnerEnumerator, TKey, TOuterKeySelector, TInnerKeySelector, TResult, TResultSelector>.Enumerator>.New(in seq);
         }
 
-        public static ValueSequence<TResult, GroupJoinSequence<TOuter, TOuterSequence, TInner, NativeArraySequence<TInner>, TKey, TOuterKeySelector, TInnerKeySelector, TResult, TResultSelector>> GroupJoin<TOuter, TOuterSequence, TInner, TKey, TOuterKeySelector, TInnerKeySelector, TResult, TResultSelector>(
-            this in ValueSequence<TOuter, TOuterSequence> outer,
+        public static ValueSequence<
+            TResult,
+            GroupJoinSequence<TOuter, TOuterSequence, TOuterEnumerator, TInner, NativeArraySequence<TInner>, NativeArray<TInner>.Enumerator, TKey, TOuterKeySelector, TInnerKeySelector, TResult, TResultSelector>,
+            GroupJoinSequence<TOuter, TOuterSequence, TOuterEnumerator, TInner, NativeArraySequence<TInner>, NativeArray<TInner>.Enumerator, TKey, TOuterKeySelector, TInnerKeySelector, TResult, TResultSelector>.Enumerator>
+        GroupJoin<TOuter, TOuterSequence, TOuterEnumerator, TInner, TKey, TOuterKeySelector, TInnerKeySelector, TResult, TResultSelector>(
+            this in ValueSequence<TOuter, TOuterSequence, TOuterEnumerator> outer,
             in NativeArray<TInner> inner,
-            in ValueFunc<TOuter, TKey>.Struct<TOuterKeySelector> outerKeySelector,
-            in ValueFunc<TInner, TKey>.Struct<TInnerKeySelector> innerKeySelector,
-            in ValueFunc<TOuter, NativeArray<TInner>, TResult>.Struct<TResultSelector> resultSelector
+            ValueFunc<TOuter, TKey>.Struct<TOuterKeySelector> outerKeySelector,
+            ValueFunc<TInner, TKey>.Struct<TInnerKeySelector> innerKeySelector,
+            ValueFunc<TOuter, NativeArray<TInner>, TResult>.Struct<TResultSelector> resultSelector
             )
             where TOuter : struct
-            where TOuterSequence : struct, ISequence<TOuter>
+            where TOuterSequence : struct, ISequence<TOuter, TOuterEnumerator>
+            where TOuterEnumerator : struct, IEnumerator<TOuter>
             where TInner : struct
             where TKey : struct, IEquatable<TKey>
             where TOuterKeySelector : struct, IFunc<TOuter, TKey>
@@ -46,39 +58,94 @@ namespace CareBoo.Blinq
             where TResult : struct
             where TResultSelector : struct, IFunc<TOuter, NativeArray<TInner>, TResult>
         {
-            var outerSeq = outer.GetEnumerator();
-            var innerSeq = inner.ToValueSequence().GetEnumerator();
-            var seq = GroupJoinSequence.New(ref outerSeq, ref innerSeq, outerKeySelector, innerKeySelector, resultSelector);
-            return ValueSequence<TResult>.New(ref seq);
+            var innerSeq = inner.ToValueSequence();
+            return outer.GroupJoin(in innerSeq, outerKeySelector, innerKeySelector, resultSelector);
         }
     }
 
-    public struct GroupJoinSequence<TOuter, TOuterSequence, TInner, TInnerSequence, TKey, TOuterKeySelector, TInnerKeySelector, TResult, TResultSelector>
-        : ISequence<TResult>
+    public struct GroupJoinSequence<TOuter, TOuterSequence, TOuterEnumerator, TInner, TInnerSequence, TInnerEnumerator, TKey, TOuterKeySelector, TInnerKeySelector, TResult, TResultSelector>
+        : ISequence<TResult, GroupJoinSequence<TOuter, TOuterSequence, TOuterEnumerator, TInner, TInnerSequence, TInnerEnumerator, TKey, TOuterKeySelector, TInnerKeySelector, TResult, TResultSelector>.Enumerator>
         where TOuter : struct
-        where TOuterSequence : struct, ISequence<TOuter>
+        where TOuterSequence : struct, ISequence<TOuter, TOuterEnumerator>
+        where TOuterEnumerator : struct, IEnumerator<TOuter>
         where TInner : struct
-        where TInnerSequence : struct, ISequence<TInner>
+        where TInnerSequence : struct, ISequence<TInner, TInnerEnumerator>
+        where TInnerEnumerator : struct, IEnumerator<TInner>
         where TKey : struct, IEquatable<TKey>
         where TOuterKeySelector : struct, IFunc<TOuter, TKey>
         where TInnerKeySelector : struct, IFunc<TInner, TKey>
         where TResult : struct
         where TResultSelector : struct, IFunc<TOuter, NativeArray<TInner>, TResult>
     {
-        TOuterSequence outer;
-        TInnerSequence inner;
+        public struct Enumerator : IEnumerator<TResult>
+        {
+            TOuterEnumerator outerEnumerator;
+            NativeMultiHashMap<TKey, TInner> innerMap;
+            readonly ValueFunc<TOuter, TKey>.Struct<TOuterKeySelector> outerKeySelector;
+            readonly ValueFunc<TInner, TKey>.Struct<TInnerKeySelector> innerKeySelector;
+            readonly ValueFunc<TOuter, NativeArray<TInner>, TResult>.Struct<TResultSelector> resultSelector;
+
+            public Enumerator(
+                in TOuterSequence outer,
+                in TInnerSequence inner,
+                ValueFunc<TOuter, TKey>.Struct<TOuterKeySelector> outerKeySelector,
+                ValueFunc<TInner, TKey>.Struct<TInnerKeySelector> innerKeySelector,
+                ValueFunc<TOuter, NativeArray<TInner>, TResult>.Struct<TResultSelector> resultSelector
+                )
+            {
+                outerEnumerator = outer.GetEnumerator();
+                this.outerKeySelector = outerKeySelector;
+                this.innerKeySelector = innerKeySelector;
+                this.resultSelector = resultSelector;
+                var innerList = inner.ToNativeList(Allocator.Temp);
+                innerMap = new NativeMultiHashMap<TKey, TInner>(innerList.Length, Allocator.Temp);
+                for (var i = 0; i < innerList.Length; i++)
+                    innerMap.Add(innerKeySelector.Invoke(innerList[i]), innerList[i]);
+                innerList.Dispose();
+                Current = default;
+            }
+
+            public TResult Current { get; private set; }
+
+            object IEnumerator.Current => Current;
+
+            public bool MoveNext()
+            {
+                if (!outerEnumerator.MoveNext())
+                    return false;
+
+                var currentOuter = outerEnumerator.Current;
+                var key = outerKeySelector.Invoke(currentOuter);
+                var innerGroup = GetInnerGroup(key, innerMap);
+                Current = resultSelector.Invoke(currentOuter, innerGroup);
+                innerGroup.Dispose();
+                return true;
+            }
+
+            public void Reset()
+            {
+                throw new NotSupportedException();
+            }
+
+            public void Dispose()
+            {
+                outerEnumerator.Dispose();
+                innerMap.Dispose();
+            }
+        }
+
+        readonly TOuterSequence outer;
+        readonly TInnerSequence inner;
         readonly ValueFunc<TOuter, TKey>.Struct<TOuterKeySelector> outerKeySelector;
         readonly ValueFunc<TInner, TKey>.Struct<TInnerKeySelector> innerKeySelector;
         readonly ValueFunc<TOuter, NativeArray<TInner>, TResult>.Struct<TResultSelector> resultSelector;
 
-        NativeMultiHashMap<TKey, TInner> innerMap;
-
         public GroupJoinSequence(
-            ref TOuterSequence outer,
-            ref TInnerSequence inner,
-            in ValueFunc<TOuter, TKey>.Struct<TOuterKeySelector> outerKeySelector,
-            in ValueFunc<TInner, TKey>.Struct<TInnerKeySelector> innerKeySelector,
-            in ValueFunc<TOuter, NativeArray<TInner>, TResult>.Struct<TResultSelector> resultSelector
+            in TOuterSequence outer,
+            in TInnerSequence inner,
+            ValueFunc<TOuter, TKey>.Struct<TOuterKeySelector> outerKeySelector,
+            ValueFunc<TInner, TKey>.Struct<TInnerKeySelector> innerKeySelector,
+            ValueFunc<TOuter, NativeArray<TInner>, TResult>.Struct<TResultSelector> resultSelector
             )
         {
             this.outer = outer;
@@ -86,47 +153,6 @@ namespace CareBoo.Blinq
             this.outerKeySelector = outerKeySelector;
             this.innerKeySelector = innerKeySelector;
             this.resultSelector = resultSelector;
-            innerMap = default;
-            Current = default;
-        }
-
-        public TResult Current { get; private set; }
-
-        object IEnumerator.Current => Current;
-
-        public void Dispose()
-        {
-            outer.Dispose();
-            inner.Dispose();
-            if (innerMap.IsCreated)
-                innerMap.Dispose();
-        }
-
-        public bool MoveNext()
-        {
-            if (!outer.MoveNext())
-                return false;
-
-            if (!innerMap.IsCreated)
-            {
-                var innerList = inner.ToNativeList(Allocator.Temp);
-                innerMap = new NativeMultiHashMap<TKey, TInner>(innerList.Length, Allocator.Temp);
-                for (var i = 0; i < innerList.Length; i++)
-                    innerMap.Add(innerKeySelector.Invoke(innerList[i]), innerList[i]);
-                innerList.Dispose();
-            }
-
-            var currentOuter = outer.Current;
-            var key = outerKeySelector.Invoke(currentOuter);
-            var innerGroup = GetInnerGroup(key, innerMap);
-            Current = resultSelector.Invoke(currentOuter, innerGroup);
-            innerGroup.Dispose();
-            return true;
-        }
-
-        public void Reset()
-        {
-            throw new NotSupportedException();
         }
 
         public NativeList<TResult> ToNativeList(Allocator allocator)
@@ -166,7 +192,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        private NativeList<TInner> GetInnerGroup(TKey key, NativeMultiHashMap<TKey, TInner> groupMap)
+        private static NativeList<TInner> GetInnerGroup(TKey key, NativeMultiHashMap<TKey, TInner> groupMap)
         {
             var result = new NativeList<TInner>(Allocator.Temp);
             var innersEnum = groupMap.GetValuesForKey(key);
@@ -174,28 +200,20 @@ namespace CareBoo.Blinq
                 result.Add(innersEnum.Current);
             return result;
         }
-    }
 
-    public static class GroupJoinSequence
-    {
-        public static GroupJoinSequence<TOuter, TOuterSequence, TInner, TInnerSequence, TKey, TOuterKeySelector, TInnerKeySelector, TResult, TResultSelector> New<TOuter, TOuterSequence, TInner, TInnerSequence, TKey, TOuterKeySelector, TInnerKeySelector, TResult, TResultSelector>(
-            ref TOuterSequence outer,
-            ref TInnerSequence inner,
-            in ValueFunc<TOuter, TKey>.Struct<TOuterKeySelector> outerKeySelector,
-            in ValueFunc<TInner, TKey>.Struct<TInnerKeySelector> innerKeySelector,
-            in ValueFunc<TOuter, NativeArray<TInner>, TResult>.Struct<TResultSelector> resultSelector
-            )
-            where TOuter : struct
-            where TOuterSequence : struct, ISequence<TOuter>
-            where TInner : struct
-            where TInnerSequence : struct, ISequence<TInner>
-            where TKey : struct, IEquatable<TKey>
-            where TOuterKeySelector : struct, IFunc<TOuter, TKey>
-            where TInnerKeySelector : struct, IFunc<TInner, TKey>
-            where TResult : struct
-            where TResultSelector : struct, IFunc<TOuter, NativeArray<TInner>, TResult>
+        public Enumerator GetEnumerator()
         {
-            return new GroupJoinSequence<TOuter, TOuterSequence, TInner, TInnerSequence, TKey, TOuterKeySelector, TInnerKeySelector, TResult, TResultSelector>(ref outer, ref inner, in outerKeySelector, in innerKeySelector, in resultSelector);
+            return new Enumerator(in outer, in inner, outerKeySelector, innerKeySelector, resultSelector);
+        }
+
+        IEnumerator<TResult> IEnumerable<TResult>.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }

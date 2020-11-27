@@ -6,13 +6,15 @@ namespace CareBoo.Blinq
 {
     public static partial class Sequence
     {
-        public static bool SequenceEqual<T, TSource, TSecond>(
-            this in ValueSequence<T, TSource> source,
-            in ValueSequence<T, TSecond> second
+        public static bool SequenceEqual<T, TSource, TSourceEnumerator, TSecond, TSecondEnumerator>(
+            this in ValueSequence<T, TSource, TSourceEnumerator> source,
+            in ValueSequence<T, TSecond, TSecondEnumerator> second
             )
             where T : struct, IEquatable<T>
-            where TSource : struct, ISequence<T>
-            where TSecond : struct, ISequence<T>
+            where TSource : struct, ISequence<T, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<T>
+            where TSecond : struct, ISequence<T, TSecondEnumerator>
+            where TSecondEnumerator : struct, IEnumerator<T>
         {
             var sourceList = source.ToNativeList(Allocator.Temp);
             var secondList = second.ToNativeList(Allocator.Temp);
@@ -22,14 +24,16 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public static bool SequenceEqual<T, TSource, TSecond, TComparer>(
-            this in ValueSequence<T, TSource> source,
-            in ValueSequence<T, TSecond> second,
+        public static bool SequenceEqual<T, TSource, TSourceEnumerator, TSecond, TSecondEnumerator, TComparer>(
+            this in ValueSequence<T, TSource, TSourceEnumerator> source,
+            in ValueSequence<T, TSecond, TSecondEnumerator> second,
             in TComparer comparer
             )
             where T : struct, IEquatable<T>
-            where TSource : struct, ISequence<T>
-            where TSecond : struct, ISequence<T>
+            where TSource : struct, ISequence<T, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<T>
+            where TSecond : struct, ISequence<T, TSecondEnumerator>
+            where TSecondEnumerator : struct, IEnumerator<T>
             where TComparer : struct, IEqualityComparer<T>
         {
             var sourceList = source.ToNativeList(Allocator.Temp);
@@ -55,12 +59,13 @@ namespace CareBoo.Blinq
             return true;
         }
 
-        public static bool SequenceEqual<T, TSource>(
-            this in ValueSequence<T, TSource> source,
+        public static bool SequenceEqual<T, TSource, TSourceEnumerator>(
+            this in ValueSequence<T, TSource, TSourceEnumerator> source,
             in NativeArray<T> second
             )
             where T : struct, IEquatable<T>
-            where TSource : struct, ISequence<T>
+            where TSource : struct, ISequence<T, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<T>
         {
             var sourceList = source.ToNativeList(Allocator.Temp);
             var result = sourceList.AsArray().ArraysEqual(second);
@@ -68,13 +73,14 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public static bool SequenceEqual<T, TSource, TComparer>(
-            this in ValueSequence<T, TSource> source,
+        public static bool SequenceEqual<T, TSource, TSourceEnumerator, TComparer>(
+            this in ValueSequence<T, TSource, TSourceEnumerator> source,
             in NativeArray<T> second,
             in TComparer comparer
             )
             where T : struct, IEquatable<T>
-            where TSource : struct, ISequence<T>
+            where TSource : struct, ISequence<T, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<T>
             where TComparer : struct, IEqualityComparer<T>
         {
             var sourceList = source.ToNativeList(Allocator.Temp);

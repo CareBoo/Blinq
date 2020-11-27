@@ -2,222 +2,173 @@
 using CareBoo.Burst.Delegates;
 using System.Collections;
 using System;
+using System.Collections.Generic;
 
 namespace CareBoo.Blinq
 {
     public static partial class Sequence
     {
-        public static ValueSequence<TResult, SelectManySequence<T, TSource, TCollection, TResult, TCollectionSelector, TResultSelector>> SelectMany<T, TSource, TCollection, TResult, TCollectionSelector, TResultSelector>(
-            this in ValueSequence<T, TSource> source,
-            in ValueFunc<T, NativeArray<TCollection>>.Struct<TCollectionSelector> collectionSelector,
-            in ValueFunc<T, TCollection, TResult>.Struct<TResultSelector> resultSelector
+        public static ValueSequence<
+            TResult,
+            SelectManySequence<T, TSource, TSourceEnumerator, TCollection, IgnoreIndex<T, NativeArray<TCollection>, TCollectionSelector>, TResult, TResultSelector>,
+            SelectManySequence<T, TSource, TSourceEnumerator, TCollection, IgnoreIndex<T, NativeArray<TCollection>, TCollectionSelector>, TResult, TResultSelector>.Enumerator>
+        SelectMany<T, TSource, TSourceEnumerator, TCollection, TResult, TCollectionSelector, TResultSelector>(
+            this in ValueSequence<T, TSource, TSourceEnumerator> source,
+            ValueFunc<T, NativeArray<TCollection>>.Struct<TCollectionSelector> collectionSelector,
+            ValueFunc<T, TCollection, TResult>.Struct<TResultSelector> resultSelector
             )
             where T : struct
-            where TSource : struct, ISequence<T>
+            where TSource : struct, ISequence<T, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<T>
             where TCollection : struct
-            where TResult : struct
             where TCollectionSelector : struct, IFunc<T, NativeArray<TCollection>>
-            where TResultSelector : struct, IFunc<T, TCollection, TResult>
-        {
-            var sourceSeq = source.GetEnumerator();
-            var seq = SelectManySequence.New(ref sourceSeq, in collectionSelector, in resultSelector);
-            return ValueSequence<TResult>.New(ref seq);
-        }
-
-        public static ValueSequence<TResult, SelectManyIndexSequence<T, TSource, TCollection, TResult, TCollectionSelector, TResultSelector>> SelectMany<T, TSource, TCollection, TResult, TCollectionSelector, TResultSelector>(
-            this in ValueSequence<T, TSource> source,
-            in ValueFunc<T, int, NativeArray<TCollection>>.Struct<TCollectionSelector> collectionSelector,
-            in ValueFunc<T, TCollection, TResult>.Struct<TResultSelector> resultSelector
-            )
-            where T : struct
-            where TSource : struct, ISequence<T>
-            where TCollection : struct
             where TResult : struct
-            where TCollectionSelector : struct, IFunc<T, int, NativeArray<TCollection>>
             where TResultSelector : struct, IFunc<T, TCollection, TResult>
         {
-            var sourceSeq = source.GetEnumerator();
-            var seq = SelectManySequence.New(ref sourceSeq, in collectionSelector, in resultSelector);
-            return ValueSequence<TResult>.New(ref seq);
+            var indexSelector = UtilFunctions.IgnoreIndex(collectionSelector);
+            var seq = SelectManySequence<T, TSourceEnumerator>.New(in source.Source, indexSelector, resultSelector);
+            return ValueSequence<TResult, SelectManySequence<T, TSource, TSourceEnumerator, TCollection, IgnoreIndex<T, NativeArray<TCollection>, TCollectionSelector>, TResult, TResultSelector>.Enumerator>.New(in seq);
         }
 
-        public static ValueSequence<TResult, SelectManySequence<T, TSource, TResult, TResult, TSelector, RightSelector<T, TResult>>> SelectMany<T, TSource, TResult, TSelector>(
-            this in ValueSequence<T, TSource> source,
-            in ValueFunc<T, NativeArray<TResult>>.Struct<TSelector> selector
+        public static ValueSequence<
+            TResult,
+            SelectManySequence<T, TSource, TSourceEnumerator, TCollection, TCollectionSelector, TResult, TResultSelector>,
+            SelectManySequence<T, TSource, TSourceEnumerator, TCollection, TCollectionSelector, TResult, TResultSelector>.Enumerator>
+        SelectMany<T, TSource, TSourceEnumerator, TCollection, TResult, TCollectionSelector, TResultSelector>(
+            this in ValueSequence<T, TSource, TSourceEnumerator> source,
+            ValueFunc<T, int, NativeArray<TCollection>>.Struct<TCollectionSelector> collectionSelector,
+            ValueFunc<T, TCollection, TResult>.Struct<TResultSelector> resultSelector
             )
             where T : struct
-            where TSource : struct, ISequence<T>
+            where TSource : struct, ISequence<T, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<T>
+            where TCollection : struct
+            where TCollectionSelector : struct, IFunc<T, int, NativeArray<TCollection>>
+            where TResult : struct
+            where TResultSelector : struct, IFunc<T, TCollection, TResult>
+        {
+            var seq = SelectManySequence<T, TSourceEnumerator>.New(in source.Source, collectionSelector, resultSelector);
+            return ValueSequence<TResult, SelectManySequence<T, TSource, TSourceEnumerator, TCollection, TCollectionSelector, TResult, TResultSelector>.Enumerator>.New(in seq);
+        }
+
+        public static ValueSequence<
+            TResult,
+            SelectManySequence<T, TSource, TSourceEnumerator, TResult, IgnoreIndex<T, NativeArray<TResult>, TSelector>, TResult, RightSelector<T, TResult>>,
+            SelectManySequence<T, TSource, TSourceEnumerator, TResult, IgnoreIndex<T, NativeArray<TResult>, TSelector>, TResult, RightSelector<T, TResult>>.Enumerator>
+        SelectMany<T, TSource, TSourceEnumerator, TResult, TSelector>(
+            this in ValueSequence<T, TSource, TSourceEnumerator> source,
+            ValueFunc<T, NativeArray<TResult>>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<T>
             where TResult : struct
             where TSelector : struct, IFunc<T, NativeArray<TResult>>
         {
-            var sourceSeq = source.GetEnumerator();
             var rightSelector = UtilFunctions.RightSelector<T, TResult>();
-            var seq = SelectManySequence.New(ref sourceSeq, in selector, in rightSelector);
-            return ValueSequence<TResult>.New(ref seq);
+            var indexSelector = UtilFunctions.IgnoreIndex(selector);
+            var seq = SelectManySequence<T, TSourceEnumerator>.New(in source.Source, indexSelector, rightSelector);
+            return ValueSequence<TResult, SelectManySequence<T, TSource, TSourceEnumerator, TResult, IgnoreIndex<T, NativeArray<TResult>, TSelector>, TResult, RightSelector<T, TResult>>.Enumerator>.New(in seq);
         }
 
-        public static ValueSequence<TResult, SelectManyIndexSequence<T, TSource, TResult, TResult, TSelector, RightSelector<T, TResult>>> SelectMany<T, TSource, TResult, TSelector>(
-            this in ValueSequence<T, TSource> source,
-            in ValueFunc<T, int, NativeArray<TResult>>.Struct<TSelector> selector
+        public static ValueSequence<
+            TResult,
+            SelectManySequence<T, TSource, TSourceEnumerator, TResult, TSelector, TResult, RightSelector<T, TResult>>,
+            SelectManySequence<T, TSource, TSourceEnumerator, TResult, TSelector, TResult, RightSelector<T, TResult>>.Enumerator>
+        SelectMany<T, TSource, TSourceEnumerator, TResult, TSelector>(
+            this in ValueSequence<T, TSource, TSourceEnumerator> source,
+            ValueFunc<T, int, NativeArray<TResult>>.Struct<TSelector> selector
             )
             where T : struct
-            where TSource : struct, ISequence<T>
+            where TSource : struct, ISequence<T, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<T>
             where TResult : struct
             where TSelector : struct, IFunc<T, int, NativeArray<TResult>>
         {
-            var sourceSeq = source.GetEnumerator();
             var rightSelector = UtilFunctions.RightSelector<T, TResult>();
-            var seq = SelectManySequence.New(ref sourceSeq, in selector, in rightSelector);
-            return ValueSequence<TResult>.New(ref seq);
+            var seq = SelectManySequence<T, TSourceEnumerator>.New(in source.Source, selector, rightSelector);
+            return ValueSequence<TResult, SelectManySequence<T, TSource, TSourceEnumerator, TResult, TSelector, TResult, RightSelector<T, TResult>>.Enumerator>.New(in seq);
         }
     }
 
-    public struct SelectManySequence<T, TSource, TCollection, TResult, TCollectionSelector, TResultSelector>
-        : ISequence<TResult>
+    public struct SelectManySequence<T, TSource, TSourceEnumerator, TCollection, TCollectionSelector, TResult, TResultSelector>
+        : ISequence<TResult, SelectManySequence<T, TSource, TSourceEnumerator, TCollection, TCollectionSelector, TResult, TResultSelector>.Enumerator>
         where T : struct
-        where TSource : struct, ISequence<T>
+        where TSource : struct, ISequence<T, TSourceEnumerator>
+        where TSourceEnumerator : struct, IEnumerator<T>
         where TCollection : struct
-        where TResult : struct
-        where TCollectionSelector : struct, IFunc<T, NativeArray<TCollection>>
-        where TResultSelector : struct, IFunc<T, TCollection, TResult>
-    {
-        TSource source;
-        readonly ValueFunc<T, NativeArray<TCollection>>.Struct<TCollectionSelector> collectionSelector;
-        readonly ValueFunc<T, TCollection, TResult>.Struct<TResultSelector> resultSelector;
-
-        NativeArray<TCollection> currentCollection;
-        NativeArray<TCollection>.Enumerator currentEnumerator;
-
-        public SelectManySequence(
-            ref TSource source,
-            in ValueFunc<T, NativeArray<TCollection>>.Struct<TCollectionSelector> collectionSelector,
-            in ValueFunc<T, TCollection, TResult>.Struct<TResultSelector> resultSelector
-            )
-        {
-            this.source = source;
-            this.collectionSelector = collectionSelector;
-            this.resultSelector = resultSelector;
-            currentCollection = default;
-            currentEnumerator = default;
-        }
-
-        public TResult Current => resultSelector.Invoke(source.Current, currentEnumerator.Current);
-
-        object IEnumerator.Current => Current;
-
-        public void Dispose()
-        {
-            if (currentCollection.IsCreated)
-                currentCollection.Dispose();
-            source.Dispose();
-        }
-
-        public bool MoveNext()
-        {
-            while (!currentEnumerator.MoveNext())
-            {
-                if (!source.MoveNext())
-                    return false;
-                if (currentCollection.IsCreated)
-                    currentCollection.Dispose();
-                currentCollection = collectionSelector.Invoke(source.Current);
-                currentEnumerator = currentCollection.GetEnumerator();
-            }
-            return true;
-        }
-
-        public void Reset()
-        {
-            throw new NotSupportedException();
-        }
-
-        public NativeList<TResult> ToNativeList(Allocator allocator)
-        {
-            var srcList = source.ToNativeList(Allocator.Temp);
-            var resultList = new NativeList<TResult>(allocator);
-            for (var i = 0; i < srcList.Length; i++)
-            {
-                var srcElement = srcList[i];
-                var results = GetResults(srcElement);
-                resultList.AddRange(results);
-                results.Dispose();
-            }
-            srcList.Dispose();
-            return resultList;
-        }
-
-        private NativeArray<TResult> GetResults(T srcElement)
-        {
-            var collectionArr = collectionSelector.Invoke(srcElement);
-            var resultArr = new NativeArray<TResult>(collectionArr.Length, Allocator.Temp);
-            for (var i = 0; i < collectionArr.Length; i++)
-                resultArr[i] = resultSelector.Invoke(srcElement, collectionArr[i]);
-            collectionArr.Dispose();
-            return resultArr;
-
-        }
-    }
-
-    public struct SelectManyIndexSequence<T, TSource, TCollection, TResult, TCollectionSelector, TResultSelector>
-        : ISequence<TResult>
-        where T : struct
-        where TSource : struct, ISequence<T>
-        where TCollection : struct
-        where TResult : struct
         where TCollectionSelector : struct, IFunc<T, int, NativeArray<TCollection>>
+        where TResult : struct
         where TResultSelector : struct, IFunc<T, TCollection, TResult>
     {
-        TSource source;
+        public struct Enumerator : IEnumerator<TResult>
+        {
+            readonly ValueFunc<T, TCollection, TResult>.Struct<TResultSelector> resultSelector;
+            readonly ValueFunc<T, int, NativeArray<TCollection>>.Struct<TCollectionSelector> collectionSelector;
+            TSourceEnumerator sourceEnumerator;
+            int currentIndex;
+            NativeArray<TCollection> currentCollection;
+            NativeArray<TCollection>.Enumerator currentEnumerator;
+
+            public Enumerator(
+                in TSource source,
+                ValueFunc<T, TCollection, TResult>.Struct<TResultSelector> resultSelector,
+                ValueFunc<T, int, NativeArray<TCollection>>.Struct<TCollectionSelector> collectionSelector
+                )
+            {
+                sourceEnumerator = source.GetEnumerator();
+                this.resultSelector = resultSelector;
+                this.collectionSelector = collectionSelector;
+                currentIndex = -1;
+                currentCollection = default;
+                currentEnumerator = default;
+                Current = default;
+            }
+
+            public TResult Current { get; private set; }
+
+            object IEnumerator.Current => Current;
+
+            public void Dispose()
+            {
+                sourceEnumerator.Dispose();
+            }
+
+            public bool MoveNext()
+            {
+                while (!currentEnumerator.MoveNext())
+                {
+                    if (!sourceEnumerator.MoveNext())
+                        return false;
+                    currentIndex += 1;
+                    if (currentCollection.IsCreated)
+                        currentCollection.Dispose();
+                    currentCollection = collectionSelector.Invoke(sourceEnumerator.Current, currentIndex);
+                    currentEnumerator = currentCollection.GetEnumerator();
+                }
+                Current = resultSelector.Invoke(sourceEnumerator.Current, currentEnumerator.Current);
+                return true;
+            }
+
+            public void Reset()
+            {
+                throw new NotSupportedException();
+            }
+        }
+
+        readonly TSource source;
         readonly ValueFunc<T, int, NativeArray<TCollection>>.Struct<TCollectionSelector> collectionSelector;
         readonly ValueFunc<T, TCollection, TResult>.Struct<TResultSelector> resultSelector;
 
-        int currentIndex;
-        NativeArray<TCollection> currentCollection;
-        NativeArray<TCollection>.Enumerator currentEnumerator;
-
-        public SelectManyIndexSequence(
-            ref TSource source,
-            in ValueFunc<T, int, NativeArray<TCollection>>.Struct<TCollectionSelector> collectionSelector,
-            in ValueFunc<T, TCollection, TResult>.Struct<TResultSelector> resultSelector
+        public SelectManySequence(
+            in TSource source,
+            ValueFunc<T, int, NativeArray<TCollection>>.Struct<TCollectionSelector> collectionSelector,
+            ValueFunc<T, TCollection, TResult>.Struct<TResultSelector> resultSelector
             )
         {
             this.source = source;
             this.collectionSelector = collectionSelector;
             this.resultSelector = resultSelector;
-            currentIndex = -1;
-            currentCollection = default;
-            currentEnumerator = default;
-        }
-
-        public TResult Current => resultSelector.Invoke(source.Current, currentEnumerator.Current);
-
-        object IEnumerator.Current => Current;
-
-        public void Dispose()
-        {
-            if (currentCollection.IsCreated)
-                currentCollection.Dispose();
-            source.Dispose();
-        }
-
-        public bool MoveNext()
-        {
-            while (!currentEnumerator.MoveNext())
-            {
-                if (!source.MoveNext())
-                    return false;
-                currentIndex += 1;
-                if (currentCollection.IsCreated)
-                    currentCollection.Dispose();
-                currentCollection = collectionSelector.Invoke(source.Current, currentIndex);
-                currentEnumerator = currentCollection.GetEnumerator();
-            }
-            return true;
-        }
-
-        public void Reset()
-        {
-            throw new NotSupportedException();
         }
 
         public NativeList<TResult> ToNativeList(Allocator allocator)
@@ -244,38 +195,39 @@ namespace CareBoo.Blinq
             collectionArr.Dispose();
             return resultArr;
         }
-    }
 
-    public static class SelectManySequence
-    {
-        public static SelectManySequence<T, TSource, TCollection, TResult, TCollectionSelector, TResultSelector> New<T, TSource, TCollection, TResult, TCollectionSelector, TResultSelector>(
-            ref TSource source,
-            in ValueFunc<T, NativeArray<TCollection>>.Struct<TCollectionSelector> collectionSelector,
-            in ValueFunc<T, TCollection, TResult>.Struct<TResultSelector> resultSelector
-            )
-            where T : struct
-            where TSource : struct, ISequence<T>
-            where TCollection : struct
-            where TResult : struct
-            where TCollectionSelector : struct, IFunc<T, NativeArray<TCollection>>
-            where TResultSelector : struct, IFunc<T, TCollection, TResult>
+        public Enumerator GetEnumerator()
         {
-            return new SelectManySequence<T, TSource, TCollection, TResult, TCollectionSelector, TResultSelector>(ref source, in collectionSelector, in resultSelector);
+            return new Enumerator(in source, resultSelector, collectionSelector);
         }
 
-        public static SelectManyIndexSequence<T, TSource, TCollection, TResult, TCollectionSelector, TResultSelector> New<T, TSource, TCollection, TResult, TCollectionSelector, TResultSelector>(
-            ref TSource source,
-            in ValueFunc<T, int, NativeArray<TCollection>>.Struct<TCollectionSelector> collectionSelector,
-            in ValueFunc<T, TCollection, TResult>.Struct<TResultSelector> resultSelector
+        IEnumerator<TResult> IEnumerable<TResult>.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+    }
+
+    public static class SelectManySequence<T, TSourceEnumerator>
+        where T : struct
+        where TSourceEnumerator : struct, IEnumerator<T>
+    {
+        public static SelectManySequence<T, TSource, TSourceEnumerator, TCollection, TCollectionSelector, TResult, TResultSelector> New<TSource, TCollection, TCollectionSelector, TResult, TResultSelector>(
+            in TSource source,
+            ValueFunc<T, int, NativeArray<TCollection>>.Struct<TCollectionSelector> collectionSelector,
+            ValueFunc<T, TCollection, TResult>.Struct<TResultSelector> resultSelector
             )
-            where T : struct
-            where TSource : struct, ISequence<T>
+            where TSource : struct, ISequence<T, TSourceEnumerator>
             where TCollection : struct
-            where TResult : struct
             where TCollectionSelector : struct, IFunc<T, int, NativeArray<TCollection>>
+            where TResult : struct
             where TResultSelector : struct, IFunc<T, TCollection, TResult>
         {
-            return new SelectManyIndexSequence<T, TSource, TCollection, TResult, TCollectionSelector, TResultSelector>(ref source, in collectionSelector, in resultSelector);
+            return new SelectManySequence<T, TSource, TSourceEnumerator, TCollection, TCollectionSelector, TResult, TResultSelector>(in source, collectionSelector, resultSelector);
         }
     }
 }

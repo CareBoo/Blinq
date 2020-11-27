@@ -7,7 +7,7 @@ namespace CareBoo.Blinq
     {
         public static T First<T, TPredicate>(
             this in NativeArray<T> source,
-            in ValueFunc<T, bool>.Struct<TPredicate> predicate
+            ValueFunc<T, bool>.Struct<TPredicate> predicate
             )
             where T : struct
             where TPredicate : struct, IFunc<T, bool>
@@ -23,7 +23,7 @@ namespace CareBoo.Blinq
 
         public static T FirstOrDefault<T, TPredicate>(
             this in NativeArray<T> source,
-            in ValueFunc<T, bool>.Struct<TPredicate> predicate,
+            ValueFunc<T, bool>.Struct<TPredicate> predicate,
             in T defaultVal = default
             )
             where T : struct

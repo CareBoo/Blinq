@@ -3,19 +3,25 @@ using Unity.Collections;
 using CareBoo.Burst.Delegates;
 using System.Collections;
 using Unity.Collections.LowLevel.Unsafe;
+using System.Collections.Generic;
 
 namespace CareBoo.Blinq
 {
     public static partial class Sequence
     {
-        public static ValueSequence<TResult, GroupBySequence<T, TSource, TKey, TKeySelector, TElement, TElementSelector, TResult, TResultSelector>> GroupBy<T, TSource, TKey, TKeySelector, TElement, TElementSelector, TResult, TResultSelector>(
-            this in ValueSequence<T, TSource> source,
-            in ValueFunc<T, TKey>.Struct<TKeySelector> keySelector,
-            in ValueFunc<T, TElement>.Struct<TElementSelector> elementSelector,
-            in ValueFunc<TKey, ValueGroupingValues<TKey, TElement>, TResult>.Struct<TResultSelector> resultSelector
+        public static ValueSequence<
+            TResult,
+            GroupBySequence<T, TSource, TKey, TKeySelector, TElement, TElementSelector, TResult, TResultSelector>,
+            SequenceEnumerator<TResult, GroupBySequence<T, TSource, TKey, TKeySelector, TElement, TElementSelector, TResult, TResultSelector>>>
+        GroupBy<T, TSource, TSourceEnumerator, TKey, TKeySelector, TElement, TElementSelector, TResult, TResultSelector>(
+            this in ValueSequence<T, TSource, TSourceEnumerator> source,
+            ValueFunc<T, TKey>.Struct<TKeySelector> keySelector,
+            ValueFunc<T, TElement>.Struct<TElementSelector> elementSelector,
+            ValueFunc<TKey, ValueGroupingValues<TKey, TElement>, TResult>.Struct<TResultSelector> resultSelector
             )
             where T : struct
-            where TSource : struct, ISequence<T>
+            where TSource : struct, ISequence<T, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<T>
             where TKey : unmanaged, IEquatable<TKey>
             where TKeySelector : struct, IFunc<T, TKey>
             where TElement : struct
@@ -23,18 +29,23 @@ namespace CareBoo.Blinq
             where TResult : struct
             where TResultSelector : struct, IFunc<TKey, ValueGroupingValues<TKey, TElement>, TResult>
         {
-            var sourceSeq = source.GetEnumerator();
-            var seq = GroupBySequence.New(ref sourceSeq, keySelector, elementSelector, resultSelector);
-            return ValueSequence<TResult>.New(ref seq);
+            var sourceSeq = source.Source;
+            var seq = GroupBySequence.New(in sourceSeq, keySelector, elementSelector, resultSelector);
+            return ValueSequence<TResult, SequenceEnumerator<TResult, GroupBySequence<T, TSource, TKey, TKeySelector, TElement, TElementSelector, TResult, TResultSelector>>>.New(in seq);
         }
 
-        public static ValueSequence<TResult, GroupBySequence<T, TSource, TKey, TKeySelector, T, SameSelector<T>, TResult, TResultSelector>> GroupBy<T, TSource, TKey, TKeySelector, TResult, TResultSelector>(
-            this in ValueSequence<T, TSource> source,
-            in ValueFunc<T, TKey>.Struct<TKeySelector> keySelector,
-            in ValueFunc<TKey, ValueGroupingValues<TKey, T>, TResult>.Struct<TResultSelector> resultSelector
+        public static ValueSequence<
+            TResult,
+            GroupBySequence<T, TSource, TKey, TKeySelector, T, SameSelector<T>, TResult, TResultSelector>,
+            SequenceEnumerator<TResult, GroupBySequence<T, TSource, TKey, TKeySelector, T, SameSelector<T>, TResult, TResultSelector>>>
+        GroupBy<T, TSource, TSourceEnumerator, TKey, TKeySelector, TResult, TResultSelector>(
+            this in ValueSequence<T, TSource, TSourceEnumerator> source,
+            ValueFunc<T, TKey>.Struct<TKeySelector> keySelector,
+            ValueFunc<TKey, ValueGroupingValues<TKey, T>, TResult>.Struct<TResultSelector> resultSelector
             )
             where T : struct
-            where TSource : struct, ISequence<T>
+            where TSource : struct, ISequence<T, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<T>
             where TKey : unmanaged, IEquatable<TKey>
             where TKeySelector : struct, IFunc<T, TKey>
             where TResult : struct
@@ -44,13 +55,18 @@ namespace CareBoo.Blinq
             return source.GroupBy(keySelector, elementSelector, resultSelector);
         }
 
-        public static ValueSequence<ValueGrouping<TKey, TElement>, GroupBySequence<T, TSource, TKey, TKeySelector, TElement, TElementSelector, ValueGrouping<TKey, TElement>, GroupSelector<TKey, TElement>>> GroupBy<T, TSource, TKey, TKeySelector, TElement, TElementSelector>(
-            this in ValueSequence<T, TSource> source,
+        public static ValueSequence<
+            ValueGrouping<TKey, TElement>,
+            GroupBySequence<T, TSource, TKey, TKeySelector, TElement, TElementSelector, ValueGrouping<TKey, TElement>, GroupSelector<TKey, TElement>>,
+            SequenceEnumerator<ValueGrouping<TKey, TElement>, GroupBySequence<T, TSource, TKey, TKeySelector, TElement, TElementSelector, ValueGrouping<TKey, TElement>, GroupSelector<TKey, TElement>>>>
+        GroupBy<T, TSource, TSourceEnumerator, TKey, TKeySelector, TElement, TElementSelector>(
+            this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ValueFunc<T, TKey>.Struct<TKeySelector> keySelector,
             ValueFunc<T, TElement>.Struct<TElementSelector> elementSelector
             )
             where T : struct
-            where TSource : struct, ISequence<T>
+            where TSource : struct, ISequence<T, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<T>
             where TKey : unmanaged, IEquatable<TKey>
             where TKeySelector : struct, IFunc<T, TKey>
             where TElement : struct
@@ -60,12 +76,17 @@ namespace CareBoo.Blinq
             return source.GroupBy(keySelector, elementSelector, resultSelector);
         }
 
-        public static ValueSequence<ValueGrouping<TKey, T>, GroupBySequence<T, TSource, TKey, TKeySelector, T, SameSelector<T>, ValueGrouping<TKey, T>, GroupSelector<TKey, T>>> GroupBy<T, TSource, TKey, TKeySelector>(
-            this ValueSequence<T, TSource> source,
+        public static ValueSequence<
+            ValueGrouping<TKey, T>,
+            GroupBySequence<T, TSource, TKey, TKeySelector, T, SameSelector<T>, ValueGrouping<TKey, T>, GroupSelector<TKey, T>>,
+            SequenceEnumerator<ValueGrouping<TKey, T>, GroupBySequence<T, TSource, TKey, TKeySelector, T, SameSelector<T>, ValueGrouping<TKey, T>, GroupSelector<TKey, T>>>>
+        GroupBy<T, TSource, TSourceEnumerator, TKey, TKeySelector>(
+            this ValueSequence<T, TSource, TSourceEnumerator> source,
             ValueFunc<T, TKey>.Struct<TKeySelector> keySelector
             )
             where T : struct
-            where TSource : struct, ISequence<T>
+            where TSource : struct, ISequence<T, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<T>
             where TKey : unmanaged, IEquatable<TKey>
             where TKeySelector : struct, IFunc<T, TKey>
         {
@@ -76,9 +97,9 @@ namespace CareBoo.Blinq
     }
 
     public struct GroupBySequence<T, TSource, TKey, TKeySelector, TElement, TElementSelector, TResult, TResultSelector>
-        : ISequence<TResult>
+        : ISequence<TResult, SequenceEnumerator<TResult, GroupBySequence<T, TSource, TKey, TKeySelector, TElement, TElementSelector, TResult, TResultSelector>>>
         where T : struct
-        where TSource : struct, ISequence<T>
+        where TSource : struct, INativeListConvertible<T>
         where TKey : unmanaged, IEquatable<TKey>
         where TKeySelector : struct, IFunc<T, TKey>
         where TElement : struct
@@ -86,20 +107,13 @@ namespace CareBoo.Blinq
         where TResult : struct
         where TResultSelector : struct, IFunc<TKey, ValueGroupingValues<TKey, TElement>, TResult>
     {
+        readonly TSource source;
         readonly ValueFunc<T, TKey>.Struct<TKeySelector> keySelector;
         readonly ValueFunc<T, TElement>.Struct<TElementSelector> elementSelector;
         readonly ValueFunc<TKey, ValueGroupingValues<TKey, TElement>, TResult>.Struct<TResultSelector> resultSelector;
 
-        TSource source;
-        NativeList<TResult> resultList;
-        NativeArray<TResult>.Enumerator resultListEnum;
-
-        public TResult Current => resultListEnum.Current;
-
-        object IEnumerator.Current => Current;
-
         public GroupBySequence(
-            ref TSource source,
+            in TSource source,
             ValueFunc<T, TKey>.Struct<TKeySelector> keySelector,
             ValueFunc<T, TElement>.Struct<TElementSelector> elementSelector,
             ValueFunc<TKey, ValueGroupingValues<TKey, TElement>, TResult>.Struct<TResultSelector> resultSelector
@@ -109,10 +123,12 @@ namespace CareBoo.Blinq
             this.keySelector = keySelector;
             this.elementSelector = elementSelector;
             this.resultSelector = resultSelector;
-            resultList = default;
-            resultListEnum = default;
         }
 
+        public SequenceEnumerator<TResult, GroupBySequence<T, TSource, TKey, TKeySelector, TElement, TElementSelector, TResult, TResultSelector>> GetEnumerator()
+        {
+            return SequenceEnumerator<TResult>.New(in this);
+        }
 
         public NativeList<TResult> ToNativeList(Allocator allocator)
         {
@@ -161,39 +177,27 @@ namespace CareBoo.Blinq
             keySet.Dispose();
         }
 
-        public bool MoveNext()
+        IEnumerator<TResult> IEnumerable<TResult>.GetEnumerator()
         {
-            if (!resultList.IsCreated)
-            {
-                resultList = ToNativeList(Allocator.Temp);
-                resultListEnum = resultList.GetEnumerator();
-            }
-            return resultListEnum.MoveNext();
+            return GetEnumerator();
         }
 
-        public void Reset()
+        IEnumerator IEnumerable.GetEnumerator()
         {
-            throw new NotSupportedException();
-        }
-
-        public void Dispose()
-        {
-            source.Dispose();
-            if (resultList.IsCreated)
-                resultList.Dispose();
+            return GetEnumerator();
         }
     }
 
     public static class GroupBySequence
     {
         public static GroupBySequence<T, TSource, TKey, TKeySelector, TElement, TElementSelector, TResult, TResultSelector> New<T, TSource, TKey, TKeySelector, TElement, TElementSelector, TResult, TResultSelector>(
-            ref TSource source,
+            in TSource source,
             ValueFunc<T, TKey>.Struct<TKeySelector> keySelector,
             ValueFunc<T, TElement>.Struct<TElementSelector> elementSelector,
             ValueFunc<TKey, ValueGroupingValues<TKey, TElement>, TResult>.Struct<TResultSelector> resultSelector
             )
             where T : struct
-            where TSource : struct, ISequence<T>
+            where TSource : struct, INativeListConvertible<T>
             where TKey : unmanaged, IEquatable<TKey>
             where TKeySelector : struct, IFunc<T, TKey>
             where TElement : struct
@@ -201,7 +205,7 @@ namespace CareBoo.Blinq
             where TResult : struct
             where TResultSelector : struct, IFunc<TKey, ValueGroupingValues<TKey, TElement>, TResult>
         {
-            return new GroupBySequence<T, TSource, TKey, TKeySelector, TElement, TElementSelector, TResult, TResultSelector>(ref source, keySelector, elementSelector, resultSelector);
+            return new GroupBySequence<T, TSource, TKey, TKeySelector, TElement, TElementSelector, TResult, TResultSelector>(in source, keySelector, elementSelector, resultSelector);
         }
     }
 }

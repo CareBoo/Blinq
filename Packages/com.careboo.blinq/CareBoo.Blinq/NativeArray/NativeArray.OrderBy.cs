@@ -7,21 +7,29 @@ namespace CareBoo.Blinq
 {
     public static partial class Sequence
     {
-        public static ValueSequence<T, OrderBySequence<T, NativeArraySequence<T>, KeyComparer<T, TKey, TKeySelector, DefaultComparer<TKey>>>> OrderBy<T, TKey, TKeySelector>(
+        public static ValueSequence<
+            T,
+            OrderBySequence<T, NativeArraySequence<T>, KeyComparer<T, TKey, TKeySelector, DefaultComparer<TKey>>>,
+            SequenceEnumerator<T, OrderBySequence<T, NativeArraySequence<T>, KeyComparer<T, TKey, TKeySelector, DefaultComparer<TKey>>>>>
+        OrderBy<T, TKey, TKeySelector>(
             this in NativeArray<T> source,
-            in ValueFunc<T, TKey>.Struct<TKeySelector> keySelector
+            ValueFunc<T, TKey>.Struct<TKeySelector> keySelector
             )
             where T : struct
             where TKey : struct, IComparable<TKey>
             where TKeySelector : struct, IFunc<T, TKey>
         {
             var sourceSeq = source.ToValueSequence();
-            return sourceSeq.OrderBy(in keySelector);
+            return sourceSeq.OrderBy(keySelector);
         }
 
-        public static ValueSequence<T, OrderBySequence<T, NativeArraySequence<T>, KeyComparer<T, TKey, TKeySelector, TComparer>>> OrderBy<T, TKey, TKeySelector, TComparer>(
+        public static ValueSequence<
+            T,
+            OrderBySequence<T, NativeArraySequence<T>, KeyComparer<T, TKey, TKeySelector, TComparer>>,
+            SequenceEnumerator<T, OrderBySequence<T, NativeArraySequence<T>, KeyComparer<T, TKey, TKeySelector, TComparer>>>>
+        OrderBy<T, TKey, TKeySelector, TComparer>(
             this in NativeArray<T> source,
-            in ValueFunc<T, TKey>.Struct<TKeySelector> keySelector,
+            ValueFunc<T, TKey>.Struct<TKeySelector> keySelector,
             in TComparer comparer
             )
             where T : struct
@@ -30,7 +38,7 @@ namespace CareBoo.Blinq
             where TComparer : struct, IComparer<TKey>
         {
             var sourceSeq = source.ToValueSequence();
-            return sourceSeq.OrderBy(in keySelector, in comparer);
+            return sourceSeq.OrderBy(keySelector, in comparer);
         }
     }
 }

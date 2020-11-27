@@ -1,83 +1,100 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using Unity.Collections;
 
 namespace CareBoo.Blinq
 {
     public static partial class Sequence
     {
-        public static ValueSequence<T, ExceptSequence<T, TSource, TSecond>> Except<T, TSource, TSecond>(
-            this in ValueSequence<T, TSource> source,
-            in ValueSequence<T, TSecond> second
+        public static ValueSequence<
+            T,
+            ExceptSequence<T, TSource, TSourceEnumerator, TSecond, TSecondEnumerator>,
+            ExceptSequence<T, TSource, TSourceEnumerator, TSecond, TSecondEnumerator>.Enumerator>
+        Except<T, TSource, TSourceEnumerator, TSecond, TSecondEnumerator>(
+            this in ValueSequence<T, TSource, TSourceEnumerator> source,
+            in ValueSequence<T, TSecond, TSecondEnumerator> second
             )
             where T : unmanaged, IEquatable<T>
-            where TSource : struct, ISequence<T>
-            where TSecond : struct, ISequence<T>
+            where TSource : struct, ISequence<T, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<T>
+            where TSecond : struct, ISequence<T, TSecondEnumerator>
+            where TSecondEnumerator : struct, IEnumerator<T>
         {
-            var sourceSeq = source.GetEnumerator();
-            var secondSeq = second.GetEnumerator();
-            var seq = new ExceptSequence<T, TSource, TSecond>(ref sourceSeq, ref secondSeq);
-            return ValueSequence<T>.New(ref seq);
+            var seq = new ExceptSequence<T, TSource, TSourceEnumerator, TSecond, TSecondEnumerator>(in source.Source, in second.Source);
+            return ValueSequence<T, ExceptSequence<T, TSource, TSourceEnumerator, TSecond, TSecondEnumerator>.Enumerator>.New(in seq);
         }
 
-        public static ValueSequence<T, ExceptSequence<T, TSource, NativeArraySequence<T>>> Except<T, TSource>(
-            this in ValueSequence<T, TSource> source,
+        public static ValueSequence<
+            T,
+            ExceptSequence<T, TSource, TSourceEnumerator, NativeArraySequence<T>, NativeArray<T>.Enumerator>,
+            ExceptSequence<T, TSource, TSourceEnumerator, NativeArraySequence<T>, NativeArray<T>.Enumerator>.Enumerator>
+        Except<T, TSource, TSourceEnumerator>(
+            this in ValueSequence<T, TSource, TSourceEnumerator> source,
             in NativeArray<T> second
             )
             where T : unmanaged, IEquatable<T>
-            where TSource : struct, ISequence<T>
+            where TSource : struct, ISequence<T, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<T>
         {
             return source.Except(second.ToValueSequence());
         }
     }
 
-    public struct ExceptSequence<T, TSource, TSecond> : ISequence<T>
+    public struct ExceptSequence<T, TSource, TSourceEnumerator, TSecond, TSecondEnumerator>
+        : ISequence<T, ExceptSequence<T, TSource, TSourceEnumerator, TSecond, TSecondEnumerator>.Enumerator>
         where T : unmanaged, IEquatable<T>
-        where TSource : struct, ISequence<T>
-        where TSecond : struct, ISequence<T>
+        where TSource : struct, ISequence<T, TSourceEnumerator>
+        where TSourceEnumerator : struct, IEnumerator<T>
+        where TSecond : struct, ISequence<T, TSecondEnumerator>
+        where TSecondEnumerator : struct, IEnumerator<T>
     {
-        TSource source;
-        TSecond second;
-
-        NativeHashSet<T> set;
-
-        public ExceptSequence(ref TSource source, ref TSecond second)
+        public struct Enumerator : IEnumerator<T>
         {
-            this.source = source;
-            this.second = second;
-            set = default;
-        }
+            TSourceEnumerator sourceEnum;
+            NativeHashSet<T> set;
 
-        public T Current => source.Current;
-
-        object IEnumerator.Current => Current;
-
-        public void Dispose()
-        {
-            source.Dispose();
-            second.Dispose();
-            set.Dispose();
-        }
-
-        public bool MoveNext()
-        {
-            if (!set.IsCreated)
+            public Enumerator(in TSource source, in TSecond second)
             {
+                sourceEnum = source.GetEnumerator();
                 var secondList = second.ToNativeList(Allocator.Temp);
-                set = new NativeHashSet<T>(secondList.Length, Allocator.Persistent);
+                set = new NativeHashSet<T>(secondList.Length, Allocator.Temp);
                 for (var i = 0; i < secondList.Length; i++)
                     set.Add(secondList[i]);
                 secondList.Dispose();
             }
-            while (source.MoveNext())
-                if (set.Add(source.Current))
-                    return true;
-            return false;
+
+            public T Current => sourceEnum.Current;
+
+            object IEnumerator.Current => Current;
+
+            public void Dispose()
+            {
+                sourceEnum.Dispose();
+                set.Dispose();
+            }
+
+            public bool MoveNext()
+            {
+                while (sourceEnum.MoveNext())
+                    if (set.Add(sourceEnum.Current))
+                        return true;
+                return false;
+            }
+
+            public void Reset()
+            {
+                throw new NotSupportedException();
+            }
         }
 
-        public void Reset()
+        readonly TSource source;
+        readonly TSecond second;
+
+        public ExceptSequence(in TSource source, in TSecond second)
         {
-            throw new NotSupportedException();
+            this.source = source;
+            this.second = second;
         }
 
         public NativeList<T> ToNativeList(Allocator allocator)
@@ -97,6 +114,21 @@ namespace CareBoo.Blinq
             secondList.Dispose();
             secondSet.Dispose();
             return list;
+        }
+
+        public Enumerator GetEnumerator()
+        {
+            return new Enumerator(in source, in second);
+        }
+
+        IEnumerator<T> IEnumerable<T>.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }

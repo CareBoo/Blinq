@@ -97,7 +97,7 @@ foreach (string TYPE_FULL in TYPES)
         )
     {
         var src = new NativeArray<int>(sourceArr, Allocator.Persistent);
-        MakeMeasurement("Blinq_<#=TYPE_FULL#>", () => Blinq.RunAverage(src, in IntTo_<#=TYPE_FULL#>)).Run();
+        MakeMeasurement("Blinq_<#=TYPE_FULL#>", () => Blinq.RunAverage(src, IntTo_<#=TYPE_FULL#>)).Run();
         src.Dispose();
     }
 
