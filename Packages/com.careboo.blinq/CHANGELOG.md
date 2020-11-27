@@ -1,3 +1,15 @@
+# [3.0.0-preview.1](https://github.com/CareBoo/Blinq/compare/v2.1.0-preview.1...v3.0.0-preview.1) (2020-11-27)
+
+
+### Bug Fixes
+
+* :ambulance: Fix some enumerators that weren't compatible with Burst ([2604908](https://github.com/CareBoo/Blinq/commit/2604908608143658a42b8c9febb5849c50e7dbaa)), closes [#84](https://github.com/CareBoo/Blinq/issues/84)
+
+
+### BREAKING CHANGES
+
+* Completely changed the ValueSequence API to include TEnumerator generic parameter
+
 # [2.1.0-preview.1](https://github.com/CareBoo/Blinq/compare/v2.0.0...v2.1.0-preview.1) (2020-11-21)
 
 
