@@ -7,7 +7,7 @@ namespace CareBoo.Blinq
 {
     public static partial class Sequence
     {
-        public struct ToNativeHashMapJob<T, TKey, TElement, TKeySelector, TElementSelector> : IJob
+        public struct ArrayToNativeHashMapJob<T, TKey, TElement, TKeySelector, TElementSelector> : IJob
             where T : struct
             where TKey : struct, IEquatable<TKey>
             where TElement : struct
@@ -26,7 +26,7 @@ namespace CareBoo.Blinq
             [WriteOnly]
             NativeHashMap<TKey, TElement> output;
 
-            public ToNativeHashMapJob(
+            public ArrayToNativeHashMapJob(
                 NativeArray<T> source,
                 ValueFunc<T, TKey>.Struct<TKeySelector> keySelector,
                 ValueFunc<T, TElement>.Struct<TElementSelector> elementSelector,
@@ -45,7 +45,7 @@ namespace CareBoo.Blinq
             }
         }
 
-        public struct ToNativeHashMapJob<T, TKey, TKeySelector> : IJob
+        public struct ArrayToNativeHashMapJob<T, TKey, TKeySelector> : IJob
             where T : struct
             where TKey : struct, IEquatable<TKey>
             where TKeySelector : struct, IFunc<T, TKey>
@@ -59,7 +59,7 @@ namespace CareBoo.Blinq
             [WriteOnly]
             NativeHashMap<TKey, T> output;
 
-            public ToNativeHashMapJob(
+            public ArrayToNativeHashMapJob(
                 NativeArray<T> source,
                 ValueFunc<T, TKey>.Struct<TKeySelector> keySelector,
                 ref NativeHashMap<TKey, T> output
@@ -78,8 +78,8 @@ namespace CareBoo.Blinq
 
         public static NativeHashMap<TKey, TElement> ToNativeHashMap<T, TKey, TElement, TKeySelector, TElementSelector>(
             this in NativeArray<T> source,
-            in ValueFunc<T, TKey>.Struct<TKeySelector> keySelector,
-            in ValueFunc<T, TElement>.Struct<TElementSelector> elementSelector,
+            ValueFunc<T, TKey>.Struct<TKeySelector> keySelector,
+            ValueFunc<T, TElement>.Struct<TElementSelector> elementSelector,
             in Allocator allocator
             )
             where T : struct
@@ -94,8 +94,8 @@ namespace CareBoo.Blinq
 
         public static NativeHashMap<TKey, TElement> RunToNativeHashMap<T, TKey, TElement, TKeySelector, TElementSelector>(
             this in NativeArray<T> source,
-            in ValueFunc<T, TKey>.Struct<TKeySelector> keySelector,
-            in ValueFunc<T, TElement>.Struct<TElementSelector> elementSelector,
+            ValueFunc<T, TKey>.Struct<TKeySelector> keySelector,
+            ValueFunc<T, TElement>.Struct<TElementSelector> elementSelector,
             in Allocator allocator
             )
             where T : struct
@@ -110,8 +110,8 @@ namespace CareBoo.Blinq
 
         public static CollectionJobHandle<NativeHashMap<TKey, TElement>> ScheduleToNativeHashMap<T, TKey, TElement, TKeySelector, TElementSelector>(
             this in NativeArray<T> source,
-            in ValueFunc<T, TKey>.Struct<TKeySelector> keySelector,
-            in ValueFunc<T, TElement>.Struct<TElementSelector> elementSelector,
+            ValueFunc<T, TKey>.Struct<TKeySelector> keySelector,
+            ValueFunc<T, TElement>.Struct<TElementSelector> elementSelector,
             in Allocator allocator
             )
             where T : struct
@@ -121,14 +121,14 @@ namespace CareBoo.Blinq
             where TElementSelector : struct, IFunc<T, TElement>
         {
             var result = new NativeHashMap<TKey, TElement>(source.Length, allocator);
-            var jobHandle = new ToNativeHashMapJob<T, TKey, TElement, TKeySelector, TElementSelector>(source, keySelector, elementSelector, ref result).Schedule();
+            var jobHandle = new ArrayToNativeHashMapJob<T, TKey, TElement, TKeySelector, TElementSelector>(source, keySelector, elementSelector, ref result).Schedule();
             return new CollectionJobHandle<NativeHashMap<TKey, TElement>>(jobHandle, result);
         }
 
         public static NativeHashMap<TKey, TElement> ToNativeHashMap<T, TKey, TElement, TKeySelector, TElementSelector>(
             this in NativeArray<T> source,
-            in ValueFunc<T, TKey>.Struct<TKeySelector> keySelector,
-            in ValueFunc<T, TElement>.Struct<TElementSelector> elementSelector,
+            ValueFunc<T, TKey>.Struct<TKeySelector> keySelector,
+            ValueFunc<T, TElement>.Struct<TElementSelector> elementSelector,
             ref NativeHashMap<TKey, TElement> hashMap
             )
             where T : struct
@@ -150,8 +150,8 @@ namespace CareBoo.Blinq
 
         public static NativeHashMap<TKey, TElement> RunToNativeHashMap<T, TKey, TElement, TKeySelector, TElementSelector>(
             this in NativeArray<T> source,
-            in ValueFunc<T, TKey>.Struct<TKeySelector> keySelector,
-            in ValueFunc<T, TElement>.Struct<TElementSelector> elementSelector,
+            ValueFunc<T, TKey>.Struct<TKeySelector> keySelector,
+            ValueFunc<T, TElement>.Struct<TElementSelector> elementSelector,
             ref NativeHashMap<TKey, TElement> hashMap
             )
             where T : struct
@@ -160,14 +160,14 @@ namespace CareBoo.Blinq
             where TKeySelector : struct, IFunc<T, TKey>
             where TElementSelector : struct, IFunc<T, TElement>
         {
-            new ToNativeHashMapJob<T, TKey, TElement, TKeySelector, TElementSelector>(source, keySelector, elementSelector, ref hashMap).Run();
+            new ArrayToNativeHashMapJob<T, TKey, TElement, TKeySelector, TElementSelector>(source, keySelector, elementSelector, ref hashMap).Run();
             return hashMap;
         }
 
         public static JobHandle ScheduleToNativeHashMap<T, TKey, TElement, TKeySelector, TElementSelector>(
             this in NativeArray<T> source,
-            in ValueFunc<T, TKey>.Struct<TKeySelector> keySelector,
-            in ValueFunc<T, TElement>.Struct<TElementSelector> elementSelector,
+            ValueFunc<T, TKey>.Struct<TKeySelector> keySelector,
+            ValueFunc<T, TElement>.Struct<TElementSelector> elementSelector,
             ref NativeHashMap<TKey, TElement> hashMap
             )
             where T : struct
@@ -176,12 +176,12 @@ namespace CareBoo.Blinq
             where TKeySelector : struct, IFunc<T, TKey>
             where TElementSelector : struct, IFunc<T, TElement>
         {
-            return new ToNativeHashMapJob<T, TKey, TElement, TKeySelector, TElementSelector>(source, keySelector, elementSelector, ref hashMap).Schedule();
+            return new ArrayToNativeHashMapJob<T, TKey, TElement, TKeySelector, TElementSelector>(source, keySelector, elementSelector, ref hashMap).Schedule();
         }
 
         public static NativeHashMap<TKey, T> ToNativeHashMap<T, TKey, TKeySelector>(
             this in NativeArray<T> source,
-            in ValueFunc<T, TKey>.Struct<TKeySelector> keySelector,
+            ValueFunc<T, TKey>.Struct<TKeySelector> keySelector,
             in Allocator allocator
             )
             where T : struct
@@ -194,7 +194,7 @@ namespace CareBoo.Blinq
 
         public static NativeHashMap<TKey, T> RunToNativeHashMap<T, TKey, TKeySelector>(
             this in NativeArray<T> source,
-            in ValueFunc<T, TKey>.Struct<TKeySelector> keySelector,
+            ValueFunc<T, TKey>.Struct<TKeySelector> keySelector,
             in Allocator allocator
             )
             where T : struct
@@ -207,7 +207,7 @@ namespace CareBoo.Blinq
 
         public static CollectionJobHandle<NativeHashMap<TKey, T>> ScheduleToNativeHashMap<T, TKey, TKeySelector>(
             this in NativeArray<T> source,
-            in ValueFunc<T, TKey>.Struct<TKeySelector> keySelector,
+            ValueFunc<T, TKey>.Struct<TKeySelector> keySelector,
             in Allocator allocator
             )
             where T : struct
@@ -215,13 +215,13 @@ namespace CareBoo.Blinq
             where TKeySelector : struct, IFunc<T, TKey>
         {
             var result = new NativeHashMap<TKey, T>(source.Length, allocator);
-            var jobHandle = new ToNativeHashMapJob<T, TKey, TKeySelector>(source, keySelector, ref result).Schedule();
+            var jobHandle = new ArrayToNativeHashMapJob<T, TKey, TKeySelector>(source, keySelector, ref result).Schedule();
             return new CollectionJobHandle<NativeHashMap<TKey, T>>(jobHandle, result);
         }
 
         public static NativeHashMap<TKey, T> ToNativeHashMap<T, TKey, TKeySelector>(
             this in NativeArray<T> source,
-            in ValueFunc<T, TKey>.Struct<TKeySelector> keySelector,
+            ValueFunc<T, TKey>.Struct<TKeySelector> keySelector,
             ref NativeHashMap<TKey, T> hashMap
             )
             where T : struct
@@ -240,27 +240,27 @@ namespace CareBoo.Blinq
 
         public static NativeHashMap<TKey, T> RunToNativeHashMap<T, TKey, TKeySelector>(
             this in NativeArray<T> source,
-            in ValueFunc<T, TKey>.Struct<TKeySelector> keySelector,
+            ValueFunc<T, TKey>.Struct<TKeySelector> keySelector,
             ref NativeHashMap<TKey, T> hashMap
             )
             where T : struct
             where TKey : struct, IEquatable<TKey>
             where TKeySelector : struct, IFunc<T, TKey>
         {
-            new ToNativeHashMapJob<T, TKey, TKeySelector>(source, keySelector, ref hashMap).Run();
+            new ArrayToNativeHashMapJob<T, TKey, TKeySelector>(source, keySelector, ref hashMap).Run();
             return hashMap;
         }
 
         public static JobHandle ScheduleToNativeHashMap<T, TKey, TKeySelector>(
             this in NativeArray<T> source,
-            in ValueFunc<T, TKey>.Struct<TKeySelector> keySelector,
+            ValueFunc<T, TKey>.Struct<TKeySelector> keySelector,
             ref NativeHashMap<TKey, T> hashMap
             )
             where T : struct
             where TKey : struct, IEquatable<TKey>
             where TKeySelector : struct, IFunc<T, TKey>
         {
-            return new ToNativeHashMapJob<T, TKey, TKeySelector>(source, keySelector, ref hashMap).Schedule();
+            return new ArrayToNativeHashMapJob<T, TKey, TKeySelector>(source, keySelector, ref hashMap).Schedule();
         }
     }
 }

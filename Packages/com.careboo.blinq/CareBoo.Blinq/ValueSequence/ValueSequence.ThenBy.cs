@@ -8,62 +8,62 @@ namespace CareBoo.Blinq
 {
     public static partial class Sequence
     {
-        public static ValueSequence<T, ThenBySequence<T, TSource, KeyComparer<T, TKey, TKeySelector, DefaultComparer<TKey>>>> ThenBy<T, TSource, TKey, TKeySelector>(
-            this in ValueSequence<T, TSource> source,
+        public static ValueSequence<
+            T,
+            ThenBySequence<T, TSource, KeyComparer<T, TKey, TKeySelector, DefaultComparer<TKey>>>,
+            SequenceEnumerator<T, ThenBySequence<T, TSource, KeyComparer<T, TKey, TKeySelector, DefaultComparer<TKey>>>>>
+        ThenBy<T, TSource, TSourceEnumerator, TKey, TKeySelector>(
+            this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ValueFunc<T, TKey>.Struct<TKeySelector> keySelector
             )
             where T : struct
-            where TSource : struct, IOrderedSequence<T>
+            where TSource : struct, IOrderedSequence<T, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<T>
             where TKey : struct, IComparable<TKey>
             where TKeySelector : struct, IFunc<T, TKey>
         {
             var sourceSeq = source.GetEnumerator();
             var comparer = default(DefaultComparer<TKey>);
-            var keyComparer = KeyComparer.New(in keySelector, in comparer);
-            var seq = ThenBySequence<T>.New(ref sourceSeq, in keyComparer);
-            return ValueSequence<T>.New(ref seq);
+            var keyComparer = KeyComparer.New(keySelector, in comparer);
+            var seq = ThenBySequence<T>.New(in source.Source, in keyComparer);
+            return ValueSequence<T, SequenceEnumerator<T, ThenBySequence<T, TSource, KeyComparer<T, TKey, TKeySelector, DefaultComparer<TKey>>>>>.New(in seq);
         }
 
-        public static ValueSequence<T, ThenBySequence<T, TSource, KeyComparer<T, TKey, TKeySelector, TComparer>>> ThenBy<T, TSource, TKey, TKeySelector, TComparer>(
-            this in ValueSequence<T, TSource> source,
-            in ValueFunc<T, TKey>.Struct<TKeySelector> keySelector,
+        public static ValueSequence<
+            T,
+            ThenBySequence<T, TSource, KeyComparer<T, TKey, TKeySelector, TComparer>>,
+            SequenceEnumerator<T, ThenBySequence<T, TSource, KeyComparer<T, TKey, TKeySelector, TComparer>>>>
+        ThenBy<T, TSource, TSourceEnumerator, TKey, TKeySelector, TComparer>(
+            this in ValueSequence<T, TSource, TSourceEnumerator> source,
+            ValueFunc<T, TKey>.Struct<TKeySelector> keySelector,
             in TComparer comparer
             )
             where T : struct
-            where TSource : struct, IOrderedSequence<T>
+            where TSource : struct, IOrderedSequence<T, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<T>
             where TKey : struct
             where TKeySelector : struct, IFunc<T, TKey>
             where TComparer : struct, IComparer<TKey>
         {
-            var sourceSeq = source.GetEnumerator();
-            var keyComparer = KeyComparer.New(in keySelector, in comparer);
-            var seq = ThenBySequence<T>.New(ref sourceSeq, in keyComparer);
-            return ValueSequence<T>.New(ref seq);
+            var keyComparer = KeyComparer.New(keySelector, in comparer);
+            var seq = ThenBySequence<T>.New(in source.Source, in keyComparer);
+            return ValueSequence<T, SequenceEnumerator<T, ThenBySequence<T, TSource, KeyComparer<T, TKey, TKeySelector, TComparer>>>>.New(in seq);
         }
     }
 
     public struct ThenBySequence<T, TSource, TComparer>
-        : IOrderedSequence<T>
+        : IOrderedSequence<T, SequenceEnumerator<T, ThenBySequence<T, TSource, TComparer>>>
         where T : struct
-        where TSource : struct, IOrderedSequence<T>
+        where TSource : struct, IOrderedNativeListConvertible<T>
         where TComparer : struct, IComparer<T>
     {
-        TSource source;
+        readonly TSource source;
         readonly ThenByComparer<T, TSource, TComparer> comparer;
 
-        int currentIndex;
-        NativeList<T> list;
-
-        public T Current => list[currentIndex];
-
-        object IEnumerator.Current => Current;
-
-        public ThenBySequence(ref TSource source, in TComparer comparer)
+        public ThenBySequence(in TSource source, in TComparer comparer)
         {
             this.source = source;
             this.comparer = ThenByComparer<T>.New(in source, in comparer);
-            currentIndex = default;
-            list = default;
         }
 
         public int Compare(T x, T y)
@@ -83,36 +83,30 @@ namespace CareBoo.Blinq
             return source.ToUnorderedList(allocator);
         }
 
-        public bool MoveNext()
+        public SequenceEnumerator<T, ThenBySequence<T, TSource, TComparer>> GetEnumerator()
         {
-            if (!list.IsCreated)
-                list = ToNativeList(Allocator.Temp);
-            else
-                currentIndex += 1;
-            return currentIndex < list.Length;
+            return SequenceEnumerator<T>.New(in this);
         }
 
-        public void Reset()
+        IEnumerator<T> IEnumerable<T>.GetEnumerator()
         {
-            throw new NotSupportedException();
+            return GetEnumerator();
         }
 
-        public void Dispose()
+        IEnumerator IEnumerable.GetEnumerator()
         {
-            source.Dispose();
-            if (list.IsCreated)
-                list.Dispose();
+            return GetEnumerator();
         }
     }
 
     public static class ThenBySequence<T>
         where T : struct
     {
-        public static ThenBySequence<T, TSource, TComparer> New<TSource, TComparer>(ref TSource source, in TComparer comparer)
-            where TSource : struct, IOrderedSequence<T>
+        public static ThenBySequence<T, TSource, TComparer> New<TSource, TComparer>(in TSource source, in TComparer comparer)
+            where TSource : struct, IOrderedNativeListConvertible<T>
             where TComparer : struct, IComparer<T>
         {
-            return new ThenBySequence<T, TSource, TComparer>(ref source, in comparer);
+            return new ThenBySequence<T, TSource, TComparer>(in source, in comparer);
         }
     }
 

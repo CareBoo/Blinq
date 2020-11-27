@@ -7,7 +7,7 @@ namespace CareBoo.Blinq
     {
         public static bool Any<T, TPredicate>(
             this in NativeArray<T> source,
-            in ValueFunc<T, bool>.Struct<TPredicate> predicate
+            ValueFunc<T, bool>.Struct<TPredicate> predicate
             )
             where T : struct
             where TPredicate : struct, IFunc<T, bool>

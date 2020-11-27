@@ -1,29 +1,37 @@
 ﻿using System;
+using System.Collections.Generic;
 using Unity.Collections;
 
 namespace CareBoo.Blinq
 {
     public static partial class Sequence
     {
-        public static ValueSequence<T, ExceptSequence<T, NativeArraySequence<T>, TSecond>> Except<T, TSecond>(
+        public static ValueSequence<
+            T,
+            ExceptSequence<T, NativeArraySequence<T>, NativeArray<T>.Enumerator, TSecond, TSecondEnumerator>,
+            ExceptSequence<T, NativeArraySequence<T>, NativeArray<T>.Enumerator, TSecond, TSecondEnumerator>.Enumerator>
+                Except<T, TSecond, TSecondEnumerator>(
             this in NativeArray<T> source,
-            in ValueSequence<T, TSecond> second
+            in ValueSequence<T, TSecond, TSecondEnumerator> second
             )
             where T : unmanaged, IEquatable<T>
-            where TSecond : struct, ISequence<T>
+            where TSecond : struct, ISequence<T, TSecondEnumerator>
+            where TSecondEnumerator : struct, IEnumerator<T>
         {
-            var sourceSeq = source.ToValueSequence();
-            return sourceSeq.Except(second);
+            return source.ToValueSequence().Except(second);
         }
 
-        public static ValueSequence<T, ExceptSequence<T, NativeArraySequence<T>, NativeArraySequence<T>>> Except<T>(
+        public static ValueSequence<
+            T,
+            ExceptSequence<T, NativeArraySequence<T>, NativeArray<T>.Enumerator, NativeArraySequence<T>, NativeArray<T>.Enumerator>,
+            ExceptSequence<T, NativeArraySequence<T>, NativeArray<T>.Enumerator, NativeArraySequence<T>, NativeArray<T>.Enumerator>.Enumerator>
+                Except<T>(
             this in NativeArray<T> source,
             in NativeArray<T> second
             )
             where T : unmanaged, IEquatable<T>
         {
-            var sourceSeq = source.ToValueSequence();
-            return sourceSeq.Except(second);
+            return source.ToValueSequence().Except(second);
         }
     }
 }

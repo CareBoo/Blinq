@@ -1,89 +1,110 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using Unity.Collections;
 
 namespace CareBoo.Blinq
 {
     public static partial class Sequence
     {
-        public static ValueSequence<T, IntersectSequence<T, TSource, TSecond>> Intersect<T, TSource, TSecond>(
-            this in ValueSequence<T, TSource> source,
-            in ValueSequence<T, TSecond> second
+        public static ValueSequence<
+            T,
+            IntersectSequence<T, TSource, TSourceEnumerator, TSecond, TSecondEnumerator>,
+            IntersectSequence<T, TSource, TSourceEnumerator, TSecond, TSecondEnumerator>.Enumerator>
+        Intersect<T, TSource, TSourceEnumerator, TSecond, TSecondEnumerator>(
+            this in ValueSequence<T, TSource, TSourceEnumerator> source,
+            in ValueSequence<T, TSecond, TSecondEnumerator> second
             )
             where T : unmanaged, IEquatable<T>
-            where TSource : struct, ISequence<T>
-            where TSecond : struct, ISequence<T>
+            where TSource : struct, ISequence<T, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<T>
+            where TSecond : struct, ISequence<T, TSecondEnumerator>
+            where TSecondEnumerator : struct, IEnumerator<T>
         {
-            var sourceSeq = source.GetEnumerator();
-            var secondSeq = second.GetEnumerator();
-            var seq = new IntersectSequence<T, TSource, TSecond>(ref sourceSeq, ref secondSeq);
-            return ValueSequence<T>.New(ref seq);
+            var sourceSeq = source.Source;
+            var secondSeq = second.Source;
+            var seq = new IntersectSequence<T, TSource, TSourceEnumerator, TSecond, TSecondEnumerator>(in sourceSeq, in secondSeq);
+            return ValueSequence<T, IntersectSequence<T, TSource, TSourceEnumerator, TSecond, TSecondEnumerator>.Enumerator>.New(in seq);
         }
 
-        public static ValueSequence<T, IntersectSequence<T, TSource, NativeArraySequence<T>>> Intersect<T, TSource>(
-            this in ValueSequence<T, TSource> source,
+        public static ValueSequence<
+            T,
+            IntersectSequence<T, TSource, TSourceEnumerator, NativeArraySequence<T>, NativeArray<T>.Enumerator>,
+            IntersectSequence<T, TSource, TSourceEnumerator, NativeArraySequence<T>, NativeArray<T>.Enumerator>.Enumerator>
+        Intersect<T, TSource, TSourceEnumerator>(
+            this in ValueSequence<T, TSource, TSourceEnumerator> source,
             in NativeArray<T> second
             )
             where T : unmanaged, IEquatable<T>
-            where TSource : struct, ISequence<T>
+            where TSource : struct, ISequence<T, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<T>
+
         {
             return source.Intersect(second.ToValueSequence());
         }
     }
 
-    public struct IntersectSequence<T, TSource, TSecond> : ISequence<T>
+    public struct IntersectSequence<T, TSource, TSourceEnumerator, TSecond, TSecondEnumerator>
+        : ISequence<T, IntersectSequence<T, TSource, TSourceEnumerator, TSecond, TSecondEnumerator>.Enumerator>
         where T : unmanaged, IEquatable<T>
-        where TSource : struct, ISequence<T>
-        where TSecond : struct, ISequence<T>
+        where TSource : struct, ISequence<T, TSourceEnumerator>
+        where TSourceEnumerator : struct, IEnumerator<T>
+        where TSecond : struct, ISequence<T, TSecondEnumerator>
+        where TSecondEnumerator : struct, IEnumerator<T>
     {
-        TSource source;
-        TSecond second;
-        NativeHashSet<T> intersection;
-        NativeHashSet<T> added;
+        public struct Enumerator : IEnumerator<T>
+        {
+            TSecondEnumerator secondEnumerator;
+            NativeHashSet<T> sourceSet;
+            NativeHashSet<T> secondSet;
 
-        public IntersectSequence(ref TSource source, ref TSecond second)
+            public Enumerator(
+                in TSource source,
+                in TSecond second
+                )
+            {
+                var sourceList = source.ToNativeList(Allocator.Temp);
+                sourceSet = new NativeHashSet<T>(sourceList.Length, Allocator.Temp);
+                for (var i = 0; i < sourceList.Length; i++)
+                    sourceSet.Add(sourceList[i]);
+                sourceList.Dispose();
+                secondEnumerator = second.GetEnumerator();
+                secondSet = new NativeHashSet<T>(1, Allocator.Temp);
+            }
+
+            public T Current => secondEnumerator.Current;
+
+            object IEnumerator.Current => Current;
+
+            public void Dispose()
+            {
+                sourceSet.Dispose();
+                secondEnumerator.Dispose();
+                secondSet.Dispose();
+            }
+
+            public bool MoveNext()
+            {
+                while (secondEnumerator.MoveNext())
+                    if (sourceSet.Contains(Current) && secondSet.Add(Current))
+                        return true;
+                return false;
+            }
+
+            public void Reset()
+            {
+                throw new NotSupportedException();
+            }
+        }
+
+        readonly TSource source;
+
+        readonly TSecond second;
+
+        public IntersectSequence(in TSource source, in TSecond second)
         {
             this.source = source;
             this.second = second;
-            intersection = default;
-            added = default;
-        }
-
-        public T Current => second.Current;
-
-        object IEnumerator.Current => Current;
-
-        public void Dispose()
-        {
-            source.Dispose();
-            second.Dispose();
-            if (intersection.IsCreated)
-                intersection.Dispose();
-            if (added.IsCreated)
-                added.Dispose();
-        }
-
-        public bool MoveNext()
-        {
-            if (!intersection.IsCreated)
-            {
-                var sourceList = source.ToNativeList(Allocator.Temp);
-                intersection = new NativeHashSet<T>(sourceList.Length, Allocator.Temp);
-                for (var i = 0; i < sourceList.Length; i++)
-                    intersection.Add(sourceList[i]);
-                sourceList.Dispose();
-            }
-            if (!added.IsCreated)
-                added = new NativeHashSet<T>(0, Allocator.Persistent);
-            while (second.MoveNext())
-                if (intersection.Contains(second.Current) && added.Add(second.Current))
-                    return true;
-            return false;
-        }
-
-        public void Reset()
-        {
-            throw new NotSupportedException();
         }
 
         public NativeList<T> ToNativeList(Allocator allocator)
@@ -103,6 +124,21 @@ namespace CareBoo.Blinq
             sourceSet.Dispose();
             secondSet.Dispose();
             return result;
+        }
+
+        public Enumerator GetEnumerator()
+        {
+            return new Enumerator(in source, in second);
+        }
+
+        IEnumerator<T> IEnumerable<T>.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }

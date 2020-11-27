@@ -4,14 +4,14 @@ namespace CareBoo.Blinq
 {
     public static partial class Sequence
     {
-        public static ValueSequence<T, SkipSequence<T, NativeArraySequence<T>>> Skip<T>(
+        public static ValueSequence<T, SkipSequence<T, NativeArraySequence<T>, NativeArray<T>.Enumerator>, SkipSequence<T, NativeArraySequence<T>, NativeArray<T>.Enumerator>.Enumerator> Skip<T>(
             this in NativeArray<T> source,
-            in int count
+            int count
             )
             where T : struct
         {
             var sourceSeq = source.ToValueSequence();
-            return sourceSeq.Skip(in count);
+            return sourceSeq.Skip(count);
         }
     }
 }

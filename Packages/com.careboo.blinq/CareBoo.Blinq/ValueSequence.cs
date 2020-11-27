@@ -4,21 +4,22 @@ using Unity.Collections;
 
 namespace CareBoo.Blinq
 {
-    public struct ValueSequence<T, TSource>
-        : IEnumerable<T>
+    public struct ValueSequence<T, TSource, TEnumerator>
+        : ISequence<T, TEnumerator>
         where T : struct
-        where TSource : struct, ISequence<T>
+        where TSource : struct, ISequence<T, TEnumerator>
+        where TEnumerator : struct, IEnumerator<T>
     {
-        TSource source;
+        public readonly TSource Source;
 
-        public ValueSequence(ref TSource source)
+        public ValueSequence(in TSource source)
         {
-            this.source = source;
+            Source = source;
         }
 
-        public TSource GetEnumerator()
+        public TEnumerator GetEnumerator()
         {
-            return source;
+            return Source.GetEnumerator();
         }
 
         IEnumerator<T> IEnumerable<T>.GetEnumerator()
@@ -33,17 +34,18 @@ namespace CareBoo.Blinq
 
         public NativeList<T> ToNativeList(Allocator allocator)
         {
-            return source.ToNativeList(allocator);
+            return Source.ToNativeList(allocator);
         }
     }
 
-    public static class ValueSequence<T>
+    public static class ValueSequence<T, TEnumerator>
         where T : struct
+        where TEnumerator : struct, IEnumerator<T>
     {
-        public static ValueSequence<T, TSource> New<TSource>(ref TSource source)
-            where TSource : struct, ISequence<T>
+        public static ValueSequence<T, TSource, TEnumerator> New<TSource>(in TSource source)
+            where TSource : struct, ISequence<T, TEnumerator>
         {
-            return new ValueSequence<T, TSource>(ref source);
+            return new ValueSequence<T, TSource, TEnumerator>(in source);
         }
     }
 }

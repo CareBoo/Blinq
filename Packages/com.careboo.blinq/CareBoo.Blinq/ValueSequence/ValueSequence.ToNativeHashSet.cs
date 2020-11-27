@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Unity.Collections;
 using Unity.Jobs;
 
@@ -6,17 +7,18 @@ namespace CareBoo.Blinq
 {
     public static partial class Sequence
     {
-        public struct ToNativeHashSetJob<T, TSource> : IJob
+        public struct SequenceToNativeHashSetJob<T, TSource, TSourceEnumerator> : IJob
             where T : unmanaged, IEquatable<T>
-            where TSource : struct, ISequence<T>
+            where TSource : struct, ISequence<T, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<T>
         {
             [ReadOnly]
-            ValueSequence<T, TSource> source;
+            ValueSequence<T, TSource, TSourceEnumerator> source;
 
             [WriteOnly]
             NativeHashSet<T> hashSet;
 
-            public ToNativeHashSetJob(ValueSequence<T, TSource> source, ref NativeHashSet<T> hashSet)
+            public SequenceToNativeHashSetJob(ValueSequence<T, TSource, TSourceEnumerator> source, ref NativeHashSet<T> hashSet)
             {
                 this.source = source;
                 this.hashSet = hashSet;
@@ -28,46 +30,50 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static NativeHashSet<T> ToNativeHashSet<T, TSource>(
-            this in ValueSequence<T, TSource> source,
+        public static NativeHashSet<T> ToNativeHashSet<T, TSource, TSourceEnumerator>(
+            this in ValueSequence<T, TSource, TSourceEnumerator> source,
             in Allocator allocator
             )
             where T : unmanaged, IEquatable<T>
-            where TSource : struct, ISequence<T>
+            where TSource : struct, ISequence<T, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<T>
         {
             var result = new NativeHashSet<T>(0, allocator);
             return ToNativeHashSet(source, ref result);
         }
 
-        public static NativeHashSet<T> RunToNativeHashSet<T, TSource>(
-            this in ValueSequence<T, TSource> source,
+        public static NativeHashSet<T> RunToNativeHashSet<T, TSource, TSourceEnumerator>(
+            this in ValueSequence<T, TSource, TSourceEnumerator> source,
             in Allocator allocator
             )
             where T : unmanaged, IEquatable<T>
-            where TSource : struct, ISequence<T>
+            where TSource : struct, ISequence<T, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<T>
         {
             var result = new NativeHashSet<T>(0, allocator);
             return source.RunToNativeHashSet(ref result);
         }
 
-        public static CollectionJobHandle<NativeHashSet<T>> ScheduleToNativeHashSet<T, TSource>(
-            this in ValueSequence<T, TSource> source,
+        public static CollectionJobHandle<NativeHashSet<T>> ScheduleToNativeHashSet<T, TSource, TSourceEnumerator>(
+            this in ValueSequence<T, TSource, TSourceEnumerator> source,
             in Allocator allocator
             )
             where T : unmanaged, IEquatable<T>
-            where TSource : struct, ISequence<T>
+            where TSource : struct, ISequence<T, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<T>
         {
             var result = new NativeHashSet<T>(0, allocator);
-            var jobHandle = new ToNativeHashSetJob<T, TSource>(source, ref result).Schedule();
+            var jobHandle = new SequenceToNativeHashSetJob<T, TSource, TSourceEnumerator>(source, ref result).Schedule();
             return new CollectionJobHandle<NativeHashSet<T>>(jobHandle, result);
         }
 
-        public static NativeHashSet<T> ToNativeHashSet<T, TSource>(
-            this in ValueSequence<T, TSource> source,
+        public static NativeHashSet<T> ToNativeHashSet<T, TSource, TSourceEnumerator>(
+            this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ref NativeHashSet<T> hashSet
             )
             where T : unmanaged, IEquatable<T>
-            where TSource : struct, ISequence<T>
+            where TSource : struct, ISequence<T, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<T>
         {
             var list = source.ToNativeList(Allocator.Temp);
             hashSet.Capacity = list.Length;
@@ -77,25 +83,27 @@ namespace CareBoo.Blinq
             return hashSet;
         }
 
-        public static NativeHashSet<T> RunToNativeHashSet<T, TSource>(
-            this in ValueSequence<T, TSource> source,
+        public static NativeHashSet<T> RunToNativeHashSet<T, TSource, TSourceEnumerator>(
+            this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ref NativeHashSet<T> hashSet
             )
             where T : unmanaged, IEquatable<T>
-            where TSource : struct, ISequence<T>
+            where TSource : struct, ISequence<T, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<T>
         {
-            new ToNativeHashSetJob<T, TSource>(source, ref hashSet).Run();
+            new SequenceToNativeHashSetJob<T, TSource, TSourceEnumerator>(source, ref hashSet).Run();
             return hashSet;
         }
 
-        public static JobHandle ScheduleToNativeHashSet<T, TSource>(
-            this in ValueSequence<T, TSource> source,
+        public static JobHandle ScheduleToNativeHashSet<T, TSource, TSourceEnumerator>(
+            this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ref NativeHashSet<T> hashSet
             )
             where T : unmanaged, IEquatable<T>
-            where TSource : struct, ISequence<T>
+            where TSource : struct, ISequence<T, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<T>
         {
-            return new ToNativeHashSetJob<T, TSource>(source, ref hashSet).Schedule();
+            return new SequenceToNativeHashSetJob<T, TSource, TSourceEnumerator>(source, ref hashSet).Schedule();
         }
     }
 }

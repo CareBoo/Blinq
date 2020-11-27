@@ -5,26 +5,32 @@ namespace CareBoo.Blinq
 {
     public static partial class Sequence
     {
-        public static ValueSequence<T, SkipWhileIndexSequence<T, NativeArraySequence<T>, TPredicate>> SkipWhile<T, TPredicate>(
+        public static ValueSequence<
+            T,
+            SkipWhileSequence<T, NativeArraySequence<T>, NativeArray<T>.Enumerator, TPredicate>,
+            SkipWhileSequence<T, NativeArraySequence<T>, NativeArray<T>.Enumerator, TPredicate>.Enumerator>
+        SkipWhile<T, TPredicate>(
             this in NativeArray<T> source,
-            in ValueFunc<T, int, bool>.Struct<TPredicate> predicate
+            ValueFunc<T, int, bool>.Struct<TPredicate> predicate
             )
             where T : struct
             where TPredicate : struct, IFunc<T, int, bool>
         {
-            var sourceSeq = source.ToValueSequence();
-            return sourceSeq.SkipWhile(in predicate);
+            return source.ToValueSequence().SkipWhile(predicate);
         }
 
-        public static ValueSequence<T, SkipWhileSequence<T, NativeArraySequence<T>, TPredicate>> SkipWhile<T, TPredicate>(
+        public static ValueSequence<
+            T,
+            SkipWhileSequence<T, NativeArraySequence<T>, NativeArray<T>.Enumerator, IgnoreIndex<T, bool, TPredicate>>,
+            SkipWhileSequence<T, NativeArraySequence<T>, NativeArray<T>.Enumerator, IgnoreIndex<T, bool, TPredicate>>.Enumerator>
+        SkipWhile<T, TPredicate>(
             this in NativeArray<T> source,
-            in ValueFunc<T, bool>.Struct<TPredicate> predicate
+            ValueFunc<T, bool>.Struct<TPredicate> predicate
             )
             where T : struct
             where TPredicate : struct, IFunc<T, bool>
         {
-            var sourceSeq = source.ToValueSequence();
-            return sourceSeq.SkipWhile(in predicate);
+            return source.ToValueSequence().SkipWhile(predicate);
         }
     }
 }

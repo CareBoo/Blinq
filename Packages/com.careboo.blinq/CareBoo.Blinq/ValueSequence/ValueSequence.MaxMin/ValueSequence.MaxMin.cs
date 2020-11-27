@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using CareBoo.Burst.Delegates;
 using Unity.Collections;
 
@@ -6,12 +7,13 @@ namespace CareBoo.Blinq
 {
     public static partial class Sequence
     {
-        public static TResult Max<T, TSource, TResult, TSelector>(
-            this in ValueSequence<T, TSource> source,
-            in ValueFunc<T, TResult>.Struct<TSelector> selector
+        public static TResult Max<T, TSource, TSourceEnumerator, TResult, TSelector>(
+            this in ValueSequence<T, TSource, TSourceEnumerator> source,
+            ValueFunc<T, TResult>.Struct<TSelector> selector
             )
             where T : struct
-            where TSource : struct, ISequence<T>
+            where TSource : struct, ISequence<T, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<T>
             where TResult : struct, IComparable<TResult>
             where TSelector : struct, IFunc<T, TResult>
         {
@@ -32,11 +34,12 @@ namespace CareBoo.Blinq
             return max;
         }
 
-        public static T Max<T, TSource>(
-            this in ValueSequence<T, TSource> source
+        public static T Max<T, TSource, TSourceEnumerator>(
+            this in ValueSequence<T, TSource, TSourceEnumerator> source
             )
             where T : struct, IComparable<T>
-            where TSource : struct, ISequence<T>
+            where TSource : struct, ISequence<T, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<T>
         {
             var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)
@@ -55,12 +58,13 @@ namespace CareBoo.Blinq
             return max;
         }
 
-        public static TResult Min<T, TSource, TResult, TSelector>(
-            this in ValueSequence<T, TSource> source,
-            in ValueFunc<T, TResult>.Struct<TSelector> selector
+        public static TResult Min<T, TSource, TSourceEnumerator, TResult, TSelector>(
+            this in ValueSequence<T, TSource, TSourceEnumerator> source,
+            ValueFunc<T, TResult>.Struct<TSelector> selector
             )
             where T : struct
-            where TSource : struct, ISequence<T>
+            where TSource : struct, ISequence<T, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<T>
             where TResult : struct, IComparable<TResult>
             where TSelector : struct, IFunc<T, TResult>
         {
@@ -81,11 +85,12 @@ namespace CareBoo.Blinq
             return min;
         }
 
-        public static T Min<T, TSource>(
-            this in ValueSequence<T, TSource> source
+        public static T Min<T, TSource, TSourceEnumerator>(
+            this in ValueSequence<T, TSource, TSourceEnumerator> source
             )
             where T : struct, IComparable<T>
-            where TSource : struct, ISequence<T>
+            where TSource : struct, ISequence<T, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<T>
         {
             var srcList = source.ToNativeList(Allocator.Temp);
             if (srcList.Length == 0)

@@ -1,81 +1,105 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using Unity.Collections;
 
 namespace CareBoo.Blinq
 {
     public static partial class Sequence
     {
-        public static ValueSequence<T, ConcatSequence<T, TSource, TSecond>> Concat<T, TSource, TSecond>(
-            this in ValueSequence<T, TSource> source,
-            ValueSequence<T, TSecond> second
+        public static ValueSequence<
+            T,
+            ConcatSequence<T, TSource, TSourceEnumerator, TSecond, TSecondEnumerator>,
+            ConcatSequence<T, TSource, TSourceEnumerator, TSecond, TSecondEnumerator>.Enumerator>
+        Concat<T, TSource, TSourceEnumerator, TSecond, TSecondEnumerator>(
+            this in ValueSequence<T, TSource, TSourceEnumerator> source,
+            ValueSequence<T, TSecond, TSecondEnumerator> second
             )
             where T : struct
-            where TSource : struct, ISequence<T>
-            where TSecond : struct, ISequence<T>
+            where TSource : struct, ISequence<T, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<T>
+            where TSecond : struct, ISequence<T, TSecondEnumerator>
+            where TSecondEnumerator : struct, IEnumerator<T>
         {
-            var sourceSeq = source.GetEnumerator();
-            var secondSeq = second.GetEnumerator();
-            var newSequence = new ConcatSequence<T, TSource, TSecond>(ref sourceSeq, ref secondSeq);
-            return ValueSequence<T>.New(ref newSequence);
+            var sourceSeq = source.Source;
+            var secondSeq = second.Source;
+            var newSequence = new ConcatSequence<T, TSource, TSourceEnumerator, TSecond, TSecondEnumerator>(in sourceSeq, in secondSeq);
+            return ValueSequence<T, ConcatSequence<T, TSource, TSourceEnumerator, TSecond, TSecondEnumerator>.Enumerator>.New(in newSequence);
         }
 
-        public static ValueSequence<T, ConcatSequence<T, TSource, NativeArraySequence<T>>> Concat<T, TSource>(
-            this in ValueSequence<T, TSource> source,
+        public static ValueSequence<
+            T,
+            ConcatSequence<T, TSource, TSourceEnumerator, NativeArraySequence<T>, NativeArray<T>.Enumerator>,
+            ConcatSequence<T, TSource, TSourceEnumerator, NativeArraySequence<T>, NativeArray<T>.Enumerator>.Enumerator>
+        Concat<T, TSource, TSourceEnumerator>(
+            this in ValueSequence<T, TSource, TSourceEnumerator> source,
             NativeArray<T> second
             )
             where T : struct
-            where TSource : struct, ISequence<T>
+            where TSource : struct, ISequence<T, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<T>
         {
-            var sourceSeq = source.GetEnumerator();
-            var secondSeq = second.ToValueSequence().GetEnumerator();
-            var newSequence = new ConcatSequence<T, TSource, NativeArraySequence<T>>(ref sourceSeq, ref secondSeq);
-            return ValueSequence<T>.New(ref newSequence);
+            return source.Concat(second.ToValueSequence());
         }
     }
 
-    public struct ConcatSequence<T, TSource, TSecond> : ISequence<T>
+    public struct ConcatSequence<T, TSource, TSourceEnumerator, TSecond, TSecondEnumerator>
+        : ISequence<T, ConcatSequence<T, TSource, TSourceEnumerator, TSecond, TSecondEnumerator>.Enumerator>
         where T : struct
-        where TSource : struct, ISequence<T>
-        where TSecond : struct, ISequence<T>
+        where TSource : struct, ISequence<T, TSourceEnumerator>
+        where TSourceEnumerator : struct, IEnumerator<T>
+        where TSecond : struct, ISequence<T, TSecondEnumerator>
+        where TSecondEnumerator : struct, IEnumerator<T>
     {
-        TSource source;
-        TSecond second;
+        public struct Enumerator : IEnumerator<T>
+        {
+            TSourceEnumerator sourceEnumerator;
+            TSecondEnumerator secondEnumerator;
+            bool sourceHasCurrent;
 
-        bool currentIndex;
+            public Enumerator(in TSource source, in TSecond second)
+            {
+                sourceEnumerator = source.GetEnumerator();
+                secondEnumerator = second.GetEnumerator();
+                sourceHasCurrent = true;
+            }
 
-        public ConcatSequence(ref TSource source, ref TSecond second)
+            public T Current => sourceHasCurrent
+                ? sourceEnumerator.Current
+                : secondEnumerator.Current;
+
+            object IEnumerator.Current => Current;
+
+            public void Dispose()
+            {
+                sourceEnumerator.Dispose();
+                secondEnumerator.Dispose();
+            }
+
+            public bool MoveNext()
+            {
+                if (sourceHasCurrent && sourceEnumerator.MoveNext())
+                {
+                    return true;
+                }
+                sourceHasCurrent = false;
+                return secondEnumerator.MoveNext();
+            }
+
+            public void Reset()
+            {
+                throw new NotSupportedException();
+            }
+        }
+
+        readonly TSource source;
+
+        readonly TSecond second;
+
+        public ConcatSequence(in TSource source, in TSecond second)
         {
             this.source = source;
             this.second = second;
-            currentIndex = false;
-        }
-
-        public T Current => currentIndex
-            ? second.Current
-            : source.Current;
-
-        object IEnumerator.Current => Current;
-
-        public void Dispose()
-        {
-            source.Dispose();
-            second.Dispose();
-        }
-
-        public bool MoveNext()
-        {
-            if (!source.MoveNext())
-            {
-                currentIndex = true;
-                return second.MoveNext();
-            }
-            return true;
-        }
-
-        public void Reset()
-        {
-            throw new NotSupportedException();
         }
 
         public NativeList<T> ToNativeList(Allocator allocator)
@@ -85,6 +109,21 @@ namespace CareBoo.Blinq
             sourceList.AddRange(secondList);
             secondList.Dispose();
             return sourceList;
+        }
+
+        public Enumerator GetEnumerator()
+        {
+            return new Enumerator(in source, in second);
+        }
+
+        IEnumerator<T> IEnumerable<T>.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }

@@ -5,13 +5,16 @@ namespace CareBoo.Blinq
 {
     public static partial class Sequence
     {
-        public static ValueSequence<T, DistinctSequence<T, NativeArraySequence<T>>> Distinct<T>(
+        public static ValueSequence<
+            T,
+            DistinctSequence<T, NativeArraySequence<T>, NativeArray<T>.Enumerator>,
+            DistinctSequence<T, NativeArraySequence<T>, NativeArray<T>.Enumerator>.Enumerator>
+        Distinct<T>(
             this in NativeArray<T> source
             )
             where T : unmanaged, IEquatable<T>
         {
-            var sourceSeq = source.ToValueSequence();
-            return sourceSeq.Distinct();
+            return source.ToValueSequence().Distinct();
         }
     }
 }
