@@ -1,3 +1,20 @@
+# [3.0.0](https://github.com/CareBoo/Blinq/compare/v2.0.0...v3.0.0) (2020-11-28)
+
+
+### Bug Fixes
+
+* :ambulance: Fix some enumerators that weren't compatible with Burst ([e215d09](https://github.com/CareBoo/Blinq/commit/e215d0907539b9e2b25cff0175c77be34370b16a)), closes [#84](https://github.com/CareBoo/Blinq/issues/84)
+
+
+### Features
+
+* :sparkles: Implement RunAverage and ScheduleAverage ([9f858a9](https://github.com/CareBoo/Blinq/commit/9f858a924c04af3281f5fc196fbcc3280789c75e)), closes [#64](https://github.com/CareBoo/Blinq/issues/64)
+
+
+### BREAKING CHANGES
+
+* Completely changed the ValueSequence API to include TEnumerator generic parameter
+
 # [3.0.0-preview.1](https://github.com/CareBoo/Blinq/compare/v2.1.0-preview.1...v3.0.0-preview.1) (2020-11-27)
 
 
