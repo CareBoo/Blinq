@@ -1,5 +1,4 @@
-﻿using System;
-using Unity.Collections;
+﻿using Unity.Collections;
 using CareBoo.Burst.Delegates;
 using System.Collections.Generic;
 using Unity.Jobs;
@@ -13,39 +12,40 @@ namespace CareBoo.Blinq
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ValueFunc<T, bool>.Struct<TPredicate> predicate
             )
-            where T : unmanaged, IEquatable<T>
+            where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<T>
             where TPredicate : struct, IFunc<T, bool>
         {
             var list = source.ToNativeList(Allocator.Temp);
-            var set = new NativeHashSet<T>(list.Length, Allocator.Temp);
+            var isFound = false;
+            T result = default;
             for (var i = 0; i < list.Length; i++)
             {
                 var val = list[i];
-                if (predicate.Invoke(val) && !set.Add(val))
+                if (predicate.Invoke(val))
                 {
-                    set.Dispose();
-                    list.Dispose();
-                    throw Error.MoreThanOneMatch();
+                    if (isFound)
+                    {
+                        list.Dispose();
+                        throw Error.MoreThanOneMatch();
+                    }
+                    isFound = true;
+                    result = val;
                 }
             }
-            var iter = set.GetEnumerator();
-            if (iter.MoveNext())
+            if (isFound)
             {
-                var result = iter.Current;
-                set.Dispose();
                 list.Dispose();
                 return result;
             }
-            set.Dispose();
             list.Dispose();
             throw Error.NoMatch();
         }
 
         public struct SingleFunc<T, TSource, TSourceEnumerator, TPredicate>
             : IFunc<ValueSequence<T, TSource, TSourceEnumerator>, T>
-            where T : unmanaged, IEquatable<T>
+            where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<T>
             where TPredicate : struct, IFunc<T, bool>
@@ -61,7 +61,7 @@ namespace CareBoo.Blinq
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ValueFunc<T, bool>.Struct<TPredicate> predicate
             )
-            where T : unmanaged, IEquatable<T>
+            where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<T>
             where TPredicate : struct, IFunc<T, bool>
@@ -74,7 +74,7 @@ namespace CareBoo.Blinq
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ValueFunc<T, bool>.Struct<TPredicate> predicate
             )
-            where T : unmanaged, IEquatable<T>
+            where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<T>
             where TPredicate : struct, IFunc<T, bool>
@@ -88,7 +88,7 @@ namespace CareBoo.Blinq
             ref NativeArray<T> output,
             ValueFunc<T, bool>.Struct<TPredicate> predicate
             )
-            where T : unmanaged, IEquatable<T>
+            where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<T>
             where TPredicate : struct, IFunc<T, bool>
@@ -101,7 +101,7 @@ namespace CareBoo.Blinq
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ValueFunc<T, bool>.Struct<TPredicate> predicate
             )
-            where T : unmanaged, IEquatable<T>
+            where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<T>
             where TPredicate : struct, IFunc<T, bool>
@@ -115,35 +115,35 @@ namespace CareBoo.Blinq
             ValueFunc<T, bool>.Struct<TPredicate> predicate,
             in T defaultVal = default
             )
-            where T : unmanaged, IEquatable<T>
+            where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<T>
             where TPredicate : struct, IFunc<T, bool>
         {
             var list = source.ToNativeList(Allocator.Temp);
-            var set = new NativeHashSet<T>(list.Length, Allocator.Temp);
+            var isFound = false;
+            T result = default;
             for (var i = 0; i < list.Length; i++)
             {
                 var val = list[i];
-                if (predicate.Invoke(val) && !set.Add(val))
+                if (predicate.Invoke(val))
                 {
-                    set.Dispose();
-                    list.Dispose();
-                    throw Error.MoreThanOneMatch();
+                    if (isFound)
+                    {
+                        list.Dispose();
+                        throw Error.MoreThanOneMatch();
+                    }
+                    isFound = true;
+                    result = val;
                 }
             }
-            var iter = set.GetEnumerator();
-            var result = iter.MoveNext()
-                ? iter.Current
-                : defaultVal;
-            set.Dispose();
             list.Dispose();
             return result;
         }
 
         public struct SingleOrDefaultFunc<T, TSource, TSourceEnumerator, TPredicate>
             : IFunc<ValueSequence<T, TSource, TSourceEnumerator>, T>
-            where T : unmanaged, IEquatable<T>
+            where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<T>
             where TPredicate : struct, IFunc<T, bool>
@@ -161,7 +161,7 @@ namespace CareBoo.Blinq
             ValueFunc<T, bool>.Struct<TPredicate> predicate,
             in T defaultVal = default
             )
-            where T : unmanaged, IEquatable<T>
+            where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<T>
             where TPredicate : struct, IFunc<T, bool>
@@ -175,7 +175,7 @@ namespace CareBoo.Blinq
             ValueFunc<T, bool>.Struct<TPredicate> predicate,
             in T defaultVal = default
             )
-            where T : unmanaged, IEquatable<T>
+            where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<T>
             where TPredicate : struct, IFunc<T, bool>
@@ -190,7 +190,7 @@ namespace CareBoo.Blinq
             ValueFunc<T, bool>.Struct<TPredicate> predicate,
             in T defaultVal = default
             )
-            where T : unmanaged, IEquatable<T>
+            where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<T>
             where TPredicate : struct, IFunc<T, bool>
@@ -204,7 +204,7 @@ namespace CareBoo.Blinq
             ValueFunc<T, bool>.Struct<TPredicate> predicate,
             in T defaultVal = default
             )
-            where T : unmanaged, IEquatable<T>
+            where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<T>
             where TPredicate : struct, IFunc<T, bool>
