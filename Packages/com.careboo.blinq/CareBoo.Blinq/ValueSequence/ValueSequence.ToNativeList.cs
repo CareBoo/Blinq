@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Unity.Burst;
 using Unity.Collections;
 using Unity.Jobs;
 
@@ -6,6 +7,7 @@ namespace CareBoo.Blinq
 {
     public static partial class Sequence
     {
+        [BurstCompile]
         public struct ToNativeListJob<T, TSource, TSourceEnumerator> : IJob
             where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
@@ -21,14 +23,14 @@ namespace CareBoo.Blinq
             {
                 var list = Source.ToNativeList(Allocator.Temp);
                 Output.Capacity = list.Length;
-                NativeArray<T>.Copy(list, Output);
+                Output.AddRangeNoResize(list);
                 list.Dispose();
             }
         }
 
         public static NativeList<T> RunToNativeList<T, TSource, TSourceEnumerator>(
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
-            in Allocator allocator
+            Allocator allocator
             )
             where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
@@ -52,7 +54,7 @@ namespace CareBoo.Blinq
 
         public static CollectionJobHandle<NativeList<T>> ScheduleToNativeList<T, TSource, TSourceEnumerator>(
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
-            in Allocator allocator
+            Allocator allocator
             )
             where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
