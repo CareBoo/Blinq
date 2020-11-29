@@ -1,3 +1,10 @@
+# [3.1.0-preview.2](https://github.com/CareBoo/Blinq/compare/v3.1.0-preview.1...v3.1.0-preview.2) (2020-11-29)
+
+
+### Bug Fixes
+
+* :ambulance: Fix SequenceJobs to be burst compiled ([ae4039a](https://github.com/CareBoo/Blinq/commit/ae4039a3841d3de4f998ac0814fa9f66873203bb))
+
 # [3.1.0-preview.1](https://github.com/CareBoo/Blinq/compare/v3.0.0...v3.1.0-preview.1) (2020-11-29)
 
 
