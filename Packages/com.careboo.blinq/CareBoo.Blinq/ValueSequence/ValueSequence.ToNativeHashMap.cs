@@ -3,11 +3,13 @@ using Unity.Collections;
 using CareBoo.Burst.Delegates;
 using Unity.Jobs;
 using System.Collections.Generic;
+using Unity.Burst;
 
 namespace CareBoo.Blinq
 {
     public static partial class Sequence
     {
+        [BurstCompile]
         public struct SequenceToNativeHashMapJob<T, TSource, TSourceEnumerator, TKey, TElement, TKeySelector, TElementSelector> : IJob
             where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
@@ -48,6 +50,7 @@ namespace CareBoo.Blinq
             }
         }
 
+        [BurstCompile]
         public struct SequenceToNativeHashMapJob<T, TSource, TSourceEnumerator, TKey, TKeySelector> : IJob
             where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
@@ -85,7 +88,7 @@ namespace CareBoo.Blinq
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ValueFunc<T, TKey>.Struct<TKeySelector> keySelector,
             ValueFunc<T, TElement>.Struct<TElementSelector> elementSelector,
-            in Allocator allocator
+            Allocator allocator
             )
             where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
@@ -103,7 +106,7 @@ namespace CareBoo.Blinq
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ValueFunc<T, TKey>.Struct<TKeySelector> keySelector,
             ValueFunc<T, TElement>.Struct<TElementSelector> elementSelector,
-            in Allocator allocator
+            Allocator allocator
             )
             where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
@@ -122,7 +125,7 @@ namespace CareBoo.Blinq
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ValueFunc<T, TKey>.Struct<TKeySelector> keySelector,
             ValueFunc<T, TElement>.Struct<TElementSelector> elementSelector,
-            in Allocator allocator
+            Allocator allocator
             )
             where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
@@ -201,7 +204,7 @@ namespace CareBoo.Blinq
         public static NativeHashMap<TKey, T> ToNativeHashMap<T, TSource, TSourceEnumerator, TKey, TKeySelector>(
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ValueFunc<T, TKey>.Struct<TKeySelector> keySelector,
-            in Allocator allocator
+            Allocator allocator
             )
             where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
@@ -216,7 +219,7 @@ namespace CareBoo.Blinq
         public static NativeHashMap<TKey, T> RunToNativeHashMap<T, TSource, TSourceEnumerator, TKey, TKeySelector>(
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ValueFunc<T, TKey>.Struct<TKeySelector> keySelector,
-            in Allocator allocator
+            Allocator allocator
             )
             where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
@@ -232,7 +235,7 @@ namespace CareBoo.Blinq
         public static CollectionJobHandle<NativeHashMap<TKey, T>> ScheduleToNativeHashMap<T, TSource, TSourceEnumerator, TKey, TKeySelector>(
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ValueFunc<T, TKey>.Struct<TKeySelector> keySelector,
-            in Allocator allocator
+            Allocator allocator
             )
             where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>

@@ -3,9 +3,11 @@ using UnityEngine;
 using CareBoo.Blinq;
 using Unity.Collections;
 using CareBoo.Burst.Delegates;
+using Unity.Burst;
 
 public class DemoBehaviour : MonoBehaviour
 {
+    [BurstCompile]
     public struct SelectJob<TSelector> : IJob
         where TSelector : struct, IFunc<int, long>
     {

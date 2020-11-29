@@ -1,4 +1,5 @@
 ﻿using System;
+using Unity.Burst;
 using Unity.Collections;
 using Unity.Jobs;
 
@@ -6,6 +7,7 @@ namespace CareBoo.Blinq
 {
     public static partial class Sequence
     {
+        [BurstCompile]
         public struct ToNativeHashSetJob<T> : IJob
             where T : unmanaged, IEquatable<T>
         {
@@ -29,7 +31,7 @@ namespace CareBoo.Blinq
 
         public static NativeHashSet<T> ToNativeHashSet<T>(
             this in NativeArray<T> source,
-            in Allocator allocator
+            Allocator allocator
             )
             where T : unmanaged, IEquatable<T>
         {
@@ -39,7 +41,7 @@ namespace CareBoo.Blinq
 
         public static NativeHashSet<T> RunToNativeHashSet<T>(
             this in NativeArray<T> source,
-            in Allocator allocator
+            Allocator allocator
             )
             where T : unmanaged, IEquatable<T>
         {
@@ -49,7 +51,7 @@ namespace CareBoo.Blinq
 
         public static CollectionJobHandle<NativeHashSet<T>> ScheduleToNativeHashSet<T>(
             this in NativeArray<T> source,
-            in Allocator allocator
+            Allocator allocator
             )
             where T : unmanaged, IEquatable<T>
         {

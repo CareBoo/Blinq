@@ -7,7 +7,7 @@ namespace CareBoo.Blinq
     {
         public static NativeList<T> ToNativeList<T>(
             this in NativeArray<T> source,
-            in Allocator allocator
+            Allocator allocator
             )
             where T : struct
         {
@@ -18,7 +18,7 @@ namespace CareBoo.Blinq
 
         public static NativeList<T> RunToNativeList<T>(
             this in NativeArray<T> source,
-            in Allocator allocator
+            Allocator allocator
             )
             where T : struct
         {

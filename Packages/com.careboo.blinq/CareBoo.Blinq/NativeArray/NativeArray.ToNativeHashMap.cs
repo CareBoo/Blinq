@@ -2,11 +2,13 @@
 using Unity.Collections;
 using CareBoo.Burst.Delegates;
 using Unity.Jobs;
+using Unity.Burst;
 
 namespace CareBoo.Blinq
 {
     public static partial class Sequence
     {
+        [BurstCompile]
         public struct ArrayToNativeHashMapJob<T, TKey, TElement, TKeySelector, TElementSelector> : IJob
             where T : struct
             where TKey : struct, IEquatable<TKey>
@@ -45,6 +47,7 @@ namespace CareBoo.Blinq
             }
         }
 
+        [BurstCompile]
         public struct ArrayToNativeHashMapJob<T, TKey, TKeySelector> : IJob
             where T : struct
             where TKey : struct, IEquatable<TKey>
@@ -80,7 +83,7 @@ namespace CareBoo.Blinq
             this in NativeArray<T> source,
             ValueFunc<T, TKey>.Struct<TKeySelector> keySelector,
             ValueFunc<T, TElement>.Struct<TElementSelector> elementSelector,
-            in Allocator allocator
+            Allocator allocator
             )
             where T : struct
             where TKey : struct, IEquatable<TKey>
@@ -96,7 +99,7 @@ namespace CareBoo.Blinq
             this in NativeArray<T> source,
             ValueFunc<T, TKey>.Struct<TKeySelector> keySelector,
             ValueFunc<T, TElement>.Struct<TElementSelector> elementSelector,
-            in Allocator allocator
+            Allocator allocator
             )
             where T : struct
             where TKey : struct, IEquatable<TKey>
@@ -112,7 +115,7 @@ namespace CareBoo.Blinq
             this in NativeArray<T> source,
             ValueFunc<T, TKey>.Struct<TKeySelector> keySelector,
             ValueFunc<T, TElement>.Struct<TElementSelector> elementSelector,
-            in Allocator allocator
+            Allocator allocator
             )
             where T : struct
             where TKey : struct, IEquatable<TKey>
@@ -182,7 +185,7 @@ namespace CareBoo.Blinq
         public static NativeHashMap<TKey, T> ToNativeHashMap<T, TKey, TKeySelector>(
             this in NativeArray<T> source,
             ValueFunc<T, TKey>.Struct<TKeySelector> keySelector,
-            in Allocator allocator
+            Allocator allocator
             )
             where T : struct
             where TKey : struct, IEquatable<TKey>
@@ -195,7 +198,7 @@ namespace CareBoo.Blinq
         public static NativeHashMap<TKey, T> RunToNativeHashMap<T, TKey, TKeySelector>(
             this in NativeArray<T> source,
             ValueFunc<T, TKey>.Struct<TKeySelector> keySelector,
-            in Allocator allocator
+            Allocator allocator
             )
             where T : struct
             where TKey : struct, IEquatable<TKey>
@@ -208,7 +211,7 @@ namespace CareBoo.Blinq
         public static CollectionJobHandle<NativeHashMap<TKey, T>> ScheduleToNativeHashMap<T, TKey, TKeySelector>(
             this in NativeArray<T> source,
             ValueFunc<T, TKey>.Struct<TKeySelector> keySelector,
-            in Allocator allocator
+            Allocator allocator
             )
             where T : struct
             where TKey : struct, IEquatable<TKey>
