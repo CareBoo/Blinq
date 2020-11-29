@@ -1,3 +1,10 @@
+# [3.1.0-preview.1](https://github.com/CareBoo/Blinq/compare/v3.0.0...v3.1.0-preview.1) (2020-11-29)
+
+
+### Features
+
+* :sparkles: Implement RunSingle and ScheduleSingle ([92366db](https://github.com/CareBoo/Blinq/commit/92366db433146f01d93dd161a7e210b02b5704a7)), closes [#78](https://github.com/CareBoo/Blinq/issues/78)
+
 # [3.0.0](https://github.com/CareBoo/Blinq/compare/v2.0.0...v3.0.0) (2020-11-28)
 
 
