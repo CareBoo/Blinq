@@ -112,7 +112,7 @@ namespace CareBoo.Blinq
 
             public T Invoke(ValueSequence<T, TSource, TSourceEnumerator> arg0)
             {
-                return arg0.ElementAt(Index);
+                return arg0.ElementAtOrDefault(Index);
             }
         }
 
