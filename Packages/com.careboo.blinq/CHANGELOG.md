@@ -1,3 +1,13 @@
+# [3.1.0-preview.3](https://github.com/CareBoo/Blinq/compare/v3.1.0-preview.2...v3.1.0-preview.3) (2020-11-29)
+
+
+### Features
+
+* :sparkles: Implement RunElementAt and ScheduleElementAt ([7943a6e](https://github.com/CareBoo/Blinq/commit/7943a6efedd5144cf526d5423c11d102c8229057)), closes [#72](https://github.com/CareBoo/Blinq/issues/72)
+* :sparkles: Implement RunFirst and ScheduleFirst ([6c2f5c1](https://github.com/CareBoo/Blinq/commit/6c2f5c1df120f749600bbce1354af5c018134a70)), closes [#74](https://github.com/CareBoo/Blinq/issues/74)
+* :sparkles: Implment RunLast and ScheduleLast ([59ca4e5](https://github.com/CareBoo/Blinq/commit/59ca4e548868b64c7ec25cc1181750a0ff6f5ae3)), closes [#75](https://github.com/CareBoo/Blinq/issues/75)
+* :sparkles: Reduce constraints in Single API ([617c8f3](https://github.com/CareBoo/Blinq/commit/617c8f319abf277fe440842929a60e17b868aa67))
+
 # [3.1.0-preview.2](https://github.com/CareBoo/Blinq/compare/v3.1.0-preview.1...v3.1.0-preview.2) (2020-11-29)
 
 
