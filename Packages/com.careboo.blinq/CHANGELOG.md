@@ -1,3 +1,10 @@
+# [3.1.0-preview.4](https://github.com/CareBoo/Blinq/compare/v3.1.0-preview.3...v3.1.0-preview.4) (2020-11-29)
+
+
+### Bug Fixes
+
+* :bug: Fix ElementAtOrDefault throwing an exception ([f0d5c43](https://github.com/CareBoo/Blinq/commit/f0d5c4366bd43509e0a16e835311e7ce139ceb8f))
+
 # [3.1.0-preview.3](https://github.com/CareBoo/Blinq/compare/v3.1.0-preview.2...v3.1.0-preview.3) (2020-11-29)
 
 
