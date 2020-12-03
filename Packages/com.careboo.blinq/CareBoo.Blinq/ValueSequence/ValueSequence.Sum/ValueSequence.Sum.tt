@@ -12,6 +12,7 @@
 
 using System.Collections.Generic;
 using Unity.Collections;
+using Unity.Jobs;
 using Unity.Mathematics;
 using CareBoo.Burst.Delegates;
 
@@ -52,6 +53,58 @@ foreach (string TYPE in TYPES)
             return sum;
         }
 
+        public struct SumFunc_<#=TYPE_FULL#><TSource, TSourceEnumerator>
+            : IFunc<ValueSequence<<#=TYPE_FULL#>, TSource, TSourceEnumerator>, <#=TYPE_FULL#>>
+            where TSource : struct, ISequence<<#=TYPE_FULL#>, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<<#=TYPE_FULL#>>
+        {
+            public <#=TYPE_FULL#> Invoke(ValueSequence<<#=TYPE_FULL#>, TSource, TSourceEnumerator> seq)
+            {
+                return seq.Sum();
+            }
+        }
+
+        public static ValueFunc<ValueSequence<<#=TYPE_FULL#>, TSource, TSourceEnumerator>, <#=TYPE_FULL#>>.Struct<SumFunc_<#=TYPE_FULL#><TSource, TSourceEnumerator>>
+        NewSumFunc_<#=TYPE_FULL#><TSource, TSourceEnumerator>(
+            this in ValueSequence<<#=TYPE_FULL#>, TSource, TSourceEnumerator> source
+            )
+            where TSource : struct, ISequence<<#=TYPE_FULL#>, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<<#=TYPE_FULL#>>
+        {
+            return ValueFunc<ValueSequence<<#=TYPE_FULL#>, TSource, TSourceEnumerator>, <#=TYPE_FULL#>>.New<SumFunc_<#=TYPE_FULL#><TSource, TSourceEnumerator>>();
+        }
+
+        public static <#=TYPE_FULL#> RunSum<TSource, TSourceEnumerator>(
+            this in ValueSequence<<#=TYPE_FULL#>, TSource, TSourceEnumerator> source
+            )
+            where TSource : struct, ISequence<<#=TYPE_FULL#>, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<<#=TYPE_FULL#>>
+        {
+            var func = source.NewSumFunc_<#=TYPE_FULL#>();
+            return source.Run(func);
+        }
+
+        public static JobHandle ScheduleSum<TSource, TSourceEnumerator>(
+            this in ValueSequence<<#=TYPE_FULL#>, TSource, TSourceEnumerator> source,
+            ref NativeArray<<#=TYPE_FULL#>> output
+            )
+            where TSource : struct, ISequence<<#=TYPE_FULL#>, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<<#=TYPE_FULL#>>
+        {
+            var func = source.NewSumFunc_<#=TYPE_FULL#>();
+            return source.Schedule(func, ref output);
+        }
+
+        public static JobHandle<<#=TYPE_FULL#>> ScheduleSum<TSource, TSourceEnumerator>(
+            this in ValueSequence<<#=TYPE_FULL#>, TSource, TSourceEnumerator> source
+            )
+            where TSource : struct, ISequence<<#=TYPE_FULL#>, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<<#=TYPE_FULL#>>
+        {
+            var func = source.NewSumFunc_<#=TYPE_FULL#>();
+            return source.Schedule(func);
+        }
+
         public static <#=TYPE_FULL#> Sum<T, TSource, TSourceEnumerator, TSelector>(
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ValueFunc<T, <#=TYPE_FULL#>>.Struct<TSelector> selector
@@ -72,6 +125,75 @@ foreach (string TYPE in TYPES)
                 sum += selector.Invoke(srcList[i]);
             srcList.Dispose();
             return sum;
+        }
+
+        public struct SumFunc_<#=TYPE_FULL#><T, TSource, TSourceEnumerator, TSelector>
+            : IFunc<ValueSequence<T, TSource, TSourceEnumerator>, <#=TYPE_FULL#>>
+            where T : struct
+            where TSource : struct, ISequence<T, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<T>
+            where TSelector : struct, IFunc<T, <#=TYPE_FULL#>>
+        {
+            public ValueFunc<T, <#=TYPE_FULL#>>.Struct<TSelector> Selector;
+
+            public <#=TYPE_FULL#> Invoke(ValueSequence<T, TSource, TSourceEnumerator> seq)
+            {
+                return seq.Sum(Selector);
+            }
+        }
+
+        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, <#=TYPE_FULL#>>.Struct<SumFunc_<#=TYPE_FULL#><T, TSource, TSourceEnumerator, TSelector>>
+        NewSumFunc_<#=TYPE_FULL#><T, TSource, TSourceEnumerator, TSelector>(
+            this in ValueSequence<T, TSource, TSourceEnumerator> source,
+            ValueFunc<T, <#=TYPE_FULL#>>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<T>
+            where TSelector : struct, IFunc<T, <#=TYPE_FULL#>>
+        {
+            var func = new SumFunc_<#=TYPE_FULL#><T, TSource, TSourceEnumerator, TSelector> { Selector = selector };
+            return ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, <#=TYPE_FULL#>>.New(func);
+        }
+
+        public static <#=TYPE_FULL#> RunSum<T, TSource, TSourceEnumerator, TSelector>(
+            this in ValueSequence<T, TSource, TSourceEnumerator> source,
+            ValueFunc<T, <#=TYPE_FULL#>>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<T>
+            where TSelector : struct, IFunc<T, <#=TYPE_FULL#>>
+        {
+            var func = source.NewSumFunc_<#=TYPE_FULL#>(selector);
+            return source.Run(func);
+        }
+
+        public static JobHandle ScheduleSum<T, TSource, TSourceEnumerator, TSelector>(
+            this in ValueSequence<T, TSource, TSourceEnumerator> source,
+            ref NativeArray<<#=TYPE_FULL#>> output,
+            ValueFunc<T, <#=TYPE_FULL#>>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<T>
+            where TSelector : struct, IFunc<T, <#=TYPE_FULL#>>
+        {
+            var func = source.NewSumFunc_<#=TYPE_FULL#>(selector);
+            return source.Schedule(func, ref output);
+        }
+
+        public static JobHandle<<#=TYPE_FULL#>> ScheduleSum<T, TSource, TSourceEnumerator, TSelector>(
+            this in ValueSequence<T, TSource, TSourceEnumerator> source,
+            ValueFunc<T, <#=TYPE_FULL#>>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<T>
+            where TSelector : struct, IFunc<T, <#=TYPE_FULL#>>
+        {
+            var func = source.NewSumFunc_<#=TYPE_FULL#>(selector);
+            return source.Schedule(func);
         }
 
 <#
