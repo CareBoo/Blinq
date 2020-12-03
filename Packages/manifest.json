@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "com.careboo.burst-delegates": "1.0.0",
-    "com.unity.burst": "1.4.1",
+    "com.unity.burst": "1.4.2",
     "com.unity.collections": "0.14.0-preview.16",
     "com.unity.entities": "0.16.0-preview.21",
     "com.unity.ide.vscode": "1.2.3",
