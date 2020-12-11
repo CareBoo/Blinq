@@ -1,3 +1,11 @@
+# [3.1.0-preview.5](https://github.com/CareBoo/Blinq/compare/v3.1.0-preview.4...v3.1.0-preview.5) (2020-12-11)
+
+
+### Features
+
+* :sparkles: Add NativeArray.Sum ([ef5c4bc](https://github.com/CareBoo/Blinq/commit/ef5c4bc67f1eddd1bc80176e59ec8bd3a30a46a6)), closes [#66](https://github.com/CareBoo/Blinq/issues/66)
+* :sparkles: Implement RunSum and ScheduleSum ([0c1f594](https://github.com/CareBoo/Blinq/commit/0c1f594b067210cede166e09bbaaf0470ef7ff8f)), closes [#66](https://github.com/CareBoo/Blinq/issues/66)
+
 # [3.1.0-preview.4](https://github.com/CareBoo/Blinq/compare/v3.1.0-preview.3...v3.1.0-preview.4) (2020-11-29)
 
 
