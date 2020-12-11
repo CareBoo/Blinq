@@ -1,3 +1,11 @@
+# [3.1.0-preview.6](https://github.com/CareBoo/Blinq/compare/v3.1.0-preview.5...v3.1.0-preview.6) (2020-12-11)
+
+
+### Features
+
+* :sparkles: Implement RunCount and ScheduleCount ([b763ea3](https://github.com/CareBoo/Blinq/commit/b763ea39098e9f5c1e47920f1b54e4279f1d0a48)), closes [#71](https://github.com/CareBoo/Blinq/issues/71)
+* :sparkles: Implement RunLongCount and ScheduleLongCount ([644ba1d](https://github.com/CareBoo/Blinq/commit/644ba1dbd73ca5751c757c8d57045ee5835b63f0)), closes [#76](https://github.com/CareBoo/Blinq/issues/76)
+
 # [3.1.0-preview.5](https://github.com/CareBoo/Blinq/compare/v3.1.0-preview.4...v3.1.0-preview.5) (2020-12-11)
 
 
