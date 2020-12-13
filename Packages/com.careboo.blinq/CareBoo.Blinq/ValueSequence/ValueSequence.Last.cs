@@ -44,7 +44,7 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, T>.Struct<LastFunc<T, TSource, TSourceEnumerator, TPredicate>> NewLastFunc<T, TSource, TSourceEnumerator, TPredicate>(
+        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, T>.Struct<LastFunc<T, TSource, TSourceEnumerator, TPredicate>> LastAsFunc<T, TSource, TSourceEnumerator, TPredicate>(
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ValueFunc<T, bool>.Struct<TPredicate> predicate
             )
@@ -66,8 +66,8 @@ namespace CareBoo.Blinq
             where TSourceEnumerator : struct, IEnumerator<T>
             where TPredicate : struct, IFunc<T, bool>
         {
-            var singleFunc = source.NewLastFunc(predicate);
-            return source.Run(source.NewLastFunc(predicate));
+            var singleFunc = source.LastAsFunc(predicate);
+            return source.Run(source.LastAsFunc(predicate));
         }
 
         public static JobHandle ScheduleLast<T, TSource, TSourceEnumerator, TPredicate>(
@@ -80,8 +80,8 @@ namespace CareBoo.Blinq
             where TSourceEnumerator : struct, IEnumerator<T>
             where TPredicate : struct, IFunc<T, bool>
         {
-            var singleFunc = source.NewLastFunc(predicate);
-            return source.Schedule(source.NewLastFunc(predicate), ref output);
+            var singleFunc = source.LastAsFunc(predicate);
+            return source.Schedule(source.LastAsFunc(predicate), ref output);
         }
 
         public static JobHandle<T> ScheduleLast<T, TSource, TSourceEnumerator, TPredicate>(
@@ -93,8 +93,8 @@ namespace CareBoo.Blinq
             where TSourceEnumerator : struct, IEnumerator<T>
             where TPredicate : struct, IFunc<T, bool>
         {
-            var singleFunc = source.NewLastFunc(predicate);
-            return source.Schedule(source.NewLastFunc(predicate));
+            var singleFunc = source.LastAsFunc(predicate);
+            return source.Schedule(source.LastAsFunc(predicate));
         }
 
         public static T LastOrDefault<T, TSource, TSourceEnumerator, TPredicate>(
@@ -136,7 +136,7 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, T>.Struct<LastOrDefaultFunc<T, TSource, TSourceEnumerator, TPredicate>> NewLastOrDefaultFunc<T, TSource, TSourceEnumerator, TPredicate>(
+        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, T>.Struct<LastOrDefaultFunc<T, TSource, TSourceEnumerator, TPredicate>> LastOrDefaultAsFunc<T, TSource, TSourceEnumerator, TPredicate>(
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ValueFunc<T, bool>.Struct<TPredicate> predicate,
             in T defaultVal = default
@@ -160,7 +160,7 @@ namespace CareBoo.Blinq
             where TSourceEnumerator : struct, IEnumerator<T>
             where TPredicate : struct, IFunc<T, bool>
         {
-            var func = source.NewLastOrDefaultFunc(predicate, in defaultVal);
+            var func = source.LastOrDefaultAsFunc(predicate, in defaultVal);
             return source.Run(func);
         }
 
@@ -175,7 +175,7 @@ namespace CareBoo.Blinq
             where TSourceEnumerator : struct, IEnumerator<T>
             where TPredicate : struct, IFunc<T, bool>
         {
-            var func = source.NewLastOrDefaultFunc(predicate, in defaultVal);
+            var func = source.LastOrDefaultAsFunc(predicate, in defaultVal);
             return source.Schedule(func, ref output);
         }
 
@@ -189,7 +189,7 @@ namespace CareBoo.Blinq
             where TSourceEnumerator : struct, IEnumerator<T>
             where TPredicate : struct, IFunc<T, bool>
         {
-            var func = source.NewLastOrDefaultFunc(predicate, in defaultVal);
+            var func = source.LastOrDefaultAsFunc(predicate, in defaultVal);
             return source.Schedule(func);
         }
 
@@ -223,7 +223,7 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, T>.Struct<LastFunc<T, TSource, TSourceEnumerator>> NewLastFunc<T, TSource, TSourceEnumerator>(
+        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, T>.Struct<LastFunc<T, TSource, TSourceEnumerator>> LastAsFunc<T, TSource, TSourceEnumerator>(
             this in ValueSequence<T, TSource, TSourceEnumerator> source
             )
             where T : struct
@@ -240,7 +240,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<T>
         {
-            var func = source.NewLastFunc();
+            var func = source.LastAsFunc();
             return source.Run(func);
         }
 
@@ -252,7 +252,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<T>
         {
-            var func = source.NewLastFunc();
+            var func = source.LastAsFunc();
             return source.Schedule(func, ref output);
         }
 
@@ -263,7 +263,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<T>
         {
-            var func = source.NewLastFunc();
+            var func = source.LastAsFunc();
             return source.Schedule(func);
         }
 
@@ -300,7 +300,7 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, T>.Struct<LastOrDefaultFunc<T, TSource, TSourceEnumerator>> NewLastOrDefaultFunc<T, TSource, TSourceEnumerator>(
+        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, T>.Struct<LastOrDefaultFunc<T, TSource, TSourceEnumerator>> LastOrDefaultAsFunc<T, TSource, TSourceEnumerator>(
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
             in T defaultVal = default
             )
@@ -320,7 +320,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<T>
         {
-            var func = source.NewLastOrDefaultFunc(in defaultVal);
+            var func = source.LastOrDefaultAsFunc(in defaultVal);
             return source.Run(func);
         }
 
@@ -333,7 +333,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<T>
         {
-            var func = source.NewLastOrDefaultFunc(in defaultVal);
+            var func = source.LastOrDefaultAsFunc(in defaultVal);
             return source.Schedule(func, ref output);
         }
 
@@ -345,7 +345,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<T>
         {
-            var func = source.NewLastOrDefaultFunc(in defaultVal);
+            var func = source.LastOrDefaultAsFunc(in defaultVal);
             return source.Schedule(func);
         }
     }

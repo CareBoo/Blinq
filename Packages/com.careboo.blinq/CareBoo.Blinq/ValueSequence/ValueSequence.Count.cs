@@ -7,7 +7,6 @@ namespace CareBoo.Blinq
 {
     public static partial class Sequence
     {
-
         public static int Count<T, TSource, TSourceEnumerator, TPredicate>(
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ValueFunc<T, bool>.Struct<TPredicate> predicate
@@ -42,7 +41,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, int>.Struct<SequenceCountFunc<T, TSource, TSourceEnumerator, TPredicate>>
-        NewSequenceCountFunc<T, TSource, TSourceEnumerator, TPredicate>(
+        CountAsFunc<T, TSource, TSourceEnumerator, TPredicate>(
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ValueFunc<T, bool>.Struct<TPredicate> predicate
             )
@@ -64,7 +63,7 @@ namespace CareBoo.Blinq
             where TSourceEnumerator : struct, IEnumerator<T>
             where TPredicate : struct, IFunc<T, bool>
         {
-            var func = source.NewSequenceCountFunc(predicate);
+            var func = source.CountAsFunc(predicate);
             return source.Run(func);
         }
 
@@ -77,7 +76,7 @@ namespace CareBoo.Blinq
             where TSourceEnumerator : struct, IEnumerator<T>
             where TPredicate : struct, IFunc<T, bool>
         {
-            var func = source.NewSequenceCountFunc(predicate);
+            var func = source.CountAsFunc(predicate);
             return source.Schedule(func);
         }
 
@@ -91,7 +90,7 @@ namespace CareBoo.Blinq
             where TSourceEnumerator : struct, IEnumerator<T>
             where TPredicate : struct, IFunc<T, bool>
         {
-            var func = source.NewSequenceCountFunc(predicate);
+            var func = source.CountAsFunc(predicate);
             return source.Schedule(func, ref output);
         }
 
@@ -121,7 +120,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, int>.Struct<SequenceCountFunc<T, TSource, TSourceEnumerator>>
-        NewSequenceCountFunc<T, TSource, TSourceEnumerator>(
+        CountAsFunc<T, TSource, TSourceEnumerator>(
             this in ValueSequence<T, TSource, TSourceEnumerator> source
             )
             where T : struct
@@ -138,7 +137,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<T>
         {
-            var func = source.NewSequenceCountFunc();
+            var func = source.CountAsFunc();
             return source.Run(func);
         }
 
@@ -149,7 +148,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<T>
         {
-            var func = source.NewSequenceCountFunc();
+            var func = source.CountAsFunc();
             return source.Schedule(func);
         }
 
@@ -161,7 +160,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<T>
         {
-            var func = source.NewSequenceCountFunc();
+            var func = source.CountAsFunc();
             return source.Schedule(func, ref output);
         }
     }
