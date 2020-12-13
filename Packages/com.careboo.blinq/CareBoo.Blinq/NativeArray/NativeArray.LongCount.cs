@@ -34,7 +34,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<T>, int>.Struct<ArrayLongCountFunc<T, TPredicate>>
-        NewArrayLongCountFunc<T, TPredicate>(
+        LongCountAsFunc<T, TPredicate>(
             this in NativeArray<T> source,
             ValueFunc<T, bool>.Struct<TPredicate> predicate
             )
@@ -52,7 +52,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TPredicate : struct, IFunc<T, bool>
         {
-            var func = source.NewArrayLongCountFunc(predicate);
+            var func = source.LongCountAsFunc(predicate);
             return source.Run(func);
         }
 
@@ -63,7 +63,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TPredicate : struct, IFunc<T, bool>
         {
-            var func = source.NewArrayLongCountFunc(predicate);
+            var func = source.LongCountAsFunc(predicate);
             return source.Schedule(func);
         }
 
@@ -75,7 +75,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TPredicate : struct, IFunc<T, bool>
         {
-            var func = source.NewArrayLongCountFunc(predicate);
+            var func = source.LongCountAsFunc(predicate);
             return source.Schedule(func, ref output);
         }
 
@@ -96,7 +96,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<T>, int>.Struct<ArrayLongCountFunc<T>>
-        NewArrayLongCountFunc<T>(
+        LongCountAsFunc<T>(
             this in NativeArray<T> source
             )
             where T : struct
@@ -109,7 +109,7 @@ namespace CareBoo.Blinq
             )
             where T : struct
         {
-            var func = source.NewArrayLongCountFunc();
+            var func = source.LongCountAsFunc();
             return source.Run(func);
         }
 
@@ -118,7 +118,7 @@ namespace CareBoo.Blinq
             )
             where T : struct
         {
-            var func = source.NewArrayLongCountFunc();
+            var func = source.LongCountAsFunc();
             return source.Schedule(func);
         }
 
@@ -128,7 +128,7 @@ namespace CareBoo.Blinq
             )
             where T : struct
         {
-            var func = source.NewArrayLongCountFunc();
+            var func = source.LongCountAsFunc();
             return source.Schedule(func, ref output);
         }
     }

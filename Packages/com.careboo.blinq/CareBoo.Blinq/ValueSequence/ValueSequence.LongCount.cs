@@ -41,7 +41,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, long>.Struct<SequenceLongCountFunc<T, TSource, TSourceEnumerator, TPredicate>>
-        NewSequenceLongCountFunc<T, TSource, TSourceEnumerator, TPredicate>(
+        LongCountAsFunc<T, TSource, TSourceEnumerator, TPredicate>(
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ValueFunc<T, bool>.Struct<TPredicate> predicate
             )
@@ -63,7 +63,7 @@ namespace CareBoo.Blinq
             where TSourceEnumerator : struct, IEnumerator<T>
             where TPredicate : struct, IFunc<T, bool>
         {
-            var func = source.NewSequenceLongCountFunc(predicate);
+            var func = source.LongCountAsFunc(predicate);
             return source.Run(func);
         }
 
@@ -76,7 +76,7 @@ namespace CareBoo.Blinq
             where TSourceEnumerator : struct, IEnumerator<T>
             where TPredicate : struct, IFunc<T, bool>
         {
-            var func = source.NewSequenceLongCountFunc(predicate);
+            var func = source.LongCountAsFunc(predicate);
             return source.Schedule(func);
         }
 
@@ -90,7 +90,7 @@ namespace CareBoo.Blinq
             where TSourceEnumerator : struct, IEnumerator<T>
             where TPredicate : struct, IFunc<T, bool>
         {
-            var func = source.NewSequenceLongCountFunc(predicate);
+            var func = source.LongCountAsFunc(predicate);
             return source.Schedule(func, ref output);
         }
 
@@ -120,7 +120,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, long>.Struct<SequenceLongCountFunc<T, TSource, TSourceEnumerator>>
-        NewSequenceLongCountFunc<T, TSource, TSourceEnumerator>(
+        LongCountAsFunc<T, TSource, TSourceEnumerator>(
             this in ValueSequence<T, TSource, TSourceEnumerator> source
             )
             where T : struct
@@ -137,7 +137,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<T>
         {
-            var func = source.NewSequenceLongCountFunc();
+            var func = source.LongCountAsFunc();
             return source.Run(func);
         }
 
@@ -148,7 +148,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<T>
         {
-            var func = source.NewSequenceLongCountFunc();
+            var func = source.LongCountAsFunc();
             return source.Schedule(func);
         }
 
@@ -160,7 +160,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<T>
         {
-            var func = source.NewSequenceLongCountFunc();
+            var func = source.LongCountAsFunc();
             return source.Schedule(func, ref output);
         }
     }

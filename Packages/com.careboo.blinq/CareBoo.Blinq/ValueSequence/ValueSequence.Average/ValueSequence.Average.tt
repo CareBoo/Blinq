@@ -68,13 +68,23 @@ foreach (string TYPE in TYPES)
             }
         }
 
+        public static ValueFunc<ValueSequence<<#=TYPE_FULL#>, TSource, TSourceEnumerator>, <#=TYPE_FULL#>>.Struct<AverageFunc_<#=TYPE_FULL#><TSource, TSourceEnumerator>>
+        AverageAsFunc<TSource, TSourceEnumerator>(
+            this in ValueSequence<<#=TYPE_FULL#>, TSource, TSourceEnumerator> source
+            )
+            where TSource : struct, ISequence<<#=TYPE_FULL#>, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<<#=TYPE_FULL#>>
+        {
+            return ValueFunc<ValueSequence<<#=TYPE_FULL#>, TSource, TSourceEnumerator>, <#=TYPE_FULL#>>.New<AverageFunc_<#=TYPE_FULL#><TSource, TSourceEnumerator>>();
+        }
+
         public static <#=TYPE_FULL#> RunAverage<TSource, TSourceEnumerator>(
             this in ValueSequence<<#=TYPE_FULL#>, TSource, TSourceEnumerator> source
             )
             where TSource : struct, ISequence<<#=TYPE_FULL#>, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<<#=TYPE_FULL#>>
         {
-            var func = ValueFunc<ValueSequence<<#=TYPE_FULL#>, TSource, TSourceEnumerator>, <#=TYPE_FULL#>>.New<AverageFunc_<#=TYPE_FULL#><TSource, TSourceEnumerator>>();
+            var func = source.AverageAsFunc();
             return source.Run(func);
         }
 
@@ -85,7 +95,7 @@ foreach (string TYPE in TYPES)
             where TSource : struct, ISequence<<#=TYPE_FULL#>, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<<#=TYPE_FULL#>>
         {
-            var func = ValueFunc<ValueSequence<<#=TYPE_FULL#>, TSource, TSourceEnumerator>, <#=TYPE_FULL#>>.New<AverageFunc_<#=TYPE_FULL#><TSource, TSourceEnumerator>>();
+            var func = source.AverageAsFunc();
             return source.Schedule(func, ref output);
         }
 
@@ -95,7 +105,7 @@ foreach (string TYPE in TYPES)
             where TSource : struct, ISequence<<#=TYPE_FULL#>, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<<#=TYPE_FULL#>>
         {
-            var func = ValueFunc<ValueSequence<<#=TYPE_FULL#>, TSource, TSourceEnumerator>, <#=TYPE_FULL#>>.New<AverageFunc_<#=TYPE_FULL#><TSource, TSourceEnumerator>>();
+            var func = source.AverageAsFunc();
             return source.Schedule(func);
         }
 
@@ -142,6 +152,20 @@ foreach (string TYPE in TYPES)
             }
         }
 
+        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, <#=TYPE_FULL#>>.Struct<AverageSelectorFunc_<#=TYPE_FULL#><T, TSource, TSourceEnumerator, TSelector>>
+        AverageAsFunc<T, TSource, TSourceEnumerator, TSelector>(
+            this in ValueSequence<T, TSource, TSourceEnumerator> source,
+            ValueFunc<T, <#=TYPE_FULL#>>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<T>
+            where TSelector : struct, IFunc<T, <#=TYPE_FULL#>>
+        {
+            var func = new AverageSelectorFunc_<#=TYPE_FULL#><T, TSource, TSourceEnumerator, TSelector>(selector);
+            return ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, <#=TYPE_FULL#>>.New(func);
+        }
+
         public static <#=TYPE_FULL#> RunAverage<T, TSource, TSourceEnumerator, TSelector>(
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ValueFunc<T, <#=TYPE_FULL#>>.Struct<TSelector> selector
@@ -151,7 +175,7 @@ foreach (string TYPE in TYPES)
             where TSourceEnumerator : struct, IEnumerator<T>
             where TSelector : struct, IFunc<T, <#=TYPE_FULL#>>
         {
-            var func = ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, <#=TYPE_FULL#>>.New(new AverageSelectorFunc_<#=TYPE_FULL#><T, TSource, TSourceEnumerator, TSelector>(selector));
+            var func = source.AverageAsFunc(selector);
             return source.Run(func);
         }
 
@@ -165,7 +189,7 @@ foreach (string TYPE in TYPES)
             where TSourceEnumerator : struct, IEnumerator<T>
             where TSelector : struct, IFunc<T, <#=TYPE_FULL#>>
         {
-            var func = ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, <#=TYPE_FULL#>>.New(new AverageSelectorFunc_<#=TYPE_FULL#><T, TSource, TSourceEnumerator, TSelector>(selector));
+            var func = source.AverageAsFunc(selector);
             return source.Schedule(func, ref output);
         }
 
@@ -178,7 +202,7 @@ foreach (string TYPE in TYPES)
             where TSourceEnumerator : struct, IEnumerator<T>
             where TSelector : struct, IFunc<T, <#=TYPE_FULL#>>
         {
-            var func = ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, <#=TYPE_FULL#>>.New(new AverageSelectorFunc_<#=TYPE_FULL#><T, TSource, TSourceEnumerator, TSelector>(selector));
+            var func = source.AverageAsFunc(selector);
             return source.Schedule(func);
         }
 
