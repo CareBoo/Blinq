@@ -39,7 +39,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<int>, int>.Struct<ArraySumFunc_int>
-        NewArraySumFunc_int(
+        SumAsFunc(
             this in NativeArray<int> source
             )
         {
@@ -50,7 +50,7 @@ namespace CareBoo.Blinq
             this in NativeArray<int> source
             )
         {
-            var func = source.NewArraySumFunc_int();
+            var func = source.SumAsFunc();
             return source.Run(func);
         }
 
@@ -58,7 +58,7 @@ namespace CareBoo.Blinq
             this in NativeArray<int> source
             )
         {
-            var func = source.NewArraySumFunc_int();
+            var func = source.SumAsFunc();
             return source.Schedule(func);
         }
 
@@ -67,7 +67,7 @@ namespace CareBoo.Blinq
             ref NativeArray<int> output
             )
         {
-            var func = source.NewArraySumFunc_int();
+            var func = source.SumAsFunc();
             return source.Schedule(func, ref output);
         }
 
@@ -98,7 +98,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<T>, int>.Struct<ArraySumFunc_int<T, TSelector>>
-        NewArraySumFunc_int<T, TSelector>(
+        SumAsFunc<T, TSelector>(
             this in NativeArray<T> source,
             ValueFunc<T, int>.Struct<TSelector> selector
             )
@@ -116,7 +116,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, int>
         {
-            var func = source.NewArraySumFunc_int(selector);
+            var func = source.SumAsFunc(selector);
             return source.Run(func);
         }
 
@@ -127,7 +127,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, int>
         {
-            var func = source.NewArraySumFunc_int(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func);
         }
 
@@ -139,7 +139,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, int>
         {
-            var func = source.NewArraySumFunc_int(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func, ref output);
         }
 
@@ -164,7 +164,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<int2>, int2>.Struct<ArraySumFunc_int2>
-        NewArraySumFunc_int2(
+        SumAsFunc(
             this in NativeArray<int2> source
             )
         {
@@ -175,7 +175,7 @@ namespace CareBoo.Blinq
             this in NativeArray<int2> source
             )
         {
-            var func = source.NewArraySumFunc_int2();
+            var func = source.SumAsFunc();
             return source.Run(func);
         }
 
@@ -183,7 +183,7 @@ namespace CareBoo.Blinq
             this in NativeArray<int2> source
             )
         {
-            var func = source.NewArraySumFunc_int2();
+            var func = source.SumAsFunc();
             return source.Schedule(func);
         }
 
@@ -192,7 +192,7 @@ namespace CareBoo.Blinq
             ref NativeArray<int2> output
             )
         {
-            var func = source.NewArraySumFunc_int2();
+            var func = source.SumAsFunc();
             return source.Schedule(func, ref output);
         }
 
@@ -223,7 +223,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<T>, int2>.Struct<ArraySumFunc_int2<T, TSelector>>
-        NewArraySumFunc_int2<T, TSelector>(
+        SumAsFunc<T, TSelector>(
             this in NativeArray<T> source,
             ValueFunc<T, int2>.Struct<TSelector> selector
             )
@@ -241,7 +241,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, int2>
         {
-            var func = source.NewArraySumFunc_int2(selector);
+            var func = source.SumAsFunc(selector);
             return source.Run(func);
         }
 
@@ -252,7 +252,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, int2>
         {
-            var func = source.NewArraySumFunc_int2(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func);
         }
 
@@ -264,7 +264,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, int2>
         {
-            var func = source.NewArraySumFunc_int2(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func, ref output);
         }
 
@@ -289,7 +289,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<int2x2>, int2x2>.Struct<ArraySumFunc_int2x2>
-        NewArraySumFunc_int2x2(
+        SumAsFunc(
             this in NativeArray<int2x2> source
             )
         {
@@ -300,7 +300,7 @@ namespace CareBoo.Blinq
             this in NativeArray<int2x2> source
             )
         {
-            var func = source.NewArraySumFunc_int2x2();
+            var func = source.SumAsFunc();
             return source.Run(func);
         }
 
@@ -308,7 +308,7 @@ namespace CareBoo.Blinq
             this in NativeArray<int2x2> source
             )
         {
-            var func = source.NewArraySumFunc_int2x2();
+            var func = source.SumAsFunc();
             return source.Schedule(func);
         }
 
@@ -317,7 +317,7 @@ namespace CareBoo.Blinq
             ref NativeArray<int2x2> output
             )
         {
-            var func = source.NewArraySumFunc_int2x2();
+            var func = source.SumAsFunc();
             return source.Schedule(func, ref output);
         }
 
@@ -348,7 +348,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<T>, int2x2>.Struct<ArraySumFunc_int2x2<T, TSelector>>
-        NewArraySumFunc_int2x2<T, TSelector>(
+        SumAsFunc<T, TSelector>(
             this in NativeArray<T> source,
             ValueFunc<T, int2x2>.Struct<TSelector> selector
             )
@@ -366,7 +366,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, int2x2>
         {
-            var func = source.NewArraySumFunc_int2x2(selector);
+            var func = source.SumAsFunc(selector);
             return source.Run(func);
         }
 
@@ -377,7 +377,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, int2x2>
         {
-            var func = source.NewArraySumFunc_int2x2(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func);
         }
 
@@ -389,7 +389,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, int2x2>
         {
-            var func = source.NewArraySumFunc_int2x2(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func, ref output);
         }
 
@@ -414,7 +414,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<int2x3>, int2x3>.Struct<ArraySumFunc_int2x3>
-        NewArraySumFunc_int2x3(
+        SumAsFunc(
             this in NativeArray<int2x3> source
             )
         {
@@ -425,7 +425,7 @@ namespace CareBoo.Blinq
             this in NativeArray<int2x3> source
             )
         {
-            var func = source.NewArraySumFunc_int2x3();
+            var func = source.SumAsFunc();
             return source.Run(func);
         }
 
@@ -433,7 +433,7 @@ namespace CareBoo.Blinq
             this in NativeArray<int2x3> source
             )
         {
-            var func = source.NewArraySumFunc_int2x3();
+            var func = source.SumAsFunc();
             return source.Schedule(func);
         }
 
@@ -442,7 +442,7 @@ namespace CareBoo.Blinq
             ref NativeArray<int2x3> output
             )
         {
-            var func = source.NewArraySumFunc_int2x3();
+            var func = source.SumAsFunc();
             return source.Schedule(func, ref output);
         }
 
@@ -473,7 +473,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<T>, int2x3>.Struct<ArraySumFunc_int2x3<T, TSelector>>
-        NewArraySumFunc_int2x3<T, TSelector>(
+        SumAsFunc<T, TSelector>(
             this in NativeArray<T> source,
             ValueFunc<T, int2x3>.Struct<TSelector> selector
             )
@@ -491,7 +491,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, int2x3>
         {
-            var func = source.NewArraySumFunc_int2x3(selector);
+            var func = source.SumAsFunc(selector);
             return source.Run(func);
         }
 
@@ -502,7 +502,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, int2x3>
         {
-            var func = source.NewArraySumFunc_int2x3(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func);
         }
 
@@ -514,7 +514,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, int2x3>
         {
-            var func = source.NewArraySumFunc_int2x3(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func, ref output);
         }
 
@@ -539,7 +539,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<int2x4>, int2x4>.Struct<ArraySumFunc_int2x4>
-        NewArraySumFunc_int2x4(
+        SumAsFunc(
             this in NativeArray<int2x4> source
             )
         {
@@ -550,7 +550,7 @@ namespace CareBoo.Blinq
             this in NativeArray<int2x4> source
             )
         {
-            var func = source.NewArraySumFunc_int2x4();
+            var func = source.SumAsFunc();
             return source.Run(func);
         }
 
@@ -558,7 +558,7 @@ namespace CareBoo.Blinq
             this in NativeArray<int2x4> source
             )
         {
-            var func = source.NewArraySumFunc_int2x4();
+            var func = source.SumAsFunc();
             return source.Schedule(func);
         }
 
@@ -567,7 +567,7 @@ namespace CareBoo.Blinq
             ref NativeArray<int2x4> output
             )
         {
-            var func = source.NewArraySumFunc_int2x4();
+            var func = source.SumAsFunc();
             return source.Schedule(func, ref output);
         }
 
@@ -598,7 +598,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<T>, int2x4>.Struct<ArraySumFunc_int2x4<T, TSelector>>
-        NewArraySumFunc_int2x4<T, TSelector>(
+        SumAsFunc<T, TSelector>(
             this in NativeArray<T> source,
             ValueFunc<T, int2x4>.Struct<TSelector> selector
             )
@@ -616,7 +616,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, int2x4>
         {
-            var func = source.NewArraySumFunc_int2x4(selector);
+            var func = source.SumAsFunc(selector);
             return source.Run(func);
         }
 
@@ -627,7 +627,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, int2x4>
         {
-            var func = source.NewArraySumFunc_int2x4(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func);
         }
 
@@ -639,7 +639,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, int2x4>
         {
-            var func = source.NewArraySumFunc_int2x4(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func, ref output);
         }
 
@@ -664,7 +664,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<int3>, int3>.Struct<ArraySumFunc_int3>
-        NewArraySumFunc_int3(
+        SumAsFunc(
             this in NativeArray<int3> source
             )
         {
@@ -675,7 +675,7 @@ namespace CareBoo.Blinq
             this in NativeArray<int3> source
             )
         {
-            var func = source.NewArraySumFunc_int3();
+            var func = source.SumAsFunc();
             return source.Run(func);
         }
 
@@ -683,7 +683,7 @@ namespace CareBoo.Blinq
             this in NativeArray<int3> source
             )
         {
-            var func = source.NewArraySumFunc_int3();
+            var func = source.SumAsFunc();
             return source.Schedule(func);
         }
 
@@ -692,7 +692,7 @@ namespace CareBoo.Blinq
             ref NativeArray<int3> output
             )
         {
-            var func = source.NewArraySumFunc_int3();
+            var func = source.SumAsFunc();
             return source.Schedule(func, ref output);
         }
 
@@ -723,7 +723,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<T>, int3>.Struct<ArraySumFunc_int3<T, TSelector>>
-        NewArraySumFunc_int3<T, TSelector>(
+        SumAsFunc<T, TSelector>(
             this in NativeArray<T> source,
             ValueFunc<T, int3>.Struct<TSelector> selector
             )
@@ -741,7 +741,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, int3>
         {
-            var func = source.NewArraySumFunc_int3(selector);
+            var func = source.SumAsFunc(selector);
             return source.Run(func);
         }
 
@@ -752,7 +752,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, int3>
         {
-            var func = source.NewArraySumFunc_int3(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func);
         }
 
@@ -764,7 +764,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, int3>
         {
-            var func = source.NewArraySumFunc_int3(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func, ref output);
         }
 
@@ -789,7 +789,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<int3x2>, int3x2>.Struct<ArraySumFunc_int3x2>
-        NewArraySumFunc_int3x2(
+        SumAsFunc(
             this in NativeArray<int3x2> source
             )
         {
@@ -800,7 +800,7 @@ namespace CareBoo.Blinq
             this in NativeArray<int3x2> source
             )
         {
-            var func = source.NewArraySumFunc_int3x2();
+            var func = source.SumAsFunc();
             return source.Run(func);
         }
 
@@ -808,7 +808,7 @@ namespace CareBoo.Blinq
             this in NativeArray<int3x2> source
             )
         {
-            var func = source.NewArraySumFunc_int3x2();
+            var func = source.SumAsFunc();
             return source.Schedule(func);
         }
 
@@ -817,7 +817,7 @@ namespace CareBoo.Blinq
             ref NativeArray<int3x2> output
             )
         {
-            var func = source.NewArraySumFunc_int3x2();
+            var func = source.SumAsFunc();
             return source.Schedule(func, ref output);
         }
 
@@ -848,7 +848,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<T>, int3x2>.Struct<ArraySumFunc_int3x2<T, TSelector>>
-        NewArraySumFunc_int3x2<T, TSelector>(
+        SumAsFunc<T, TSelector>(
             this in NativeArray<T> source,
             ValueFunc<T, int3x2>.Struct<TSelector> selector
             )
@@ -866,7 +866,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, int3x2>
         {
-            var func = source.NewArraySumFunc_int3x2(selector);
+            var func = source.SumAsFunc(selector);
             return source.Run(func);
         }
 
@@ -877,7 +877,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, int3x2>
         {
-            var func = source.NewArraySumFunc_int3x2(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func);
         }
 
@@ -889,7 +889,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, int3x2>
         {
-            var func = source.NewArraySumFunc_int3x2(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func, ref output);
         }
 
@@ -914,7 +914,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<int3x3>, int3x3>.Struct<ArraySumFunc_int3x3>
-        NewArraySumFunc_int3x3(
+        SumAsFunc(
             this in NativeArray<int3x3> source
             )
         {
@@ -925,7 +925,7 @@ namespace CareBoo.Blinq
             this in NativeArray<int3x3> source
             )
         {
-            var func = source.NewArraySumFunc_int3x3();
+            var func = source.SumAsFunc();
             return source.Run(func);
         }
 
@@ -933,7 +933,7 @@ namespace CareBoo.Blinq
             this in NativeArray<int3x3> source
             )
         {
-            var func = source.NewArraySumFunc_int3x3();
+            var func = source.SumAsFunc();
             return source.Schedule(func);
         }
 
@@ -942,7 +942,7 @@ namespace CareBoo.Blinq
             ref NativeArray<int3x3> output
             )
         {
-            var func = source.NewArraySumFunc_int3x3();
+            var func = source.SumAsFunc();
             return source.Schedule(func, ref output);
         }
 
@@ -973,7 +973,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<T>, int3x3>.Struct<ArraySumFunc_int3x3<T, TSelector>>
-        NewArraySumFunc_int3x3<T, TSelector>(
+        SumAsFunc<T, TSelector>(
             this in NativeArray<T> source,
             ValueFunc<T, int3x3>.Struct<TSelector> selector
             )
@@ -991,7 +991,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, int3x3>
         {
-            var func = source.NewArraySumFunc_int3x3(selector);
+            var func = source.SumAsFunc(selector);
             return source.Run(func);
         }
 
@@ -1002,7 +1002,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, int3x3>
         {
-            var func = source.NewArraySumFunc_int3x3(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func);
         }
 
@@ -1014,7 +1014,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, int3x3>
         {
-            var func = source.NewArraySumFunc_int3x3(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func, ref output);
         }
 
@@ -1039,7 +1039,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<int3x4>, int3x4>.Struct<ArraySumFunc_int3x4>
-        NewArraySumFunc_int3x4(
+        SumAsFunc(
             this in NativeArray<int3x4> source
             )
         {
@@ -1050,7 +1050,7 @@ namespace CareBoo.Blinq
             this in NativeArray<int3x4> source
             )
         {
-            var func = source.NewArraySumFunc_int3x4();
+            var func = source.SumAsFunc();
             return source.Run(func);
         }
 
@@ -1058,7 +1058,7 @@ namespace CareBoo.Blinq
             this in NativeArray<int3x4> source
             )
         {
-            var func = source.NewArraySumFunc_int3x4();
+            var func = source.SumAsFunc();
             return source.Schedule(func);
         }
 
@@ -1067,7 +1067,7 @@ namespace CareBoo.Blinq
             ref NativeArray<int3x4> output
             )
         {
-            var func = source.NewArraySumFunc_int3x4();
+            var func = source.SumAsFunc();
             return source.Schedule(func, ref output);
         }
 
@@ -1098,7 +1098,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<T>, int3x4>.Struct<ArraySumFunc_int3x4<T, TSelector>>
-        NewArraySumFunc_int3x4<T, TSelector>(
+        SumAsFunc<T, TSelector>(
             this in NativeArray<T> source,
             ValueFunc<T, int3x4>.Struct<TSelector> selector
             )
@@ -1116,7 +1116,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, int3x4>
         {
-            var func = source.NewArraySumFunc_int3x4(selector);
+            var func = source.SumAsFunc(selector);
             return source.Run(func);
         }
 
@@ -1127,7 +1127,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, int3x4>
         {
-            var func = source.NewArraySumFunc_int3x4(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func);
         }
 
@@ -1139,7 +1139,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, int3x4>
         {
-            var func = source.NewArraySumFunc_int3x4(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func, ref output);
         }
 
@@ -1164,7 +1164,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<int4>, int4>.Struct<ArraySumFunc_int4>
-        NewArraySumFunc_int4(
+        SumAsFunc(
             this in NativeArray<int4> source
             )
         {
@@ -1175,7 +1175,7 @@ namespace CareBoo.Blinq
             this in NativeArray<int4> source
             )
         {
-            var func = source.NewArraySumFunc_int4();
+            var func = source.SumAsFunc();
             return source.Run(func);
         }
 
@@ -1183,7 +1183,7 @@ namespace CareBoo.Blinq
             this in NativeArray<int4> source
             )
         {
-            var func = source.NewArraySumFunc_int4();
+            var func = source.SumAsFunc();
             return source.Schedule(func);
         }
 
@@ -1192,7 +1192,7 @@ namespace CareBoo.Blinq
             ref NativeArray<int4> output
             )
         {
-            var func = source.NewArraySumFunc_int4();
+            var func = source.SumAsFunc();
             return source.Schedule(func, ref output);
         }
 
@@ -1223,7 +1223,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<T>, int4>.Struct<ArraySumFunc_int4<T, TSelector>>
-        NewArraySumFunc_int4<T, TSelector>(
+        SumAsFunc<T, TSelector>(
             this in NativeArray<T> source,
             ValueFunc<T, int4>.Struct<TSelector> selector
             )
@@ -1241,7 +1241,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, int4>
         {
-            var func = source.NewArraySumFunc_int4(selector);
+            var func = source.SumAsFunc(selector);
             return source.Run(func);
         }
 
@@ -1252,7 +1252,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, int4>
         {
-            var func = source.NewArraySumFunc_int4(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func);
         }
 
@@ -1264,7 +1264,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, int4>
         {
-            var func = source.NewArraySumFunc_int4(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func, ref output);
         }
 
@@ -1289,7 +1289,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<int4x2>, int4x2>.Struct<ArraySumFunc_int4x2>
-        NewArraySumFunc_int4x2(
+        SumAsFunc(
             this in NativeArray<int4x2> source
             )
         {
@@ -1300,7 +1300,7 @@ namespace CareBoo.Blinq
             this in NativeArray<int4x2> source
             )
         {
-            var func = source.NewArraySumFunc_int4x2();
+            var func = source.SumAsFunc();
             return source.Run(func);
         }
 
@@ -1308,7 +1308,7 @@ namespace CareBoo.Blinq
             this in NativeArray<int4x2> source
             )
         {
-            var func = source.NewArraySumFunc_int4x2();
+            var func = source.SumAsFunc();
             return source.Schedule(func);
         }
 
@@ -1317,7 +1317,7 @@ namespace CareBoo.Blinq
             ref NativeArray<int4x2> output
             )
         {
-            var func = source.NewArraySumFunc_int4x2();
+            var func = source.SumAsFunc();
             return source.Schedule(func, ref output);
         }
 
@@ -1348,7 +1348,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<T>, int4x2>.Struct<ArraySumFunc_int4x2<T, TSelector>>
-        NewArraySumFunc_int4x2<T, TSelector>(
+        SumAsFunc<T, TSelector>(
             this in NativeArray<T> source,
             ValueFunc<T, int4x2>.Struct<TSelector> selector
             )
@@ -1366,7 +1366,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, int4x2>
         {
-            var func = source.NewArraySumFunc_int4x2(selector);
+            var func = source.SumAsFunc(selector);
             return source.Run(func);
         }
 
@@ -1377,7 +1377,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, int4x2>
         {
-            var func = source.NewArraySumFunc_int4x2(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func);
         }
 
@@ -1389,7 +1389,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, int4x2>
         {
-            var func = source.NewArraySumFunc_int4x2(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func, ref output);
         }
 
@@ -1414,7 +1414,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<int4x3>, int4x3>.Struct<ArraySumFunc_int4x3>
-        NewArraySumFunc_int4x3(
+        SumAsFunc(
             this in NativeArray<int4x3> source
             )
         {
@@ -1425,7 +1425,7 @@ namespace CareBoo.Blinq
             this in NativeArray<int4x3> source
             )
         {
-            var func = source.NewArraySumFunc_int4x3();
+            var func = source.SumAsFunc();
             return source.Run(func);
         }
 
@@ -1433,7 +1433,7 @@ namespace CareBoo.Blinq
             this in NativeArray<int4x3> source
             )
         {
-            var func = source.NewArraySumFunc_int4x3();
+            var func = source.SumAsFunc();
             return source.Schedule(func);
         }
 
@@ -1442,7 +1442,7 @@ namespace CareBoo.Blinq
             ref NativeArray<int4x3> output
             )
         {
-            var func = source.NewArraySumFunc_int4x3();
+            var func = source.SumAsFunc();
             return source.Schedule(func, ref output);
         }
 
@@ -1473,7 +1473,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<T>, int4x3>.Struct<ArraySumFunc_int4x3<T, TSelector>>
-        NewArraySumFunc_int4x3<T, TSelector>(
+        SumAsFunc<T, TSelector>(
             this in NativeArray<T> source,
             ValueFunc<T, int4x3>.Struct<TSelector> selector
             )
@@ -1491,7 +1491,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, int4x3>
         {
-            var func = source.NewArraySumFunc_int4x3(selector);
+            var func = source.SumAsFunc(selector);
             return source.Run(func);
         }
 
@@ -1502,7 +1502,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, int4x3>
         {
-            var func = source.NewArraySumFunc_int4x3(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func);
         }
 
@@ -1514,7 +1514,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, int4x3>
         {
-            var func = source.NewArraySumFunc_int4x3(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func, ref output);
         }
 
@@ -1539,7 +1539,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<int4x4>, int4x4>.Struct<ArraySumFunc_int4x4>
-        NewArraySumFunc_int4x4(
+        SumAsFunc(
             this in NativeArray<int4x4> source
             )
         {
@@ -1550,7 +1550,7 @@ namespace CareBoo.Blinq
             this in NativeArray<int4x4> source
             )
         {
-            var func = source.NewArraySumFunc_int4x4();
+            var func = source.SumAsFunc();
             return source.Run(func);
         }
 
@@ -1558,7 +1558,7 @@ namespace CareBoo.Blinq
             this in NativeArray<int4x4> source
             )
         {
-            var func = source.NewArraySumFunc_int4x4();
+            var func = source.SumAsFunc();
             return source.Schedule(func);
         }
 
@@ -1567,7 +1567,7 @@ namespace CareBoo.Blinq
             ref NativeArray<int4x4> output
             )
         {
-            var func = source.NewArraySumFunc_int4x4();
+            var func = source.SumAsFunc();
             return source.Schedule(func, ref output);
         }
 
@@ -1598,7 +1598,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<T>, int4x4>.Struct<ArraySumFunc_int4x4<T, TSelector>>
-        NewArraySumFunc_int4x4<T, TSelector>(
+        SumAsFunc<T, TSelector>(
             this in NativeArray<T> source,
             ValueFunc<T, int4x4>.Struct<TSelector> selector
             )
@@ -1616,7 +1616,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, int4x4>
         {
-            var func = source.NewArraySumFunc_int4x4(selector);
+            var func = source.SumAsFunc(selector);
             return source.Run(func);
         }
 
@@ -1627,7 +1627,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, int4x4>
         {
-            var func = source.NewArraySumFunc_int4x4(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func);
         }
 
@@ -1639,7 +1639,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, int4x4>
         {
-            var func = source.NewArraySumFunc_int4x4(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func, ref output);
         }
 
@@ -1664,7 +1664,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<uint>, uint>.Struct<ArraySumFunc_uint>
-        NewArraySumFunc_uint(
+        SumAsFunc(
             this in NativeArray<uint> source
             )
         {
@@ -1675,7 +1675,7 @@ namespace CareBoo.Blinq
             this in NativeArray<uint> source
             )
         {
-            var func = source.NewArraySumFunc_uint();
+            var func = source.SumAsFunc();
             return source.Run(func);
         }
 
@@ -1683,7 +1683,7 @@ namespace CareBoo.Blinq
             this in NativeArray<uint> source
             )
         {
-            var func = source.NewArraySumFunc_uint();
+            var func = source.SumAsFunc();
             return source.Schedule(func);
         }
 
@@ -1692,7 +1692,7 @@ namespace CareBoo.Blinq
             ref NativeArray<uint> output
             )
         {
-            var func = source.NewArraySumFunc_uint();
+            var func = source.SumAsFunc();
             return source.Schedule(func, ref output);
         }
 
@@ -1723,7 +1723,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<T>, uint>.Struct<ArraySumFunc_uint<T, TSelector>>
-        NewArraySumFunc_uint<T, TSelector>(
+        SumAsFunc<T, TSelector>(
             this in NativeArray<T> source,
             ValueFunc<T, uint>.Struct<TSelector> selector
             )
@@ -1741,7 +1741,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, uint>
         {
-            var func = source.NewArraySumFunc_uint(selector);
+            var func = source.SumAsFunc(selector);
             return source.Run(func);
         }
 
@@ -1752,7 +1752,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, uint>
         {
-            var func = source.NewArraySumFunc_uint(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func);
         }
 
@@ -1764,7 +1764,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, uint>
         {
-            var func = source.NewArraySumFunc_uint(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func, ref output);
         }
 
@@ -1789,7 +1789,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<uint2>, uint2>.Struct<ArraySumFunc_uint2>
-        NewArraySumFunc_uint2(
+        SumAsFunc(
             this in NativeArray<uint2> source
             )
         {
@@ -1800,7 +1800,7 @@ namespace CareBoo.Blinq
             this in NativeArray<uint2> source
             )
         {
-            var func = source.NewArraySumFunc_uint2();
+            var func = source.SumAsFunc();
             return source.Run(func);
         }
 
@@ -1808,7 +1808,7 @@ namespace CareBoo.Blinq
             this in NativeArray<uint2> source
             )
         {
-            var func = source.NewArraySumFunc_uint2();
+            var func = source.SumAsFunc();
             return source.Schedule(func);
         }
 
@@ -1817,7 +1817,7 @@ namespace CareBoo.Blinq
             ref NativeArray<uint2> output
             )
         {
-            var func = source.NewArraySumFunc_uint2();
+            var func = source.SumAsFunc();
             return source.Schedule(func, ref output);
         }
 
@@ -1848,7 +1848,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<T>, uint2>.Struct<ArraySumFunc_uint2<T, TSelector>>
-        NewArraySumFunc_uint2<T, TSelector>(
+        SumAsFunc<T, TSelector>(
             this in NativeArray<T> source,
             ValueFunc<T, uint2>.Struct<TSelector> selector
             )
@@ -1866,7 +1866,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, uint2>
         {
-            var func = source.NewArraySumFunc_uint2(selector);
+            var func = source.SumAsFunc(selector);
             return source.Run(func);
         }
 
@@ -1877,7 +1877,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, uint2>
         {
-            var func = source.NewArraySumFunc_uint2(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func);
         }
 
@@ -1889,7 +1889,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, uint2>
         {
-            var func = source.NewArraySumFunc_uint2(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func, ref output);
         }
 
@@ -1914,7 +1914,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<uint2x2>, uint2x2>.Struct<ArraySumFunc_uint2x2>
-        NewArraySumFunc_uint2x2(
+        SumAsFunc(
             this in NativeArray<uint2x2> source
             )
         {
@@ -1925,7 +1925,7 @@ namespace CareBoo.Blinq
             this in NativeArray<uint2x2> source
             )
         {
-            var func = source.NewArraySumFunc_uint2x2();
+            var func = source.SumAsFunc();
             return source.Run(func);
         }
 
@@ -1933,7 +1933,7 @@ namespace CareBoo.Blinq
             this in NativeArray<uint2x2> source
             )
         {
-            var func = source.NewArraySumFunc_uint2x2();
+            var func = source.SumAsFunc();
             return source.Schedule(func);
         }
 
@@ -1942,7 +1942,7 @@ namespace CareBoo.Blinq
             ref NativeArray<uint2x2> output
             )
         {
-            var func = source.NewArraySumFunc_uint2x2();
+            var func = source.SumAsFunc();
             return source.Schedule(func, ref output);
         }
 
@@ -1973,7 +1973,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<T>, uint2x2>.Struct<ArraySumFunc_uint2x2<T, TSelector>>
-        NewArraySumFunc_uint2x2<T, TSelector>(
+        SumAsFunc<T, TSelector>(
             this in NativeArray<T> source,
             ValueFunc<T, uint2x2>.Struct<TSelector> selector
             )
@@ -1991,7 +1991,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, uint2x2>
         {
-            var func = source.NewArraySumFunc_uint2x2(selector);
+            var func = source.SumAsFunc(selector);
             return source.Run(func);
         }
 
@@ -2002,7 +2002,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, uint2x2>
         {
-            var func = source.NewArraySumFunc_uint2x2(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func);
         }
 
@@ -2014,7 +2014,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, uint2x2>
         {
-            var func = source.NewArraySumFunc_uint2x2(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func, ref output);
         }
 
@@ -2039,7 +2039,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<uint2x3>, uint2x3>.Struct<ArraySumFunc_uint2x3>
-        NewArraySumFunc_uint2x3(
+        SumAsFunc(
             this in NativeArray<uint2x3> source
             )
         {
@@ -2050,7 +2050,7 @@ namespace CareBoo.Blinq
             this in NativeArray<uint2x3> source
             )
         {
-            var func = source.NewArraySumFunc_uint2x3();
+            var func = source.SumAsFunc();
             return source.Run(func);
         }
 
@@ -2058,7 +2058,7 @@ namespace CareBoo.Blinq
             this in NativeArray<uint2x3> source
             )
         {
-            var func = source.NewArraySumFunc_uint2x3();
+            var func = source.SumAsFunc();
             return source.Schedule(func);
         }
 
@@ -2067,7 +2067,7 @@ namespace CareBoo.Blinq
             ref NativeArray<uint2x3> output
             )
         {
-            var func = source.NewArraySumFunc_uint2x3();
+            var func = source.SumAsFunc();
             return source.Schedule(func, ref output);
         }
 
@@ -2098,7 +2098,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<T>, uint2x3>.Struct<ArraySumFunc_uint2x3<T, TSelector>>
-        NewArraySumFunc_uint2x3<T, TSelector>(
+        SumAsFunc<T, TSelector>(
             this in NativeArray<T> source,
             ValueFunc<T, uint2x3>.Struct<TSelector> selector
             )
@@ -2116,7 +2116,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, uint2x3>
         {
-            var func = source.NewArraySumFunc_uint2x3(selector);
+            var func = source.SumAsFunc(selector);
             return source.Run(func);
         }
 
@@ -2127,7 +2127,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, uint2x3>
         {
-            var func = source.NewArraySumFunc_uint2x3(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func);
         }
 
@@ -2139,7 +2139,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, uint2x3>
         {
-            var func = source.NewArraySumFunc_uint2x3(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func, ref output);
         }
 
@@ -2164,7 +2164,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<uint2x4>, uint2x4>.Struct<ArraySumFunc_uint2x4>
-        NewArraySumFunc_uint2x4(
+        SumAsFunc(
             this in NativeArray<uint2x4> source
             )
         {
@@ -2175,7 +2175,7 @@ namespace CareBoo.Blinq
             this in NativeArray<uint2x4> source
             )
         {
-            var func = source.NewArraySumFunc_uint2x4();
+            var func = source.SumAsFunc();
             return source.Run(func);
         }
 
@@ -2183,7 +2183,7 @@ namespace CareBoo.Blinq
             this in NativeArray<uint2x4> source
             )
         {
-            var func = source.NewArraySumFunc_uint2x4();
+            var func = source.SumAsFunc();
             return source.Schedule(func);
         }
 
@@ -2192,7 +2192,7 @@ namespace CareBoo.Blinq
             ref NativeArray<uint2x4> output
             )
         {
-            var func = source.NewArraySumFunc_uint2x4();
+            var func = source.SumAsFunc();
             return source.Schedule(func, ref output);
         }
 
@@ -2223,7 +2223,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<T>, uint2x4>.Struct<ArraySumFunc_uint2x4<T, TSelector>>
-        NewArraySumFunc_uint2x4<T, TSelector>(
+        SumAsFunc<T, TSelector>(
             this in NativeArray<T> source,
             ValueFunc<T, uint2x4>.Struct<TSelector> selector
             )
@@ -2241,7 +2241,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, uint2x4>
         {
-            var func = source.NewArraySumFunc_uint2x4(selector);
+            var func = source.SumAsFunc(selector);
             return source.Run(func);
         }
 
@@ -2252,7 +2252,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, uint2x4>
         {
-            var func = source.NewArraySumFunc_uint2x4(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func);
         }
 
@@ -2264,7 +2264,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, uint2x4>
         {
-            var func = source.NewArraySumFunc_uint2x4(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func, ref output);
         }
 
@@ -2289,7 +2289,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<uint3>, uint3>.Struct<ArraySumFunc_uint3>
-        NewArraySumFunc_uint3(
+        SumAsFunc(
             this in NativeArray<uint3> source
             )
         {
@@ -2300,7 +2300,7 @@ namespace CareBoo.Blinq
             this in NativeArray<uint3> source
             )
         {
-            var func = source.NewArraySumFunc_uint3();
+            var func = source.SumAsFunc();
             return source.Run(func);
         }
 
@@ -2308,7 +2308,7 @@ namespace CareBoo.Blinq
             this in NativeArray<uint3> source
             )
         {
-            var func = source.NewArraySumFunc_uint3();
+            var func = source.SumAsFunc();
             return source.Schedule(func);
         }
 
@@ -2317,7 +2317,7 @@ namespace CareBoo.Blinq
             ref NativeArray<uint3> output
             )
         {
-            var func = source.NewArraySumFunc_uint3();
+            var func = source.SumAsFunc();
             return source.Schedule(func, ref output);
         }
 
@@ -2348,7 +2348,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<T>, uint3>.Struct<ArraySumFunc_uint3<T, TSelector>>
-        NewArraySumFunc_uint3<T, TSelector>(
+        SumAsFunc<T, TSelector>(
             this in NativeArray<T> source,
             ValueFunc<T, uint3>.Struct<TSelector> selector
             )
@@ -2366,7 +2366,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, uint3>
         {
-            var func = source.NewArraySumFunc_uint3(selector);
+            var func = source.SumAsFunc(selector);
             return source.Run(func);
         }
 
@@ -2377,7 +2377,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, uint3>
         {
-            var func = source.NewArraySumFunc_uint3(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func);
         }
 
@@ -2389,7 +2389,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, uint3>
         {
-            var func = source.NewArraySumFunc_uint3(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func, ref output);
         }
 
@@ -2414,7 +2414,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<uint3x2>, uint3x2>.Struct<ArraySumFunc_uint3x2>
-        NewArraySumFunc_uint3x2(
+        SumAsFunc(
             this in NativeArray<uint3x2> source
             )
         {
@@ -2425,7 +2425,7 @@ namespace CareBoo.Blinq
             this in NativeArray<uint3x2> source
             )
         {
-            var func = source.NewArraySumFunc_uint3x2();
+            var func = source.SumAsFunc();
             return source.Run(func);
         }
 
@@ -2433,7 +2433,7 @@ namespace CareBoo.Blinq
             this in NativeArray<uint3x2> source
             )
         {
-            var func = source.NewArraySumFunc_uint3x2();
+            var func = source.SumAsFunc();
             return source.Schedule(func);
         }
 
@@ -2442,7 +2442,7 @@ namespace CareBoo.Blinq
             ref NativeArray<uint3x2> output
             )
         {
-            var func = source.NewArraySumFunc_uint3x2();
+            var func = source.SumAsFunc();
             return source.Schedule(func, ref output);
         }
 
@@ -2473,7 +2473,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<T>, uint3x2>.Struct<ArraySumFunc_uint3x2<T, TSelector>>
-        NewArraySumFunc_uint3x2<T, TSelector>(
+        SumAsFunc<T, TSelector>(
             this in NativeArray<T> source,
             ValueFunc<T, uint3x2>.Struct<TSelector> selector
             )
@@ -2491,7 +2491,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, uint3x2>
         {
-            var func = source.NewArraySumFunc_uint3x2(selector);
+            var func = source.SumAsFunc(selector);
             return source.Run(func);
         }
 
@@ -2502,7 +2502,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, uint3x2>
         {
-            var func = source.NewArraySumFunc_uint3x2(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func);
         }
 
@@ -2514,7 +2514,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, uint3x2>
         {
-            var func = source.NewArraySumFunc_uint3x2(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func, ref output);
         }
 
@@ -2539,7 +2539,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<uint3x3>, uint3x3>.Struct<ArraySumFunc_uint3x3>
-        NewArraySumFunc_uint3x3(
+        SumAsFunc(
             this in NativeArray<uint3x3> source
             )
         {
@@ -2550,7 +2550,7 @@ namespace CareBoo.Blinq
             this in NativeArray<uint3x3> source
             )
         {
-            var func = source.NewArraySumFunc_uint3x3();
+            var func = source.SumAsFunc();
             return source.Run(func);
         }
 
@@ -2558,7 +2558,7 @@ namespace CareBoo.Blinq
             this in NativeArray<uint3x3> source
             )
         {
-            var func = source.NewArraySumFunc_uint3x3();
+            var func = source.SumAsFunc();
             return source.Schedule(func);
         }
 
@@ -2567,7 +2567,7 @@ namespace CareBoo.Blinq
             ref NativeArray<uint3x3> output
             )
         {
-            var func = source.NewArraySumFunc_uint3x3();
+            var func = source.SumAsFunc();
             return source.Schedule(func, ref output);
         }
 
@@ -2598,7 +2598,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<T>, uint3x3>.Struct<ArraySumFunc_uint3x3<T, TSelector>>
-        NewArraySumFunc_uint3x3<T, TSelector>(
+        SumAsFunc<T, TSelector>(
             this in NativeArray<T> source,
             ValueFunc<T, uint3x3>.Struct<TSelector> selector
             )
@@ -2616,7 +2616,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, uint3x3>
         {
-            var func = source.NewArraySumFunc_uint3x3(selector);
+            var func = source.SumAsFunc(selector);
             return source.Run(func);
         }
 
@@ -2627,7 +2627,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, uint3x3>
         {
-            var func = source.NewArraySumFunc_uint3x3(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func);
         }
 
@@ -2639,7 +2639,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, uint3x3>
         {
-            var func = source.NewArraySumFunc_uint3x3(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func, ref output);
         }
 
@@ -2664,7 +2664,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<uint3x4>, uint3x4>.Struct<ArraySumFunc_uint3x4>
-        NewArraySumFunc_uint3x4(
+        SumAsFunc(
             this in NativeArray<uint3x4> source
             )
         {
@@ -2675,7 +2675,7 @@ namespace CareBoo.Blinq
             this in NativeArray<uint3x4> source
             )
         {
-            var func = source.NewArraySumFunc_uint3x4();
+            var func = source.SumAsFunc();
             return source.Run(func);
         }
 
@@ -2683,7 +2683,7 @@ namespace CareBoo.Blinq
             this in NativeArray<uint3x4> source
             )
         {
-            var func = source.NewArraySumFunc_uint3x4();
+            var func = source.SumAsFunc();
             return source.Schedule(func);
         }
 
@@ -2692,7 +2692,7 @@ namespace CareBoo.Blinq
             ref NativeArray<uint3x4> output
             )
         {
-            var func = source.NewArraySumFunc_uint3x4();
+            var func = source.SumAsFunc();
             return source.Schedule(func, ref output);
         }
 
@@ -2723,7 +2723,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<T>, uint3x4>.Struct<ArraySumFunc_uint3x4<T, TSelector>>
-        NewArraySumFunc_uint3x4<T, TSelector>(
+        SumAsFunc<T, TSelector>(
             this in NativeArray<T> source,
             ValueFunc<T, uint3x4>.Struct<TSelector> selector
             )
@@ -2741,7 +2741,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, uint3x4>
         {
-            var func = source.NewArraySumFunc_uint3x4(selector);
+            var func = source.SumAsFunc(selector);
             return source.Run(func);
         }
 
@@ -2752,7 +2752,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, uint3x4>
         {
-            var func = source.NewArraySumFunc_uint3x4(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func);
         }
 
@@ -2764,7 +2764,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, uint3x4>
         {
-            var func = source.NewArraySumFunc_uint3x4(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func, ref output);
         }
 
@@ -2789,7 +2789,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<uint4>, uint4>.Struct<ArraySumFunc_uint4>
-        NewArraySumFunc_uint4(
+        SumAsFunc(
             this in NativeArray<uint4> source
             )
         {
@@ -2800,7 +2800,7 @@ namespace CareBoo.Blinq
             this in NativeArray<uint4> source
             )
         {
-            var func = source.NewArraySumFunc_uint4();
+            var func = source.SumAsFunc();
             return source.Run(func);
         }
 
@@ -2808,7 +2808,7 @@ namespace CareBoo.Blinq
             this in NativeArray<uint4> source
             )
         {
-            var func = source.NewArraySumFunc_uint4();
+            var func = source.SumAsFunc();
             return source.Schedule(func);
         }
 
@@ -2817,7 +2817,7 @@ namespace CareBoo.Blinq
             ref NativeArray<uint4> output
             )
         {
-            var func = source.NewArraySumFunc_uint4();
+            var func = source.SumAsFunc();
             return source.Schedule(func, ref output);
         }
 
@@ -2848,7 +2848,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<T>, uint4>.Struct<ArraySumFunc_uint4<T, TSelector>>
-        NewArraySumFunc_uint4<T, TSelector>(
+        SumAsFunc<T, TSelector>(
             this in NativeArray<T> source,
             ValueFunc<T, uint4>.Struct<TSelector> selector
             )
@@ -2866,7 +2866,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, uint4>
         {
-            var func = source.NewArraySumFunc_uint4(selector);
+            var func = source.SumAsFunc(selector);
             return source.Run(func);
         }
 
@@ -2877,7 +2877,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, uint4>
         {
-            var func = source.NewArraySumFunc_uint4(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func);
         }
 
@@ -2889,7 +2889,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, uint4>
         {
-            var func = source.NewArraySumFunc_uint4(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func, ref output);
         }
 
@@ -2914,7 +2914,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<uint4x2>, uint4x2>.Struct<ArraySumFunc_uint4x2>
-        NewArraySumFunc_uint4x2(
+        SumAsFunc(
             this in NativeArray<uint4x2> source
             )
         {
@@ -2925,7 +2925,7 @@ namespace CareBoo.Blinq
             this in NativeArray<uint4x2> source
             )
         {
-            var func = source.NewArraySumFunc_uint4x2();
+            var func = source.SumAsFunc();
             return source.Run(func);
         }
 
@@ -2933,7 +2933,7 @@ namespace CareBoo.Blinq
             this in NativeArray<uint4x2> source
             )
         {
-            var func = source.NewArraySumFunc_uint4x2();
+            var func = source.SumAsFunc();
             return source.Schedule(func);
         }
 
@@ -2942,7 +2942,7 @@ namespace CareBoo.Blinq
             ref NativeArray<uint4x2> output
             )
         {
-            var func = source.NewArraySumFunc_uint4x2();
+            var func = source.SumAsFunc();
             return source.Schedule(func, ref output);
         }
 
@@ -2973,7 +2973,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<T>, uint4x2>.Struct<ArraySumFunc_uint4x2<T, TSelector>>
-        NewArraySumFunc_uint4x2<T, TSelector>(
+        SumAsFunc<T, TSelector>(
             this in NativeArray<T> source,
             ValueFunc<T, uint4x2>.Struct<TSelector> selector
             )
@@ -2991,7 +2991,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, uint4x2>
         {
-            var func = source.NewArraySumFunc_uint4x2(selector);
+            var func = source.SumAsFunc(selector);
             return source.Run(func);
         }
 
@@ -3002,7 +3002,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, uint4x2>
         {
-            var func = source.NewArraySumFunc_uint4x2(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func);
         }
 
@@ -3014,7 +3014,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, uint4x2>
         {
-            var func = source.NewArraySumFunc_uint4x2(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func, ref output);
         }
 
@@ -3039,7 +3039,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<uint4x3>, uint4x3>.Struct<ArraySumFunc_uint4x3>
-        NewArraySumFunc_uint4x3(
+        SumAsFunc(
             this in NativeArray<uint4x3> source
             )
         {
@@ -3050,7 +3050,7 @@ namespace CareBoo.Blinq
             this in NativeArray<uint4x3> source
             )
         {
-            var func = source.NewArraySumFunc_uint4x3();
+            var func = source.SumAsFunc();
             return source.Run(func);
         }
 
@@ -3058,7 +3058,7 @@ namespace CareBoo.Blinq
             this in NativeArray<uint4x3> source
             )
         {
-            var func = source.NewArraySumFunc_uint4x3();
+            var func = source.SumAsFunc();
             return source.Schedule(func);
         }
 
@@ -3067,7 +3067,7 @@ namespace CareBoo.Blinq
             ref NativeArray<uint4x3> output
             )
         {
-            var func = source.NewArraySumFunc_uint4x3();
+            var func = source.SumAsFunc();
             return source.Schedule(func, ref output);
         }
 
@@ -3098,7 +3098,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<T>, uint4x3>.Struct<ArraySumFunc_uint4x3<T, TSelector>>
-        NewArraySumFunc_uint4x3<T, TSelector>(
+        SumAsFunc<T, TSelector>(
             this in NativeArray<T> source,
             ValueFunc<T, uint4x3>.Struct<TSelector> selector
             )
@@ -3116,7 +3116,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, uint4x3>
         {
-            var func = source.NewArraySumFunc_uint4x3(selector);
+            var func = source.SumAsFunc(selector);
             return source.Run(func);
         }
 
@@ -3127,7 +3127,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, uint4x3>
         {
-            var func = source.NewArraySumFunc_uint4x3(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func);
         }
 
@@ -3139,7 +3139,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, uint4x3>
         {
-            var func = source.NewArraySumFunc_uint4x3(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func, ref output);
         }
 
@@ -3164,7 +3164,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<uint4x4>, uint4x4>.Struct<ArraySumFunc_uint4x4>
-        NewArraySumFunc_uint4x4(
+        SumAsFunc(
             this in NativeArray<uint4x4> source
             )
         {
@@ -3175,7 +3175,7 @@ namespace CareBoo.Blinq
             this in NativeArray<uint4x4> source
             )
         {
-            var func = source.NewArraySumFunc_uint4x4();
+            var func = source.SumAsFunc();
             return source.Run(func);
         }
 
@@ -3183,7 +3183,7 @@ namespace CareBoo.Blinq
             this in NativeArray<uint4x4> source
             )
         {
-            var func = source.NewArraySumFunc_uint4x4();
+            var func = source.SumAsFunc();
             return source.Schedule(func);
         }
 
@@ -3192,7 +3192,7 @@ namespace CareBoo.Blinq
             ref NativeArray<uint4x4> output
             )
         {
-            var func = source.NewArraySumFunc_uint4x4();
+            var func = source.SumAsFunc();
             return source.Schedule(func, ref output);
         }
 
@@ -3223,7 +3223,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<T>, uint4x4>.Struct<ArraySumFunc_uint4x4<T, TSelector>>
-        NewArraySumFunc_uint4x4<T, TSelector>(
+        SumAsFunc<T, TSelector>(
             this in NativeArray<T> source,
             ValueFunc<T, uint4x4>.Struct<TSelector> selector
             )
@@ -3241,7 +3241,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, uint4x4>
         {
-            var func = source.NewArraySumFunc_uint4x4(selector);
+            var func = source.SumAsFunc(selector);
             return source.Run(func);
         }
 
@@ -3252,7 +3252,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, uint4x4>
         {
-            var func = source.NewArraySumFunc_uint4x4(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func);
         }
 
@@ -3264,7 +3264,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, uint4x4>
         {
-            var func = source.NewArraySumFunc_uint4x4(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func, ref output);
         }
 
@@ -3289,7 +3289,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<float>, float>.Struct<ArraySumFunc_float>
-        NewArraySumFunc_float(
+        SumAsFunc(
             this in NativeArray<float> source
             )
         {
@@ -3300,7 +3300,7 @@ namespace CareBoo.Blinq
             this in NativeArray<float> source
             )
         {
-            var func = source.NewArraySumFunc_float();
+            var func = source.SumAsFunc();
             return source.Run(func);
         }
 
@@ -3308,7 +3308,7 @@ namespace CareBoo.Blinq
             this in NativeArray<float> source
             )
         {
-            var func = source.NewArraySumFunc_float();
+            var func = source.SumAsFunc();
             return source.Schedule(func);
         }
 
@@ -3317,7 +3317,7 @@ namespace CareBoo.Blinq
             ref NativeArray<float> output
             )
         {
-            var func = source.NewArraySumFunc_float();
+            var func = source.SumAsFunc();
             return source.Schedule(func, ref output);
         }
 
@@ -3348,7 +3348,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<T>, float>.Struct<ArraySumFunc_float<T, TSelector>>
-        NewArraySumFunc_float<T, TSelector>(
+        SumAsFunc<T, TSelector>(
             this in NativeArray<T> source,
             ValueFunc<T, float>.Struct<TSelector> selector
             )
@@ -3366,7 +3366,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, float>
         {
-            var func = source.NewArraySumFunc_float(selector);
+            var func = source.SumAsFunc(selector);
             return source.Run(func);
         }
 
@@ -3377,7 +3377,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, float>
         {
-            var func = source.NewArraySumFunc_float(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func);
         }
 
@@ -3389,7 +3389,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, float>
         {
-            var func = source.NewArraySumFunc_float(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func, ref output);
         }
 
@@ -3414,7 +3414,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<float2>, float2>.Struct<ArraySumFunc_float2>
-        NewArraySumFunc_float2(
+        SumAsFunc(
             this in NativeArray<float2> source
             )
         {
@@ -3425,7 +3425,7 @@ namespace CareBoo.Blinq
             this in NativeArray<float2> source
             )
         {
-            var func = source.NewArraySumFunc_float2();
+            var func = source.SumAsFunc();
             return source.Run(func);
         }
 
@@ -3433,7 +3433,7 @@ namespace CareBoo.Blinq
             this in NativeArray<float2> source
             )
         {
-            var func = source.NewArraySumFunc_float2();
+            var func = source.SumAsFunc();
             return source.Schedule(func);
         }
 
@@ -3442,7 +3442,7 @@ namespace CareBoo.Blinq
             ref NativeArray<float2> output
             )
         {
-            var func = source.NewArraySumFunc_float2();
+            var func = source.SumAsFunc();
             return source.Schedule(func, ref output);
         }
 
@@ -3473,7 +3473,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<T>, float2>.Struct<ArraySumFunc_float2<T, TSelector>>
-        NewArraySumFunc_float2<T, TSelector>(
+        SumAsFunc<T, TSelector>(
             this in NativeArray<T> source,
             ValueFunc<T, float2>.Struct<TSelector> selector
             )
@@ -3491,7 +3491,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, float2>
         {
-            var func = source.NewArraySumFunc_float2(selector);
+            var func = source.SumAsFunc(selector);
             return source.Run(func);
         }
 
@@ -3502,7 +3502,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, float2>
         {
-            var func = source.NewArraySumFunc_float2(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func);
         }
 
@@ -3514,7 +3514,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, float2>
         {
-            var func = source.NewArraySumFunc_float2(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func, ref output);
         }
 
@@ -3539,7 +3539,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<float2x2>, float2x2>.Struct<ArraySumFunc_float2x2>
-        NewArraySumFunc_float2x2(
+        SumAsFunc(
             this in NativeArray<float2x2> source
             )
         {
@@ -3550,7 +3550,7 @@ namespace CareBoo.Blinq
             this in NativeArray<float2x2> source
             )
         {
-            var func = source.NewArraySumFunc_float2x2();
+            var func = source.SumAsFunc();
             return source.Run(func);
         }
 
@@ -3558,7 +3558,7 @@ namespace CareBoo.Blinq
             this in NativeArray<float2x2> source
             )
         {
-            var func = source.NewArraySumFunc_float2x2();
+            var func = source.SumAsFunc();
             return source.Schedule(func);
         }
 
@@ -3567,7 +3567,7 @@ namespace CareBoo.Blinq
             ref NativeArray<float2x2> output
             )
         {
-            var func = source.NewArraySumFunc_float2x2();
+            var func = source.SumAsFunc();
             return source.Schedule(func, ref output);
         }
 
@@ -3598,7 +3598,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<T>, float2x2>.Struct<ArraySumFunc_float2x2<T, TSelector>>
-        NewArraySumFunc_float2x2<T, TSelector>(
+        SumAsFunc<T, TSelector>(
             this in NativeArray<T> source,
             ValueFunc<T, float2x2>.Struct<TSelector> selector
             )
@@ -3616,7 +3616,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, float2x2>
         {
-            var func = source.NewArraySumFunc_float2x2(selector);
+            var func = source.SumAsFunc(selector);
             return source.Run(func);
         }
 
@@ -3627,7 +3627,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, float2x2>
         {
-            var func = source.NewArraySumFunc_float2x2(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func);
         }
 
@@ -3639,7 +3639,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, float2x2>
         {
-            var func = source.NewArraySumFunc_float2x2(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func, ref output);
         }
 
@@ -3664,7 +3664,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<float2x3>, float2x3>.Struct<ArraySumFunc_float2x3>
-        NewArraySumFunc_float2x3(
+        SumAsFunc(
             this in NativeArray<float2x3> source
             )
         {
@@ -3675,7 +3675,7 @@ namespace CareBoo.Blinq
             this in NativeArray<float2x3> source
             )
         {
-            var func = source.NewArraySumFunc_float2x3();
+            var func = source.SumAsFunc();
             return source.Run(func);
         }
 
@@ -3683,7 +3683,7 @@ namespace CareBoo.Blinq
             this in NativeArray<float2x3> source
             )
         {
-            var func = source.NewArraySumFunc_float2x3();
+            var func = source.SumAsFunc();
             return source.Schedule(func);
         }
 
@@ -3692,7 +3692,7 @@ namespace CareBoo.Blinq
             ref NativeArray<float2x3> output
             )
         {
-            var func = source.NewArraySumFunc_float2x3();
+            var func = source.SumAsFunc();
             return source.Schedule(func, ref output);
         }
 
@@ -3723,7 +3723,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<T>, float2x3>.Struct<ArraySumFunc_float2x3<T, TSelector>>
-        NewArraySumFunc_float2x3<T, TSelector>(
+        SumAsFunc<T, TSelector>(
             this in NativeArray<T> source,
             ValueFunc<T, float2x3>.Struct<TSelector> selector
             )
@@ -3741,7 +3741,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, float2x3>
         {
-            var func = source.NewArraySumFunc_float2x3(selector);
+            var func = source.SumAsFunc(selector);
             return source.Run(func);
         }
 
@@ -3752,7 +3752,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, float2x3>
         {
-            var func = source.NewArraySumFunc_float2x3(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func);
         }
 
@@ -3764,7 +3764,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, float2x3>
         {
-            var func = source.NewArraySumFunc_float2x3(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func, ref output);
         }
 
@@ -3789,7 +3789,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<float2x4>, float2x4>.Struct<ArraySumFunc_float2x4>
-        NewArraySumFunc_float2x4(
+        SumAsFunc(
             this in NativeArray<float2x4> source
             )
         {
@@ -3800,7 +3800,7 @@ namespace CareBoo.Blinq
             this in NativeArray<float2x4> source
             )
         {
-            var func = source.NewArraySumFunc_float2x4();
+            var func = source.SumAsFunc();
             return source.Run(func);
         }
 
@@ -3808,7 +3808,7 @@ namespace CareBoo.Blinq
             this in NativeArray<float2x4> source
             )
         {
-            var func = source.NewArraySumFunc_float2x4();
+            var func = source.SumAsFunc();
             return source.Schedule(func);
         }
 
@@ -3817,7 +3817,7 @@ namespace CareBoo.Blinq
             ref NativeArray<float2x4> output
             )
         {
-            var func = source.NewArraySumFunc_float2x4();
+            var func = source.SumAsFunc();
             return source.Schedule(func, ref output);
         }
 
@@ -3848,7 +3848,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<T>, float2x4>.Struct<ArraySumFunc_float2x4<T, TSelector>>
-        NewArraySumFunc_float2x4<T, TSelector>(
+        SumAsFunc<T, TSelector>(
             this in NativeArray<T> source,
             ValueFunc<T, float2x4>.Struct<TSelector> selector
             )
@@ -3866,7 +3866,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, float2x4>
         {
-            var func = source.NewArraySumFunc_float2x4(selector);
+            var func = source.SumAsFunc(selector);
             return source.Run(func);
         }
 
@@ -3877,7 +3877,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, float2x4>
         {
-            var func = source.NewArraySumFunc_float2x4(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func);
         }
 
@@ -3889,7 +3889,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, float2x4>
         {
-            var func = source.NewArraySumFunc_float2x4(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func, ref output);
         }
 
@@ -3914,7 +3914,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<float3>, float3>.Struct<ArraySumFunc_float3>
-        NewArraySumFunc_float3(
+        SumAsFunc(
             this in NativeArray<float3> source
             )
         {
@@ -3925,7 +3925,7 @@ namespace CareBoo.Blinq
             this in NativeArray<float3> source
             )
         {
-            var func = source.NewArraySumFunc_float3();
+            var func = source.SumAsFunc();
             return source.Run(func);
         }
 
@@ -3933,7 +3933,7 @@ namespace CareBoo.Blinq
             this in NativeArray<float3> source
             )
         {
-            var func = source.NewArraySumFunc_float3();
+            var func = source.SumAsFunc();
             return source.Schedule(func);
         }
 
@@ -3942,7 +3942,7 @@ namespace CareBoo.Blinq
             ref NativeArray<float3> output
             )
         {
-            var func = source.NewArraySumFunc_float3();
+            var func = source.SumAsFunc();
             return source.Schedule(func, ref output);
         }
 
@@ -3973,7 +3973,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<T>, float3>.Struct<ArraySumFunc_float3<T, TSelector>>
-        NewArraySumFunc_float3<T, TSelector>(
+        SumAsFunc<T, TSelector>(
             this in NativeArray<T> source,
             ValueFunc<T, float3>.Struct<TSelector> selector
             )
@@ -3991,7 +3991,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, float3>
         {
-            var func = source.NewArraySumFunc_float3(selector);
+            var func = source.SumAsFunc(selector);
             return source.Run(func);
         }
 
@@ -4002,7 +4002,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, float3>
         {
-            var func = source.NewArraySumFunc_float3(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func);
         }
 
@@ -4014,7 +4014,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, float3>
         {
-            var func = source.NewArraySumFunc_float3(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func, ref output);
         }
 
@@ -4039,7 +4039,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<float3x2>, float3x2>.Struct<ArraySumFunc_float3x2>
-        NewArraySumFunc_float3x2(
+        SumAsFunc(
             this in NativeArray<float3x2> source
             )
         {
@@ -4050,7 +4050,7 @@ namespace CareBoo.Blinq
             this in NativeArray<float3x2> source
             )
         {
-            var func = source.NewArraySumFunc_float3x2();
+            var func = source.SumAsFunc();
             return source.Run(func);
         }
 
@@ -4058,7 +4058,7 @@ namespace CareBoo.Blinq
             this in NativeArray<float3x2> source
             )
         {
-            var func = source.NewArraySumFunc_float3x2();
+            var func = source.SumAsFunc();
             return source.Schedule(func);
         }
 
@@ -4067,7 +4067,7 @@ namespace CareBoo.Blinq
             ref NativeArray<float3x2> output
             )
         {
-            var func = source.NewArraySumFunc_float3x2();
+            var func = source.SumAsFunc();
             return source.Schedule(func, ref output);
         }
 
@@ -4098,7 +4098,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<T>, float3x2>.Struct<ArraySumFunc_float3x2<T, TSelector>>
-        NewArraySumFunc_float3x2<T, TSelector>(
+        SumAsFunc<T, TSelector>(
             this in NativeArray<T> source,
             ValueFunc<T, float3x2>.Struct<TSelector> selector
             )
@@ -4116,7 +4116,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, float3x2>
         {
-            var func = source.NewArraySumFunc_float3x2(selector);
+            var func = source.SumAsFunc(selector);
             return source.Run(func);
         }
 
@@ -4127,7 +4127,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, float3x2>
         {
-            var func = source.NewArraySumFunc_float3x2(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func);
         }
 
@@ -4139,7 +4139,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, float3x2>
         {
-            var func = source.NewArraySumFunc_float3x2(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func, ref output);
         }
 
@@ -4164,7 +4164,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<float3x3>, float3x3>.Struct<ArraySumFunc_float3x3>
-        NewArraySumFunc_float3x3(
+        SumAsFunc(
             this in NativeArray<float3x3> source
             )
         {
@@ -4175,7 +4175,7 @@ namespace CareBoo.Blinq
             this in NativeArray<float3x3> source
             )
         {
-            var func = source.NewArraySumFunc_float3x3();
+            var func = source.SumAsFunc();
             return source.Run(func);
         }
 
@@ -4183,7 +4183,7 @@ namespace CareBoo.Blinq
             this in NativeArray<float3x3> source
             )
         {
-            var func = source.NewArraySumFunc_float3x3();
+            var func = source.SumAsFunc();
             return source.Schedule(func);
         }
 
@@ -4192,7 +4192,7 @@ namespace CareBoo.Blinq
             ref NativeArray<float3x3> output
             )
         {
-            var func = source.NewArraySumFunc_float3x3();
+            var func = source.SumAsFunc();
             return source.Schedule(func, ref output);
         }
 
@@ -4223,7 +4223,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<T>, float3x3>.Struct<ArraySumFunc_float3x3<T, TSelector>>
-        NewArraySumFunc_float3x3<T, TSelector>(
+        SumAsFunc<T, TSelector>(
             this in NativeArray<T> source,
             ValueFunc<T, float3x3>.Struct<TSelector> selector
             )
@@ -4241,7 +4241,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, float3x3>
         {
-            var func = source.NewArraySumFunc_float3x3(selector);
+            var func = source.SumAsFunc(selector);
             return source.Run(func);
         }
 
@@ -4252,7 +4252,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, float3x3>
         {
-            var func = source.NewArraySumFunc_float3x3(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func);
         }
 
@@ -4264,7 +4264,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, float3x3>
         {
-            var func = source.NewArraySumFunc_float3x3(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func, ref output);
         }
 
@@ -4289,7 +4289,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<float3x4>, float3x4>.Struct<ArraySumFunc_float3x4>
-        NewArraySumFunc_float3x4(
+        SumAsFunc(
             this in NativeArray<float3x4> source
             )
         {
@@ -4300,7 +4300,7 @@ namespace CareBoo.Blinq
             this in NativeArray<float3x4> source
             )
         {
-            var func = source.NewArraySumFunc_float3x4();
+            var func = source.SumAsFunc();
             return source.Run(func);
         }
 
@@ -4308,7 +4308,7 @@ namespace CareBoo.Blinq
             this in NativeArray<float3x4> source
             )
         {
-            var func = source.NewArraySumFunc_float3x4();
+            var func = source.SumAsFunc();
             return source.Schedule(func);
         }
 
@@ -4317,7 +4317,7 @@ namespace CareBoo.Blinq
             ref NativeArray<float3x4> output
             )
         {
-            var func = source.NewArraySumFunc_float3x4();
+            var func = source.SumAsFunc();
             return source.Schedule(func, ref output);
         }
 
@@ -4348,7 +4348,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<T>, float3x4>.Struct<ArraySumFunc_float3x4<T, TSelector>>
-        NewArraySumFunc_float3x4<T, TSelector>(
+        SumAsFunc<T, TSelector>(
             this in NativeArray<T> source,
             ValueFunc<T, float3x4>.Struct<TSelector> selector
             )
@@ -4366,7 +4366,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, float3x4>
         {
-            var func = source.NewArraySumFunc_float3x4(selector);
+            var func = source.SumAsFunc(selector);
             return source.Run(func);
         }
 
@@ -4377,7 +4377,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, float3x4>
         {
-            var func = source.NewArraySumFunc_float3x4(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func);
         }
 
@@ -4389,7 +4389,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, float3x4>
         {
-            var func = source.NewArraySumFunc_float3x4(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func, ref output);
         }
 
@@ -4414,7 +4414,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<float4>, float4>.Struct<ArraySumFunc_float4>
-        NewArraySumFunc_float4(
+        SumAsFunc(
             this in NativeArray<float4> source
             )
         {
@@ -4425,7 +4425,7 @@ namespace CareBoo.Blinq
             this in NativeArray<float4> source
             )
         {
-            var func = source.NewArraySumFunc_float4();
+            var func = source.SumAsFunc();
             return source.Run(func);
         }
 
@@ -4433,7 +4433,7 @@ namespace CareBoo.Blinq
             this in NativeArray<float4> source
             )
         {
-            var func = source.NewArraySumFunc_float4();
+            var func = source.SumAsFunc();
             return source.Schedule(func);
         }
 
@@ -4442,7 +4442,7 @@ namespace CareBoo.Blinq
             ref NativeArray<float4> output
             )
         {
-            var func = source.NewArraySumFunc_float4();
+            var func = source.SumAsFunc();
             return source.Schedule(func, ref output);
         }
 
@@ -4473,7 +4473,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<T>, float4>.Struct<ArraySumFunc_float4<T, TSelector>>
-        NewArraySumFunc_float4<T, TSelector>(
+        SumAsFunc<T, TSelector>(
             this in NativeArray<T> source,
             ValueFunc<T, float4>.Struct<TSelector> selector
             )
@@ -4491,7 +4491,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, float4>
         {
-            var func = source.NewArraySumFunc_float4(selector);
+            var func = source.SumAsFunc(selector);
             return source.Run(func);
         }
 
@@ -4502,7 +4502,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, float4>
         {
-            var func = source.NewArraySumFunc_float4(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func);
         }
 
@@ -4514,7 +4514,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, float4>
         {
-            var func = source.NewArraySumFunc_float4(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func, ref output);
         }
 
@@ -4539,7 +4539,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<float4x2>, float4x2>.Struct<ArraySumFunc_float4x2>
-        NewArraySumFunc_float4x2(
+        SumAsFunc(
             this in NativeArray<float4x2> source
             )
         {
@@ -4550,7 +4550,7 @@ namespace CareBoo.Blinq
             this in NativeArray<float4x2> source
             )
         {
-            var func = source.NewArraySumFunc_float4x2();
+            var func = source.SumAsFunc();
             return source.Run(func);
         }
 
@@ -4558,7 +4558,7 @@ namespace CareBoo.Blinq
             this in NativeArray<float4x2> source
             )
         {
-            var func = source.NewArraySumFunc_float4x2();
+            var func = source.SumAsFunc();
             return source.Schedule(func);
         }
 
@@ -4567,7 +4567,7 @@ namespace CareBoo.Blinq
             ref NativeArray<float4x2> output
             )
         {
-            var func = source.NewArraySumFunc_float4x2();
+            var func = source.SumAsFunc();
             return source.Schedule(func, ref output);
         }
 
@@ -4598,7 +4598,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<T>, float4x2>.Struct<ArraySumFunc_float4x2<T, TSelector>>
-        NewArraySumFunc_float4x2<T, TSelector>(
+        SumAsFunc<T, TSelector>(
             this in NativeArray<T> source,
             ValueFunc<T, float4x2>.Struct<TSelector> selector
             )
@@ -4616,7 +4616,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, float4x2>
         {
-            var func = source.NewArraySumFunc_float4x2(selector);
+            var func = source.SumAsFunc(selector);
             return source.Run(func);
         }
 
@@ -4627,7 +4627,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, float4x2>
         {
-            var func = source.NewArraySumFunc_float4x2(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func);
         }
 
@@ -4639,7 +4639,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, float4x2>
         {
-            var func = source.NewArraySumFunc_float4x2(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func, ref output);
         }
 
@@ -4664,7 +4664,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<float4x3>, float4x3>.Struct<ArraySumFunc_float4x3>
-        NewArraySumFunc_float4x3(
+        SumAsFunc(
             this in NativeArray<float4x3> source
             )
         {
@@ -4675,7 +4675,7 @@ namespace CareBoo.Blinq
             this in NativeArray<float4x3> source
             )
         {
-            var func = source.NewArraySumFunc_float4x3();
+            var func = source.SumAsFunc();
             return source.Run(func);
         }
 
@@ -4683,7 +4683,7 @@ namespace CareBoo.Blinq
             this in NativeArray<float4x3> source
             )
         {
-            var func = source.NewArraySumFunc_float4x3();
+            var func = source.SumAsFunc();
             return source.Schedule(func);
         }
 
@@ -4692,7 +4692,7 @@ namespace CareBoo.Blinq
             ref NativeArray<float4x3> output
             )
         {
-            var func = source.NewArraySumFunc_float4x3();
+            var func = source.SumAsFunc();
             return source.Schedule(func, ref output);
         }
 
@@ -4723,7 +4723,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<T>, float4x3>.Struct<ArraySumFunc_float4x3<T, TSelector>>
-        NewArraySumFunc_float4x3<T, TSelector>(
+        SumAsFunc<T, TSelector>(
             this in NativeArray<T> source,
             ValueFunc<T, float4x3>.Struct<TSelector> selector
             )
@@ -4741,7 +4741,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, float4x3>
         {
-            var func = source.NewArraySumFunc_float4x3(selector);
+            var func = source.SumAsFunc(selector);
             return source.Run(func);
         }
 
@@ -4752,7 +4752,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, float4x3>
         {
-            var func = source.NewArraySumFunc_float4x3(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func);
         }
 
@@ -4764,7 +4764,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, float4x3>
         {
-            var func = source.NewArraySumFunc_float4x3(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func, ref output);
         }
 
@@ -4789,7 +4789,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<float4x4>, float4x4>.Struct<ArraySumFunc_float4x4>
-        NewArraySumFunc_float4x4(
+        SumAsFunc(
             this in NativeArray<float4x4> source
             )
         {
@@ -4800,7 +4800,7 @@ namespace CareBoo.Blinq
             this in NativeArray<float4x4> source
             )
         {
-            var func = source.NewArraySumFunc_float4x4();
+            var func = source.SumAsFunc();
             return source.Run(func);
         }
 
@@ -4808,7 +4808,7 @@ namespace CareBoo.Blinq
             this in NativeArray<float4x4> source
             )
         {
-            var func = source.NewArraySumFunc_float4x4();
+            var func = source.SumAsFunc();
             return source.Schedule(func);
         }
 
@@ -4817,7 +4817,7 @@ namespace CareBoo.Blinq
             ref NativeArray<float4x4> output
             )
         {
-            var func = source.NewArraySumFunc_float4x4();
+            var func = source.SumAsFunc();
             return source.Schedule(func, ref output);
         }
 
@@ -4848,7 +4848,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<T>, float4x4>.Struct<ArraySumFunc_float4x4<T, TSelector>>
-        NewArraySumFunc_float4x4<T, TSelector>(
+        SumAsFunc<T, TSelector>(
             this in NativeArray<T> source,
             ValueFunc<T, float4x4>.Struct<TSelector> selector
             )
@@ -4866,7 +4866,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, float4x4>
         {
-            var func = source.NewArraySumFunc_float4x4(selector);
+            var func = source.SumAsFunc(selector);
             return source.Run(func);
         }
 
@@ -4877,7 +4877,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, float4x4>
         {
-            var func = source.NewArraySumFunc_float4x4(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func);
         }
 
@@ -4889,7 +4889,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, float4x4>
         {
-            var func = source.NewArraySumFunc_float4x4(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func, ref output);
         }
 
@@ -4914,7 +4914,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<double>, double>.Struct<ArraySumFunc_double>
-        NewArraySumFunc_double(
+        SumAsFunc(
             this in NativeArray<double> source
             )
         {
@@ -4925,7 +4925,7 @@ namespace CareBoo.Blinq
             this in NativeArray<double> source
             )
         {
-            var func = source.NewArraySumFunc_double();
+            var func = source.SumAsFunc();
             return source.Run(func);
         }
 
@@ -4933,7 +4933,7 @@ namespace CareBoo.Blinq
             this in NativeArray<double> source
             )
         {
-            var func = source.NewArraySumFunc_double();
+            var func = source.SumAsFunc();
             return source.Schedule(func);
         }
 
@@ -4942,7 +4942,7 @@ namespace CareBoo.Blinq
             ref NativeArray<double> output
             )
         {
-            var func = source.NewArraySumFunc_double();
+            var func = source.SumAsFunc();
             return source.Schedule(func, ref output);
         }
 
@@ -4973,7 +4973,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<T>, double>.Struct<ArraySumFunc_double<T, TSelector>>
-        NewArraySumFunc_double<T, TSelector>(
+        SumAsFunc<T, TSelector>(
             this in NativeArray<T> source,
             ValueFunc<T, double>.Struct<TSelector> selector
             )
@@ -4991,7 +4991,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, double>
         {
-            var func = source.NewArraySumFunc_double(selector);
+            var func = source.SumAsFunc(selector);
             return source.Run(func);
         }
 
@@ -5002,7 +5002,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, double>
         {
-            var func = source.NewArraySumFunc_double(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func);
         }
 
@@ -5014,7 +5014,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, double>
         {
-            var func = source.NewArraySumFunc_double(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func, ref output);
         }
 
@@ -5039,7 +5039,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<double2>, double2>.Struct<ArraySumFunc_double2>
-        NewArraySumFunc_double2(
+        SumAsFunc(
             this in NativeArray<double2> source
             )
         {
@@ -5050,7 +5050,7 @@ namespace CareBoo.Blinq
             this in NativeArray<double2> source
             )
         {
-            var func = source.NewArraySumFunc_double2();
+            var func = source.SumAsFunc();
             return source.Run(func);
         }
 
@@ -5058,7 +5058,7 @@ namespace CareBoo.Blinq
             this in NativeArray<double2> source
             )
         {
-            var func = source.NewArraySumFunc_double2();
+            var func = source.SumAsFunc();
             return source.Schedule(func);
         }
 
@@ -5067,7 +5067,7 @@ namespace CareBoo.Blinq
             ref NativeArray<double2> output
             )
         {
-            var func = source.NewArraySumFunc_double2();
+            var func = source.SumAsFunc();
             return source.Schedule(func, ref output);
         }
 
@@ -5098,7 +5098,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<T>, double2>.Struct<ArraySumFunc_double2<T, TSelector>>
-        NewArraySumFunc_double2<T, TSelector>(
+        SumAsFunc<T, TSelector>(
             this in NativeArray<T> source,
             ValueFunc<T, double2>.Struct<TSelector> selector
             )
@@ -5116,7 +5116,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, double2>
         {
-            var func = source.NewArraySumFunc_double2(selector);
+            var func = source.SumAsFunc(selector);
             return source.Run(func);
         }
 
@@ -5127,7 +5127,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, double2>
         {
-            var func = source.NewArraySumFunc_double2(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func);
         }
 
@@ -5139,7 +5139,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, double2>
         {
-            var func = source.NewArraySumFunc_double2(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func, ref output);
         }
 
@@ -5164,7 +5164,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<double2x2>, double2x2>.Struct<ArraySumFunc_double2x2>
-        NewArraySumFunc_double2x2(
+        SumAsFunc(
             this in NativeArray<double2x2> source
             )
         {
@@ -5175,7 +5175,7 @@ namespace CareBoo.Blinq
             this in NativeArray<double2x2> source
             )
         {
-            var func = source.NewArraySumFunc_double2x2();
+            var func = source.SumAsFunc();
             return source.Run(func);
         }
 
@@ -5183,7 +5183,7 @@ namespace CareBoo.Blinq
             this in NativeArray<double2x2> source
             )
         {
-            var func = source.NewArraySumFunc_double2x2();
+            var func = source.SumAsFunc();
             return source.Schedule(func);
         }
 
@@ -5192,7 +5192,7 @@ namespace CareBoo.Blinq
             ref NativeArray<double2x2> output
             )
         {
-            var func = source.NewArraySumFunc_double2x2();
+            var func = source.SumAsFunc();
             return source.Schedule(func, ref output);
         }
 
@@ -5223,7 +5223,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<T>, double2x2>.Struct<ArraySumFunc_double2x2<T, TSelector>>
-        NewArraySumFunc_double2x2<T, TSelector>(
+        SumAsFunc<T, TSelector>(
             this in NativeArray<T> source,
             ValueFunc<T, double2x2>.Struct<TSelector> selector
             )
@@ -5241,7 +5241,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, double2x2>
         {
-            var func = source.NewArraySumFunc_double2x2(selector);
+            var func = source.SumAsFunc(selector);
             return source.Run(func);
         }
 
@@ -5252,7 +5252,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, double2x2>
         {
-            var func = source.NewArraySumFunc_double2x2(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func);
         }
 
@@ -5264,7 +5264,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, double2x2>
         {
-            var func = source.NewArraySumFunc_double2x2(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func, ref output);
         }
 
@@ -5289,7 +5289,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<double2x3>, double2x3>.Struct<ArraySumFunc_double2x3>
-        NewArraySumFunc_double2x3(
+        SumAsFunc(
             this in NativeArray<double2x3> source
             )
         {
@@ -5300,7 +5300,7 @@ namespace CareBoo.Blinq
             this in NativeArray<double2x3> source
             )
         {
-            var func = source.NewArraySumFunc_double2x3();
+            var func = source.SumAsFunc();
             return source.Run(func);
         }
 
@@ -5308,7 +5308,7 @@ namespace CareBoo.Blinq
             this in NativeArray<double2x3> source
             )
         {
-            var func = source.NewArraySumFunc_double2x3();
+            var func = source.SumAsFunc();
             return source.Schedule(func);
         }
 
@@ -5317,7 +5317,7 @@ namespace CareBoo.Blinq
             ref NativeArray<double2x3> output
             )
         {
-            var func = source.NewArraySumFunc_double2x3();
+            var func = source.SumAsFunc();
             return source.Schedule(func, ref output);
         }
 
@@ -5348,7 +5348,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<T>, double2x3>.Struct<ArraySumFunc_double2x3<T, TSelector>>
-        NewArraySumFunc_double2x3<T, TSelector>(
+        SumAsFunc<T, TSelector>(
             this in NativeArray<T> source,
             ValueFunc<T, double2x3>.Struct<TSelector> selector
             )
@@ -5366,7 +5366,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, double2x3>
         {
-            var func = source.NewArraySumFunc_double2x3(selector);
+            var func = source.SumAsFunc(selector);
             return source.Run(func);
         }
 
@@ -5377,7 +5377,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, double2x3>
         {
-            var func = source.NewArraySumFunc_double2x3(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func);
         }
 
@@ -5389,7 +5389,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, double2x3>
         {
-            var func = source.NewArraySumFunc_double2x3(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func, ref output);
         }
 
@@ -5414,7 +5414,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<double2x4>, double2x4>.Struct<ArraySumFunc_double2x4>
-        NewArraySumFunc_double2x4(
+        SumAsFunc(
             this in NativeArray<double2x4> source
             )
         {
@@ -5425,7 +5425,7 @@ namespace CareBoo.Blinq
             this in NativeArray<double2x4> source
             )
         {
-            var func = source.NewArraySumFunc_double2x4();
+            var func = source.SumAsFunc();
             return source.Run(func);
         }
 
@@ -5433,7 +5433,7 @@ namespace CareBoo.Blinq
             this in NativeArray<double2x4> source
             )
         {
-            var func = source.NewArraySumFunc_double2x4();
+            var func = source.SumAsFunc();
             return source.Schedule(func);
         }
 
@@ -5442,7 +5442,7 @@ namespace CareBoo.Blinq
             ref NativeArray<double2x4> output
             )
         {
-            var func = source.NewArraySumFunc_double2x4();
+            var func = source.SumAsFunc();
             return source.Schedule(func, ref output);
         }
 
@@ -5473,7 +5473,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<T>, double2x4>.Struct<ArraySumFunc_double2x4<T, TSelector>>
-        NewArraySumFunc_double2x4<T, TSelector>(
+        SumAsFunc<T, TSelector>(
             this in NativeArray<T> source,
             ValueFunc<T, double2x4>.Struct<TSelector> selector
             )
@@ -5491,7 +5491,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, double2x4>
         {
-            var func = source.NewArraySumFunc_double2x4(selector);
+            var func = source.SumAsFunc(selector);
             return source.Run(func);
         }
 
@@ -5502,7 +5502,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, double2x4>
         {
-            var func = source.NewArraySumFunc_double2x4(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func);
         }
 
@@ -5514,7 +5514,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, double2x4>
         {
-            var func = source.NewArraySumFunc_double2x4(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func, ref output);
         }
 
@@ -5539,7 +5539,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<double3>, double3>.Struct<ArraySumFunc_double3>
-        NewArraySumFunc_double3(
+        SumAsFunc(
             this in NativeArray<double3> source
             )
         {
@@ -5550,7 +5550,7 @@ namespace CareBoo.Blinq
             this in NativeArray<double3> source
             )
         {
-            var func = source.NewArraySumFunc_double3();
+            var func = source.SumAsFunc();
             return source.Run(func);
         }
 
@@ -5558,7 +5558,7 @@ namespace CareBoo.Blinq
             this in NativeArray<double3> source
             )
         {
-            var func = source.NewArraySumFunc_double3();
+            var func = source.SumAsFunc();
             return source.Schedule(func);
         }
 
@@ -5567,7 +5567,7 @@ namespace CareBoo.Blinq
             ref NativeArray<double3> output
             )
         {
-            var func = source.NewArraySumFunc_double3();
+            var func = source.SumAsFunc();
             return source.Schedule(func, ref output);
         }
 
@@ -5598,7 +5598,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<T>, double3>.Struct<ArraySumFunc_double3<T, TSelector>>
-        NewArraySumFunc_double3<T, TSelector>(
+        SumAsFunc<T, TSelector>(
             this in NativeArray<T> source,
             ValueFunc<T, double3>.Struct<TSelector> selector
             )
@@ -5616,7 +5616,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, double3>
         {
-            var func = source.NewArraySumFunc_double3(selector);
+            var func = source.SumAsFunc(selector);
             return source.Run(func);
         }
 
@@ -5627,7 +5627,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, double3>
         {
-            var func = source.NewArraySumFunc_double3(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func);
         }
 
@@ -5639,7 +5639,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, double3>
         {
-            var func = source.NewArraySumFunc_double3(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func, ref output);
         }
 
@@ -5664,7 +5664,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<double3x2>, double3x2>.Struct<ArraySumFunc_double3x2>
-        NewArraySumFunc_double3x2(
+        SumAsFunc(
             this in NativeArray<double3x2> source
             )
         {
@@ -5675,7 +5675,7 @@ namespace CareBoo.Blinq
             this in NativeArray<double3x2> source
             )
         {
-            var func = source.NewArraySumFunc_double3x2();
+            var func = source.SumAsFunc();
             return source.Run(func);
         }
 
@@ -5683,7 +5683,7 @@ namespace CareBoo.Blinq
             this in NativeArray<double3x2> source
             )
         {
-            var func = source.NewArraySumFunc_double3x2();
+            var func = source.SumAsFunc();
             return source.Schedule(func);
         }
 
@@ -5692,7 +5692,7 @@ namespace CareBoo.Blinq
             ref NativeArray<double3x2> output
             )
         {
-            var func = source.NewArraySumFunc_double3x2();
+            var func = source.SumAsFunc();
             return source.Schedule(func, ref output);
         }
 
@@ -5723,7 +5723,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<T>, double3x2>.Struct<ArraySumFunc_double3x2<T, TSelector>>
-        NewArraySumFunc_double3x2<T, TSelector>(
+        SumAsFunc<T, TSelector>(
             this in NativeArray<T> source,
             ValueFunc<T, double3x2>.Struct<TSelector> selector
             )
@@ -5741,7 +5741,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, double3x2>
         {
-            var func = source.NewArraySumFunc_double3x2(selector);
+            var func = source.SumAsFunc(selector);
             return source.Run(func);
         }
 
@@ -5752,7 +5752,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, double3x2>
         {
-            var func = source.NewArraySumFunc_double3x2(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func);
         }
 
@@ -5764,7 +5764,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, double3x2>
         {
-            var func = source.NewArraySumFunc_double3x2(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func, ref output);
         }
 
@@ -5789,7 +5789,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<double3x3>, double3x3>.Struct<ArraySumFunc_double3x3>
-        NewArraySumFunc_double3x3(
+        SumAsFunc(
             this in NativeArray<double3x3> source
             )
         {
@@ -5800,7 +5800,7 @@ namespace CareBoo.Blinq
             this in NativeArray<double3x3> source
             )
         {
-            var func = source.NewArraySumFunc_double3x3();
+            var func = source.SumAsFunc();
             return source.Run(func);
         }
 
@@ -5808,7 +5808,7 @@ namespace CareBoo.Blinq
             this in NativeArray<double3x3> source
             )
         {
-            var func = source.NewArraySumFunc_double3x3();
+            var func = source.SumAsFunc();
             return source.Schedule(func);
         }
 
@@ -5817,7 +5817,7 @@ namespace CareBoo.Blinq
             ref NativeArray<double3x3> output
             )
         {
-            var func = source.NewArraySumFunc_double3x3();
+            var func = source.SumAsFunc();
             return source.Schedule(func, ref output);
         }
 
@@ -5848,7 +5848,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<T>, double3x3>.Struct<ArraySumFunc_double3x3<T, TSelector>>
-        NewArraySumFunc_double3x3<T, TSelector>(
+        SumAsFunc<T, TSelector>(
             this in NativeArray<T> source,
             ValueFunc<T, double3x3>.Struct<TSelector> selector
             )
@@ -5866,7 +5866,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, double3x3>
         {
-            var func = source.NewArraySumFunc_double3x3(selector);
+            var func = source.SumAsFunc(selector);
             return source.Run(func);
         }
 
@@ -5877,7 +5877,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, double3x3>
         {
-            var func = source.NewArraySumFunc_double3x3(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func);
         }
 
@@ -5889,7 +5889,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, double3x3>
         {
-            var func = source.NewArraySumFunc_double3x3(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func, ref output);
         }
 
@@ -5914,7 +5914,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<double3x4>, double3x4>.Struct<ArraySumFunc_double3x4>
-        NewArraySumFunc_double3x4(
+        SumAsFunc(
             this in NativeArray<double3x4> source
             )
         {
@@ -5925,7 +5925,7 @@ namespace CareBoo.Blinq
             this in NativeArray<double3x4> source
             )
         {
-            var func = source.NewArraySumFunc_double3x4();
+            var func = source.SumAsFunc();
             return source.Run(func);
         }
 
@@ -5933,7 +5933,7 @@ namespace CareBoo.Blinq
             this in NativeArray<double3x4> source
             )
         {
-            var func = source.NewArraySumFunc_double3x4();
+            var func = source.SumAsFunc();
             return source.Schedule(func);
         }
 
@@ -5942,7 +5942,7 @@ namespace CareBoo.Blinq
             ref NativeArray<double3x4> output
             )
         {
-            var func = source.NewArraySumFunc_double3x4();
+            var func = source.SumAsFunc();
             return source.Schedule(func, ref output);
         }
 
@@ -5973,7 +5973,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<T>, double3x4>.Struct<ArraySumFunc_double3x4<T, TSelector>>
-        NewArraySumFunc_double3x4<T, TSelector>(
+        SumAsFunc<T, TSelector>(
             this in NativeArray<T> source,
             ValueFunc<T, double3x4>.Struct<TSelector> selector
             )
@@ -5991,7 +5991,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, double3x4>
         {
-            var func = source.NewArraySumFunc_double3x4(selector);
+            var func = source.SumAsFunc(selector);
             return source.Run(func);
         }
 
@@ -6002,7 +6002,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, double3x4>
         {
-            var func = source.NewArraySumFunc_double3x4(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func);
         }
 
@@ -6014,7 +6014,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, double3x4>
         {
-            var func = source.NewArraySumFunc_double3x4(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func, ref output);
         }
 
@@ -6039,7 +6039,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<double4>, double4>.Struct<ArraySumFunc_double4>
-        NewArraySumFunc_double4(
+        SumAsFunc(
             this in NativeArray<double4> source
             )
         {
@@ -6050,7 +6050,7 @@ namespace CareBoo.Blinq
             this in NativeArray<double4> source
             )
         {
-            var func = source.NewArraySumFunc_double4();
+            var func = source.SumAsFunc();
             return source.Run(func);
         }
 
@@ -6058,7 +6058,7 @@ namespace CareBoo.Blinq
             this in NativeArray<double4> source
             )
         {
-            var func = source.NewArraySumFunc_double4();
+            var func = source.SumAsFunc();
             return source.Schedule(func);
         }
 
@@ -6067,7 +6067,7 @@ namespace CareBoo.Blinq
             ref NativeArray<double4> output
             )
         {
-            var func = source.NewArraySumFunc_double4();
+            var func = source.SumAsFunc();
             return source.Schedule(func, ref output);
         }
 
@@ -6098,7 +6098,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<T>, double4>.Struct<ArraySumFunc_double4<T, TSelector>>
-        NewArraySumFunc_double4<T, TSelector>(
+        SumAsFunc<T, TSelector>(
             this in NativeArray<T> source,
             ValueFunc<T, double4>.Struct<TSelector> selector
             )
@@ -6116,7 +6116,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, double4>
         {
-            var func = source.NewArraySumFunc_double4(selector);
+            var func = source.SumAsFunc(selector);
             return source.Run(func);
         }
 
@@ -6127,7 +6127,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, double4>
         {
-            var func = source.NewArraySumFunc_double4(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func);
         }
 
@@ -6139,7 +6139,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, double4>
         {
-            var func = source.NewArraySumFunc_double4(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func, ref output);
         }
 
@@ -6164,7 +6164,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<double4x2>, double4x2>.Struct<ArraySumFunc_double4x2>
-        NewArraySumFunc_double4x2(
+        SumAsFunc(
             this in NativeArray<double4x2> source
             )
         {
@@ -6175,7 +6175,7 @@ namespace CareBoo.Blinq
             this in NativeArray<double4x2> source
             )
         {
-            var func = source.NewArraySumFunc_double4x2();
+            var func = source.SumAsFunc();
             return source.Run(func);
         }
 
@@ -6183,7 +6183,7 @@ namespace CareBoo.Blinq
             this in NativeArray<double4x2> source
             )
         {
-            var func = source.NewArraySumFunc_double4x2();
+            var func = source.SumAsFunc();
             return source.Schedule(func);
         }
 
@@ -6192,7 +6192,7 @@ namespace CareBoo.Blinq
             ref NativeArray<double4x2> output
             )
         {
-            var func = source.NewArraySumFunc_double4x2();
+            var func = source.SumAsFunc();
             return source.Schedule(func, ref output);
         }
 
@@ -6223,7 +6223,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<T>, double4x2>.Struct<ArraySumFunc_double4x2<T, TSelector>>
-        NewArraySumFunc_double4x2<T, TSelector>(
+        SumAsFunc<T, TSelector>(
             this in NativeArray<T> source,
             ValueFunc<T, double4x2>.Struct<TSelector> selector
             )
@@ -6241,7 +6241,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, double4x2>
         {
-            var func = source.NewArraySumFunc_double4x2(selector);
+            var func = source.SumAsFunc(selector);
             return source.Run(func);
         }
 
@@ -6252,7 +6252,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, double4x2>
         {
-            var func = source.NewArraySumFunc_double4x2(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func);
         }
 
@@ -6264,7 +6264,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, double4x2>
         {
-            var func = source.NewArraySumFunc_double4x2(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func, ref output);
         }
 
@@ -6289,7 +6289,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<double4x3>, double4x3>.Struct<ArraySumFunc_double4x3>
-        NewArraySumFunc_double4x3(
+        SumAsFunc(
             this in NativeArray<double4x3> source
             )
         {
@@ -6300,7 +6300,7 @@ namespace CareBoo.Blinq
             this in NativeArray<double4x3> source
             )
         {
-            var func = source.NewArraySumFunc_double4x3();
+            var func = source.SumAsFunc();
             return source.Run(func);
         }
 
@@ -6308,7 +6308,7 @@ namespace CareBoo.Blinq
             this in NativeArray<double4x3> source
             )
         {
-            var func = source.NewArraySumFunc_double4x3();
+            var func = source.SumAsFunc();
             return source.Schedule(func);
         }
 
@@ -6317,7 +6317,7 @@ namespace CareBoo.Blinq
             ref NativeArray<double4x3> output
             )
         {
-            var func = source.NewArraySumFunc_double4x3();
+            var func = source.SumAsFunc();
             return source.Schedule(func, ref output);
         }
 
@@ -6348,7 +6348,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<T>, double4x3>.Struct<ArraySumFunc_double4x3<T, TSelector>>
-        NewArraySumFunc_double4x3<T, TSelector>(
+        SumAsFunc<T, TSelector>(
             this in NativeArray<T> source,
             ValueFunc<T, double4x3>.Struct<TSelector> selector
             )
@@ -6366,7 +6366,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, double4x3>
         {
-            var func = source.NewArraySumFunc_double4x3(selector);
+            var func = source.SumAsFunc(selector);
             return source.Run(func);
         }
 
@@ -6377,7 +6377,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, double4x3>
         {
-            var func = source.NewArraySumFunc_double4x3(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func);
         }
 
@@ -6389,7 +6389,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, double4x3>
         {
-            var func = source.NewArraySumFunc_double4x3(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func, ref output);
         }
 
@@ -6414,7 +6414,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<double4x4>, double4x4>.Struct<ArraySumFunc_double4x4>
-        NewArraySumFunc_double4x4(
+        SumAsFunc(
             this in NativeArray<double4x4> source
             )
         {
@@ -6425,7 +6425,7 @@ namespace CareBoo.Blinq
             this in NativeArray<double4x4> source
             )
         {
-            var func = source.NewArraySumFunc_double4x4();
+            var func = source.SumAsFunc();
             return source.Run(func);
         }
 
@@ -6433,7 +6433,7 @@ namespace CareBoo.Blinq
             this in NativeArray<double4x4> source
             )
         {
-            var func = source.NewArraySumFunc_double4x4();
+            var func = source.SumAsFunc();
             return source.Schedule(func);
         }
 
@@ -6442,7 +6442,7 @@ namespace CareBoo.Blinq
             ref NativeArray<double4x4> output
             )
         {
-            var func = source.NewArraySumFunc_double4x4();
+            var func = source.SumAsFunc();
             return source.Schedule(func, ref output);
         }
 
@@ -6473,7 +6473,7 @@ namespace CareBoo.Blinq
         }
 
         public static ValueFunc<NativeArray<T>, double4x4>.Struct<ArraySumFunc_double4x4<T, TSelector>>
-        NewArraySumFunc_double4x4<T, TSelector>(
+        SumAsFunc<T, TSelector>(
             this in NativeArray<T> source,
             ValueFunc<T, double4x4>.Struct<TSelector> selector
             )
@@ -6491,7 +6491,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, double4x4>
         {
-            var func = source.NewArraySumFunc_double4x4(selector);
+            var func = source.SumAsFunc(selector);
             return source.Run(func);
         }
 
@@ -6502,7 +6502,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, double4x4>
         {
-            var func = source.NewArraySumFunc_double4x4(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func);
         }
 
@@ -6514,7 +6514,7 @@ namespace CareBoo.Blinq
             where T : struct
             where TSelector : struct, IFunc<T, double4x4>
         {
-            var func = source.NewArraySumFunc_double4x4(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func, ref output);
         }
 
