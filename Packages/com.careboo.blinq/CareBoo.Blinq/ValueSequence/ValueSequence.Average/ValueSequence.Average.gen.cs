@@ -43,7 +43,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageFunc_int<TSource, TSourceEnumerator>
+        public struct SequenceAverageFunc_int<TSource, TSourceEnumerator>
             : IFunc<ValueSequence<int, TSource, TSourceEnumerator>, int>
             where TSource : struct, ISequence<int, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<int>
@@ -54,14 +54,14 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<int, TSource, TSourceEnumerator>, int>.Struct<AverageFunc_int<TSource, TSourceEnumerator>>
+        public static ValueFunc<ValueSequence<int, TSource, TSourceEnumerator>, int>.Struct<SequenceAverageFunc_int<TSource, TSourceEnumerator>>
         AverageAsFunc<TSource, TSourceEnumerator>(
             this in ValueSequence<int, TSource, TSourceEnumerator> source
             )
             where TSource : struct, ISequence<int, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<int>
         {
-            return ValueFunc<ValueSequence<int, TSource, TSourceEnumerator>, int>.New<AverageFunc_int<TSource, TSourceEnumerator>>();
+            return ValueFunc<ValueSequence<int, TSource, TSourceEnumerator>, int>.New<SequenceAverageFunc_int<TSource, TSourceEnumerator>>();
         }
 
         public static int RunAverage<TSource, TSourceEnumerator>(
@@ -118,7 +118,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageSelectorFunc_int<T, TSource, TSourceEnumerator, TSelector>
+        public struct SequenceAverageSelectorFunc_int<T, TSource, TSourceEnumerator, TSelector>
             : IFunc<ValueSequence<T, TSource, TSourceEnumerator>, int>
             where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
@@ -127,7 +127,7 @@ namespace CareBoo.Blinq
         {
             readonly ValueFunc<T, int>.Struct<TSelector> selector;
 
-            public AverageSelectorFunc_int(ValueFunc<T, int>.Struct<TSelector> selector)
+            public SequenceAverageSelectorFunc_int(ValueFunc<T, int>.Struct<TSelector> selector)
             {
                 this.selector = selector;
             }
@@ -138,7 +138,7 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, int>.Struct<AverageSelectorFunc_int<T, TSource, TSourceEnumerator, TSelector>>
+        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, int>.Struct<SequenceAverageSelectorFunc_int<T, TSource, TSourceEnumerator, TSelector>>
         AverageAsFunc<T, TSource, TSourceEnumerator, TSelector>(
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ValueFunc<T, int>.Struct<TSelector> selector
@@ -148,7 +148,7 @@ namespace CareBoo.Blinq
             where TSourceEnumerator : struct, IEnumerator<T>
             where TSelector : struct, IFunc<T, int>
         {
-            var func = new AverageSelectorFunc_int<T, TSource, TSourceEnumerator, TSelector>(selector);
+            var func = new SequenceAverageSelectorFunc_int<T, TSource, TSourceEnumerator, TSelector>(selector);
             return ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, int>.New(func);
         }
 
@@ -213,7 +213,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageFunc_int2<TSource, TSourceEnumerator>
+        public struct SequenceAverageFunc_int2<TSource, TSourceEnumerator>
             : IFunc<ValueSequence<int2, TSource, TSourceEnumerator>, int2>
             where TSource : struct, ISequence<int2, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<int2>
@@ -224,14 +224,14 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<int2, TSource, TSourceEnumerator>, int2>.Struct<AverageFunc_int2<TSource, TSourceEnumerator>>
+        public static ValueFunc<ValueSequence<int2, TSource, TSourceEnumerator>, int2>.Struct<SequenceAverageFunc_int2<TSource, TSourceEnumerator>>
         AverageAsFunc<TSource, TSourceEnumerator>(
             this in ValueSequence<int2, TSource, TSourceEnumerator> source
             )
             where TSource : struct, ISequence<int2, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<int2>
         {
-            return ValueFunc<ValueSequence<int2, TSource, TSourceEnumerator>, int2>.New<AverageFunc_int2<TSource, TSourceEnumerator>>();
+            return ValueFunc<ValueSequence<int2, TSource, TSourceEnumerator>, int2>.New<SequenceAverageFunc_int2<TSource, TSourceEnumerator>>();
         }
 
         public static int2 RunAverage<TSource, TSourceEnumerator>(
@@ -288,7 +288,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageSelectorFunc_int2<T, TSource, TSourceEnumerator, TSelector>
+        public struct SequenceAverageSelectorFunc_int2<T, TSource, TSourceEnumerator, TSelector>
             : IFunc<ValueSequence<T, TSource, TSourceEnumerator>, int2>
             where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
@@ -297,7 +297,7 @@ namespace CareBoo.Blinq
         {
             readonly ValueFunc<T, int2>.Struct<TSelector> selector;
 
-            public AverageSelectorFunc_int2(ValueFunc<T, int2>.Struct<TSelector> selector)
+            public SequenceAverageSelectorFunc_int2(ValueFunc<T, int2>.Struct<TSelector> selector)
             {
                 this.selector = selector;
             }
@@ -308,7 +308,7 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, int2>.Struct<AverageSelectorFunc_int2<T, TSource, TSourceEnumerator, TSelector>>
+        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, int2>.Struct<SequenceAverageSelectorFunc_int2<T, TSource, TSourceEnumerator, TSelector>>
         AverageAsFunc<T, TSource, TSourceEnumerator, TSelector>(
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ValueFunc<T, int2>.Struct<TSelector> selector
@@ -318,7 +318,7 @@ namespace CareBoo.Blinq
             where TSourceEnumerator : struct, IEnumerator<T>
             where TSelector : struct, IFunc<T, int2>
         {
-            var func = new AverageSelectorFunc_int2<T, TSource, TSourceEnumerator, TSelector>(selector);
+            var func = new SequenceAverageSelectorFunc_int2<T, TSource, TSourceEnumerator, TSelector>(selector);
             return ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, int2>.New(func);
         }
 
@@ -383,7 +383,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageFunc_int2x2<TSource, TSourceEnumerator>
+        public struct SequenceAverageFunc_int2x2<TSource, TSourceEnumerator>
             : IFunc<ValueSequence<int2x2, TSource, TSourceEnumerator>, int2x2>
             where TSource : struct, ISequence<int2x2, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<int2x2>
@@ -394,14 +394,14 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<int2x2, TSource, TSourceEnumerator>, int2x2>.Struct<AverageFunc_int2x2<TSource, TSourceEnumerator>>
+        public static ValueFunc<ValueSequence<int2x2, TSource, TSourceEnumerator>, int2x2>.Struct<SequenceAverageFunc_int2x2<TSource, TSourceEnumerator>>
         AverageAsFunc<TSource, TSourceEnumerator>(
             this in ValueSequence<int2x2, TSource, TSourceEnumerator> source
             )
             where TSource : struct, ISequence<int2x2, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<int2x2>
         {
-            return ValueFunc<ValueSequence<int2x2, TSource, TSourceEnumerator>, int2x2>.New<AverageFunc_int2x2<TSource, TSourceEnumerator>>();
+            return ValueFunc<ValueSequence<int2x2, TSource, TSourceEnumerator>, int2x2>.New<SequenceAverageFunc_int2x2<TSource, TSourceEnumerator>>();
         }
 
         public static int2x2 RunAverage<TSource, TSourceEnumerator>(
@@ -458,7 +458,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageSelectorFunc_int2x2<T, TSource, TSourceEnumerator, TSelector>
+        public struct SequenceAverageSelectorFunc_int2x2<T, TSource, TSourceEnumerator, TSelector>
             : IFunc<ValueSequence<T, TSource, TSourceEnumerator>, int2x2>
             where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
@@ -467,7 +467,7 @@ namespace CareBoo.Blinq
         {
             readonly ValueFunc<T, int2x2>.Struct<TSelector> selector;
 
-            public AverageSelectorFunc_int2x2(ValueFunc<T, int2x2>.Struct<TSelector> selector)
+            public SequenceAverageSelectorFunc_int2x2(ValueFunc<T, int2x2>.Struct<TSelector> selector)
             {
                 this.selector = selector;
             }
@@ -478,7 +478,7 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, int2x2>.Struct<AverageSelectorFunc_int2x2<T, TSource, TSourceEnumerator, TSelector>>
+        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, int2x2>.Struct<SequenceAverageSelectorFunc_int2x2<T, TSource, TSourceEnumerator, TSelector>>
         AverageAsFunc<T, TSource, TSourceEnumerator, TSelector>(
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ValueFunc<T, int2x2>.Struct<TSelector> selector
@@ -488,7 +488,7 @@ namespace CareBoo.Blinq
             where TSourceEnumerator : struct, IEnumerator<T>
             where TSelector : struct, IFunc<T, int2x2>
         {
-            var func = new AverageSelectorFunc_int2x2<T, TSource, TSourceEnumerator, TSelector>(selector);
+            var func = new SequenceAverageSelectorFunc_int2x2<T, TSource, TSourceEnumerator, TSelector>(selector);
             return ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, int2x2>.New(func);
         }
 
@@ -553,7 +553,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageFunc_int2x3<TSource, TSourceEnumerator>
+        public struct SequenceAverageFunc_int2x3<TSource, TSourceEnumerator>
             : IFunc<ValueSequence<int2x3, TSource, TSourceEnumerator>, int2x3>
             where TSource : struct, ISequence<int2x3, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<int2x3>
@@ -564,14 +564,14 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<int2x3, TSource, TSourceEnumerator>, int2x3>.Struct<AverageFunc_int2x3<TSource, TSourceEnumerator>>
+        public static ValueFunc<ValueSequence<int2x3, TSource, TSourceEnumerator>, int2x3>.Struct<SequenceAverageFunc_int2x3<TSource, TSourceEnumerator>>
         AverageAsFunc<TSource, TSourceEnumerator>(
             this in ValueSequence<int2x3, TSource, TSourceEnumerator> source
             )
             where TSource : struct, ISequence<int2x3, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<int2x3>
         {
-            return ValueFunc<ValueSequence<int2x3, TSource, TSourceEnumerator>, int2x3>.New<AverageFunc_int2x3<TSource, TSourceEnumerator>>();
+            return ValueFunc<ValueSequence<int2x3, TSource, TSourceEnumerator>, int2x3>.New<SequenceAverageFunc_int2x3<TSource, TSourceEnumerator>>();
         }
 
         public static int2x3 RunAverage<TSource, TSourceEnumerator>(
@@ -628,7 +628,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageSelectorFunc_int2x3<T, TSource, TSourceEnumerator, TSelector>
+        public struct SequenceAverageSelectorFunc_int2x3<T, TSource, TSourceEnumerator, TSelector>
             : IFunc<ValueSequence<T, TSource, TSourceEnumerator>, int2x3>
             where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
@@ -637,7 +637,7 @@ namespace CareBoo.Blinq
         {
             readonly ValueFunc<T, int2x3>.Struct<TSelector> selector;
 
-            public AverageSelectorFunc_int2x3(ValueFunc<T, int2x3>.Struct<TSelector> selector)
+            public SequenceAverageSelectorFunc_int2x3(ValueFunc<T, int2x3>.Struct<TSelector> selector)
             {
                 this.selector = selector;
             }
@@ -648,7 +648,7 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, int2x3>.Struct<AverageSelectorFunc_int2x3<T, TSource, TSourceEnumerator, TSelector>>
+        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, int2x3>.Struct<SequenceAverageSelectorFunc_int2x3<T, TSource, TSourceEnumerator, TSelector>>
         AverageAsFunc<T, TSource, TSourceEnumerator, TSelector>(
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ValueFunc<T, int2x3>.Struct<TSelector> selector
@@ -658,7 +658,7 @@ namespace CareBoo.Blinq
             where TSourceEnumerator : struct, IEnumerator<T>
             where TSelector : struct, IFunc<T, int2x3>
         {
-            var func = new AverageSelectorFunc_int2x3<T, TSource, TSourceEnumerator, TSelector>(selector);
+            var func = new SequenceAverageSelectorFunc_int2x3<T, TSource, TSourceEnumerator, TSelector>(selector);
             return ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, int2x3>.New(func);
         }
 
@@ -723,7 +723,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageFunc_int2x4<TSource, TSourceEnumerator>
+        public struct SequenceAverageFunc_int2x4<TSource, TSourceEnumerator>
             : IFunc<ValueSequence<int2x4, TSource, TSourceEnumerator>, int2x4>
             where TSource : struct, ISequence<int2x4, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<int2x4>
@@ -734,14 +734,14 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<int2x4, TSource, TSourceEnumerator>, int2x4>.Struct<AverageFunc_int2x4<TSource, TSourceEnumerator>>
+        public static ValueFunc<ValueSequence<int2x4, TSource, TSourceEnumerator>, int2x4>.Struct<SequenceAverageFunc_int2x4<TSource, TSourceEnumerator>>
         AverageAsFunc<TSource, TSourceEnumerator>(
             this in ValueSequence<int2x4, TSource, TSourceEnumerator> source
             )
             where TSource : struct, ISequence<int2x4, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<int2x4>
         {
-            return ValueFunc<ValueSequence<int2x4, TSource, TSourceEnumerator>, int2x4>.New<AverageFunc_int2x4<TSource, TSourceEnumerator>>();
+            return ValueFunc<ValueSequence<int2x4, TSource, TSourceEnumerator>, int2x4>.New<SequenceAverageFunc_int2x4<TSource, TSourceEnumerator>>();
         }
 
         public static int2x4 RunAverage<TSource, TSourceEnumerator>(
@@ -798,7 +798,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageSelectorFunc_int2x4<T, TSource, TSourceEnumerator, TSelector>
+        public struct SequenceAverageSelectorFunc_int2x4<T, TSource, TSourceEnumerator, TSelector>
             : IFunc<ValueSequence<T, TSource, TSourceEnumerator>, int2x4>
             where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
@@ -807,7 +807,7 @@ namespace CareBoo.Blinq
         {
             readonly ValueFunc<T, int2x4>.Struct<TSelector> selector;
 
-            public AverageSelectorFunc_int2x4(ValueFunc<T, int2x4>.Struct<TSelector> selector)
+            public SequenceAverageSelectorFunc_int2x4(ValueFunc<T, int2x4>.Struct<TSelector> selector)
             {
                 this.selector = selector;
             }
@@ -818,7 +818,7 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, int2x4>.Struct<AverageSelectorFunc_int2x4<T, TSource, TSourceEnumerator, TSelector>>
+        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, int2x4>.Struct<SequenceAverageSelectorFunc_int2x4<T, TSource, TSourceEnumerator, TSelector>>
         AverageAsFunc<T, TSource, TSourceEnumerator, TSelector>(
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ValueFunc<T, int2x4>.Struct<TSelector> selector
@@ -828,7 +828,7 @@ namespace CareBoo.Blinq
             where TSourceEnumerator : struct, IEnumerator<T>
             where TSelector : struct, IFunc<T, int2x4>
         {
-            var func = new AverageSelectorFunc_int2x4<T, TSource, TSourceEnumerator, TSelector>(selector);
+            var func = new SequenceAverageSelectorFunc_int2x4<T, TSource, TSourceEnumerator, TSelector>(selector);
             return ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, int2x4>.New(func);
         }
 
@@ -893,7 +893,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageFunc_int3<TSource, TSourceEnumerator>
+        public struct SequenceAverageFunc_int3<TSource, TSourceEnumerator>
             : IFunc<ValueSequence<int3, TSource, TSourceEnumerator>, int3>
             where TSource : struct, ISequence<int3, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<int3>
@@ -904,14 +904,14 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<int3, TSource, TSourceEnumerator>, int3>.Struct<AverageFunc_int3<TSource, TSourceEnumerator>>
+        public static ValueFunc<ValueSequence<int3, TSource, TSourceEnumerator>, int3>.Struct<SequenceAverageFunc_int3<TSource, TSourceEnumerator>>
         AverageAsFunc<TSource, TSourceEnumerator>(
             this in ValueSequence<int3, TSource, TSourceEnumerator> source
             )
             where TSource : struct, ISequence<int3, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<int3>
         {
-            return ValueFunc<ValueSequence<int3, TSource, TSourceEnumerator>, int3>.New<AverageFunc_int3<TSource, TSourceEnumerator>>();
+            return ValueFunc<ValueSequence<int3, TSource, TSourceEnumerator>, int3>.New<SequenceAverageFunc_int3<TSource, TSourceEnumerator>>();
         }
 
         public static int3 RunAverage<TSource, TSourceEnumerator>(
@@ -968,7 +968,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageSelectorFunc_int3<T, TSource, TSourceEnumerator, TSelector>
+        public struct SequenceAverageSelectorFunc_int3<T, TSource, TSourceEnumerator, TSelector>
             : IFunc<ValueSequence<T, TSource, TSourceEnumerator>, int3>
             where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
@@ -977,7 +977,7 @@ namespace CareBoo.Blinq
         {
             readonly ValueFunc<T, int3>.Struct<TSelector> selector;
 
-            public AverageSelectorFunc_int3(ValueFunc<T, int3>.Struct<TSelector> selector)
+            public SequenceAverageSelectorFunc_int3(ValueFunc<T, int3>.Struct<TSelector> selector)
             {
                 this.selector = selector;
             }
@@ -988,7 +988,7 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, int3>.Struct<AverageSelectorFunc_int3<T, TSource, TSourceEnumerator, TSelector>>
+        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, int3>.Struct<SequenceAverageSelectorFunc_int3<T, TSource, TSourceEnumerator, TSelector>>
         AverageAsFunc<T, TSource, TSourceEnumerator, TSelector>(
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ValueFunc<T, int3>.Struct<TSelector> selector
@@ -998,7 +998,7 @@ namespace CareBoo.Blinq
             where TSourceEnumerator : struct, IEnumerator<T>
             where TSelector : struct, IFunc<T, int3>
         {
-            var func = new AverageSelectorFunc_int3<T, TSource, TSourceEnumerator, TSelector>(selector);
+            var func = new SequenceAverageSelectorFunc_int3<T, TSource, TSourceEnumerator, TSelector>(selector);
             return ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, int3>.New(func);
         }
 
@@ -1063,7 +1063,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageFunc_int3x2<TSource, TSourceEnumerator>
+        public struct SequenceAverageFunc_int3x2<TSource, TSourceEnumerator>
             : IFunc<ValueSequence<int3x2, TSource, TSourceEnumerator>, int3x2>
             where TSource : struct, ISequence<int3x2, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<int3x2>
@@ -1074,14 +1074,14 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<int3x2, TSource, TSourceEnumerator>, int3x2>.Struct<AverageFunc_int3x2<TSource, TSourceEnumerator>>
+        public static ValueFunc<ValueSequence<int3x2, TSource, TSourceEnumerator>, int3x2>.Struct<SequenceAverageFunc_int3x2<TSource, TSourceEnumerator>>
         AverageAsFunc<TSource, TSourceEnumerator>(
             this in ValueSequence<int3x2, TSource, TSourceEnumerator> source
             )
             where TSource : struct, ISequence<int3x2, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<int3x2>
         {
-            return ValueFunc<ValueSequence<int3x2, TSource, TSourceEnumerator>, int3x2>.New<AverageFunc_int3x2<TSource, TSourceEnumerator>>();
+            return ValueFunc<ValueSequence<int3x2, TSource, TSourceEnumerator>, int3x2>.New<SequenceAverageFunc_int3x2<TSource, TSourceEnumerator>>();
         }
 
         public static int3x2 RunAverage<TSource, TSourceEnumerator>(
@@ -1138,7 +1138,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageSelectorFunc_int3x2<T, TSource, TSourceEnumerator, TSelector>
+        public struct SequenceAverageSelectorFunc_int3x2<T, TSource, TSourceEnumerator, TSelector>
             : IFunc<ValueSequence<T, TSource, TSourceEnumerator>, int3x2>
             where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
@@ -1147,7 +1147,7 @@ namespace CareBoo.Blinq
         {
             readonly ValueFunc<T, int3x2>.Struct<TSelector> selector;
 
-            public AverageSelectorFunc_int3x2(ValueFunc<T, int3x2>.Struct<TSelector> selector)
+            public SequenceAverageSelectorFunc_int3x2(ValueFunc<T, int3x2>.Struct<TSelector> selector)
             {
                 this.selector = selector;
             }
@@ -1158,7 +1158,7 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, int3x2>.Struct<AverageSelectorFunc_int3x2<T, TSource, TSourceEnumerator, TSelector>>
+        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, int3x2>.Struct<SequenceAverageSelectorFunc_int3x2<T, TSource, TSourceEnumerator, TSelector>>
         AverageAsFunc<T, TSource, TSourceEnumerator, TSelector>(
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ValueFunc<T, int3x2>.Struct<TSelector> selector
@@ -1168,7 +1168,7 @@ namespace CareBoo.Blinq
             where TSourceEnumerator : struct, IEnumerator<T>
             where TSelector : struct, IFunc<T, int3x2>
         {
-            var func = new AverageSelectorFunc_int3x2<T, TSource, TSourceEnumerator, TSelector>(selector);
+            var func = new SequenceAverageSelectorFunc_int3x2<T, TSource, TSourceEnumerator, TSelector>(selector);
             return ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, int3x2>.New(func);
         }
 
@@ -1233,7 +1233,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageFunc_int3x3<TSource, TSourceEnumerator>
+        public struct SequenceAverageFunc_int3x3<TSource, TSourceEnumerator>
             : IFunc<ValueSequence<int3x3, TSource, TSourceEnumerator>, int3x3>
             where TSource : struct, ISequence<int3x3, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<int3x3>
@@ -1244,14 +1244,14 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<int3x3, TSource, TSourceEnumerator>, int3x3>.Struct<AverageFunc_int3x3<TSource, TSourceEnumerator>>
+        public static ValueFunc<ValueSequence<int3x3, TSource, TSourceEnumerator>, int3x3>.Struct<SequenceAverageFunc_int3x3<TSource, TSourceEnumerator>>
         AverageAsFunc<TSource, TSourceEnumerator>(
             this in ValueSequence<int3x3, TSource, TSourceEnumerator> source
             )
             where TSource : struct, ISequence<int3x3, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<int3x3>
         {
-            return ValueFunc<ValueSequence<int3x3, TSource, TSourceEnumerator>, int3x3>.New<AverageFunc_int3x3<TSource, TSourceEnumerator>>();
+            return ValueFunc<ValueSequence<int3x3, TSource, TSourceEnumerator>, int3x3>.New<SequenceAverageFunc_int3x3<TSource, TSourceEnumerator>>();
         }
 
         public static int3x3 RunAverage<TSource, TSourceEnumerator>(
@@ -1308,7 +1308,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageSelectorFunc_int3x3<T, TSource, TSourceEnumerator, TSelector>
+        public struct SequenceAverageSelectorFunc_int3x3<T, TSource, TSourceEnumerator, TSelector>
             : IFunc<ValueSequence<T, TSource, TSourceEnumerator>, int3x3>
             where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
@@ -1317,7 +1317,7 @@ namespace CareBoo.Blinq
         {
             readonly ValueFunc<T, int3x3>.Struct<TSelector> selector;
 
-            public AverageSelectorFunc_int3x3(ValueFunc<T, int3x3>.Struct<TSelector> selector)
+            public SequenceAverageSelectorFunc_int3x3(ValueFunc<T, int3x3>.Struct<TSelector> selector)
             {
                 this.selector = selector;
             }
@@ -1328,7 +1328,7 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, int3x3>.Struct<AverageSelectorFunc_int3x3<T, TSource, TSourceEnumerator, TSelector>>
+        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, int3x3>.Struct<SequenceAverageSelectorFunc_int3x3<T, TSource, TSourceEnumerator, TSelector>>
         AverageAsFunc<T, TSource, TSourceEnumerator, TSelector>(
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ValueFunc<T, int3x3>.Struct<TSelector> selector
@@ -1338,7 +1338,7 @@ namespace CareBoo.Blinq
             where TSourceEnumerator : struct, IEnumerator<T>
             where TSelector : struct, IFunc<T, int3x3>
         {
-            var func = new AverageSelectorFunc_int3x3<T, TSource, TSourceEnumerator, TSelector>(selector);
+            var func = new SequenceAverageSelectorFunc_int3x3<T, TSource, TSourceEnumerator, TSelector>(selector);
             return ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, int3x3>.New(func);
         }
 
@@ -1403,7 +1403,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageFunc_int3x4<TSource, TSourceEnumerator>
+        public struct SequenceAverageFunc_int3x4<TSource, TSourceEnumerator>
             : IFunc<ValueSequence<int3x4, TSource, TSourceEnumerator>, int3x4>
             where TSource : struct, ISequence<int3x4, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<int3x4>
@@ -1414,14 +1414,14 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<int3x4, TSource, TSourceEnumerator>, int3x4>.Struct<AverageFunc_int3x4<TSource, TSourceEnumerator>>
+        public static ValueFunc<ValueSequence<int3x4, TSource, TSourceEnumerator>, int3x4>.Struct<SequenceAverageFunc_int3x4<TSource, TSourceEnumerator>>
         AverageAsFunc<TSource, TSourceEnumerator>(
             this in ValueSequence<int3x4, TSource, TSourceEnumerator> source
             )
             where TSource : struct, ISequence<int3x4, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<int3x4>
         {
-            return ValueFunc<ValueSequence<int3x4, TSource, TSourceEnumerator>, int3x4>.New<AverageFunc_int3x4<TSource, TSourceEnumerator>>();
+            return ValueFunc<ValueSequence<int3x4, TSource, TSourceEnumerator>, int3x4>.New<SequenceAverageFunc_int3x4<TSource, TSourceEnumerator>>();
         }
 
         public static int3x4 RunAverage<TSource, TSourceEnumerator>(
@@ -1478,7 +1478,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageSelectorFunc_int3x4<T, TSource, TSourceEnumerator, TSelector>
+        public struct SequenceAverageSelectorFunc_int3x4<T, TSource, TSourceEnumerator, TSelector>
             : IFunc<ValueSequence<T, TSource, TSourceEnumerator>, int3x4>
             where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
@@ -1487,7 +1487,7 @@ namespace CareBoo.Blinq
         {
             readonly ValueFunc<T, int3x4>.Struct<TSelector> selector;
 
-            public AverageSelectorFunc_int3x4(ValueFunc<T, int3x4>.Struct<TSelector> selector)
+            public SequenceAverageSelectorFunc_int3x4(ValueFunc<T, int3x4>.Struct<TSelector> selector)
             {
                 this.selector = selector;
             }
@@ -1498,7 +1498,7 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, int3x4>.Struct<AverageSelectorFunc_int3x4<T, TSource, TSourceEnumerator, TSelector>>
+        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, int3x4>.Struct<SequenceAverageSelectorFunc_int3x4<T, TSource, TSourceEnumerator, TSelector>>
         AverageAsFunc<T, TSource, TSourceEnumerator, TSelector>(
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ValueFunc<T, int3x4>.Struct<TSelector> selector
@@ -1508,7 +1508,7 @@ namespace CareBoo.Blinq
             where TSourceEnumerator : struct, IEnumerator<T>
             where TSelector : struct, IFunc<T, int3x4>
         {
-            var func = new AverageSelectorFunc_int3x4<T, TSource, TSourceEnumerator, TSelector>(selector);
+            var func = new SequenceAverageSelectorFunc_int3x4<T, TSource, TSourceEnumerator, TSelector>(selector);
             return ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, int3x4>.New(func);
         }
 
@@ -1573,7 +1573,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageFunc_int4<TSource, TSourceEnumerator>
+        public struct SequenceAverageFunc_int4<TSource, TSourceEnumerator>
             : IFunc<ValueSequence<int4, TSource, TSourceEnumerator>, int4>
             where TSource : struct, ISequence<int4, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<int4>
@@ -1584,14 +1584,14 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<int4, TSource, TSourceEnumerator>, int4>.Struct<AverageFunc_int4<TSource, TSourceEnumerator>>
+        public static ValueFunc<ValueSequence<int4, TSource, TSourceEnumerator>, int4>.Struct<SequenceAverageFunc_int4<TSource, TSourceEnumerator>>
         AverageAsFunc<TSource, TSourceEnumerator>(
             this in ValueSequence<int4, TSource, TSourceEnumerator> source
             )
             where TSource : struct, ISequence<int4, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<int4>
         {
-            return ValueFunc<ValueSequence<int4, TSource, TSourceEnumerator>, int4>.New<AverageFunc_int4<TSource, TSourceEnumerator>>();
+            return ValueFunc<ValueSequence<int4, TSource, TSourceEnumerator>, int4>.New<SequenceAverageFunc_int4<TSource, TSourceEnumerator>>();
         }
 
         public static int4 RunAverage<TSource, TSourceEnumerator>(
@@ -1648,7 +1648,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageSelectorFunc_int4<T, TSource, TSourceEnumerator, TSelector>
+        public struct SequenceAverageSelectorFunc_int4<T, TSource, TSourceEnumerator, TSelector>
             : IFunc<ValueSequence<T, TSource, TSourceEnumerator>, int4>
             where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
@@ -1657,7 +1657,7 @@ namespace CareBoo.Blinq
         {
             readonly ValueFunc<T, int4>.Struct<TSelector> selector;
 
-            public AverageSelectorFunc_int4(ValueFunc<T, int4>.Struct<TSelector> selector)
+            public SequenceAverageSelectorFunc_int4(ValueFunc<T, int4>.Struct<TSelector> selector)
             {
                 this.selector = selector;
             }
@@ -1668,7 +1668,7 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, int4>.Struct<AverageSelectorFunc_int4<T, TSource, TSourceEnumerator, TSelector>>
+        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, int4>.Struct<SequenceAverageSelectorFunc_int4<T, TSource, TSourceEnumerator, TSelector>>
         AverageAsFunc<T, TSource, TSourceEnumerator, TSelector>(
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ValueFunc<T, int4>.Struct<TSelector> selector
@@ -1678,7 +1678,7 @@ namespace CareBoo.Blinq
             where TSourceEnumerator : struct, IEnumerator<T>
             where TSelector : struct, IFunc<T, int4>
         {
-            var func = new AverageSelectorFunc_int4<T, TSource, TSourceEnumerator, TSelector>(selector);
+            var func = new SequenceAverageSelectorFunc_int4<T, TSource, TSourceEnumerator, TSelector>(selector);
             return ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, int4>.New(func);
         }
 
@@ -1743,7 +1743,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageFunc_int4x2<TSource, TSourceEnumerator>
+        public struct SequenceAverageFunc_int4x2<TSource, TSourceEnumerator>
             : IFunc<ValueSequence<int4x2, TSource, TSourceEnumerator>, int4x2>
             where TSource : struct, ISequence<int4x2, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<int4x2>
@@ -1754,14 +1754,14 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<int4x2, TSource, TSourceEnumerator>, int4x2>.Struct<AverageFunc_int4x2<TSource, TSourceEnumerator>>
+        public static ValueFunc<ValueSequence<int4x2, TSource, TSourceEnumerator>, int4x2>.Struct<SequenceAverageFunc_int4x2<TSource, TSourceEnumerator>>
         AverageAsFunc<TSource, TSourceEnumerator>(
             this in ValueSequence<int4x2, TSource, TSourceEnumerator> source
             )
             where TSource : struct, ISequence<int4x2, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<int4x2>
         {
-            return ValueFunc<ValueSequence<int4x2, TSource, TSourceEnumerator>, int4x2>.New<AverageFunc_int4x2<TSource, TSourceEnumerator>>();
+            return ValueFunc<ValueSequence<int4x2, TSource, TSourceEnumerator>, int4x2>.New<SequenceAverageFunc_int4x2<TSource, TSourceEnumerator>>();
         }
 
         public static int4x2 RunAverage<TSource, TSourceEnumerator>(
@@ -1818,7 +1818,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageSelectorFunc_int4x2<T, TSource, TSourceEnumerator, TSelector>
+        public struct SequenceAverageSelectorFunc_int4x2<T, TSource, TSourceEnumerator, TSelector>
             : IFunc<ValueSequence<T, TSource, TSourceEnumerator>, int4x2>
             where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
@@ -1827,7 +1827,7 @@ namespace CareBoo.Blinq
         {
             readonly ValueFunc<T, int4x2>.Struct<TSelector> selector;
 
-            public AverageSelectorFunc_int4x2(ValueFunc<T, int4x2>.Struct<TSelector> selector)
+            public SequenceAverageSelectorFunc_int4x2(ValueFunc<T, int4x2>.Struct<TSelector> selector)
             {
                 this.selector = selector;
             }
@@ -1838,7 +1838,7 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, int4x2>.Struct<AverageSelectorFunc_int4x2<T, TSource, TSourceEnumerator, TSelector>>
+        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, int4x2>.Struct<SequenceAverageSelectorFunc_int4x2<T, TSource, TSourceEnumerator, TSelector>>
         AverageAsFunc<T, TSource, TSourceEnumerator, TSelector>(
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ValueFunc<T, int4x2>.Struct<TSelector> selector
@@ -1848,7 +1848,7 @@ namespace CareBoo.Blinq
             where TSourceEnumerator : struct, IEnumerator<T>
             where TSelector : struct, IFunc<T, int4x2>
         {
-            var func = new AverageSelectorFunc_int4x2<T, TSource, TSourceEnumerator, TSelector>(selector);
+            var func = new SequenceAverageSelectorFunc_int4x2<T, TSource, TSourceEnumerator, TSelector>(selector);
             return ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, int4x2>.New(func);
         }
 
@@ -1913,7 +1913,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageFunc_int4x3<TSource, TSourceEnumerator>
+        public struct SequenceAverageFunc_int4x3<TSource, TSourceEnumerator>
             : IFunc<ValueSequence<int4x3, TSource, TSourceEnumerator>, int4x3>
             where TSource : struct, ISequence<int4x3, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<int4x3>
@@ -1924,14 +1924,14 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<int4x3, TSource, TSourceEnumerator>, int4x3>.Struct<AverageFunc_int4x3<TSource, TSourceEnumerator>>
+        public static ValueFunc<ValueSequence<int4x3, TSource, TSourceEnumerator>, int4x3>.Struct<SequenceAverageFunc_int4x3<TSource, TSourceEnumerator>>
         AverageAsFunc<TSource, TSourceEnumerator>(
             this in ValueSequence<int4x3, TSource, TSourceEnumerator> source
             )
             where TSource : struct, ISequence<int4x3, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<int4x3>
         {
-            return ValueFunc<ValueSequence<int4x3, TSource, TSourceEnumerator>, int4x3>.New<AverageFunc_int4x3<TSource, TSourceEnumerator>>();
+            return ValueFunc<ValueSequence<int4x3, TSource, TSourceEnumerator>, int4x3>.New<SequenceAverageFunc_int4x3<TSource, TSourceEnumerator>>();
         }
 
         public static int4x3 RunAverage<TSource, TSourceEnumerator>(
@@ -1988,7 +1988,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageSelectorFunc_int4x3<T, TSource, TSourceEnumerator, TSelector>
+        public struct SequenceAverageSelectorFunc_int4x3<T, TSource, TSourceEnumerator, TSelector>
             : IFunc<ValueSequence<T, TSource, TSourceEnumerator>, int4x3>
             where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
@@ -1997,7 +1997,7 @@ namespace CareBoo.Blinq
         {
             readonly ValueFunc<T, int4x3>.Struct<TSelector> selector;
 
-            public AverageSelectorFunc_int4x3(ValueFunc<T, int4x3>.Struct<TSelector> selector)
+            public SequenceAverageSelectorFunc_int4x3(ValueFunc<T, int4x3>.Struct<TSelector> selector)
             {
                 this.selector = selector;
             }
@@ -2008,7 +2008,7 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, int4x3>.Struct<AverageSelectorFunc_int4x3<T, TSource, TSourceEnumerator, TSelector>>
+        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, int4x3>.Struct<SequenceAverageSelectorFunc_int4x3<T, TSource, TSourceEnumerator, TSelector>>
         AverageAsFunc<T, TSource, TSourceEnumerator, TSelector>(
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ValueFunc<T, int4x3>.Struct<TSelector> selector
@@ -2018,7 +2018,7 @@ namespace CareBoo.Blinq
             where TSourceEnumerator : struct, IEnumerator<T>
             where TSelector : struct, IFunc<T, int4x3>
         {
-            var func = new AverageSelectorFunc_int4x3<T, TSource, TSourceEnumerator, TSelector>(selector);
+            var func = new SequenceAverageSelectorFunc_int4x3<T, TSource, TSourceEnumerator, TSelector>(selector);
             return ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, int4x3>.New(func);
         }
 
@@ -2083,7 +2083,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageFunc_int4x4<TSource, TSourceEnumerator>
+        public struct SequenceAverageFunc_int4x4<TSource, TSourceEnumerator>
             : IFunc<ValueSequence<int4x4, TSource, TSourceEnumerator>, int4x4>
             where TSource : struct, ISequence<int4x4, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<int4x4>
@@ -2094,14 +2094,14 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<int4x4, TSource, TSourceEnumerator>, int4x4>.Struct<AverageFunc_int4x4<TSource, TSourceEnumerator>>
+        public static ValueFunc<ValueSequence<int4x4, TSource, TSourceEnumerator>, int4x4>.Struct<SequenceAverageFunc_int4x4<TSource, TSourceEnumerator>>
         AverageAsFunc<TSource, TSourceEnumerator>(
             this in ValueSequence<int4x4, TSource, TSourceEnumerator> source
             )
             where TSource : struct, ISequence<int4x4, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<int4x4>
         {
-            return ValueFunc<ValueSequence<int4x4, TSource, TSourceEnumerator>, int4x4>.New<AverageFunc_int4x4<TSource, TSourceEnumerator>>();
+            return ValueFunc<ValueSequence<int4x4, TSource, TSourceEnumerator>, int4x4>.New<SequenceAverageFunc_int4x4<TSource, TSourceEnumerator>>();
         }
 
         public static int4x4 RunAverage<TSource, TSourceEnumerator>(
@@ -2158,7 +2158,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageSelectorFunc_int4x4<T, TSource, TSourceEnumerator, TSelector>
+        public struct SequenceAverageSelectorFunc_int4x4<T, TSource, TSourceEnumerator, TSelector>
             : IFunc<ValueSequence<T, TSource, TSourceEnumerator>, int4x4>
             where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
@@ -2167,7 +2167,7 @@ namespace CareBoo.Blinq
         {
             readonly ValueFunc<T, int4x4>.Struct<TSelector> selector;
 
-            public AverageSelectorFunc_int4x4(ValueFunc<T, int4x4>.Struct<TSelector> selector)
+            public SequenceAverageSelectorFunc_int4x4(ValueFunc<T, int4x4>.Struct<TSelector> selector)
             {
                 this.selector = selector;
             }
@@ -2178,7 +2178,7 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, int4x4>.Struct<AverageSelectorFunc_int4x4<T, TSource, TSourceEnumerator, TSelector>>
+        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, int4x4>.Struct<SequenceAverageSelectorFunc_int4x4<T, TSource, TSourceEnumerator, TSelector>>
         AverageAsFunc<T, TSource, TSourceEnumerator, TSelector>(
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ValueFunc<T, int4x4>.Struct<TSelector> selector
@@ -2188,7 +2188,7 @@ namespace CareBoo.Blinq
             where TSourceEnumerator : struct, IEnumerator<T>
             where TSelector : struct, IFunc<T, int4x4>
         {
-            var func = new AverageSelectorFunc_int4x4<T, TSource, TSourceEnumerator, TSelector>(selector);
+            var func = new SequenceAverageSelectorFunc_int4x4<T, TSource, TSourceEnumerator, TSelector>(selector);
             return ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, int4x4>.New(func);
         }
 
@@ -2253,7 +2253,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageFunc_uint<TSource, TSourceEnumerator>
+        public struct SequenceAverageFunc_uint<TSource, TSourceEnumerator>
             : IFunc<ValueSequence<uint, TSource, TSourceEnumerator>, uint>
             where TSource : struct, ISequence<uint, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<uint>
@@ -2264,14 +2264,14 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<uint, TSource, TSourceEnumerator>, uint>.Struct<AverageFunc_uint<TSource, TSourceEnumerator>>
+        public static ValueFunc<ValueSequence<uint, TSource, TSourceEnumerator>, uint>.Struct<SequenceAverageFunc_uint<TSource, TSourceEnumerator>>
         AverageAsFunc<TSource, TSourceEnumerator>(
             this in ValueSequence<uint, TSource, TSourceEnumerator> source
             )
             where TSource : struct, ISequence<uint, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<uint>
         {
-            return ValueFunc<ValueSequence<uint, TSource, TSourceEnumerator>, uint>.New<AverageFunc_uint<TSource, TSourceEnumerator>>();
+            return ValueFunc<ValueSequence<uint, TSource, TSourceEnumerator>, uint>.New<SequenceAverageFunc_uint<TSource, TSourceEnumerator>>();
         }
 
         public static uint RunAverage<TSource, TSourceEnumerator>(
@@ -2328,7 +2328,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageSelectorFunc_uint<T, TSource, TSourceEnumerator, TSelector>
+        public struct SequenceAverageSelectorFunc_uint<T, TSource, TSourceEnumerator, TSelector>
             : IFunc<ValueSequence<T, TSource, TSourceEnumerator>, uint>
             where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
@@ -2337,7 +2337,7 @@ namespace CareBoo.Blinq
         {
             readonly ValueFunc<T, uint>.Struct<TSelector> selector;
 
-            public AverageSelectorFunc_uint(ValueFunc<T, uint>.Struct<TSelector> selector)
+            public SequenceAverageSelectorFunc_uint(ValueFunc<T, uint>.Struct<TSelector> selector)
             {
                 this.selector = selector;
             }
@@ -2348,7 +2348,7 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, uint>.Struct<AverageSelectorFunc_uint<T, TSource, TSourceEnumerator, TSelector>>
+        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, uint>.Struct<SequenceAverageSelectorFunc_uint<T, TSource, TSourceEnumerator, TSelector>>
         AverageAsFunc<T, TSource, TSourceEnumerator, TSelector>(
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ValueFunc<T, uint>.Struct<TSelector> selector
@@ -2358,7 +2358,7 @@ namespace CareBoo.Blinq
             where TSourceEnumerator : struct, IEnumerator<T>
             where TSelector : struct, IFunc<T, uint>
         {
-            var func = new AverageSelectorFunc_uint<T, TSource, TSourceEnumerator, TSelector>(selector);
+            var func = new SequenceAverageSelectorFunc_uint<T, TSource, TSourceEnumerator, TSelector>(selector);
             return ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, uint>.New(func);
         }
 
@@ -2423,7 +2423,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageFunc_uint2<TSource, TSourceEnumerator>
+        public struct SequenceAverageFunc_uint2<TSource, TSourceEnumerator>
             : IFunc<ValueSequence<uint2, TSource, TSourceEnumerator>, uint2>
             where TSource : struct, ISequence<uint2, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<uint2>
@@ -2434,14 +2434,14 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<uint2, TSource, TSourceEnumerator>, uint2>.Struct<AverageFunc_uint2<TSource, TSourceEnumerator>>
+        public static ValueFunc<ValueSequence<uint2, TSource, TSourceEnumerator>, uint2>.Struct<SequenceAverageFunc_uint2<TSource, TSourceEnumerator>>
         AverageAsFunc<TSource, TSourceEnumerator>(
             this in ValueSequence<uint2, TSource, TSourceEnumerator> source
             )
             where TSource : struct, ISequence<uint2, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<uint2>
         {
-            return ValueFunc<ValueSequence<uint2, TSource, TSourceEnumerator>, uint2>.New<AverageFunc_uint2<TSource, TSourceEnumerator>>();
+            return ValueFunc<ValueSequence<uint2, TSource, TSourceEnumerator>, uint2>.New<SequenceAverageFunc_uint2<TSource, TSourceEnumerator>>();
         }
 
         public static uint2 RunAverage<TSource, TSourceEnumerator>(
@@ -2498,7 +2498,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageSelectorFunc_uint2<T, TSource, TSourceEnumerator, TSelector>
+        public struct SequenceAverageSelectorFunc_uint2<T, TSource, TSourceEnumerator, TSelector>
             : IFunc<ValueSequence<T, TSource, TSourceEnumerator>, uint2>
             where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
@@ -2507,7 +2507,7 @@ namespace CareBoo.Blinq
         {
             readonly ValueFunc<T, uint2>.Struct<TSelector> selector;
 
-            public AverageSelectorFunc_uint2(ValueFunc<T, uint2>.Struct<TSelector> selector)
+            public SequenceAverageSelectorFunc_uint2(ValueFunc<T, uint2>.Struct<TSelector> selector)
             {
                 this.selector = selector;
             }
@@ -2518,7 +2518,7 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, uint2>.Struct<AverageSelectorFunc_uint2<T, TSource, TSourceEnumerator, TSelector>>
+        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, uint2>.Struct<SequenceAverageSelectorFunc_uint2<T, TSource, TSourceEnumerator, TSelector>>
         AverageAsFunc<T, TSource, TSourceEnumerator, TSelector>(
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ValueFunc<T, uint2>.Struct<TSelector> selector
@@ -2528,7 +2528,7 @@ namespace CareBoo.Blinq
             where TSourceEnumerator : struct, IEnumerator<T>
             where TSelector : struct, IFunc<T, uint2>
         {
-            var func = new AverageSelectorFunc_uint2<T, TSource, TSourceEnumerator, TSelector>(selector);
+            var func = new SequenceAverageSelectorFunc_uint2<T, TSource, TSourceEnumerator, TSelector>(selector);
             return ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, uint2>.New(func);
         }
 
@@ -2593,7 +2593,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageFunc_uint2x2<TSource, TSourceEnumerator>
+        public struct SequenceAverageFunc_uint2x2<TSource, TSourceEnumerator>
             : IFunc<ValueSequence<uint2x2, TSource, TSourceEnumerator>, uint2x2>
             where TSource : struct, ISequence<uint2x2, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<uint2x2>
@@ -2604,14 +2604,14 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<uint2x2, TSource, TSourceEnumerator>, uint2x2>.Struct<AverageFunc_uint2x2<TSource, TSourceEnumerator>>
+        public static ValueFunc<ValueSequence<uint2x2, TSource, TSourceEnumerator>, uint2x2>.Struct<SequenceAverageFunc_uint2x2<TSource, TSourceEnumerator>>
         AverageAsFunc<TSource, TSourceEnumerator>(
             this in ValueSequence<uint2x2, TSource, TSourceEnumerator> source
             )
             where TSource : struct, ISequence<uint2x2, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<uint2x2>
         {
-            return ValueFunc<ValueSequence<uint2x2, TSource, TSourceEnumerator>, uint2x2>.New<AverageFunc_uint2x2<TSource, TSourceEnumerator>>();
+            return ValueFunc<ValueSequence<uint2x2, TSource, TSourceEnumerator>, uint2x2>.New<SequenceAverageFunc_uint2x2<TSource, TSourceEnumerator>>();
         }
 
         public static uint2x2 RunAverage<TSource, TSourceEnumerator>(
@@ -2668,7 +2668,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageSelectorFunc_uint2x2<T, TSource, TSourceEnumerator, TSelector>
+        public struct SequenceAverageSelectorFunc_uint2x2<T, TSource, TSourceEnumerator, TSelector>
             : IFunc<ValueSequence<T, TSource, TSourceEnumerator>, uint2x2>
             where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
@@ -2677,7 +2677,7 @@ namespace CareBoo.Blinq
         {
             readonly ValueFunc<T, uint2x2>.Struct<TSelector> selector;
 
-            public AverageSelectorFunc_uint2x2(ValueFunc<T, uint2x2>.Struct<TSelector> selector)
+            public SequenceAverageSelectorFunc_uint2x2(ValueFunc<T, uint2x2>.Struct<TSelector> selector)
             {
                 this.selector = selector;
             }
@@ -2688,7 +2688,7 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, uint2x2>.Struct<AverageSelectorFunc_uint2x2<T, TSource, TSourceEnumerator, TSelector>>
+        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, uint2x2>.Struct<SequenceAverageSelectorFunc_uint2x2<T, TSource, TSourceEnumerator, TSelector>>
         AverageAsFunc<T, TSource, TSourceEnumerator, TSelector>(
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ValueFunc<T, uint2x2>.Struct<TSelector> selector
@@ -2698,7 +2698,7 @@ namespace CareBoo.Blinq
             where TSourceEnumerator : struct, IEnumerator<T>
             where TSelector : struct, IFunc<T, uint2x2>
         {
-            var func = new AverageSelectorFunc_uint2x2<T, TSource, TSourceEnumerator, TSelector>(selector);
+            var func = new SequenceAverageSelectorFunc_uint2x2<T, TSource, TSourceEnumerator, TSelector>(selector);
             return ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, uint2x2>.New(func);
         }
 
@@ -2763,7 +2763,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageFunc_uint2x3<TSource, TSourceEnumerator>
+        public struct SequenceAverageFunc_uint2x3<TSource, TSourceEnumerator>
             : IFunc<ValueSequence<uint2x3, TSource, TSourceEnumerator>, uint2x3>
             where TSource : struct, ISequence<uint2x3, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<uint2x3>
@@ -2774,14 +2774,14 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<uint2x3, TSource, TSourceEnumerator>, uint2x3>.Struct<AverageFunc_uint2x3<TSource, TSourceEnumerator>>
+        public static ValueFunc<ValueSequence<uint2x3, TSource, TSourceEnumerator>, uint2x3>.Struct<SequenceAverageFunc_uint2x3<TSource, TSourceEnumerator>>
         AverageAsFunc<TSource, TSourceEnumerator>(
             this in ValueSequence<uint2x3, TSource, TSourceEnumerator> source
             )
             where TSource : struct, ISequence<uint2x3, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<uint2x3>
         {
-            return ValueFunc<ValueSequence<uint2x3, TSource, TSourceEnumerator>, uint2x3>.New<AverageFunc_uint2x3<TSource, TSourceEnumerator>>();
+            return ValueFunc<ValueSequence<uint2x3, TSource, TSourceEnumerator>, uint2x3>.New<SequenceAverageFunc_uint2x3<TSource, TSourceEnumerator>>();
         }
 
         public static uint2x3 RunAverage<TSource, TSourceEnumerator>(
@@ -2838,7 +2838,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageSelectorFunc_uint2x3<T, TSource, TSourceEnumerator, TSelector>
+        public struct SequenceAverageSelectorFunc_uint2x3<T, TSource, TSourceEnumerator, TSelector>
             : IFunc<ValueSequence<T, TSource, TSourceEnumerator>, uint2x3>
             where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
@@ -2847,7 +2847,7 @@ namespace CareBoo.Blinq
         {
             readonly ValueFunc<T, uint2x3>.Struct<TSelector> selector;
 
-            public AverageSelectorFunc_uint2x3(ValueFunc<T, uint2x3>.Struct<TSelector> selector)
+            public SequenceAverageSelectorFunc_uint2x3(ValueFunc<T, uint2x3>.Struct<TSelector> selector)
             {
                 this.selector = selector;
             }
@@ -2858,7 +2858,7 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, uint2x3>.Struct<AverageSelectorFunc_uint2x3<T, TSource, TSourceEnumerator, TSelector>>
+        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, uint2x3>.Struct<SequenceAverageSelectorFunc_uint2x3<T, TSource, TSourceEnumerator, TSelector>>
         AverageAsFunc<T, TSource, TSourceEnumerator, TSelector>(
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ValueFunc<T, uint2x3>.Struct<TSelector> selector
@@ -2868,7 +2868,7 @@ namespace CareBoo.Blinq
             where TSourceEnumerator : struct, IEnumerator<T>
             where TSelector : struct, IFunc<T, uint2x3>
         {
-            var func = new AverageSelectorFunc_uint2x3<T, TSource, TSourceEnumerator, TSelector>(selector);
+            var func = new SequenceAverageSelectorFunc_uint2x3<T, TSource, TSourceEnumerator, TSelector>(selector);
             return ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, uint2x3>.New(func);
         }
 
@@ -2933,7 +2933,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageFunc_uint2x4<TSource, TSourceEnumerator>
+        public struct SequenceAverageFunc_uint2x4<TSource, TSourceEnumerator>
             : IFunc<ValueSequence<uint2x4, TSource, TSourceEnumerator>, uint2x4>
             where TSource : struct, ISequence<uint2x4, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<uint2x4>
@@ -2944,14 +2944,14 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<uint2x4, TSource, TSourceEnumerator>, uint2x4>.Struct<AverageFunc_uint2x4<TSource, TSourceEnumerator>>
+        public static ValueFunc<ValueSequence<uint2x4, TSource, TSourceEnumerator>, uint2x4>.Struct<SequenceAverageFunc_uint2x4<TSource, TSourceEnumerator>>
         AverageAsFunc<TSource, TSourceEnumerator>(
             this in ValueSequence<uint2x4, TSource, TSourceEnumerator> source
             )
             where TSource : struct, ISequence<uint2x4, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<uint2x4>
         {
-            return ValueFunc<ValueSequence<uint2x4, TSource, TSourceEnumerator>, uint2x4>.New<AverageFunc_uint2x4<TSource, TSourceEnumerator>>();
+            return ValueFunc<ValueSequence<uint2x4, TSource, TSourceEnumerator>, uint2x4>.New<SequenceAverageFunc_uint2x4<TSource, TSourceEnumerator>>();
         }
 
         public static uint2x4 RunAverage<TSource, TSourceEnumerator>(
@@ -3008,7 +3008,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageSelectorFunc_uint2x4<T, TSource, TSourceEnumerator, TSelector>
+        public struct SequenceAverageSelectorFunc_uint2x4<T, TSource, TSourceEnumerator, TSelector>
             : IFunc<ValueSequence<T, TSource, TSourceEnumerator>, uint2x4>
             where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
@@ -3017,7 +3017,7 @@ namespace CareBoo.Blinq
         {
             readonly ValueFunc<T, uint2x4>.Struct<TSelector> selector;
 
-            public AverageSelectorFunc_uint2x4(ValueFunc<T, uint2x4>.Struct<TSelector> selector)
+            public SequenceAverageSelectorFunc_uint2x4(ValueFunc<T, uint2x4>.Struct<TSelector> selector)
             {
                 this.selector = selector;
             }
@@ -3028,7 +3028,7 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, uint2x4>.Struct<AverageSelectorFunc_uint2x4<T, TSource, TSourceEnumerator, TSelector>>
+        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, uint2x4>.Struct<SequenceAverageSelectorFunc_uint2x4<T, TSource, TSourceEnumerator, TSelector>>
         AverageAsFunc<T, TSource, TSourceEnumerator, TSelector>(
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ValueFunc<T, uint2x4>.Struct<TSelector> selector
@@ -3038,7 +3038,7 @@ namespace CareBoo.Blinq
             where TSourceEnumerator : struct, IEnumerator<T>
             where TSelector : struct, IFunc<T, uint2x4>
         {
-            var func = new AverageSelectorFunc_uint2x4<T, TSource, TSourceEnumerator, TSelector>(selector);
+            var func = new SequenceAverageSelectorFunc_uint2x4<T, TSource, TSourceEnumerator, TSelector>(selector);
             return ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, uint2x4>.New(func);
         }
 
@@ -3103,7 +3103,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageFunc_uint3<TSource, TSourceEnumerator>
+        public struct SequenceAverageFunc_uint3<TSource, TSourceEnumerator>
             : IFunc<ValueSequence<uint3, TSource, TSourceEnumerator>, uint3>
             where TSource : struct, ISequence<uint3, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<uint3>
@@ -3114,14 +3114,14 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<uint3, TSource, TSourceEnumerator>, uint3>.Struct<AverageFunc_uint3<TSource, TSourceEnumerator>>
+        public static ValueFunc<ValueSequence<uint3, TSource, TSourceEnumerator>, uint3>.Struct<SequenceAverageFunc_uint3<TSource, TSourceEnumerator>>
         AverageAsFunc<TSource, TSourceEnumerator>(
             this in ValueSequence<uint3, TSource, TSourceEnumerator> source
             )
             where TSource : struct, ISequence<uint3, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<uint3>
         {
-            return ValueFunc<ValueSequence<uint3, TSource, TSourceEnumerator>, uint3>.New<AverageFunc_uint3<TSource, TSourceEnumerator>>();
+            return ValueFunc<ValueSequence<uint3, TSource, TSourceEnumerator>, uint3>.New<SequenceAverageFunc_uint3<TSource, TSourceEnumerator>>();
         }
 
         public static uint3 RunAverage<TSource, TSourceEnumerator>(
@@ -3178,7 +3178,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageSelectorFunc_uint3<T, TSource, TSourceEnumerator, TSelector>
+        public struct SequenceAverageSelectorFunc_uint3<T, TSource, TSourceEnumerator, TSelector>
             : IFunc<ValueSequence<T, TSource, TSourceEnumerator>, uint3>
             where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
@@ -3187,7 +3187,7 @@ namespace CareBoo.Blinq
         {
             readonly ValueFunc<T, uint3>.Struct<TSelector> selector;
 
-            public AverageSelectorFunc_uint3(ValueFunc<T, uint3>.Struct<TSelector> selector)
+            public SequenceAverageSelectorFunc_uint3(ValueFunc<T, uint3>.Struct<TSelector> selector)
             {
                 this.selector = selector;
             }
@@ -3198,7 +3198,7 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, uint3>.Struct<AverageSelectorFunc_uint3<T, TSource, TSourceEnumerator, TSelector>>
+        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, uint3>.Struct<SequenceAverageSelectorFunc_uint3<T, TSource, TSourceEnumerator, TSelector>>
         AverageAsFunc<T, TSource, TSourceEnumerator, TSelector>(
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ValueFunc<T, uint3>.Struct<TSelector> selector
@@ -3208,7 +3208,7 @@ namespace CareBoo.Blinq
             where TSourceEnumerator : struct, IEnumerator<T>
             where TSelector : struct, IFunc<T, uint3>
         {
-            var func = new AverageSelectorFunc_uint3<T, TSource, TSourceEnumerator, TSelector>(selector);
+            var func = new SequenceAverageSelectorFunc_uint3<T, TSource, TSourceEnumerator, TSelector>(selector);
             return ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, uint3>.New(func);
         }
 
@@ -3273,7 +3273,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageFunc_uint3x2<TSource, TSourceEnumerator>
+        public struct SequenceAverageFunc_uint3x2<TSource, TSourceEnumerator>
             : IFunc<ValueSequence<uint3x2, TSource, TSourceEnumerator>, uint3x2>
             where TSource : struct, ISequence<uint3x2, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<uint3x2>
@@ -3284,14 +3284,14 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<uint3x2, TSource, TSourceEnumerator>, uint3x2>.Struct<AverageFunc_uint3x2<TSource, TSourceEnumerator>>
+        public static ValueFunc<ValueSequence<uint3x2, TSource, TSourceEnumerator>, uint3x2>.Struct<SequenceAverageFunc_uint3x2<TSource, TSourceEnumerator>>
         AverageAsFunc<TSource, TSourceEnumerator>(
             this in ValueSequence<uint3x2, TSource, TSourceEnumerator> source
             )
             where TSource : struct, ISequence<uint3x2, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<uint3x2>
         {
-            return ValueFunc<ValueSequence<uint3x2, TSource, TSourceEnumerator>, uint3x2>.New<AverageFunc_uint3x2<TSource, TSourceEnumerator>>();
+            return ValueFunc<ValueSequence<uint3x2, TSource, TSourceEnumerator>, uint3x2>.New<SequenceAverageFunc_uint3x2<TSource, TSourceEnumerator>>();
         }
 
         public static uint3x2 RunAverage<TSource, TSourceEnumerator>(
@@ -3348,7 +3348,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageSelectorFunc_uint3x2<T, TSource, TSourceEnumerator, TSelector>
+        public struct SequenceAverageSelectorFunc_uint3x2<T, TSource, TSourceEnumerator, TSelector>
             : IFunc<ValueSequence<T, TSource, TSourceEnumerator>, uint3x2>
             where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
@@ -3357,7 +3357,7 @@ namespace CareBoo.Blinq
         {
             readonly ValueFunc<T, uint3x2>.Struct<TSelector> selector;
 
-            public AverageSelectorFunc_uint3x2(ValueFunc<T, uint3x2>.Struct<TSelector> selector)
+            public SequenceAverageSelectorFunc_uint3x2(ValueFunc<T, uint3x2>.Struct<TSelector> selector)
             {
                 this.selector = selector;
             }
@@ -3368,7 +3368,7 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, uint3x2>.Struct<AverageSelectorFunc_uint3x2<T, TSource, TSourceEnumerator, TSelector>>
+        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, uint3x2>.Struct<SequenceAverageSelectorFunc_uint3x2<T, TSource, TSourceEnumerator, TSelector>>
         AverageAsFunc<T, TSource, TSourceEnumerator, TSelector>(
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ValueFunc<T, uint3x2>.Struct<TSelector> selector
@@ -3378,7 +3378,7 @@ namespace CareBoo.Blinq
             where TSourceEnumerator : struct, IEnumerator<T>
             where TSelector : struct, IFunc<T, uint3x2>
         {
-            var func = new AverageSelectorFunc_uint3x2<T, TSource, TSourceEnumerator, TSelector>(selector);
+            var func = new SequenceAverageSelectorFunc_uint3x2<T, TSource, TSourceEnumerator, TSelector>(selector);
             return ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, uint3x2>.New(func);
         }
 
@@ -3443,7 +3443,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageFunc_uint3x3<TSource, TSourceEnumerator>
+        public struct SequenceAverageFunc_uint3x3<TSource, TSourceEnumerator>
             : IFunc<ValueSequence<uint3x3, TSource, TSourceEnumerator>, uint3x3>
             where TSource : struct, ISequence<uint3x3, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<uint3x3>
@@ -3454,14 +3454,14 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<uint3x3, TSource, TSourceEnumerator>, uint3x3>.Struct<AverageFunc_uint3x3<TSource, TSourceEnumerator>>
+        public static ValueFunc<ValueSequence<uint3x3, TSource, TSourceEnumerator>, uint3x3>.Struct<SequenceAverageFunc_uint3x3<TSource, TSourceEnumerator>>
         AverageAsFunc<TSource, TSourceEnumerator>(
             this in ValueSequence<uint3x3, TSource, TSourceEnumerator> source
             )
             where TSource : struct, ISequence<uint3x3, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<uint3x3>
         {
-            return ValueFunc<ValueSequence<uint3x3, TSource, TSourceEnumerator>, uint3x3>.New<AverageFunc_uint3x3<TSource, TSourceEnumerator>>();
+            return ValueFunc<ValueSequence<uint3x3, TSource, TSourceEnumerator>, uint3x3>.New<SequenceAverageFunc_uint3x3<TSource, TSourceEnumerator>>();
         }
 
         public static uint3x3 RunAverage<TSource, TSourceEnumerator>(
@@ -3518,7 +3518,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageSelectorFunc_uint3x3<T, TSource, TSourceEnumerator, TSelector>
+        public struct SequenceAverageSelectorFunc_uint3x3<T, TSource, TSourceEnumerator, TSelector>
             : IFunc<ValueSequence<T, TSource, TSourceEnumerator>, uint3x3>
             where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
@@ -3527,7 +3527,7 @@ namespace CareBoo.Blinq
         {
             readonly ValueFunc<T, uint3x3>.Struct<TSelector> selector;
 
-            public AverageSelectorFunc_uint3x3(ValueFunc<T, uint3x3>.Struct<TSelector> selector)
+            public SequenceAverageSelectorFunc_uint3x3(ValueFunc<T, uint3x3>.Struct<TSelector> selector)
             {
                 this.selector = selector;
             }
@@ -3538,7 +3538,7 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, uint3x3>.Struct<AverageSelectorFunc_uint3x3<T, TSource, TSourceEnumerator, TSelector>>
+        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, uint3x3>.Struct<SequenceAverageSelectorFunc_uint3x3<T, TSource, TSourceEnumerator, TSelector>>
         AverageAsFunc<T, TSource, TSourceEnumerator, TSelector>(
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ValueFunc<T, uint3x3>.Struct<TSelector> selector
@@ -3548,7 +3548,7 @@ namespace CareBoo.Blinq
             where TSourceEnumerator : struct, IEnumerator<T>
             where TSelector : struct, IFunc<T, uint3x3>
         {
-            var func = new AverageSelectorFunc_uint3x3<T, TSource, TSourceEnumerator, TSelector>(selector);
+            var func = new SequenceAverageSelectorFunc_uint3x3<T, TSource, TSourceEnumerator, TSelector>(selector);
             return ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, uint3x3>.New(func);
         }
 
@@ -3613,7 +3613,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageFunc_uint3x4<TSource, TSourceEnumerator>
+        public struct SequenceAverageFunc_uint3x4<TSource, TSourceEnumerator>
             : IFunc<ValueSequence<uint3x4, TSource, TSourceEnumerator>, uint3x4>
             where TSource : struct, ISequence<uint3x4, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<uint3x4>
@@ -3624,14 +3624,14 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<uint3x4, TSource, TSourceEnumerator>, uint3x4>.Struct<AverageFunc_uint3x4<TSource, TSourceEnumerator>>
+        public static ValueFunc<ValueSequence<uint3x4, TSource, TSourceEnumerator>, uint3x4>.Struct<SequenceAverageFunc_uint3x4<TSource, TSourceEnumerator>>
         AverageAsFunc<TSource, TSourceEnumerator>(
             this in ValueSequence<uint3x4, TSource, TSourceEnumerator> source
             )
             where TSource : struct, ISequence<uint3x4, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<uint3x4>
         {
-            return ValueFunc<ValueSequence<uint3x4, TSource, TSourceEnumerator>, uint3x4>.New<AverageFunc_uint3x4<TSource, TSourceEnumerator>>();
+            return ValueFunc<ValueSequence<uint3x4, TSource, TSourceEnumerator>, uint3x4>.New<SequenceAverageFunc_uint3x4<TSource, TSourceEnumerator>>();
         }
 
         public static uint3x4 RunAverage<TSource, TSourceEnumerator>(
@@ -3688,7 +3688,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageSelectorFunc_uint3x4<T, TSource, TSourceEnumerator, TSelector>
+        public struct SequenceAverageSelectorFunc_uint3x4<T, TSource, TSourceEnumerator, TSelector>
             : IFunc<ValueSequence<T, TSource, TSourceEnumerator>, uint3x4>
             where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
@@ -3697,7 +3697,7 @@ namespace CareBoo.Blinq
         {
             readonly ValueFunc<T, uint3x4>.Struct<TSelector> selector;
 
-            public AverageSelectorFunc_uint3x4(ValueFunc<T, uint3x4>.Struct<TSelector> selector)
+            public SequenceAverageSelectorFunc_uint3x4(ValueFunc<T, uint3x4>.Struct<TSelector> selector)
             {
                 this.selector = selector;
             }
@@ -3708,7 +3708,7 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, uint3x4>.Struct<AverageSelectorFunc_uint3x4<T, TSource, TSourceEnumerator, TSelector>>
+        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, uint3x4>.Struct<SequenceAverageSelectorFunc_uint3x4<T, TSource, TSourceEnumerator, TSelector>>
         AverageAsFunc<T, TSource, TSourceEnumerator, TSelector>(
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ValueFunc<T, uint3x4>.Struct<TSelector> selector
@@ -3718,7 +3718,7 @@ namespace CareBoo.Blinq
             where TSourceEnumerator : struct, IEnumerator<T>
             where TSelector : struct, IFunc<T, uint3x4>
         {
-            var func = new AverageSelectorFunc_uint3x4<T, TSource, TSourceEnumerator, TSelector>(selector);
+            var func = new SequenceAverageSelectorFunc_uint3x4<T, TSource, TSourceEnumerator, TSelector>(selector);
             return ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, uint3x4>.New(func);
         }
 
@@ -3783,7 +3783,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageFunc_uint4<TSource, TSourceEnumerator>
+        public struct SequenceAverageFunc_uint4<TSource, TSourceEnumerator>
             : IFunc<ValueSequence<uint4, TSource, TSourceEnumerator>, uint4>
             where TSource : struct, ISequence<uint4, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<uint4>
@@ -3794,14 +3794,14 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<uint4, TSource, TSourceEnumerator>, uint4>.Struct<AverageFunc_uint4<TSource, TSourceEnumerator>>
+        public static ValueFunc<ValueSequence<uint4, TSource, TSourceEnumerator>, uint4>.Struct<SequenceAverageFunc_uint4<TSource, TSourceEnumerator>>
         AverageAsFunc<TSource, TSourceEnumerator>(
             this in ValueSequence<uint4, TSource, TSourceEnumerator> source
             )
             where TSource : struct, ISequence<uint4, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<uint4>
         {
-            return ValueFunc<ValueSequence<uint4, TSource, TSourceEnumerator>, uint4>.New<AverageFunc_uint4<TSource, TSourceEnumerator>>();
+            return ValueFunc<ValueSequence<uint4, TSource, TSourceEnumerator>, uint4>.New<SequenceAverageFunc_uint4<TSource, TSourceEnumerator>>();
         }
 
         public static uint4 RunAverage<TSource, TSourceEnumerator>(
@@ -3858,7 +3858,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageSelectorFunc_uint4<T, TSource, TSourceEnumerator, TSelector>
+        public struct SequenceAverageSelectorFunc_uint4<T, TSource, TSourceEnumerator, TSelector>
             : IFunc<ValueSequence<T, TSource, TSourceEnumerator>, uint4>
             where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
@@ -3867,7 +3867,7 @@ namespace CareBoo.Blinq
         {
             readonly ValueFunc<T, uint4>.Struct<TSelector> selector;
 
-            public AverageSelectorFunc_uint4(ValueFunc<T, uint4>.Struct<TSelector> selector)
+            public SequenceAverageSelectorFunc_uint4(ValueFunc<T, uint4>.Struct<TSelector> selector)
             {
                 this.selector = selector;
             }
@@ -3878,7 +3878,7 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, uint4>.Struct<AverageSelectorFunc_uint4<T, TSource, TSourceEnumerator, TSelector>>
+        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, uint4>.Struct<SequenceAverageSelectorFunc_uint4<T, TSource, TSourceEnumerator, TSelector>>
         AverageAsFunc<T, TSource, TSourceEnumerator, TSelector>(
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ValueFunc<T, uint4>.Struct<TSelector> selector
@@ -3888,7 +3888,7 @@ namespace CareBoo.Blinq
             where TSourceEnumerator : struct, IEnumerator<T>
             where TSelector : struct, IFunc<T, uint4>
         {
-            var func = new AverageSelectorFunc_uint4<T, TSource, TSourceEnumerator, TSelector>(selector);
+            var func = new SequenceAverageSelectorFunc_uint4<T, TSource, TSourceEnumerator, TSelector>(selector);
             return ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, uint4>.New(func);
         }
 
@@ -3953,7 +3953,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageFunc_uint4x2<TSource, TSourceEnumerator>
+        public struct SequenceAverageFunc_uint4x2<TSource, TSourceEnumerator>
             : IFunc<ValueSequence<uint4x2, TSource, TSourceEnumerator>, uint4x2>
             where TSource : struct, ISequence<uint4x2, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<uint4x2>
@@ -3964,14 +3964,14 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<uint4x2, TSource, TSourceEnumerator>, uint4x2>.Struct<AverageFunc_uint4x2<TSource, TSourceEnumerator>>
+        public static ValueFunc<ValueSequence<uint4x2, TSource, TSourceEnumerator>, uint4x2>.Struct<SequenceAverageFunc_uint4x2<TSource, TSourceEnumerator>>
         AverageAsFunc<TSource, TSourceEnumerator>(
             this in ValueSequence<uint4x2, TSource, TSourceEnumerator> source
             )
             where TSource : struct, ISequence<uint4x2, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<uint4x2>
         {
-            return ValueFunc<ValueSequence<uint4x2, TSource, TSourceEnumerator>, uint4x2>.New<AverageFunc_uint4x2<TSource, TSourceEnumerator>>();
+            return ValueFunc<ValueSequence<uint4x2, TSource, TSourceEnumerator>, uint4x2>.New<SequenceAverageFunc_uint4x2<TSource, TSourceEnumerator>>();
         }
 
         public static uint4x2 RunAverage<TSource, TSourceEnumerator>(
@@ -4028,7 +4028,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageSelectorFunc_uint4x2<T, TSource, TSourceEnumerator, TSelector>
+        public struct SequenceAverageSelectorFunc_uint4x2<T, TSource, TSourceEnumerator, TSelector>
             : IFunc<ValueSequence<T, TSource, TSourceEnumerator>, uint4x2>
             where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
@@ -4037,7 +4037,7 @@ namespace CareBoo.Blinq
         {
             readonly ValueFunc<T, uint4x2>.Struct<TSelector> selector;
 
-            public AverageSelectorFunc_uint4x2(ValueFunc<T, uint4x2>.Struct<TSelector> selector)
+            public SequenceAverageSelectorFunc_uint4x2(ValueFunc<T, uint4x2>.Struct<TSelector> selector)
             {
                 this.selector = selector;
             }
@@ -4048,7 +4048,7 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, uint4x2>.Struct<AverageSelectorFunc_uint4x2<T, TSource, TSourceEnumerator, TSelector>>
+        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, uint4x2>.Struct<SequenceAverageSelectorFunc_uint4x2<T, TSource, TSourceEnumerator, TSelector>>
         AverageAsFunc<T, TSource, TSourceEnumerator, TSelector>(
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ValueFunc<T, uint4x2>.Struct<TSelector> selector
@@ -4058,7 +4058,7 @@ namespace CareBoo.Blinq
             where TSourceEnumerator : struct, IEnumerator<T>
             where TSelector : struct, IFunc<T, uint4x2>
         {
-            var func = new AverageSelectorFunc_uint4x2<T, TSource, TSourceEnumerator, TSelector>(selector);
+            var func = new SequenceAverageSelectorFunc_uint4x2<T, TSource, TSourceEnumerator, TSelector>(selector);
             return ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, uint4x2>.New(func);
         }
 
@@ -4123,7 +4123,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageFunc_uint4x3<TSource, TSourceEnumerator>
+        public struct SequenceAverageFunc_uint4x3<TSource, TSourceEnumerator>
             : IFunc<ValueSequence<uint4x3, TSource, TSourceEnumerator>, uint4x3>
             where TSource : struct, ISequence<uint4x3, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<uint4x3>
@@ -4134,14 +4134,14 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<uint4x3, TSource, TSourceEnumerator>, uint4x3>.Struct<AverageFunc_uint4x3<TSource, TSourceEnumerator>>
+        public static ValueFunc<ValueSequence<uint4x3, TSource, TSourceEnumerator>, uint4x3>.Struct<SequenceAverageFunc_uint4x3<TSource, TSourceEnumerator>>
         AverageAsFunc<TSource, TSourceEnumerator>(
             this in ValueSequence<uint4x3, TSource, TSourceEnumerator> source
             )
             where TSource : struct, ISequence<uint4x3, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<uint4x3>
         {
-            return ValueFunc<ValueSequence<uint4x3, TSource, TSourceEnumerator>, uint4x3>.New<AverageFunc_uint4x3<TSource, TSourceEnumerator>>();
+            return ValueFunc<ValueSequence<uint4x3, TSource, TSourceEnumerator>, uint4x3>.New<SequenceAverageFunc_uint4x3<TSource, TSourceEnumerator>>();
         }
 
         public static uint4x3 RunAverage<TSource, TSourceEnumerator>(
@@ -4198,7 +4198,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageSelectorFunc_uint4x3<T, TSource, TSourceEnumerator, TSelector>
+        public struct SequenceAverageSelectorFunc_uint4x3<T, TSource, TSourceEnumerator, TSelector>
             : IFunc<ValueSequence<T, TSource, TSourceEnumerator>, uint4x3>
             where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
@@ -4207,7 +4207,7 @@ namespace CareBoo.Blinq
         {
             readonly ValueFunc<T, uint4x3>.Struct<TSelector> selector;
 
-            public AverageSelectorFunc_uint4x3(ValueFunc<T, uint4x3>.Struct<TSelector> selector)
+            public SequenceAverageSelectorFunc_uint4x3(ValueFunc<T, uint4x3>.Struct<TSelector> selector)
             {
                 this.selector = selector;
             }
@@ -4218,7 +4218,7 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, uint4x3>.Struct<AverageSelectorFunc_uint4x3<T, TSource, TSourceEnumerator, TSelector>>
+        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, uint4x3>.Struct<SequenceAverageSelectorFunc_uint4x3<T, TSource, TSourceEnumerator, TSelector>>
         AverageAsFunc<T, TSource, TSourceEnumerator, TSelector>(
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ValueFunc<T, uint4x3>.Struct<TSelector> selector
@@ -4228,7 +4228,7 @@ namespace CareBoo.Blinq
             where TSourceEnumerator : struct, IEnumerator<T>
             where TSelector : struct, IFunc<T, uint4x3>
         {
-            var func = new AverageSelectorFunc_uint4x3<T, TSource, TSourceEnumerator, TSelector>(selector);
+            var func = new SequenceAverageSelectorFunc_uint4x3<T, TSource, TSourceEnumerator, TSelector>(selector);
             return ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, uint4x3>.New(func);
         }
 
@@ -4293,7 +4293,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageFunc_uint4x4<TSource, TSourceEnumerator>
+        public struct SequenceAverageFunc_uint4x4<TSource, TSourceEnumerator>
             : IFunc<ValueSequence<uint4x4, TSource, TSourceEnumerator>, uint4x4>
             where TSource : struct, ISequence<uint4x4, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<uint4x4>
@@ -4304,14 +4304,14 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<uint4x4, TSource, TSourceEnumerator>, uint4x4>.Struct<AverageFunc_uint4x4<TSource, TSourceEnumerator>>
+        public static ValueFunc<ValueSequence<uint4x4, TSource, TSourceEnumerator>, uint4x4>.Struct<SequenceAverageFunc_uint4x4<TSource, TSourceEnumerator>>
         AverageAsFunc<TSource, TSourceEnumerator>(
             this in ValueSequence<uint4x4, TSource, TSourceEnumerator> source
             )
             where TSource : struct, ISequence<uint4x4, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<uint4x4>
         {
-            return ValueFunc<ValueSequence<uint4x4, TSource, TSourceEnumerator>, uint4x4>.New<AverageFunc_uint4x4<TSource, TSourceEnumerator>>();
+            return ValueFunc<ValueSequence<uint4x4, TSource, TSourceEnumerator>, uint4x4>.New<SequenceAverageFunc_uint4x4<TSource, TSourceEnumerator>>();
         }
 
         public static uint4x4 RunAverage<TSource, TSourceEnumerator>(
@@ -4368,7 +4368,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageSelectorFunc_uint4x4<T, TSource, TSourceEnumerator, TSelector>
+        public struct SequenceAverageSelectorFunc_uint4x4<T, TSource, TSourceEnumerator, TSelector>
             : IFunc<ValueSequence<T, TSource, TSourceEnumerator>, uint4x4>
             where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
@@ -4377,7 +4377,7 @@ namespace CareBoo.Blinq
         {
             readonly ValueFunc<T, uint4x4>.Struct<TSelector> selector;
 
-            public AverageSelectorFunc_uint4x4(ValueFunc<T, uint4x4>.Struct<TSelector> selector)
+            public SequenceAverageSelectorFunc_uint4x4(ValueFunc<T, uint4x4>.Struct<TSelector> selector)
             {
                 this.selector = selector;
             }
@@ -4388,7 +4388,7 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, uint4x4>.Struct<AverageSelectorFunc_uint4x4<T, TSource, TSourceEnumerator, TSelector>>
+        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, uint4x4>.Struct<SequenceAverageSelectorFunc_uint4x4<T, TSource, TSourceEnumerator, TSelector>>
         AverageAsFunc<T, TSource, TSourceEnumerator, TSelector>(
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ValueFunc<T, uint4x4>.Struct<TSelector> selector
@@ -4398,7 +4398,7 @@ namespace CareBoo.Blinq
             where TSourceEnumerator : struct, IEnumerator<T>
             where TSelector : struct, IFunc<T, uint4x4>
         {
-            var func = new AverageSelectorFunc_uint4x4<T, TSource, TSourceEnumerator, TSelector>(selector);
+            var func = new SequenceAverageSelectorFunc_uint4x4<T, TSource, TSourceEnumerator, TSelector>(selector);
             return ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, uint4x4>.New(func);
         }
 
@@ -4463,7 +4463,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageFunc_float<TSource, TSourceEnumerator>
+        public struct SequenceAverageFunc_float<TSource, TSourceEnumerator>
             : IFunc<ValueSequence<float, TSource, TSourceEnumerator>, float>
             where TSource : struct, ISequence<float, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<float>
@@ -4474,14 +4474,14 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<float, TSource, TSourceEnumerator>, float>.Struct<AverageFunc_float<TSource, TSourceEnumerator>>
+        public static ValueFunc<ValueSequence<float, TSource, TSourceEnumerator>, float>.Struct<SequenceAverageFunc_float<TSource, TSourceEnumerator>>
         AverageAsFunc<TSource, TSourceEnumerator>(
             this in ValueSequence<float, TSource, TSourceEnumerator> source
             )
             where TSource : struct, ISequence<float, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<float>
         {
-            return ValueFunc<ValueSequence<float, TSource, TSourceEnumerator>, float>.New<AverageFunc_float<TSource, TSourceEnumerator>>();
+            return ValueFunc<ValueSequence<float, TSource, TSourceEnumerator>, float>.New<SequenceAverageFunc_float<TSource, TSourceEnumerator>>();
         }
 
         public static float RunAverage<TSource, TSourceEnumerator>(
@@ -4538,7 +4538,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageSelectorFunc_float<T, TSource, TSourceEnumerator, TSelector>
+        public struct SequenceAverageSelectorFunc_float<T, TSource, TSourceEnumerator, TSelector>
             : IFunc<ValueSequence<T, TSource, TSourceEnumerator>, float>
             where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
@@ -4547,7 +4547,7 @@ namespace CareBoo.Blinq
         {
             readonly ValueFunc<T, float>.Struct<TSelector> selector;
 
-            public AverageSelectorFunc_float(ValueFunc<T, float>.Struct<TSelector> selector)
+            public SequenceAverageSelectorFunc_float(ValueFunc<T, float>.Struct<TSelector> selector)
             {
                 this.selector = selector;
             }
@@ -4558,7 +4558,7 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, float>.Struct<AverageSelectorFunc_float<T, TSource, TSourceEnumerator, TSelector>>
+        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, float>.Struct<SequenceAverageSelectorFunc_float<T, TSource, TSourceEnumerator, TSelector>>
         AverageAsFunc<T, TSource, TSourceEnumerator, TSelector>(
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ValueFunc<T, float>.Struct<TSelector> selector
@@ -4568,7 +4568,7 @@ namespace CareBoo.Blinq
             where TSourceEnumerator : struct, IEnumerator<T>
             where TSelector : struct, IFunc<T, float>
         {
-            var func = new AverageSelectorFunc_float<T, TSource, TSourceEnumerator, TSelector>(selector);
+            var func = new SequenceAverageSelectorFunc_float<T, TSource, TSourceEnumerator, TSelector>(selector);
             return ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, float>.New(func);
         }
 
@@ -4633,7 +4633,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageFunc_float2<TSource, TSourceEnumerator>
+        public struct SequenceAverageFunc_float2<TSource, TSourceEnumerator>
             : IFunc<ValueSequence<float2, TSource, TSourceEnumerator>, float2>
             where TSource : struct, ISequence<float2, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<float2>
@@ -4644,14 +4644,14 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<float2, TSource, TSourceEnumerator>, float2>.Struct<AverageFunc_float2<TSource, TSourceEnumerator>>
+        public static ValueFunc<ValueSequence<float2, TSource, TSourceEnumerator>, float2>.Struct<SequenceAverageFunc_float2<TSource, TSourceEnumerator>>
         AverageAsFunc<TSource, TSourceEnumerator>(
             this in ValueSequence<float2, TSource, TSourceEnumerator> source
             )
             where TSource : struct, ISequence<float2, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<float2>
         {
-            return ValueFunc<ValueSequence<float2, TSource, TSourceEnumerator>, float2>.New<AverageFunc_float2<TSource, TSourceEnumerator>>();
+            return ValueFunc<ValueSequence<float2, TSource, TSourceEnumerator>, float2>.New<SequenceAverageFunc_float2<TSource, TSourceEnumerator>>();
         }
 
         public static float2 RunAverage<TSource, TSourceEnumerator>(
@@ -4708,7 +4708,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageSelectorFunc_float2<T, TSource, TSourceEnumerator, TSelector>
+        public struct SequenceAverageSelectorFunc_float2<T, TSource, TSourceEnumerator, TSelector>
             : IFunc<ValueSequence<T, TSource, TSourceEnumerator>, float2>
             where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
@@ -4717,7 +4717,7 @@ namespace CareBoo.Blinq
         {
             readonly ValueFunc<T, float2>.Struct<TSelector> selector;
 
-            public AverageSelectorFunc_float2(ValueFunc<T, float2>.Struct<TSelector> selector)
+            public SequenceAverageSelectorFunc_float2(ValueFunc<T, float2>.Struct<TSelector> selector)
             {
                 this.selector = selector;
             }
@@ -4728,7 +4728,7 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, float2>.Struct<AverageSelectorFunc_float2<T, TSource, TSourceEnumerator, TSelector>>
+        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, float2>.Struct<SequenceAverageSelectorFunc_float2<T, TSource, TSourceEnumerator, TSelector>>
         AverageAsFunc<T, TSource, TSourceEnumerator, TSelector>(
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ValueFunc<T, float2>.Struct<TSelector> selector
@@ -4738,7 +4738,7 @@ namespace CareBoo.Blinq
             where TSourceEnumerator : struct, IEnumerator<T>
             where TSelector : struct, IFunc<T, float2>
         {
-            var func = new AverageSelectorFunc_float2<T, TSource, TSourceEnumerator, TSelector>(selector);
+            var func = new SequenceAverageSelectorFunc_float2<T, TSource, TSourceEnumerator, TSelector>(selector);
             return ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, float2>.New(func);
         }
 
@@ -4803,7 +4803,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageFunc_float2x2<TSource, TSourceEnumerator>
+        public struct SequenceAverageFunc_float2x2<TSource, TSourceEnumerator>
             : IFunc<ValueSequence<float2x2, TSource, TSourceEnumerator>, float2x2>
             where TSource : struct, ISequence<float2x2, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<float2x2>
@@ -4814,14 +4814,14 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<float2x2, TSource, TSourceEnumerator>, float2x2>.Struct<AverageFunc_float2x2<TSource, TSourceEnumerator>>
+        public static ValueFunc<ValueSequence<float2x2, TSource, TSourceEnumerator>, float2x2>.Struct<SequenceAverageFunc_float2x2<TSource, TSourceEnumerator>>
         AverageAsFunc<TSource, TSourceEnumerator>(
             this in ValueSequence<float2x2, TSource, TSourceEnumerator> source
             )
             where TSource : struct, ISequence<float2x2, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<float2x2>
         {
-            return ValueFunc<ValueSequence<float2x2, TSource, TSourceEnumerator>, float2x2>.New<AverageFunc_float2x2<TSource, TSourceEnumerator>>();
+            return ValueFunc<ValueSequence<float2x2, TSource, TSourceEnumerator>, float2x2>.New<SequenceAverageFunc_float2x2<TSource, TSourceEnumerator>>();
         }
 
         public static float2x2 RunAverage<TSource, TSourceEnumerator>(
@@ -4878,7 +4878,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageSelectorFunc_float2x2<T, TSource, TSourceEnumerator, TSelector>
+        public struct SequenceAverageSelectorFunc_float2x2<T, TSource, TSourceEnumerator, TSelector>
             : IFunc<ValueSequence<T, TSource, TSourceEnumerator>, float2x2>
             where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
@@ -4887,7 +4887,7 @@ namespace CareBoo.Blinq
         {
             readonly ValueFunc<T, float2x2>.Struct<TSelector> selector;
 
-            public AverageSelectorFunc_float2x2(ValueFunc<T, float2x2>.Struct<TSelector> selector)
+            public SequenceAverageSelectorFunc_float2x2(ValueFunc<T, float2x2>.Struct<TSelector> selector)
             {
                 this.selector = selector;
             }
@@ -4898,7 +4898,7 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, float2x2>.Struct<AverageSelectorFunc_float2x2<T, TSource, TSourceEnumerator, TSelector>>
+        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, float2x2>.Struct<SequenceAverageSelectorFunc_float2x2<T, TSource, TSourceEnumerator, TSelector>>
         AverageAsFunc<T, TSource, TSourceEnumerator, TSelector>(
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ValueFunc<T, float2x2>.Struct<TSelector> selector
@@ -4908,7 +4908,7 @@ namespace CareBoo.Blinq
             where TSourceEnumerator : struct, IEnumerator<T>
             where TSelector : struct, IFunc<T, float2x2>
         {
-            var func = new AverageSelectorFunc_float2x2<T, TSource, TSourceEnumerator, TSelector>(selector);
+            var func = new SequenceAverageSelectorFunc_float2x2<T, TSource, TSourceEnumerator, TSelector>(selector);
             return ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, float2x2>.New(func);
         }
 
@@ -4973,7 +4973,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageFunc_float2x3<TSource, TSourceEnumerator>
+        public struct SequenceAverageFunc_float2x3<TSource, TSourceEnumerator>
             : IFunc<ValueSequence<float2x3, TSource, TSourceEnumerator>, float2x3>
             where TSource : struct, ISequence<float2x3, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<float2x3>
@@ -4984,14 +4984,14 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<float2x3, TSource, TSourceEnumerator>, float2x3>.Struct<AverageFunc_float2x3<TSource, TSourceEnumerator>>
+        public static ValueFunc<ValueSequence<float2x3, TSource, TSourceEnumerator>, float2x3>.Struct<SequenceAverageFunc_float2x3<TSource, TSourceEnumerator>>
         AverageAsFunc<TSource, TSourceEnumerator>(
             this in ValueSequence<float2x3, TSource, TSourceEnumerator> source
             )
             where TSource : struct, ISequence<float2x3, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<float2x3>
         {
-            return ValueFunc<ValueSequence<float2x3, TSource, TSourceEnumerator>, float2x3>.New<AverageFunc_float2x3<TSource, TSourceEnumerator>>();
+            return ValueFunc<ValueSequence<float2x3, TSource, TSourceEnumerator>, float2x3>.New<SequenceAverageFunc_float2x3<TSource, TSourceEnumerator>>();
         }
 
         public static float2x3 RunAverage<TSource, TSourceEnumerator>(
@@ -5048,7 +5048,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageSelectorFunc_float2x3<T, TSource, TSourceEnumerator, TSelector>
+        public struct SequenceAverageSelectorFunc_float2x3<T, TSource, TSourceEnumerator, TSelector>
             : IFunc<ValueSequence<T, TSource, TSourceEnumerator>, float2x3>
             where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
@@ -5057,7 +5057,7 @@ namespace CareBoo.Blinq
         {
             readonly ValueFunc<T, float2x3>.Struct<TSelector> selector;
 
-            public AverageSelectorFunc_float2x3(ValueFunc<T, float2x3>.Struct<TSelector> selector)
+            public SequenceAverageSelectorFunc_float2x3(ValueFunc<T, float2x3>.Struct<TSelector> selector)
             {
                 this.selector = selector;
             }
@@ -5068,7 +5068,7 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, float2x3>.Struct<AverageSelectorFunc_float2x3<T, TSource, TSourceEnumerator, TSelector>>
+        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, float2x3>.Struct<SequenceAverageSelectorFunc_float2x3<T, TSource, TSourceEnumerator, TSelector>>
         AverageAsFunc<T, TSource, TSourceEnumerator, TSelector>(
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ValueFunc<T, float2x3>.Struct<TSelector> selector
@@ -5078,7 +5078,7 @@ namespace CareBoo.Blinq
             where TSourceEnumerator : struct, IEnumerator<T>
             where TSelector : struct, IFunc<T, float2x3>
         {
-            var func = new AverageSelectorFunc_float2x3<T, TSource, TSourceEnumerator, TSelector>(selector);
+            var func = new SequenceAverageSelectorFunc_float2x3<T, TSource, TSourceEnumerator, TSelector>(selector);
             return ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, float2x3>.New(func);
         }
 
@@ -5143,7 +5143,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageFunc_float2x4<TSource, TSourceEnumerator>
+        public struct SequenceAverageFunc_float2x4<TSource, TSourceEnumerator>
             : IFunc<ValueSequence<float2x4, TSource, TSourceEnumerator>, float2x4>
             where TSource : struct, ISequence<float2x4, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<float2x4>
@@ -5154,14 +5154,14 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<float2x4, TSource, TSourceEnumerator>, float2x4>.Struct<AverageFunc_float2x4<TSource, TSourceEnumerator>>
+        public static ValueFunc<ValueSequence<float2x4, TSource, TSourceEnumerator>, float2x4>.Struct<SequenceAverageFunc_float2x4<TSource, TSourceEnumerator>>
         AverageAsFunc<TSource, TSourceEnumerator>(
             this in ValueSequence<float2x4, TSource, TSourceEnumerator> source
             )
             where TSource : struct, ISequence<float2x4, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<float2x4>
         {
-            return ValueFunc<ValueSequence<float2x4, TSource, TSourceEnumerator>, float2x4>.New<AverageFunc_float2x4<TSource, TSourceEnumerator>>();
+            return ValueFunc<ValueSequence<float2x4, TSource, TSourceEnumerator>, float2x4>.New<SequenceAverageFunc_float2x4<TSource, TSourceEnumerator>>();
         }
 
         public static float2x4 RunAverage<TSource, TSourceEnumerator>(
@@ -5218,7 +5218,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageSelectorFunc_float2x4<T, TSource, TSourceEnumerator, TSelector>
+        public struct SequenceAverageSelectorFunc_float2x4<T, TSource, TSourceEnumerator, TSelector>
             : IFunc<ValueSequence<T, TSource, TSourceEnumerator>, float2x4>
             where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
@@ -5227,7 +5227,7 @@ namespace CareBoo.Blinq
         {
             readonly ValueFunc<T, float2x4>.Struct<TSelector> selector;
 
-            public AverageSelectorFunc_float2x4(ValueFunc<T, float2x4>.Struct<TSelector> selector)
+            public SequenceAverageSelectorFunc_float2x4(ValueFunc<T, float2x4>.Struct<TSelector> selector)
             {
                 this.selector = selector;
             }
@@ -5238,7 +5238,7 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, float2x4>.Struct<AverageSelectorFunc_float2x4<T, TSource, TSourceEnumerator, TSelector>>
+        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, float2x4>.Struct<SequenceAverageSelectorFunc_float2x4<T, TSource, TSourceEnumerator, TSelector>>
         AverageAsFunc<T, TSource, TSourceEnumerator, TSelector>(
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ValueFunc<T, float2x4>.Struct<TSelector> selector
@@ -5248,7 +5248,7 @@ namespace CareBoo.Blinq
             where TSourceEnumerator : struct, IEnumerator<T>
             where TSelector : struct, IFunc<T, float2x4>
         {
-            var func = new AverageSelectorFunc_float2x4<T, TSource, TSourceEnumerator, TSelector>(selector);
+            var func = new SequenceAverageSelectorFunc_float2x4<T, TSource, TSourceEnumerator, TSelector>(selector);
             return ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, float2x4>.New(func);
         }
 
@@ -5313,7 +5313,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageFunc_float3<TSource, TSourceEnumerator>
+        public struct SequenceAverageFunc_float3<TSource, TSourceEnumerator>
             : IFunc<ValueSequence<float3, TSource, TSourceEnumerator>, float3>
             where TSource : struct, ISequence<float3, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<float3>
@@ -5324,14 +5324,14 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<float3, TSource, TSourceEnumerator>, float3>.Struct<AverageFunc_float3<TSource, TSourceEnumerator>>
+        public static ValueFunc<ValueSequence<float3, TSource, TSourceEnumerator>, float3>.Struct<SequenceAverageFunc_float3<TSource, TSourceEnumerator>>
         AverageAsFunc<TSource, TSourceEnumerator>(
             this in ValueSequence<float3, TSource, TSourceEnumerator> source
             )
             where TSource : struct, ISequence<float3, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<float3>
         {
-            return ValueFunc<ValueSequence<float3, TSource, TSourceEnumerator>, float3>.New<AverageFunc_float3<TSource, TSourceEnumerator>>();
+            return ValueFunc<ValueSequence<float3, TSource, TSourceEnumerator>, float3>.New<SequenceAverageFunc_float3<TSource, TSourceEnumerator>>();
         }
 
         public static float3 RunAverage<TSource, TSourceEnumerator>(
@@ -5388,7 +5388,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageSelectorFunc_float3<T, TSource, TSourceEnumerator, TSelector>
+        public struct SequenceAverageSelectorFunc_float3<T, TSource, TSourceEnumerator, TSelector>
             : IFunc<ValueSequence<T, TSource, TSourceEnumerator>, float3>
             where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
@@ -5397,7 +5397,7 @@ namespace CareBoo.Blinq
         {
             readonly ValueFunc<T, float3>.Struct<TSelector> selector;
 
-            public AverageSelectorFunc_float3(ValueFunc<T, float3>.Struct<TSelector> selector)
+            public SequenceAverageSelectorFunc_float3(ValueFunc<T, float3>.Struct<TSelector> selector)
             {
                 this.selector = selector;
             }
@@ -5408,7 +5408,7 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, float3>.Struct<AverageSelectorFunc_float3<T, TSource, TSourceEnumerator, TSelector>>
+        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, float3>.Struct<SequenceAverageSelectorFunc_float3<T, TSource, TSourceEnumerator, TSelector>>
         AverageAsFunc<T, TSource, TSourceEnumerator, TSelector>(
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ValueFunc<T, float3>.Struct<TSelector> selector
@@ -5418,7 +5418,7 @@ namespace CareBoo.Blinq
             where TSourceEnumerator : struct, IEnumerator<T>
             where TSelector : struct, IFunc<T, float3>
         {
-            var func = new AverageSelectorFunc_float3<T, TSource, TSourceEnumerator, TSelector>(selector);
+            var func = new SequenceAverageSelectorFunc_float3<T, TSource, TSourceEnumerator, TSelector>(selector);
             return ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, float3>.New(func);
         }
 
@@ -5483,7 +5483,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageFunc_float3x2<TSource, TSourceEnumerator>
+        public struct SequenceAverageFunc_float3x2<TSource, TSourceEnumerator>
             : IFunc<ValueSequence<float3x2, TSource, TSourceEnumerator>, float3x2>
             where TSource : struct, ISequence<float3x2, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<float3x2>
@@ -5494,14 +5494,14 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<float3x2, TSource, TSourceEnumerator>, float3x2>.Struct<AverageFunc_float3x2<TSource, TSourceEnumerator>>
+        public static ValueFunc<ValueSequence<float3x2, TSource, TSourceEnumerator>, float3x2>.Struct<SequenceAverageFunc_float3x2<TSource, TSourceEnumerator>>
         AverageAsFunc<TSource, TSourceEnumerator>(
             this in ValueSequence<float3x2, TSource, TSourceEnumerator> source
             )
             where TSource : struct, ISequence<float3x2, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<float3x2>
         {
-            return ValueFunc<ValueSequence<float3x2, TSource, TSourceEnumerator>, float3x2>.New<AverageFunc_float3x2<TSource, TSourceEnumerator>>();
+            return ValueFunc<ValueSequence<float3x2, TSource, TSourceEnumerator>, float3x2>.New<SequenceAverageFunc_float3x2<TSource, TSourceEnumerator>>();
         }
 
         public static float3x2 RunAverage<TSource, TSourceEnumerator>(
@@ -5558,7 +5558,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageSelectorFunc_float3x2<T, TSource, TSourceEnumerator, TSelector>
+        public struct SequenceAverageSelectorFunc_float3x2<T, TSource, TSourceEnumerator, TSelector>
             : IFunc<ValueSequence<T, TSource, TSourceEnumerator>, float3x2>
             where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
@@ -5567,7 +5567,7 @@ namespace CareBoo.Blinq
         {
             readonly ValueFunc<T, float3x2>.Struct<TSelector> selector;
 
-            public AverageSelectorFunc_float3x2(ValueFunc<T, float3x2>.Struct<TSelector> selector)
+            public SequenceAverageSelectorFunc_float3x2(ValueFunc<T, float3x2>.Struct<TSelector> selector)
             {
                 this.selector = selector;
             }
@@ -5578,7 +5578,7 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, float3x2>.Struct<AverageSelectorFunc_float3x2<T, TSource, TSourceEnumerator, TSelector>>
+        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, float3x2>.Struct<SequenceAverageSelectorFunc_float3x2<T, TSource, TSourceEnumerator, TSelector>>
         AverageAsFunc<T, TSource, TSourceEnumerator, TSelector>(
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ValueFunc<T, float3x2>.Struct<TSelector> selector
@@ -5588,7 +5588,7 @@ namespace CareBoo.Blinq
             where TSourceEnumerator : struct, IEnumerator<T>
             where TSelector : struct, IFunc<T, float3x2>
         {
-            var func = new AverageSelectorFunc_float3x2<T, TSource, TSourceEnumerator, TSelector>(selector);
+            var func = new SequenceAverageSelectorFunc_float3x2<T, TSource, TSourceEnumerator, TSelector>(selector);
             return ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, float3x2>.New(func);
         }
 
@@ -5653,7 +5653,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageFunc_float3x3<TSource, TSourceEnumerator>
+        public struct SequenceAverageFunc_float3x3<TSource, TSourceEnumerator>
             : IFunc<ValueSequence<float3x3, TSource, TSourceEnumerator>, float3x3>
             where TSource : struct, ISequence<float3x3, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<float3x3>
@@ -5664,14 +5664,14 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<float3x3, TSource, TSourceEnumerator>, float3x3>.Struct<AverageFunc_float3x3<TSource, TSourceEnumerator>>
+        public static ValueFunc<ValueSequence<float3x3, TSource, TSourceEnumerator>, float3x3>.Struct<SequenceAverageFunc_float3x3<TSource, TSourceEnumerator>>
         AverageAsFunc<TSource, TSourceEnumerator>(
             this in ValueSequence<float3x3, TSource, TSourceEnumerator> source
             )
             where TSource : struct, ISequence<float3x3, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<float3x3>
         {
-            return ValueFunc<ValueSequence<float3x3, TSource, TSourceEnumerator>, float3x3>.New<AverageFunc_float3x3<TSource, TSourceEnumerator>>();
+            return ValueFunc<ValueSequence<float3x3, TSource, TSourceEnumerator>, float3x3>.New<SequenceAverageFunc_float3x3<TSource, TSourceEnumerator>>();
         }
 
         public static float3x3 RunAverage<TSource, TSourceEnumerator>(
@@ -5728,7 +5728,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageSelectorFunc_float3x3<T, TSource, TSourceEnumerator, TSelector>
+        public struct SequenceAverageSelectorFunc_float3x3<T, TSource, TSourceEnumerator, TSelector>
             : IFunc<ValueSequence<T, TSource, TSourceEnumerator>, float3x3>
             where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
@@ -5737,7 +5737,7 @@ namespace CareBoo.Blinq
         {
             readonly ValueFunc<T, float3x3>.Struct<TSelector> selector;
 
-            public AverageSelectorFunc_float3x3(ValueFunc<T, float3x3>.Struct<TSelector> selector)
+            public SequenceAverageSelectorFunc_float3x3(ValueFunc<T, float3x3>.Struct<TSelector> selector)
             {
                 this.selector = selector;
             }
@@ -5748,7 +5748,7 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, float3x3>.Struct<AverageSelectorFunc_float3x3<T, TSource, TSourceEnumerator, TSelector>>
+        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, float3x3>.Struct<SequenceAverageSelectorFunc_float3x3<T, TSource, TSourceEnumerator, TSelector>>
         AverageAsFunc<T, TSource, TSourceEnumerator, TSelector>(
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ValueFunc<T, float3x3>.Struct<TSelector> selector
@@ -5758,7 +5758,7 @@ namespace CareBoo.Blinq
             where TSourceEnumerator : struct, IEnumerator<T>
             where TSelector : struct, IFunc<T, float3x3>
         {
-            var func = new AverageSelectorFunc_float3x3<T, TSource, TSourceEnumerator, TSelector>(selector);
+            var func = new SequenceAverageSelectorFunc_float3x3<T, TSource, TSourceEnumerator, TSelector>(selector);
             return ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, float3x3>.New(func);
         }
 
@@ -5823,7 +5823,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageFunc_float3x4<TSource, TSourceEnumerator>
+        public struct SequenceAverageFunc_float3x4<TSource, TSourceEnumerator>
             : IFunc<ValueSequence<float3x4, TSource, TSourceEnumerator>, float3x4>
             where TSource : struct, ISequence<float3x4, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<float3x4>
@@ -5834,14 +5834,14 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<float3x4, TSource, TSourceEnumerator>, float3x4>.Struct<AverageFunc_float3x4<TSource, TSourceEnumerator>>
+        public static ValueFunc<ValueSequence<float3x4, TSource, TSourceEnumerator>, float3x4>.Struct<SequenceAverageFunc_float3x4<TSource, TSourceEnumerator>>
         AverageAsFunc<TSource, TSourceEnumerator>(
             this in ValueSequence<float3x4, TSource, TSourceEnumerator> source
             )
             where TSource : struct, ISequence<float3x4, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<float3x4>
         {
-            return ValueFunc<ValueSequence<float3x4, TSource, TSourceEnumerator>, float3x4>.New<AverageFunc_float3x4<TSource, TSourceEnumerator>>();
+            return ValueFunc<ValueSequence<float3x4, TSource, TSourceEnumerator>, float3x4>.New<SequenceAverageFunc_float3x4<TSource, TSourceEnumerator>>();
         }
 
         public static float3x4 RunAverage<TSource, TSourceEnumerator>(
@@ -5898,7 +5898,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageSelectorFunc_float3x4<T, TSource, TSourceEnumerator, TSelector>
+        public struct SequenceAverageSelectorFunc_float3x4<T, TSource, TSourceEnumerator, TSelector>
             : IFunc<ValueSequence<T, TSource, TSourceEnumerator>, float3x4>
             where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
@@ -5907,7 +5907,7 @@ namespace CareBoo.Blinq
         {
             readonly ValueFunc<T, float3x4>.Struct<TSelector> selector;
 
-            public AverageSelectorFunc_float3x4(ValueFunc<T, float3x4>.Struct<TSelector> selector)
+            public SequenceAverageSelectorFunc_float3x4(ValueFunc<T, float3x4>.Struct<TSelector> selector)
             {
                 this.selector = selector;
             }
@@ -5918,7 +5918,7 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, float3x4>.Struct<AverageSelectorFunc_float3x4<T, TSource, TSourceEnumerator, TSelector>>
+        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, float3x4>.Struct<SequenceAverageSelectorFunc_float3x4<T, TSource, TSourceEnumerator, TSelector>>
         AverageAsFunc<T, TSource, TSourceEnumerator, TSelector>(
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ValueFunc<T, float3x4>.Struct<TSelector> selector
@@ -5928,7 +5928,7 @@ namespace CareBoo.Blinq
             where TSourceEnumerator : struct, IEnumerator<T>
             where TSelector : struct, IFunc<T, float3x4>
         {
-            var func = new AverageSelectorFunc_float3x4<T, TSource, TSourceEnumerator, TSelector>(selector);
+            var func = new SequenceAverageSelectorFunc_float3x4<T, TSource, TSourceEnumerator, TSelector>(selector);
             return ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, float3x4>.New(func);
         }
 
@@ -5993,7 +5993,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageFunc_float4<TSource, TSourceEnumerator>
+        public struct SequenceAverageFunc_float4<TSource, TSourceEnumerator>
             : IFunc<ValueSequence<float4, TSource, TSourceEnumerator>, float4>
             where TSource : struct, ISequence<float4, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<float4>
@@ -6004,14 +6004,14 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<float4, TSource, TSourceEnumerator>, float4>.Struct<AverageFunc_float4<TSource, TSourceEnumerator>>
+        public static ValueFunc<ValueSequence<float4, TSource, TSourceEnumerator>, float4>.Struct<SequenceAverageFunc_float4<TSource, TSourceEnumerator>>
         AverageAsFunc<TSource, TSourceEnumerator>(
             this in ValueSequence<float4, TSource, TSourceEnumerator> source
             )
             where TSource : struct, ISequence<float4, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<float4>
         {
-            return ValueFunc<ValueSequence<float4, TSource, TSourceEnumerator>, float4>.New<AverageFunc_float4<TSource, TSourceEnumerator>>();
+            return ValueFunc<ValueSequence<float4, TSource, TSourceEnumerator>, float4>.New<SequenceAverageFunc_float4<TSource, TSourceEnumerator>>();
         }
 
         public static float4 RunAverage<TSource, TSourceEnumerator>(
@@ -6068,7 +6068,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageSelectorFunc_float4<T, TSource, TSourceEnumerator, TSelector>
+        public struct SequenceAverageSelectorFunc_float4<T, TSource, TSourceEnumerator, TSelector>
             : IFunc<ValueSequence<T, TSource, TSourceEnumerator>, float4>
             where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
@@ -6077,7 +6077,7 @@ namespace CareBoo.Blinq
         {
             readonly ValueFunc<T, float4>.Struct<TSelector> selector;
 
-            public AverageSelectorFunc_float4(ValueFunc<T, float4>.Struct<TSelector> selector)
+            public SequenceAverageSelectorFunc_float4(ValueFunc<T, float4>.Struct<TSelector> selector)
             {
                 this.selector = selector;
             }
@@ -6088,7 +6088,7 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, float4>.Struct<AverageSelectorFunc_float4<T, TSource, TSourceEnumerator, TSelector>>
+        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, float4>.Struct<SequenceAverageSelectorFunc_float4<T, TSource, TSourceEnumerator, TSelector>>
         AverageAsFunc<T, TSource, TSourceEnumerator, TSelector>(
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ValueFunc<T, float4>.Struct<TSelector> selector
@@ -6098,7 +6098,7 @@ namespace CareBoo.Blinq
             where TSourceEnumerator : struct, IEnumerator<T>
             where TSelector : struct, IFunc<T, float4>
         {
-            var func = new AverageSelectorFunc_float4<T, TSource, TSourceEnumerator, TSelector>(selector);
+            var func = new SequenceAverageSelectorFunc_float4<T, TSource, TSourceEnumerator, TSelector>(selector);
             return ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, float4>.New(func);
         }
 
@@ -6163,7 +6163,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageFunc_float4x2<TSource, TSourceEnumerator>
+        public struct SequenceAverageFunc_float4x2<TSource, TSourceEnumerator>
             : IFunc<ValueSequence<float4x2, TSource, TSourceEnumerator>, float4x2>
             where TSource : struct, ISequence<float4x2, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<float4x2>
@@ -6174,14 +6174,14 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<float4x2, TSource, TSourceEnumerator>, float4x2>.Struct<AverageFunc_float4x2<TSource, TSourceEnumerator>>
+        public static ValueFunc<ValueSequence<float4x2, TSource, TSourceEnumerator>, float4x2>.Struct<SequenceAverageFunc_float4x2<TSource, TSourceEnumerator>>
         AverageAsFunc<TSource, TSourceEnumerator>(
             this in ValueSequence<float4x2, TSource, TSourceEnumerator> source
             )
             where TSource : struct, ISequence<float4x2, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<float4x2>
         {
-            return ValueFunc<ValueSequence<float4x2, TSource, TSourceEnumerator>, float4x2>.New<AverageFunc_float4x2<TSource, TSourceEnumerator>>();
+            return ValueFunc<ValueSequence<float4x2, TSource, TSourceEnumerator>, float4x2>.New<SequenceAverageFunc_float4x2<TSource, TSourceEnumerator>>();
         }
 
         public static float4x2 RunAverage<TSource, TSourceEnumerator>(
@@ -6238,7 +6238,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageSelectorFunc_float4x2<T, TSource, TSourceEnumerator, TSelector>
+        public struct SequenceAverageSelectorFunc_float4x2<T, TSource, TSourceEnumerator, TSelector>
             : IFunc<ValueSequence<T, TSource, TSourceEnumerator>, float4x2>
             where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
@@ -6247,7 +6247,7 @@ namespace CareBoo.Blinq
         {
             readonly ValueFunc<T, float4x2>.Struct<TSelector> selector;
 
-            public AverageSelectorFunc_float4x2(ValueFunc<T, float4x2>.Struct<TSelector> selector)
+            public SequenceAverageSelectorFunc_float4x2(ValueFunc<T, float4x2>.Struct<TSelector> selector)
             {
                 this.selector = selector;
             }
@@ -6258,7 +6258,7 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, float4x2>.Struct<AverageSelectorFunc_float4x2<T, TSource, TSourceEnumerator, TSelector>>
+        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, float4x2>.Struct<SequenceAverageSelectorFunc_float4x2<T, TSource, TSourceEnumerator, TSelector>>
         AverageAsFunc<T, TSource, TSourceEnumerator, TSelector>(
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ValueFunc<T, float4x2>.Struct<TSelector> selector
@@ -6268,7 +6268,7 @@ namespace CareBoo.Blinq
             where TSourceEnumerator : struct, IEnumerator<T>
             where TSelector : struct, IFunc<T, float4x2>
         {
-            var func = new AverageSelectorFunc_float4x2<T, TSource, TSourceEnumerator, TSelector>(selector);
+            var func = new SequenceAverageSelectorFunc_float4x2<T, TSource, TSourceEnumerator, TSelector>(selector);
             return ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, float4x2>.New(func);
         }
 
@@ -6333,7 +6333,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageFunc_float4x3<TSource, TSourceEnumerator>
+        public struct SequenceAverageFunc_float4x3<TSource, TSourceEnumerator>
             : IFunc<ValueSequence<float4x3, TSource, TSourceEnumerator>, float4x3>
             where TSource : struct, ISequence<float4x3, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<float4x3>
@@ -6344,14 +6344,14 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<float4x3, TSource, TSourceEnumerator>, float4x3>.Struct<AverageFunc_float4x3<TSource, TSourceEnumerator>>
+        public static ValueFunc<ValueSequence<float4x3, TSource, TSourceEnumerator>, float4x3>.Struct<SequenceAverageFunc_float4x3<TSource, TSourceEnumerator>>
         AverageAsFunc<TSource, TSourceEnumerator>(
             this in ValueSequence<float4x3, TSource, TSourceEnumerator> source
             )
             where TSource : struct, ISequence<float4x3, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<float4x3>
         {
-            return ValueFunc<ValueSequence<float4x3, TSource, TSourceEnumerator>, float4x3>.New<AverageFunc_float4x3<TSource, TSourceEnumerator>>();
+            return ValueFunc<ValueSequence<float4x3, TSource, TSourceEnumerator>, float4x3>.New<SequenceAverageFunc_float4x3<TSource, TSourceEnumerator>>();
         }
 
         public static float4x3 RunAverage<TSource, TSourceEnumerator>(
@@ -6408,7 +6408,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageSelectorFunc_float4x3<T, TSource, TSourceEnumerator, TSelector>
+        public struct SequenceAverageSelectorFunc_float4x3<T, TSource, TSourceEnumerator, TSelector>
             : IFunc<ValueSequence<T, TSource, TSourceEnumerator>, float4x3>
             where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
@@ -6417,7 +6417,7 @@ namespace CareBoo.Blinq
         {
             readonly ValueFunc<T, float4x3>.Struct<TSelector> selector;
 
-            public AverageSelectorFunc_float4x3(ValueFunc<T, float4x3>.Struct<TSelector> selector)
+            public SequenceAverageSelectorFunc_float4x3(ValueFunc<T, float4x3>.Struct<TSelector> selector)
             {
                 this.selector = selector;
             }
@@ -6428,7 +6428,7 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, float4x3>.Struct<AverageSelectorFunc_float4x3<T, TSource, TSourceEnumerator, TSelector>>
+        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, float4x3>.Struct<SequenceAverageSelectorFunc_float4x3<T, TSource, TSourceEnumerator, TSelector>>
         AverageAsFunc<T, TSource, TSourceEnumerator, TSelector>(
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ValueFunc<T, float4x3>.Struct<TSelector> selector
@@ -6438,7 +6438,7 @@ namespace CareBoo.Blinq
             where TSourceEnumerator : struct, IEnumerator<T>
             where TSelector : struct, IFunc<T, float4x3>
         {
-            var func = new AverageSelectorFunc_float4x3<T, TSource, TSourceEnumerator, TSelector>(selector);
+            var func = new SequenceAverageSelectorFunc_float4x3<T, TSource, TSourceEnumerator, TSelector>(selector);
             return ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, float4x3>.New(func);
         }
 
@@ -6503,7 +6503,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageFunc_float4x4<TSource, TSourceEnumerator>
+        public struct SequenceAverageFunc_float4x4<TSource, TSourceEnumerator>
             : IFunc<ValueSequence<float4x4, TSource, TSourceEnumerator>, float4x4>
             where TSource : struct, ISequence<float4x4, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<float4x4>
@@ -6514,14 +6514,14 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<float4x4, TSource, TSourceEnumerator>, float4x4>.Struct<AverageFunc_float4x4<TSource, TSourceEnumerator>>
+        public static ValueFunc<ValueSequence<float4x4, TSource, TSourceEnumerator>, float4x4>.Struct<SequenceAverageFunc_float4x4<TSource, TSourceEnumerator>>
         AverageAsFunc<TSource, TSourceEnumerator>(
             this in ValueSequence<float4x4, TSource, TSourceEnumerator> source
             )
             where TSource : struct, ISequence<float4x4, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<float4x4>
         {
-            return ValueFunc<ValueSequence<float4x4, TSource, TSourceEnumerator>, float4x4>.New<AverageFunc_float4x4<TSource, TSourceEnumerator>>();
+            return ValueFunc<ValueSequence<float4x4, TSource, TSourceEnumerator>, float4x4>.New<SequenceAverageFunc_float4x4<TSource, TSourceEnumerator>>();
         }
 
         public static float4x4 RunAverage<TSource, TSourceEnumerator>(
@@ -6578,7 +6578,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageSelectorFunc_float4x4<T, TSource, TSourceEnumerator, TSelector>
+        public struct SequenceAverageSelectorFunc_float4x4<T, TSource, TSourceEnumerator, TSelector>
             : IFunc<ValueSequence<T, TSource, TSourceEnumerator>, float4x4>
             where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
@@ -6587,7 +6587,7 @@ namespace CareBoo.Blinq
         {
             readonly ValueFunc<T, float4x4>.Struct<TSelector> selector;
 
-            public AverageSelectorFunc_float4x4(ValueFunc<T, float4x4>.Struct<TSelector> selector)
+            public SequenceAverageSelectorFunc_float4x4(ValueFunc<T, float4x4>.Struct<TSelector> selector)
             {
                 this.selector = selector;
             }
@@ -6598,7 +6598,7 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, float4x4>.Struct<AverageSelectorFunc_float4x4<T, TSource, TSourceEnumerator, TSelector>>
+        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, float4x4>.Struct<SequenceAverageSelectorFunc_float4x4<T, TSource, TSourceEnumerator, TSelector>>
         AverageAsFunc<T, TSource, TSourceEnumerator, TSelector>(
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ValueFunc<T, float4x4>.Struct<TSelector> selector
@@ -6608,7 +6608,7 @@ namespace CareBoo.Blinq
             where TSourceEnumerator : struct, IEnumerator<T>
             where TSelector : struct, IFunc<T, float4x4>
         {
-            var func = new AverageSelectorFunc_float4x4<T, TSource, TSourceEnumerator, TSelector>(selector);
+            var func = new SequenceAverageSelectorFunc_float4x4<T, TSource, TSourceEnumerator, TSelector>(selector);
             return ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, float4x4>.New(func);
         }
 
@@ -6673,7 +6673,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageFunc_double<TSource, TSourceEnumerator>
+        public struct SequenceAverageFunc_double<TSource, TSourceEnumerator>
             : IFunc<ValueSequence<double, TSource, TSourceEnumerator>, double>
             where TSource : struct, ISequence<double, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<double>
@@ -6684,14 +6684,14 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<double, TSource, TSourceEnumerator>, double>.Struct<AverageFunc_double<TSource, TSourceEnumerator>>
+        public static ValueFunc<ValueSequence<double, TSource, TSourceEnumerator>, double>.Struct<SequenceAverageFunc_double<TSource, TSourceEnumerator>>
         AverageAsFunc<TSource, TSourceEnumerator>(
             this in ValueSequence<double, TSource, TSourceEnumerator> source
             )
             where TSource : struct, ISequence<double, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<double>
         {
-            return ValueFunc<ValueSequence<double, TSource, TSourceEnumerator>, double>.New<AverageFunc_double<TSource, TSourceEnumerator>>();
+            return ValueFunc<ValueSequence<double, TSource, TSourceEnumerator>, double>.New<SequenceAverageFunc_double<TSource, TSourceEnumerator>>();
         }
 
         public static double RunAverage<TSource, TSourceEnumerator>(
@@ -6748,7 +6748,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageSelectorFunc_double<T, TSource, TSourceEnumerator, TSelector>
+        public struct SequenceAverageSelectorFunc_double<T, TSource, TSourceEnumerator, TSelector>
             : IFunc<ValueSequence<T, TSource, TSourceEnumerator>, double>
             where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
@@ -6757,7 +6757,7 @@ namespace CareBoo.Blinq
         {
             readonly ValueFunc<T, double>.Struct<TSelector> selector;
 
-            public AverageSelectorFunc_double(ValueFunc<T, double>.Struct<TSelector> selector)
+            public SequenceAverageSelectorFunc_double(ValueFunc<T, double>.Struct<TSelector> selector)
             {
                 this.selector = selector;
             }
@@ -6768,7 +6768,7 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, double>.Struct<AverageSelectorFunc_double<T, TSource, TSourceEnumerator, TSelector>>
+        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, double>.Struct<SequenceAverageSelectorFunc_double<T, TSource, TSourceEnumerator, TSelector>>
         AverageAsFunc<T, TSource, TSourceEnumerator, TSelector>(
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ValueFunc<T, double>.Struct<TSelector> selector
@@ -6778,7 +6778,7 @@ namespace CareBoo.Blinq
             where TSourceEnumerator : struct, IEnumerator<T>
             where TSelector : struct, IFunc<T, double>
         {
-            var func = new AverageSelectorFunc_double<T, TSource, TSourceEnumerator, TSelector>(selector);
+            var func = new SequenceAverageSelectorFunc_double<T, TSource, TSourceEnumerator, TSelector>(selector);
             return ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, double>.New(func);
         }
 
@@ -6843,7 +6843,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageFunc_double2<TSource, TSourceEnumerator>
+        public struct SequenceAverageFunc_double2<TSource, TSourceEnumerator>
             : IFunc<ValueSequence<double2, TSource, TSourceEnumerator>, double2>
             where TSource : struct, ISequence<double2, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<double2>
@@ -6854,14 +6854,14 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<double2, TSource, TSourceEnumerator>, double2>.Struct<AverageFunc_double2<TSource, TSourceEnumerator>>
+        public static ValueFunc<ValueSequence<double2, TSource, TSourceEnumerator>, double2>.Struct<SequenceAverageFunc_double2<TSource, TSourceEnumerator>>
         AverageAsFunc<TSource, TSourceEnumerator>(
             this in ValueSequence<double2, TSource, TSourceEnumerator> source
             )
             where TSource : struct, ISequence<double2, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<double2>
         {
-            return ValueFunc<ValueSequence<double2, TSource, TSourceEnumerator>, double2>.New<AverageFunc_double2<TSource, TSourceEnumerator>>();
+            return ValueFunc<ValueSequence<double2, TSource, TSourceEnumerator>, double2>.New<SequenceAverageFunc_double2<TSource, TSourceEnumerator>>();
         }
 
         public static double2 RunAverage<TSource, TSourceEnumerator>(
@@ -6918,7 +6918,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageSelectorFunc_double2<T, TSource, TSourceEnumerator, TSelector>
+        public struct SequenceAverageSelectorFunc_double2<T, TSource, TSourceEnumerator, TSelector>
             : IFunc<ValueSequence<T, TSource, TSourceEnumerator>, double2>
             where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
@@ -6927,7 +6927,7 @@ namespace CareBoo.Blinq
         {
             readonly ValueFunc<T, double2>.Struct<TSelector> selector;
 
-            public AverageSelectorFunc_double2(ValueFunc<T, double2>.Struct<TSelector> selector)
+            public SequenceAverageSelectorFunc_double2(ValueFunc<T, double2>.Struct<TSelector> selector)
             {
                 this.selector = selector;
             }
@@ -6938,7 +6938,7 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, double2>.Struct<AverageSelectorFunc_double2<T, TSource, TSourceEnumerator, TSelector>>
+        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, double2>.Struct<SequenceAverageSelectorFunc_double2<T, TSource, TSourceEnumerator, TSelector>>
         AverageAsFunc<T, TSource, TSourceEnumerator, TSelector>(
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ValueFunc<T, double2>.Struct<TSelector> selector
@@ -6948,7 +6948,7 @@ namespace CareBoo.Blinq
             where TSourceEnumerator : struct, IEnumerator<T>
             where TSelector : struct, IFunc<T, double2>
         {
-            var func = new AverageSelectorFunc_double2<T, TSource, TSourceEnumerator, TSelector>(selector);
+            var func = new SequenceAverageSelectorFunc_double2<T, TSource, TSourceEnumerator, TSelector>(selector);
             return ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, double2>.New(func);
         }
 
@@ -7013,7 +7013,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageFunc_double2x2<TSource, TSourceEnumerator>
+        public struct SequenceAverageFunc_double2x2<TSource, TSourceEnumerator>
             : IFunc<ValueSequence<double2x2, TSource, TSourceEnumerator>, double2x2>
             where TSource : struct, ISequence<double2x2, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<double2x2>
@@ -7024,14 +7024,14 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<double2x2, TSource, TSourceEnumerator>, double2x2>.Struct<AverageFunc_double2x2<TSource, TSourceEnumerator>>
+        public static ValueFunc<ValueSequence<double2x2, TSource, TSourceEnumerator>, double2x2>.Struct<SequenceAverageFunc_double2x2<TSource, TSourceEnumerator>>
         AverageAsFunc<TSource, TSourceEnumerator>(
             this in ValueSequence<double2x2, TSource, TSourceEnumerator> source
             )
             where TSource : struct, ISequence<double2x2, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<double2x2>
         {
-            return ValueFunc<ValueSequence<double2x2, TSource, TSourceEnumerator>, double2x2>.New<AverageFunc_double2x2<TSource, TSourceEnumerator>>();
+            return ValueFunc<ValueSequence<double2x2, TSource, TSourceEnumerator>, double2x2>.New<SequenceAverageFunc_double2x2<TSource, TSourceEnumerator>>();
         }
 
         public static double2x2 RunAverage<TSource, TSourceEnumerator>(
@@ -7088,7 +7088,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageSelectorFunc_double2x2<T, TSource, TSourceEnumerator, TSelector>
+        public struct SequenceAverageSelectorFunc_double2x2<T, TSource, TSourceEnumerator, TSelector>
             : IFunc<ValueSequence<T, TSource, TSourceEnumerator>, double2x2>
             where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
@@ -7097,7 +7097,7 @@ namespace CareBoo.Blinq
         {
             readonly ValueFunc<T, double2x2>.Struct<TSelector> selector;
 
-            public AverageSelectorFunc_double2x2(ValueFunc<T, double2x2>.Struct<TSelector> selector)
+            public SequenceAverageSelectorFunc_double2x2(ValueFunc<T, double2x2>.Struct<TSelector> selector)
             {
                 this.selector = selector;
             }
@@ -7108,7 +7108,7 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, double2x2>.Struct<AverageSelectorFunc_double2x2<T, TSource, TSourceEnumerator, TSelector>>
+        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, double2x2>.Struct<SequenceAverageSelectorFunc_double2x2<T, TSource, TSourceEnumerator, TSelector>>
         AverageAsFunc<T, TSource, TSourceEnumerator, TSelector>(
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ValueFunc<T, double2x2>.Struct<TSelector> selector
@@ -7118,7 +7118,7 @@ namespace CareBoo.Blinq
             where TSourceEnumerator : struct, IEnumerator<T>
             where TSelector : struct, IFunc<T, double2x2>
         {
-            var func = new AverageSelectorFunc_double2x2<T, TSource, TSourceEnumerator, TSelector>(selector);
+            var func = new SequenceAverageSelectorFunc_double2x2<T, TSource, TSourceEnumerator, TSelector>(selector);
             return ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, double2x2>.New(func);
         }
 
@@ -7183,7 +7183,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageFunc_double2x3<TSource, TSourceEnumerator>
+        public struct SequenceAverageFunc_double2x3<TSource, TSourceEnumerator>
             : IFunc<ValueSequence<double2x3, TSource, TSourceEnumerator>, double2x3>
             where TSource : struct, ISequence<double2x3, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<double2x3>
@@ -7194,14 +7194,14 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<double2x3, TSource, TSourceEnumerator>, double2x3>.Struct<AverageFunc_double2x3<TSource, TSourceEnumerator>>
+        public static ValueFunc<ValueSequence<double2x3, TSource, TSourceEnumerator>, double2x3>.Struct<SequenceAverageFunc_double2x3<TSource, TSourceEnumerator>>
         AverageAsFunc<TSource, TSourceEnumerator>(
             this in ValueSequence<double2x3, TSource, TSourceEnumerator> source
             )
             where TSource : struct, ISequence<double2x3, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<double2x3>
         {
-            return ValueFunc<ValueSequence<double2x3, TSource, TSourceEnumerator>, double2x3>.New<AverageFunc_double2x3<TSource, TSourceEnumerator>>();
+            return ValueFunc<ValueSequence<double2x3, TSource, TSourceEnumerator>, double2x3>.New<SequenceAverageFunc_double2x3<TSource, TSourceEnumerator>>();
         }
 
         public static double2x3 RunAverage<TSource, TSourceEnumerator>(
@@ -7258,7 +7258,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageSelectorFunc_double2x3<T, TSource, TSourceEnumerator, TSelector>
+        public struct SequenceAverageSelectorFunc_double2x3<T, TSource, TSourceEnumerator, TSelector>
             : IFunc<ValueSequence<T, TSource, TSourceEnumerator>, double2x3>
             where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
@@ -7267,7 +7267,7 @@ namespace CareBoo.Blinq
         {
             readonly ValueFunc<T, double2x3>.Struct<TSelector> selector;
 
-            public AverageSelectorFunc_double2x3(ValueFunc<T, double2x3>.Struct<TSelector> selector)
+            public SequenceAverageSelectorFunc_double2x3(ValueFunc<T, double2x3>.Struct<TSelector> selector)
             {
                 this.selector = selector;
             }
@@ -7278,7 +7278,7 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, double2x3>.Struct<AverageSelectorFunc_double2x3<T, TSource, TSourceEnumerator, TSelector>>
+        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, double2x3>.Struct<SequenceAverageSelectorFunc_double2x3<T, TSource, TSourceEnumerator, TSelector>>
         AverageAsFunc<T, TSource, TSourceEnumerator, TSelector>(
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ValueFunc<T, double2x3>.Struct<TSelector> selector
@@ -7288,7 +7288,7 @@ namespace CareBoo.Blinq
             where TSourceEnumerator : struct, IEnumerator<T>
             where TSelector : struct, IFunc<T, double2x3>
         {
-            var func = new AverageSelectorFunc_double2x3<T, TSource, TSourceEnumerator, TSelector>(selector);
+            var func = new SequenceAverageSelectorFunc_double2x3<T, TSource, TSourceEnumerator, TSelector>(selector);
             return ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, double2x3>.New(func);
         }
 
@@ -7353,7 +7353,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageFunc_double2x4<TSource, TSourceEnumerator>
+        public struct SequenceAverageFunc_double2x4<TSource, TSourceEnumerator>
             : IFunc<ValueSequence<double2x4, TSource, TSourceEnumerator>, double2x4>
             where TSource : struct, ISequence<double2x4, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<double2x4>
@@ -7364,14 +7364,14 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<double2x4, TSource, TSourceEnumerator>, double2x4>.Struct<AverageFunc_double2x4<TSource, TSourceEnumerator>>
+        public static ValueFunc<ValueSequence<double2x4, TSource, TSourceEnumerator>, double2x4>.Struct<SequenceAverageFunc_double2x4<TSource, TSourceEnumerator>>
         AverageAsFunc<TSource, TSourceEnumerator>(
             this in ValueSequence<double2x4, TSource, TSourceEnumerator> source
             )
             where TSource : struct, ISequence<double2x4, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<double2x4>
         {
-            return ValueFunc<ValueSequence<double2x4, TSource, TSourceEnumerator>, double2x4>.New<AverageFunc_double2x4<TSource, TSourceEnumerator>>();
+            return ValueFunc<ValueSequence<double2x4, TSource, TSourceEnumerator>, double2x4>.New<SequenceAverageFunc_double2x4<TSource, TSourceEnumerator>>();
         }
 
         public static double2x4 RunAverage<TSource, TSourceEnumerator>(
@@ -7428,7 +7428,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageSelectorFunc_double2x4<T, TSource, TSourceEnumerator, TSelector>
+        public struct SequenceAverageSelectorFunc_double2x4<T, TSource, TSourceEnumerator, TSelector>
             : IFunc<ValueSequence<T, TSource, TSourceEnumerator>, double2x4>
             where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
@@ -7437,7 +7437,7 @@ namespace CareBoo.Blinq
         {
             readonly ValueFunc<T, double2x4>.Struct<TSelector> selector;
 
-            public AverageSelectorFunc_double2x4(ValueFunc<T, double2x4>.Struct<TSelector> selector)
+            public SequenceAverageSelectorFunc_double2x4(ValueFunc<T, double2x4>.Struct<TSelector> selector)
             {
                 this.selector = selector;
             }
@@ -7448,7 +7448,7 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, double2x4>.Struct<AverageSelectorFunc_double2x4<T, TSource, TSourceEnumerator, TSelector>>
+        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, double2x4>.Struct<SequenceAverageSelectorFunc_double2x4<T, TSource, TSourceEnumerator, TSelector>>
         AverageAsFunc<T, TSource, TSourceEnumerator, TSelector>(
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ValueFunc<T, double2x4>.Struct<TSelector> selector
@@ -7458,7 +7458,7 @@ namespace CareBoo.Blinq
             where TSourceEnumerator : struct, IEnumerator<T>
             where TSelector : struct, IFunc<T, double2x4>
         {
-            var func = new AverageSelectorFunc_double2x4<T, TSource, TSourceEnumerator, TSelector>(selector);
+            var func = new SequenceAverageSelectorFunc_double2x4<T, TSource, TSourceEnumerator, TSelector>(selector);
             return ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, double2x4>.New(func);
         }
 
@@ -7523,7 +7523,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageFunc_double3<TSource, TSourceEnumerator>
+        public struct SequenceAverageFunc_double3<TSource, TSourceEnumerator>
             : IFunc<ValueSequence<double3, TSource, TSourceEnumerator>, double3>
             where TSource : struct, ISequence<double3, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<double3>
@@ -7534,14 +7534,14 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<double3, TSource, TSourceEnumerator>, double3>.Struct<AverageFunc_double3<TSource, TSourceEnumerator>>
+        public static ValueFunc<ValueSequence<double3, TSource, TSourceEnumerator>, double3>.Struct<SequenceAverageFunc_double3<TSource, TSourceEnumerator>>
         AverageAsFunc<TSource, TSourceEnumerator>(
             this in ValueSequence<double3, TSource, TSourceEnumerator> source
             )
             where TSource : struct, ISequence<double3, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<double3>
         {
-            return ValueFunc<ValueSequence<double3, TSource, TSourceEnumerator>, double3>.New<AverageFunc_double3<TSource, TSourceEnumerator>>();
+            return ValueFunc<ValueSequence<double3, TSource, TSourceEnumerator>, double3>.New<SequenceAverageFunc_double3<TSource, TSourceEnumerator>>();
         }
 
         public static double3 RunAverage<TSource, TSourceEnumerator>(
@@ -7598,7 +7598,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageSelectorFunc_double3<T, TSource, TSourceEnumerator, TSelector>
+        public struct SequenceAverageSelectorFunc_double3<T, TSource, TSourceEnumerator, TSelector>
             : IFunc<ValueSequence<T, TSource, TSourceEnumerator>, double3>
             where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
@@ -7607,7 +7607,7 @@ namespace CareBoo.Blinq
         {
             readonly ValueFunc<T, double3>.Struct<TSelector> selector;
 
-            public AverageSelectorFunc_double3(ValueFunc<T, double3>.Struct<TSelector> selector)
+            public SequenceAverageSelectorFunc_double3(ValueFunc<T, double3>.Struct<TSelector> selector)
             {
                 this.selector = selector;
             }
@@ -7618,7 +7618,7 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, double3>.Struct<AverageSelectorFunc_double3<T, TSource, TSourceEnumerator, TSelector>>
+        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, double3>.Struct<SequenceAverageSelectorFunc_double3<T, TSource, TSourceEnumerator, TSelector>>
         AverageAsFunc<T, TSource, TSourceEnumerator, TSelector>(
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ValueFunc<T, double3>.Struct<TSelector> selector
@@ -7628,7 +7628,7 @@ namespace CareBoo.Blinq
             where TSourceEnumerator : struct, IEnumerator<T>
             where TSelector : struct, IFunc<T, double3>
         {
-            var func = new AverageSelectorFunc_double3<T, TSource, TSourceEnumerator, TSelector>(selector);
+            var func = new SequenceAverageSelectorFunc_double3<T, TSource, TSourceEnumerator, TSelector>(selector);
             return ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, double3>.New(func);
         }
 
@@ -7693,7 +7693,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageFunc_double3x2<TSource, TSourceEnumerator>
+        public struct SequenceAverageFunc_double3x2<TSource, TSourceEnumerator>
             : IFunc<ValueSequence<double3x2, TSource, TSourceEnumerator>, double3x2>
             where TSource : struct, ISequence<double3x2, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<double3x2>
@@ -7704,14 +7704,14 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<double3x2, TSource, TSourceEnumerator>, double3x2>.Struct<AverageFunc_double3x2<TSource, TSourceEnumerator>>
+        public static ValueFunc<ValueSequence<double3x2, TSource, TSourceEnumerator>, double3x2>.Struct<SequenceAverageFunc_double3x2<TSource, TSourceEnumerator>>
         AverageAsFunc<TSource, TSourceEnumerator>(
             this in ValueSequence<double3x2, TSource, TSourceEnumerator> source
             )
             where TSource : struct, ISequence<double3x2, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<double3x2>
         {
-            return ValueFunc<ValueSequence<double3x2, TSource, TSourceEnumerator>, double3x2>.New<AverageFunc_double3x2<TSource, TSourceEnumerator>>();
+            return ValueFunc<ValueSequence<double3x2, TSource, TSourceEnumerator>, double3x2>.New<SequenceAverageFunc_double3x2<TSource, TSourceEnumerator>>();
         }
 
         public static double3x2 RunAverage<TSource, TSourceEnumerator>(
@@ -7768,7 +7768,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageSelectorFunc_double3x2<T, TSource, TSourceEnumerator, TSelector>
+        public struct SequenceAverageSelectorFunc_double3x2<T, TSource, TSourceEnumerator, TSelector>
             : IFunc<ValueSequence<T, TSource, TSourceEnumerator>, double3x2>
             where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
@@ -7777,7 +7777,7 @@ namespace CareBoo.Blinq
         {
             readonly ValueFunc<T, double3x2>.Struct<TSelector> selector;
 
-            public AverageSelectorFunc_double3x2(ValueFunc<T, double3x2>.Struct<TSelector> selector)
+            public SequenceAverageSelectorFunc_double3x2(ValueFunc<T, double3x2>.Struct<TSelector> selector)
             {
                 this.selector = selector;
             }
@@ -7788,7 +7788,7 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, double3x2>.Struct<AverageSelectorFunc_double3x2<T, TSource, TSourceEnumerator, TSelector>>
+        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, double3x2>.Struct<SequenceAverageSelectorFunc_double3x2<T, TSource, TSourceEnumerator, TSelector>>
         AverageAsFunc<T, TSource, TSourceEnumerator, TSelector>(
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ValueFunc<T, double3x2>.Struct<TSelector> selector
@@ -7798,7 +7798,7 @@ namespace CareBoo.Blinq
             where TSourceEnumerator : struct, IEnumerator<T>
             where TSelector : struct, IFunc<T, double3x2>
         {
-            var func = new AverageSelectorFunc_double3x2<T, TSource, TSourceEnumerator, TSelector>(selector);
+            var func = new SequenceAverageSelectorFunc_double3x2<T, TSource, TSourceEnumerator, TSelector>(selector);
             return ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, double3x2>.New(func);
         }
 
@@ -7863,7 +7863,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageFunc_double3x3<TSource, TSourceEnumerator>
+        public struct SequenceAverageFunc_double3x3<TSource, TSourceEnumerator>
             : IFunc<ValueSequence<double3x3, TSource, TSourceEnumerator>, double3x3>
             where TSource : struct, ISequence<double3x3, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<double3x3>
@@ -7874,14 +7874,14 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<double3x3, TSource, TSourceEnumerator>, double3x3>.Struct<AverageFunc_double3x3<TSource, TSourceEnumerator>>
+        public static ValueFunc<ValueSequence<double3x3, TSource, TSourceEnumerator>, double3x3>.Struct<SequenceAverageFunc_double3x3<TSource, TSourceEnumerator>>
         AverageAsFunc<TSource, TSourceEnumerator>(
             this in ValueSequence<double3x3, TSource, TSourceEnumerator> source
             )
             where TSource : struct, ISequence<double3x3, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<double3x3>
         {
-            return ValueFunc<ValueSequence<double3x3, TSource, TSourceEnumerator>, double3x3>.New<AverageFunc_double3x3<TSource, TSourceEnumerator>>();
+            return ValueFunc<ValueSequence<double3x3, TSource, TSourceEnumerator>, double3x3>.New<SequenceAverageFunc_double3x3<TSource, TSourceEnumerator>>();
         }
 
         public static double3x3 RunAverage<TSource, TSourceEnumerator>(
@@ -7938,7 +7938,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageSelectorFunc_double3x3<T, TSource, TSourceEnumerator, TSelector>
+        public struct SequenceAverageSelectorFunc_double3x3<T, TSource, TSourceEnumerator, TSelector>
             : IFunc<ValueSequence<T, TSource, TSourceEnumerator>, double3x3>
             where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
@@ -7947,7 +7947,7 @@ namespace CareBoo.Blinq
         {
             readonly ValueFunc<T, double3x3>.Struct<TSelector> selector;
 
-            public AverageSelectorFunc_double3x3(ValueFunc<T, double3x3>.Struct<TSelector> selector)
+            public SequenceAverageSelectorFunc_double3x3(ValueFunc<T, double3x3>.Struct<TSelector> selector)
             {
                 this.selector = selector;
             }
@@ -7958,7 +7958,7 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, double3x3>.Struct<AverageSelectorFunc_double3x3<T, TSource, TSourceEnumerator, TSelector>>
+        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, double3x3>.Struct<SequenceAverageSelectorFunc_double3x3<T, TSource, TSourceEnumerator, TSelector>>
         AverageAsFunc<T, TSource, TSourceEnumerator, TSelector>(
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ValueFunc<T, double3x3>.Struct<TSelector> selector
@@ -7968,7 +7968,7 @@ namespace CareBoo.Blinq
             where TSourceEnumerator : struct, IEnumerator<T>
             where TSelector : struct, IFunc<T, double3x3>
         {
-            var func = new AverageSelectorFunc_double3x3<T, TSource, TSourceEnumerator, TSelector>(selector);
+            var func = new SequenceAverageSelectorFunc_double3x3<T, TSource, TSourceEnumerator, TSelector>(selector);
             return ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, double3x3>.New(func);
         }
 
@@ -8033,7 +8033,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageFunc_double3x4<TSource, TSourceEnumerator>
+        public struct SequenceAverageFunc_double3x4<TSource, TSourceEnumerator>
             : IFunc<ValueSequence<double3x4, TSource, TSourceEnumerator>, double3x4>
             where TSource : struct, ISequence<double3x4, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<double3x4>
@@ -8044,14 +8044,14 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<double3x4, TSource, TSourceEnumerator>, double3x4>.Struct<AverageFunc_double3x4<TSource, TSourceEnumerator>>
+        public static ValueFunc<ValueSequence<double3x4, TSource, TSourceEnumerator>, double3x4>.Struct<SequenceAverageFunc_double3x4<TSource, TSourceEnumerator>>
         AverageAsFunc<TSource, TSourceEnumerator>(
             this in ValueSequence<double3x4, TSource, TSourceEnumerator> source
             )
             where TSource : struct, ISequence<double3x4, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<double3x4>
         {
-            return ValueFunc<ValueSequence<double3x4, TSource, TSourceEnumerator>, double3x4>.New<AverageFunc_double3x4<TSource, TSourceEnumerator>>();
+            return ValueFunc<ValueSequence<double3x4, TSource, TSourceEnumerator>, double3x4>.New<SequenceAverageFunc_double3x4<TSource, TSourceEnumerator>>();
         }
 
         public static double3x4 RunAverage<TSource, TSourceEnumerator>(
@@ -8108,7 +8108,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageSelectorFunc_double3x4<T, TSource, TSourceEnumerator, TSelector>
+        public struct SequenceAverageSelectorFunc_double3x4<T, TSource, TSourceEnumerator, TSelector>
             : IFunc<ValueSequence<T, TSource, TSourceEnumerator>, double3x4>
             where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
@@ -8117,7 +8117,7 @@ namespace CareBoo.Blinq
         {
             readonly ValueFunc<T, double3x4>.Struct<TSelector> selector;
 
-            public AverageSelectorFunc_double3x4(ValueFunc<T, double3x4>.Struct<TSelector> selector)
+            public SequenceAverageSelectorFunc_double3x4(ValueFunc<T, double3x4>.Struct<TSelector> selector)
             {
                 this.selector = selector;
             }
@@ -8128,7 +8128,7 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, double3x4>.Struct<AverageSelectorFunc_double3x4<T, TSource, TSourceEnumerator, TSelector>>
+        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, double3x4>.Struct<SequenceAverageSelectorFunc_double3x4<T, TSource, TSourceEnumerator, TSelector>>
         AverageAsFunc<T, TSource, TSourceEnumerator, TSelector>(
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ValueFunc<T, double3x4>.Struct<TSelector> selector
@@ -8138,7 +8138,7 @@ namespace CareBoo.Blinq
             where TSourceEnumerator : struct, IEnumerator<T>
             where TSelector : struct, IFunc<T, double3x4>
         {
-            var func = new AverageSelectorFunc_double3x4<T, TSource, TSourceEnumerator, TSelector>(selector);
+            var func = new SequenceAverageSelectorFunc_double3x4<T, TSource, TSourceEnumerator, TSelector>(selector);
             return ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, double3x4>.New(func);
         }
 
@@ -8203,7 +8203,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageFunc_double4<TSource, TSourceEnumerator>
+        public struct SequenceAverageFunc_double4<TSource, TSourceEnumerator>
             : IFunc<ValueSequence<double4, TSource, TSourceEnumerator>, double4>
             where TSource : struct, ISequence<double4, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<double4>
@@ -8214,14 +8214,14 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<double4, TSource, TSourceEnumerator>, double4>.Struct<AverageFunc_double4<TSource, TSourceEnumerator>>
+        public static ValueFunc<ValueSequence<double4, TSource, TSourceEnumerator>, double4>.Struct<SequenceAverageFunc_double4<TSource, TSourceEnumerator>>
         AverageAsFunc<TSource, TSourceEnumerator>(
             this in ValueSequence<double4, TSource, TSourceEnumerator> source
             )
             where TSource : struct, ISequence<double4, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<double4>
         {
-            return ValueFunc<ValueSequence<double4, TSource, TSourceEnumerator>, double4>.New<AverageFunc_double4<TSource, TSourceEnumerator>>();
+            return ValueFunc<ValueSequence<double4, TSource, TSourceEnumerator>, double4>.New<SequenceAverageFunc_double4<TSource, TSourceEnumerator>>();
         }
 
         public static double4 RunAverage<TSource, TSourceEnumerator>(
@@ -8278,7 +8278,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageSelectorFunc_double4<T, TSource, TSourceEnumerator, TSelector>
+        public struct SequenceAverageSelectorFunc_double4<T, TSource, TSourceEnumerator, TSelector>
             : IFunc<ValueSequence<T, TSource, TSourceEnumerator>, double4>
             where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
@@ -8287,7 +8287,7 @@ namespace CareBoo.Blinq
         {
             readonly ValueFunc<T, double4>.Struct<TSelector> selector;
 
-            public AverageSelectorFunc_double4(ValueFunc<T, double4>.Struct<TSelector> selector)
+            public SequenceAverageSelectorFunc_double4(ValueFunc<T, double4>.Struct<TSelector> selector)
             {
                 this.selector = selector;
             }
@@ -8298,7 +8298,7 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, double4>.Struct<AverageSelectorFunc_double4<T, TSource, TSourceEnumerator, TSelector>>
+        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, double4>.Struct<SequenceAverageSelectorFunc_double4<T, TSource, TSourceEnumerator, TSelector>>
         AverageAsFunc<T, TSource, TSourceEnumerator, TSelector>(
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ValueFunc<T, double4>.Struct<TSelector> selector
@@ -8308,7 +8308,7 @@ namespace CareBoo.Blinq
             where TSourceEnumerator : struct, IEnumerator<T>
             where TSelector : struct, IFunc<T, double4>
         {
-            var func = new AverageSelectorFunc_double4<T, TSource, TSourceEnumerator, TSelector>(selector);
+            var func = new SequenceAverageSelectorFunc_double4<T, TSource, TSourceEnumerator, TSelector>(selector);
             return ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, double4>.New(func);
         }
 
@@ -8373,7 +8373,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageFunc_double4x2<TSource, TSourceEnumerator>
+        public struct SequenceAverageFunc_double4x2<TSource, TSourceEnumerator>
             : IFunc<ValueSequence<double4x2, TSource, TSourceEnumerator>, double4x2>
             where TSource : struct, ISequence<double4x2, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<double4x2>
@@ -8384,14 +8384,14 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<double4x2, TSource, TSourceEnumerator>, double4x2>.Struct<AverageFunc_double4x2<TSource, TSourceEnumerator>>
+        public static ValueFunc<ValueSequence<double4x2, TSource, TSourceEnumerator>, double4x2>.Struct<SequenceAverageFunc_double4x2<TSource, TSourceEnumerator>>
         AverageAsFunc<TSource, TSourceEnumerator>(
             this in ValueSequence<double4x2, TSource, TSourceEnumerator> source
             )
             where TSource : struct, ISequence<double4x2, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<double4x2>
         {
-            return ValueFunc<ValueSequence<double4x2, TSource, TSourceEnumerator>, double4x2>.New<AverageFunc_double4x2<TSource, TSourceEnumerator>>();
+            return ValueFunc<ValueSequence<double4x2, TSource, TSourceEnumerator>, double4x2>.New<SequenceAverageFunc_double4x2<TSource, TSourceEnumerator>>();
         }
 
         public static double4x2 RunAverage<TSource, TSourceEnumerator>(
@@ -8448,7 +8448,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageSelectorFunc_double4x2<T, TSource, TSourceEnumerator, TSelector>
+        public struct SequenceAverageSelectorFunc_double4x2<T, TSource, TSourceEnumerator, TSelector>
             : IFunc<ValueSequence<T, TSource, TSourceEnumerator>, double4x2>
             where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
@@ -8457,7 +8457,7 @@ namespace CareBoo.Blinq
         {
             readonly ValueFunc<T, double4x2>.Struct<TSelector> selector;
 
-            public AverageSelectorFunc_double4x2(ValueFunc<T, double4x2>.Struct<TSelector> selector)
+            public SequenceAverageSelectorFunc_double4x2(ValueFunc<T, double4x2>.Struct<TSelector> selector)
             {
                 this.selector = selector;
             }
@@ -8468,7 +8468,7 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, double4x2>.Struct<AverageSelectorFunc_double4x2<T, TSource, TSourceEnumerator, TSelector>>
+        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, double4x2>.Struct<SequenceAverageSelectorFunc_double4x2<T, TSource, TSourceEnumerator, TSelector>>
         AverageAsFunc<T, TSource, TSourceEnumerator, TSelector>(
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ValueFunc<T, double4x2>.Struct<TSelector> selector
@@ -8478,7 +8478,7 @@ namespace CareBoo.Blinq
             where TSourceEnumerator : struct, IEnumerator<T>
             where TSelector : struct, IFunc<T, double4x2>
         {
-            var func = new AverageSelectorFunc_double4x2<T, TSource, TSourceEnumerator, TSelector>(selector);
+            var func = new SequenceAverageSelectorFunc_double4x2<T, TSource, TSourceEnumerator, TSelector>(selector);
             return ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, double4x2>.New(func);
         }
 
@@ -8543,7 +8543,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageFunc_double4x3<TSource, TSourceEnumerator>
+        public struct SequenceAverageFunc_double4x3<TSource, TSourceEnumerator>
             : IFunc<ValueSequence<double4x3, TSource, TSourceEnumerator>, double4x3>
             where TSource : struct, ISequence<double4x3, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<double4x3>
@@ -8554,14 +8554,14 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<double4x3, TSource, TSourceEnumerator>, double4x3>.Struct<AverageFunc_double4x3<TSource, TSourceEnumerator>>
+        public static ValueFunc<ValueSequence<double4x3, TSource, TSourceEnumerator>, double4x3>.Struct<SequenceAverageFunc_double4x3<TSource, TSourceEnumerator>>
         AverageAsFunc<TSource, TSourceEnumerator>(
             this in ValueSequence<double4x3, TSource, TSourceEnumerator> source
             )
             where TSource : struct, ISequence<double4x3, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<double4x3>
         {
-            return ValueFunc<ValueSequence<double4x3, TSource, TSourceEnumerator>, double4x3>.New<AverageFunc_double4x3<TSource, TSourceEnumerator>>();
+            return ValueFunc<ValueSequence<double4x3, TSource, TSourceEnumerator>, double4x3>.New<SequenceAverageFunc_double4x3<TSource, TSourceEnumerator>>();
         }
 
         public static double4x3 RunAverage<TSource, TSourceEnumerator>(
@@ -8618,7 +8618,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageSelectorFunc_double4x3<T, TSource, TSourceEnumerator, TSelector>
+        public struct SequenceAverageSelectorFunc_double4x3<T, TSource, TSourceEnumerator, TSelector>
             : IFunc<ValueSequence<T, TSource, TSourceEnumerator>, double4x3>
             where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
@@ -8627,7 +8627,7 @@ namespace CareBoo.Blinq
         {
             readonly ValueFunc<T, double4x3>.Struct<TSelector> selector;
 
-            public AverageSelectorFunc_double4x3(ValueFunc<T, double4x3>.Struct<TSelector> selector)
+            public SequenceAverageSelectorFunc_double4x3(ValueFunc<T, double4x3>.Struct<TSelector> selector)
             {
                 this.selector = selector;
             }
@@ -8638,7 +8638,7 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, double4x3>.Struct<AverageSelectorFunc_double4x3<T, TSource, TSourceEnumerator, TSelector>>
+        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, double4x3>.Struct<SequenceAverageSelectorFunc_double4x3<T, TSource, TSourceEnumerator, TSelector>>
         AverageAsFunc<T, TSource, TSourceEnumerator, TSelector>(
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ValueFunc<T, double4x3>.Struct<TSelector> selector
@@ -8648,7 +8648,7 @@ namespace CareBoo.Blinq
             where TSourceEnumerator : struct, IEnumerator<T>
             where TSelector : struct, IFunc<T, double4x3>
         {
-            var func = new AverageSelectorFunc_double4x3<T, TSource, TSourceEnumerator, TSelector>(selector);
+            var func = new SequenceAverageSelectorFunc_double4x3<T, TSource, TSourceEnumerator, TSelector>(selector);
             return ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, double4x3>.New(func);
         }
 
@@ -8713,7 +8713,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageFunc_double4x4<TSource, TSourceEnumerator>
+        public struct SequenceAverageFunc_double4x4<TSource, TSourceEnumerator>
             : IFunc<ValueSequence<double4x4, TSource, TSourceEnumerator>, double4x4>
             where TSource : struct, ISequence<double4x4, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<double4x4>
@@ -8724,14 +8724,14 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<double4x4, TSource, TSourceEnumerator>, double4x4>.Struct<AverageFunc_double4x4<TSource, TSourceEnumerator>>
+        public static ValueFunc<ValueSequence<double4x4, TSource, TSourceEnumerator>, double4x4>.Struct<SequenceAverageFunc_double4x4<TSource, TSourceEnumerator>>
         AverageAsFunc<TSource, TSourceEnumerator>(
             this in ValueSequence<double4x4, TSource, TSourceEnumerator> source
             )
             where TSource : struct, ISequence<double4x4, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<double4x4>
         {
-            return ValueFunc<ValueSequence<double4x4, TSource, TSourceEnumerator>, double4x4>.New<AverageFunc_double4x4<TSource, TSourceEnumerator>>();
+            return ValueFunc<ValueSequence<double4x4, TSource, TSourceEnumerator>, double4x4>.New<SequenceAverageFunc_double4x4<TSource, TSourceEnumerator>>();
         }
 
         public static double4x4 RunAverage<TSource, TSourceEnumerator>(
@@ -8788,7 +8788,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct AverageSelectorFunc_double4x4<T, TSource, TSourceEnumerator, TSelector>
+        public struct SequenceAverageSelectorFunc_double4x4<T, TSource, TSourceEnumerator, TSelector>
             : IFunc<ValueSequence<T, TSource, TSourceEnumerator>, double4x4>
             where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
@@ -8797,7 +8797,7 @@ namespace CareBoo.Blinq
         {
             readonly ValueFunc<T, double4x4>.Struct<TSelector> selector;
 
-            public AverageSelectorFunc_double4x4(ValueFunc<T, double4x4>.Struct<TSelector> selector)
+            public SequenceAverageSelectorFunc_double4x4(ValueFunc<T, double4x4>.Struct<TSelector> selector)
             {
                 this.selector = selector;
             }
@@ -8808,7 +8808,7 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, double4x4>.Struct<AverageSelectorFunc_double4x4<T, TSource, TSourceEnumerator, TSelector>>
+        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, double4x4>.Struct<SequenceAverageSelectorFunc_double4x4<T, TSource, TSourceEnumerator, TSelector>>
         AverageAsFunc<T, TSource, TSourceEnumerator, TSelector>(
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ValueFunc<T, double4x4>.Struct<TSelector> selector
@@ -8818,7 +8818,7 @@ namespace CareBoo.Blinq
             where TSourceEnumerator : struct, IEnumerator<T>
             where TSelector : struct, IFunc<T, double4x4>
         {
-            var func = new AverageSelectorFunc_double4x4<T, TSource, TSourceEnumerator, TSelector>(selector);
+            var func = new SequenceAverageSelectorFunc_double4x4<T, TSource, TSourceEnumerator, TSelector>(selector);
             return ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, double4x4>.New(func);
         }
 
