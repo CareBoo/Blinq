@@ -52,7 +52,7 @@ foreach (string TYPE in TYPES)
         }
 
         public static ValueFunc<NativeArray<<#=TYPE_FULL#>>, <#=TYPE_FULL#>>.Struct<ArraySumFunc_<#=TYPE_FULL#>>
-        NewArraySumFunc_<#=TYPE_FULL#>(
+        SumAsFunc(
             this in NativeArray<<#=TYPE_FULL#>> source
             )
         {
@@ -63,7 +63,7 @@ foreach (string TYPE in TYPES)
             this in NativeArray<<#=TYPE_FULL#>> source
             )
         {
-            var func = source.NewArraySumFunc_<#=TYPE_FULL#>();
+            var func = source.SumAsFunc();
             return source.Run(func);
         }
 
@@ -71,7 +71,7 @@ foreach (string TYPE in TYPES)
             this in NativeArray<<#=TYPE_FULL#>> source
             )
         {
-            var func = source.NewArraySumFunc_<#=TYPE_FULL#>();
+            var func = source.SumAsFunc();
             return source.Schedule(func);
         }
 
@@ -80,7 +80,7 @@ foreach (string TYPE in TYPES)
             ref NativeArray<<#=TYPE_FULL#>> output
             )
         {
-            var func = source.NewArraySumFunc_<#=TYPE_FULL#>();
+            var func = source.SumAsFunc();
             return source.Schedule(func, ref output);
         }
 
@@ -111,7 +111,7 @@ foreach (string TYPE in TYPES)
         }
 
         public static ValueFunc<NativeArray<T>, <#=TYPE_FULL#>>.Struct<ArraySumFunc_<#=TYPE_FULL#><T, TSelector>>
-        NewArraySumFunc_<#=TYPE_FULL#><T, TSelector>(
+        SumAsFunc<T, TSelector>(
             this in NativeArray<T> source,
             ValueFunc<T, <#=TYPE_FULL#>>.Struct<TSelector> selector
             )
@@ -129,7 +129,7 @@ foreach (string TYPE in TYPES)
             where T : struct
             where TSelector : struct, IFunc<T, <#=TYPE_FULL#>>
         {
-            var func = source.NewArraySumFunc_<#=TYPE_FULL#>(selector);
+            var func = source.SumAsFunc(selector);
             return source.Run(func);
         }
 
@@ -140,7 +140,7 @@ foreach (string TYPE in TYPES)
             where T : struct
             where TSelector : struct, IFunc<T, <#=TYPE_FULL#>>
         {
-            var func = source.NewArraySumFunc_<#=TYPE_FULL#>(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func);
         }
 
@@ -152,7 +152,7 @@ foreach (string TYPE in TYPES)
             where T : struct
             where TSelector : struct, IFunc<T, <#=TYPE_FULL#>>
         {
-            var func = source.NewArraySumFunc_<#=TYPE_FULL#>(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func, ref output);
         }
 
