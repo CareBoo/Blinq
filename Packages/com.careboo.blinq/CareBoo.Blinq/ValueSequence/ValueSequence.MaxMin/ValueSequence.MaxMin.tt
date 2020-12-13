@@ -12,6 +12,7 @@
 
 using CareBoo.Burst.Delegates;
 using Unity.Collections;
+using Unity.Jobs;
 using System.Collections.Generic;
 
 namespace CareBoo.Blinq
@@ -47,6 +48,58 @@ foreach (string TYPE_FULL in TYPES)
             return max;
         }
 
+        public struct SequenceMaxFunc_<#=TYPE_FULL#><TSource, TSourceEnumerator>
+            : IFunc<ValueSequence<<#=TYPE_FULL#>, TSource, TSourceEnumerator>, <#=TYPE_FULL#>>
+            where TSource : struct, ISequence<<#=TYPE_FULL#>, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<<#=TYPE_FULL#>>
+        {
+            public <#=TYPE_FULL#> Invoke(ValueSequence<<#=TYPE_FULL#>, TSource, TSourceEnumerator> seq)
+            {
+                return seq.Max();
+            }
+        }
+
+        public static ValueFunc<ValueSequence<<#=TYPE_FULL#>, TSource, TSourceEnumerator>, <#=TYPE_FULL#>>.Struct<SequenceMaxFunc_<#=TYPE_FULL#><TSource, TSourceEnumerator>>
+        MaxAsFunc<TSource, TSourceEnumerator>(
+            this in ValueSequence<<#=TYPE_FULL#>, TSource, TSourceEnumerator> source
+            )
+            where TSource : struct, ISequence<<#=TYPE_FULL#>, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<<#=TYPE_FULL#>>
+        {
+            return ValueFunc<ValueSequence<<#=TYPE_FULL#>, TSource, TSourceEnumerator>, <#=TYPE_FULL#>>.New<SequenceMaxFunc_<#=TYPE_FULL#><TSource, TSourceEnumerator>>();
+        }
+
+        public static <#=TYPE_FULL#> RunMax<TSource, TSourceEnumerator>(
+            this in ValueSequence<<#=TYPE_FULL#>, TSource, TSourceEnumerator> source
+            )
+            where TSource : struct, ISequence<<#=TYPE_FULL#>, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<<#=TYPE_FULL#>>
+        {
+            var func = source.MaxAsFunc();
+            return source.Run(func);
+        }
+
+        public static JobHandle<<#=TYPE_FULL#>> ScheduleMax<TSource, TSourceEnumerator>(
+            this in ValueSequence<<#=TYPE_FULL#>, TSource, TSourceEnumerator> source
+            )
+            where TSource : struct, ISequence<<#=TYPE_FULL#>, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<<#=TYPE_FULL#>>
+        {
+            var func = source.MaxAsFunc();
+            return source.Schedule(func);
+        }
+
+        public static JobHandle ScheduleMax<TSource, TSourceEnumerator>(
+            this in ValueSequence<<#=TYPE_FULL#>, TSource, TSourceEnumerator> source,
+            ref NativeArray<<#=TYPE_FULL#>> output
+            )
+            where TSource : struct, ISequence<<#=TYPE_FULL#>, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<<#=TYPE_FULL#>>
+        {
+            var func = source.MaxAsFunc();
+            return source.Schedule(func, ref output);
+        }
+
         public static <#=TYPE_FULL#> Min<TSource, TSourceEnumerator>(
             this in ValueSequence<<#=TYPE_FULL#>, TSource, TSourceEnumerator> source
             )
@@ -69,6 +122,58 @@ foreach (string TYPE_FULL in TYPES)
             }
             srcList.Dispose();
             return min;
+        }
+
+        public struct SequenceMinFunc_<#=TYPE_FULL#><TSource, TSourceEnumerator>
+            : IFunc<ValueSequence<<#=TYPE_FULL#>, TSource, TSourceEnumerator>, <#=TYPE_FULL#>>
+            where TSource : struct, ISequence<<#=TYPE_FULL#>, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<<#=TYPE_FULL#>>
+        {
+            public <#=TYPE_FULL#> Invoke(ValueSequence<<#=TYPE_FULL#>, TSource, TSourceEnumerator> seq)
+            {
+                return seq.Min();
+            }
+        }
+
+        public static ValueFunc<ValueSequence<<#=TYPE_FULL#>, TSource, TSourceEnumerator>, <#=TYPE_FULL#>>.Struct<SequenceMinFunc_<#=TYPE_FULL#><TSource, TSourceEnumerator>>
+        MinAsFunc<TSource, TSourceEnumerator>(
+            this in ValueSequence<<#=TYPE_FULL#>, TSource, TSourceEnumerator> source
+            )
+            where TSource : struct, ISequence<<#=TYPE_FULL#>, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<<#=TYPE_FULL#>>
+        {
+            return ValueFunc<ValueSequence<<#=TYPE_FULL#>, TSource, TSourceEnumerator>, <#=TYPE_FULL#>>.New<SequenceMinFunc_<#=TYPE_FULL#><TSource, TSourceEnumerator>>();
+        }
+
+        public static <#=TYPE_FULL#> RunMin<TSource, TSourceEnumerator>(
+            this in ValueSequence<<#=TYPE_FULL#>, TSource, TSourceEnumerator> source
+            )
+            where TSource : struct, ISequence<<#=TYPE_FULL#>, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<<#=TYPE_FULL#>>
+        {
+            var func = source.MinAsFunc();
+            return source.Run(func);
+        }
+
+        public static JobHandle<<#=TYPE_FULL#>> ScheduleMin<TSource, TSourceEnumerator>(
+            this in ValueSequence<<#=TYPE_FULL#>, TSource, TSourceEnumerator> source
+            )
+            where TSource : struct, ISequence<<#=TYPE_FULL#>, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<<#=TYPE_FULL#>>
+        {
+            var func = source.MinAsFunc();
+            return source.Schedule(func);
+        }
+
+        public static JobHandle ScheduleMin<TSource, TSourceEnumerator>(
+            this in ValueSequence<<#=TYPE_FULL#>, TSource, TSourceEnumerator> source,
+            ref NativeArray<<#=TYPE_FULL#>> output
+            )
+            where TSource : struct, ISequence<<#=TYPE_FULL#>, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<<#=TYPE_FULL#>>
+        {
+            var func = source.MinAsFunc();
+            return source.Schedule(func, ref output);
         }
 
         public static <#=TYPE_FULL#> Max<T, TSource, TSourceEnumerator, TSelector>(
@@ -98,6 +203,75 @@ foreach (string TYPE_FULL in TYPES)
             return max;
         }
 
+        public struct SequenceMaxFunc_<#=TYPE_FULL#><T, TSource, TSourceEnumerator, TSelector>
+            : IFunc<ValueSequence<T, TSource, TSourceEnumerator>, <#=TYPE_FULL#>>
+            where T : struct
+            where TSource : struct, ISequence<T, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<T>
+            where TSelector : struct, IFunc<T, <#=TYPE_FULL#>>
+        {
+            public ValueFunc<T, <#=TYPE_FULL#>>.Struct<TSelector> Selector;
+
+            public <#=TYPE_FULL#> Invoke(ValueSequence<T, TSource, TSourceEnumerator> seq)
+            {
+                return seq.Max(Selector);
+            }
+        }
+
+        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, <#=TYPE_FULL#>>.Struct<SequenceMaxFunc_<#=TYPE_FULL#><T, TSource, TSourceEnumerator, TSelector>>
+        MaxAsFunc<T, TSource, TSourceEnumerator, TSelector>(
+            this in ValueSequence<T, TSource, TSourceEnumerator> source,
+            ValueFunc<T, <#=TYPE_FULL#>>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<T>
+            where TSelector : struct, IFunc<T, <#=TYPE_FULL#>>
+        {
+            var func = new SequenceMaxFunc_<#=TYPE_FULL#><T, TSource, TSourceEnumerator, TSelector> { Selector = selector };
+            return ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, <#=TYPE_FULL#>>.New(func);
+        }
+
+        public static <#=TYPE_FULL#> RunMax<T, TSource, TSourceEnumerator, TSelector>(
+            this in ValueSequence<T, TSource, TSourceEnumerator> source,
+            ValueFunc<T, <#=TYPE_FULL#>>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<T>
+            where TSelector : struct, IFunc<T, <#=TYPE_FULL#>>
+        {
+            var func = source.MaxAsFunc(selector);
+            return source.Run(func);
+        }
+
+        public static JobHandle<<#=TYPE_FULL#>> ScheduleMax<T, TSource, TSourceEnumerator, TSelector>(
+            this in ValueSequence<T, TSource, TSourceEnumerator> source,
+            ValueFunc<T, <#=TYPE_FULL#>>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<T>
+            where TSelector : struct, IFunc<T, <#=TYPE_FULL#>>
+        {
+            var func = source.MaxAsFunc(selector);
+            return source.Schedule(func);
+        }
+
+        public static JobHandle ScheduleMax<T, TSource, TSourceEnumerator, TSelector>(
+            this in ValueSequence<T, TSource, TSourceEnumerator> source,
+            ref NativeArray<<#=TYPE_FULL#>> output,
+            ValueFunc<T, <#=TYPE_FULL#>>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<T>
+            where TSelector : struct, IFunc<T, <#=TYPE_FULL#>>
+        {
+            var func = source.MaxAsFunc(selector);
+            return source.Schedule(func, ref output);
+        }
+
         public static <#=TYPE_FULL#> Min<T, TSource, TSourceEnumerator, TSelector>(
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ValueFunc<T, <#=TYPE_FULL#>>.Struct<TSelector> selector
@@ -123,6 +297,75 @@ foreach (string TYPE_FULL in TYPES)
             }
             srcList.Dispose();
             return min;
+        }
+
+        public struct SequenceMinFunc_<#=TYPE_FULL#><T, TSource, TSourceEnumerator, TSelector>
+            : IFunc<ValueSequence<T, TSource, TSourceEnumerator>, <#=TYPE_FULL#>>
+            where T : struct
+            where TSource : struct, ISequence<T, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<T>
+            where TSelector : struct, IFunc<T, <#=TYPE_FULL#>>
+        {
+            public ValueFunc<T, <#=TYPE_FULL#>>.Struct<TSelector> Selector;
+
+            public <#=TYPE_FULL#> Invoke(ValueSequence<T, TSource, TSourceEnumerator> seq)
+            {
+                return seq.Min(Selector);
+            }
+        }
+
+        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, <#=TYPE_FULL#>>.Struct<SequenceMinFunc_<#=TYPE_FULL#><T, TSource, TSourceEnumerator, TSelector>>
+        MinAsFunc<T, TSource, TSourceEnumerator, TSelector>(
+            this in ValueSequence<T, TSource, TSourceEnumerator> source,
+            ValueFunc<T, <#=TYPE_FULL#>>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<T>
+            where TSelector : struct, IFunc<T, <#=TYPE_FULL#>>
+        {
+            var func = new SequenceMinFunc_<#=TYPE_FULL#><T, TSource, TSourceEnumerator, TSelector> { Selector = selector };
+            return ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, <#=TYPE_FULL#>>.New(func);
+        }
+
+        public static <#=TYPE_FULL#> RunMin<T, TSource, TSourceEnumerator, TSelector>(
+            this in ValueSequence<T, TSource, TSourceEnumerator> source,
+            ValueFunc<T, <#=TYPE_FULL#>>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<T>
+            where TSelector : struct, IFunc<T, <#=TYPE_FULL#>>
+        {
+            var func = source.MinAsFunc(selector);
+            return source.Run(func);
+        }
+
+        public static JobHandle<<#=TYPE_FULL#>> ScheduleMin<T, TSource, TSourceEnumerator, TSelector>(
+            this in ValueSequence<T, TSource, TSourceEnumerator> source,
+            ValueFunc<T, <#=TYPE_FULL#>>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<T>
+            where TSelector : struct, IFunc<T, <#=TYPE_FULL#>>
+        {
+            var func = source.MinAsFunc(selector);
+            return source.Schedule(func);
+        }
+
+        public static JobHandle ScheduleMin<T, TSource, TSourceEnumerator, TSelector>(
+            this in ValueSequence<T, TSource, TSourceEnumerator> source,
+            ref NativeArray<<#=TYPE_FULL#>> output,
+            ValueFunc<T, <#=TYPE_FULL#>>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSource : struct, ISequence<T, TSourceEnumerator>
+            where TSourceEnumerator : struct, IEnumerator<T>
+            where TSelector : struct, IFunc<T, <#=TYPE_FULL#>>
+        {
+            var func = source.MinAsFunc(selector);
+            return source.Schedule(func, ref output);
         }
 
 <#
