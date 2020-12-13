@@ -57,7 +57,7 @@ foreach (string TYPE in TYPES)
             return result;
         }
 
-        public struct AverageFunc_<#=TYPE_FULL#><TSource, TSourceEnumerator>
+        public struct SequenceAverageFunc_<#=TYPE_FULL#><TSource, TSourceEnumerator>
             : IFunc<ValueSequence<<#=TYPE_FULL#>, TSource, TSourceEnumerator>, <#=TYPE_FULL#>>
             where TSource : struct, ISequence<<#=TYPE_FULL#>, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<<#=TYPE_FULL#>>
@@ -68,14 +68,14 @@ foreach (string TYPE in TYPES)
             }
         }
 
-        public static ValueFunc<ValueSequence<<#=TYPE_FULL#>, TSource, TSourceEnumerator>, <#=TYPE_FULL#>>.Struct<AverageFunc_<#=TYPE_FULL#><TSource, TSourceEnumerator>>
+        public static ValueFunc<ValueSequence<<#=TYPE_FULL#>, TSource, TSourceEnumerator>, <#=TYPE_FULL#>>.Struct<SequenceAverageFunc_<#=TYPE_FULL#><TSource, TSourceEnumerator>>
         AverageAsFunc<TSource, TSourceEnumerator>(
             this in ValueSequence<<#=TYPE_FULL#>, TSource, TSourceEnumerator> source
             )
             where TSource : struct, ISequence<<#=TYPE_FULL#>, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<<#=TYPE_FULL#>>
         {
-            return ValueFunc<ValueSequence<<#=TYPE_FULL#>, TSource, TSourceEnumerator>, <#=TYPE_FULL#>>.New<AverageFunc_<#=TYPE_FULL#><TSource, TSourceEnumerator>>();
+            return ValueFunc<ValueSequence<<#=TYPE_FULL#>, TSource, TSourceEnumerator>, <#=TYPE_FULL#>>.New<SequenceAverageFunc_<#=TYPE_FULL#><TSource, TSourceEnumerator>>();
         }
 
         public static <#=TYPE_FULL#> RunAverage<TSource, TSourceEnumerator>(
@@ -132,7 +132,7 @@ foreach (string TYPE in TYPES)
             return result;
         }
 
-        public struct AverageSelectorFunc_<#=TYPE_FULL#><T, TSource, TSourceEnumerator, TSelector>
+        public struct SequenceAverageSelectorFunc_<#=TYPE_FULL#><T, TSource, TSourceEnumerator, TSelector>
             : IFunc<ValueSequence<T, TSource, TSourceEnumerator>, <#=TYPE_FULL#>>
             where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
@@ -141,7 +141,7 @@ foreach (string TYPE in TYPES)
         {
             readonly ValueFunc<T, <#=TYPE_FULL#>>.Struct<TSelector> selector;
 
-            public AverageSelectorFunc_<#=TYPE_FULL#>(ValueFunc<T, <#=TYPE_FULL#>>.Struct<TSelector> selector)
+            public SequenceAverageSelectorFunc_<#=TYPE_FULL#>(ValueFunc<T, <#=TYPE_FULL#>>.Struct<TSelector> selector)
             {
                 this.selector = selector;
             }
@@ -152,7 +152,7 @@ foreach (string TYPE in TYPES)
             }
         }
 
-        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, <#=TYPE_FULL#>>.Struct<AverageSelectorFunc_<#=TYPE_FULL#><T, TSource, TSourceEnumerator, TSelector>>
+        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, <#=TYPE_FULL#>>.Struct<SequenceAverageSelectorFunc_<#=TYPE_FULL#><T, TSource, TSourceEnumerator, TSelector>>
         AverageAsFunc<T, TSource, TSourceEnumerator, TSelector>(
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ValueFunc<T, <#=TYPE_FULL#>>.Struct<TSelector> selector
@@ -162,7 +162,7 @@ foreach (string TYPE in TYPES)
             where TSourceEnumerator : struct, IEnumerator<T>
             where TSelector : struct, IFunc<T, <#=TYPE_FULL#>>
         {
-            var func = new AverageSelectorFunc_<#=TYPE_FULL#><T, TSource, TSourceEnumerator, TSelector>(selector);
+            var func = new SequenceAverageSelectorFunc_<#=TYPE_FULL#><T, TSource, TSourceEnumerator, TSelector>(selector);
             return ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, <#=TYPE_FULL#>>.New(func);
         }
 
