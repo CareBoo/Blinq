@@ -65,7 +65,7 @@ foreach (string TYPE in TYPES)
         }
 
         public static ValueFunc<ValueSequence<<#=TYPE_FULL#>, TSource, TSourceEnumerator>, <#=TYPE_FULL#>>.Struct<SequenceSumFunc_<#=TYPE_FULL#><TSource, TSourceEnumerator>>
-        NewSequenceSumFunc_<#=TYPE_FULL#><TSource, TSourceEnumerator>(
+        SumAsFunc<TSource, TSourceEnumerator>(
             this in ValueSequence<<#=TYPE_FULL#>, TSource, TSourceEnumerator> source
             )
             where TSource : struct, ISequence<<#=TYPE_FULL#>, TSourceEnumerator>
@@ -80,7 +80,7 @@ foreach (string TYPE in TYPES)
             where TSource : struct, ISequence<<#=TYPE_FULL#>, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<<#=TYPE_FULL#>>
         {
-            var func = source.NewSequenceSumFunc_<#=TYPE_FULL#>();
+            var func = source.SumAsFunc();
             return source.Run(func);
         }
 
@@ -91,7 +91,7 @@ foreach (string TYPE in TYPES)
             where TSource : struct, ISequence<<#=TYPE_FULL#>, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<<#=TYPE_FULL#>>
         {
-            var func = source.NewSequenceSumFunc_<#=TYPE_FULL#>();
+            var func = source.SumAsFunc();
             return source.Schedule(func, ref output);
         }
 
@@ -101,7 +101,7 @@ foreach (string TYPE in TYPES)
             where TSource : struct, ISequence<<#=TYPE_FULL#>, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<<#=TYPE_FULL#>>
         {
-            var func = source.NewSequenceSumFunc_<#=TYPE_FULL#>();
+            var func = source.SumAsFunc();
             return source.Schedule(func);
         }
 
@@ -143,7 +143,7 @@ foreach (string TYPE in TYPES)
         }
 
         public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, <#=TYPE_FULL#>>.Struct<SequenceSumFunc_<#=TYPE_FULL#><T, TSource, TSourceEnumerator, TSelector>>
-        NewSequenceSumFunc_<#=TYPE_FULL#><T, TSource, TSourceEnumerator, TSelector>(
+        SumAsFunc<T, TSource, TSourceEnumerator, TSelector>(
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ValueFunc<T, <#=TYPE_FULL#>>.Struct<TSelector> selector
             )
@@ -165,7 +165,7 @@ foreach (string TYPE in TYPES)
             where TSourceEnumerator : struct, IEnumerator<T>
             where TSelector : struct, IFunc<T, <#=TYPE_FULL#>>
         {
-            var func = source.NewSequenceSumFunc_<#=TYPE_FULL#>(selector);
+            var func = source.SumAsFunc(selector);
             return source.Run(func);
         }
 
@@ -179,7 +179,7 @@ foreach (string TYPE in TYPES)
             where TSourceEnumerator : struct, IEnumerator<T>
             where TSelector : struct, IFunc<T, <#=TYPE_FULL#>>
         {
-            var func = source.NewSequenceSumFunc_<#=TYPE_FULL#>(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func, ref output);
         }
 
@@ -192,7 +192,7 @@ foreach (string TYPE in TYPES)
             where TSourceEnumerator : struct, IEnumerator<T>
             where TSelector : struct, IFunc<T, <#=TYPE_FULL#>>
         {
-            var func = source.NewSequenceSumFunc_<#=TYPE_FULL#>(selector);
+            var func = source.SumAsFunc(selector);
             return source.Schedule(func);
         }
 

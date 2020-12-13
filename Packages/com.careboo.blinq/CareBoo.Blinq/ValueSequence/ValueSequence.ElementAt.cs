@@ -35,7 +35,7 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, T>.Struct<ElementAtFunc<T, TSource, TSourceEnumerator>> NewElementAtFunc<T, TSource, TSourceEnumerator>(
+        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, T>.Struct<ElementAtFunc<T, TSource, TSourceEnumerator>> ElementAtAsFunc<T, TSource, TSourceEnumerator>(
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
             int index
             )
@@ -55,7 +55,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<T>
         {
-            var func = source.NewElementAtFunc(index);
+            var func = source.ElementAtAsFunc(index);
             return source.Run(func);
         }
 
@@ -68,7 +68,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<T>
         {
-            var func = source.NewElementAtFunc(index);
+            var func = source.ElementAtAsFunc(index);
             return source.Schedule(func, ref output);
         }
 
@@ -80,7 +80,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<T>
         {
-            var func = source.NewElementAtFunc(index);
+            var func = source.ElementAtAsFunc(index);
             return source.Schedule(func);
         }
 
@@ -116,7 +116,7 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, T>.Struct<ElementAtOrDefaultFunc<T, TSource, TSourceEnumerator>> NewElementAtOrDefaultFunc<T, TSource, TSourceEnumerator>(
+        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, T>.Struct<ElementAtOrDefaultFunc<T, TSource, TSourceEnumerator>> ElementAtOrDefaultAsFunc<T, TSource, TSourceEnumerator>(
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
             int index,
             in T defaultVal = default
@@ -138,7 +138,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<T>
         {
-            var func = source.NewElementAtOrDefaultFunc(index, in defaultVal);
+            var func = source.ElementAtOrDefaultAsFunc(index, in defaultVal);
             return source.Run(func);
         }
 
@@ -152,7 +152,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<T>
         {
-            var func = source.NewElementAtOrDefaultFunc(index, in defaultVal);
+            var func = source.ElementAtOrDefaultAsFunc(index, in defaultVal);
             return source.Schedule(func, ref output);
         }
 
@@ -165,7 +165,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<T>
         {
-            var func = source.NewElementAtOrDefaultFunc(index, in defaultVal);
+            var func = source.ElementAtOrDefaultAsFunc(index, in defaultVal);
             return source.Schedule(func);
         }
     }
