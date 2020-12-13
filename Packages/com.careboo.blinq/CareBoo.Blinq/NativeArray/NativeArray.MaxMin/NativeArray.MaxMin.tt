@@ -12,6 +12,7 @@
 //------------------------------------------------------------------------------
 
 using Unity.Collections;
+using Unity.Jobs;
 using CareBoo.Burst.Delegates;
 
 namespace CareBoo.Blinq
@@ -37,6 +38,48 @@ foreach (string TYPE_FULL in TYPES)
             return max;
         }
 
+        public struct ArrayMaxFunc_<#=TYPE_FULL#>
+            : IFunc<NativeArray<<#=TYPE_FULL#>>, <#=TYPE_FULL#>>
+        {
+            public <#=TYPE_FULL#> Invoke(NativeArray<<#=TYPE_FULL#>> seq)
+            {
+                return seq.Max();
+            }
+        }
+
+        public static ValueFunc<NativeArray<<#=TYPE_FULL#>>, <#=TYPE_FULL#>>.Struct<ArrayMaxFunc_<#=TYPE_FULL#>>
+        MaxAsFunc(
+            this in NativeArray<<#=TYPE_FULL#>> source
+            )
+        {
+            return ValueFunc<NativeArray<<#=TYPE_FULL#>>, <#=TYPE_FULL#>>.New<ArrayMaxFunc_<#=TYPE_FULL#>>();
+        }
+
+        public static <#=TYPE_FULL#> RunMax(
+            this in NativeArray<<#=TYPE_FULL#>> source
+            )
+        {
+            var func = source.MaxAsFunc();
+            return source.Run(func);
+        }
+
+        public static JobHandle<<#=TYPE_FULL#>> ScheduleMax(
+            this in NativeArray<<#=TYPE_FULL#>> source
+            )
+        {
+            var func = source.MaxAsFunc();
+            return source.Schedule(func);
+        }
+
+        public static JobHandle ScheduleMax(
+            this in NativeArray<<#=TYPE_FULL#>> source,
+            ref NativeArray<<#=TYPE_FULL#>> output
+            )
+        {
+            var func = source.MaxAsFunc();
+            return source.Schedule(func, ref output);
+        }
+
         public static <#=TYPE_FULL#> Min(this in NativeArray<<#=TYPE_FULL#>> source)
         {
             if (source.Length == 0) throw Error.NoElements();
@@ -49,6 +92,48 @@ foreach (string TYPE_FULL in TYPES)
                     min = val;
             }
             return min;
+        }
+
+        public struct ArrayMinFunc_<#=TYPE_FULL#>
+            : IFunc<NativeArray<<#=TYPE_FULL#>>, <#=TYPE_FULL#>>
+        {
+            public <#=TYPE_FULL#> Invoke(NativeArray<<#=TYPE_FULL#>> seq)
+            {
+                return seq.Min();
+            }
+        }
+
+        public static ValueFunc<NativeArray<<#=TYPE_FULL#>>, <#=TYPE_FULL#>>.Struct<ArrayMinFunc_<#=TYPE_FULL#>>
+        MinAsFunc(
+            this in NativeArray<<#=TYPE_FULL#>> source
+            )
+        {
+            return ValueFunc<NativeArray<<#=TYPE_FULL#>>, <#=TYPE_FULL#>>.New<ArrayMinFunc_<#=TYPE_FULL#>>();
+        }
+
+        public static <#=TYPE_FULL#> RunMin(
+            this in NativeArray<<#=TYPE_FULL#>> source
+            )
+        {
+            var func = source.MinAsFunc();
+            return source.Run(func);
+        }
+
+        public static JobHandle<<#=TYPE_FULL#>> ScheduleMin(
+            this in NativeArray<<#=TYPE_FULL#>> source
+            )
+        {
+            var func = source.MinAsFunc();
+            return source.Schedule(func);
+        }
+
+        public static JobHandle ScheduleMin(
+            this in NativeArray<<#=TYPE_FULL#>> source,
+            ref NativeArray<<#=TYPE_FULL#>> output
+            )
+        {
+            var func = source.MinAsFunc();
+            return source.Schedule(func, ref output);
         }
 
         public static <#=TYPE_FULL#> Max<T, TSelector>(
@@ -70,6 +155,65 @@ foreach (string TYPE_FULL in TYPES)
             return max;
         }
 
+        public struct ArrayMaxFunc_<#=TYPE_FULL#><T, TSelector>
+            : IFunc<NativeArray<T>, <#=TYPE_FULL#>>
+            where T : struct
+            where TSelector : struct, IFunc<T, <#=TYPE_FULL#>>
+        {
+            public ValueFunc<T, <#=TYPE_FULL#>>.Struct<TSelector> Selector;
+
+            public <#=TYPE_FULL#> Invoke(NativeArray<T> seq)
+            {
+                return seq.Max(Selector);
+            }
+        }
+
+        public static ValueFunc<NativeArray<T>, <#=TYPE_FULL#>>.Struct<ArrayMaxFunc_<#=TYPE_FULL#><T, TSelector>>
+        MaxAsFunc<T, TSelector>(
+            this in NativeArray<T> source,
+            ValueFunc<T, <#=TYPE_FULL#>>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSelector : struct, IFunc<T, <#=TYPE_FULL#>>
+        {
+            var func = new ArrayMaxFunc_<#=TYPE_FULL#><T, TSelector> { Selector = selector };
+            return ValueFunc<NativeArray<T>, <#=TYPE_FULL#>>.New(func);
+        }
+
+        public static <#=TYPE_FULL#> RunMax<T, TSelector>(
+            this in NativeArray<T> source,
+            ValueFunc<T, <#=TYPE_FULL#>>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSelector : struct, IFunc<T, <#=TYPE_FULL#>>
+        {
+            var func = source.MaxAsFunc(selector);
+            return source.Run(func);
+        }
+
+        public static JobHandle<<#=TYPE_FULL#>> ScheduleMax<T, TSelector>(
+            this in NativeArray<T> source,
+            ValueFunc<T, <#=TYPE_FULL#>>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSelector : struct, IFunc<T, <#=TYPE_FULL#>>
+        {
+            var func = source.MaxAsFunc(selector);
+            return source.Schedule(func);
+        }
+
+        public static JobHandle ScheduleMax<T, TSelector>(
+            this in NativeArray<T> source,
+            ref NativeArray<<#=TYPE_FULL#>> output,
+            ValueFunc<T, <#=TYPE_FULL#>>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSelector : struct, IFunc<T, <#=TYPE_FULL#>>
+        {
+            var func = source.MaxAsFunc(selector);
+            return source.Schedule(func, ref output);
+        }
+
         public static <#=TYPE_FULL#> Min<T, TSelector>(
             this in NativeArray<T> source,
             ValueFunc<T, <#=TYPE_FULL#>>.Struct<TSelector> selector
@@ -87,6 +231,65 @@ foreach (string TYPE_FULL in TYPES)
                     min = val;
             }
             return min;
+        }
+
+        public struct ArrayMinFunc_<#=TYPE_FULL#><T, TSelector>
+            : IFunc<NativeArray<T>, <#=TYPE_FULL#>>
+            where T : struct
+            where TSelector : struct, IFunc<T, <#=TYPE_FULL#>>
+        {
+            public ValueFunc<T, <#=TYPE_FULL#>>.Struct<TSelector> Selector;
+
+            public <#=TYPE_FULL#> Invoke(NativeArray<T> seq)
+            {
+                return seq.Min(Selector);
+            }
+        }
+
+        public static ValueFunc<NativeArray<T>, <#=TYPE_FULL#>>.Struct<ArrayMinFunc_<#=TYPE_FULL#><T, TSelector>>
+        MinAsFunc<T, TSelector>(
+            this in NativeArray<T> source,
+            ValueFunc<T, <#=TYPE_FULL#>>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSelector : struct, IFunc<T, <#=TYPE_FULL#>>
+        {
+            var func = new ArrayMinFunc_<#=TYPE_FULL#><T, TSelector> { Selector = selector };
+            return ValueFunc<NativeArray<T>, <#=TYPE_FULL#>>.New(func);
+        }
+
+        public static <#=TYPE_FULL#> RunMin<T, TSelector>(
+            this in NativeArray<T> source,
+            ValueFunc<T, <#=TYPE_FULL#>>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSelector : struct, IFunc<T, <#=TYPE_FULL#>>
+        {
+            var func = source.MinAsFunc(selector);
+            return source.Run(func);
+        }
+
+        public static JobHandle<<#=TYPE_FULL#>> ScheduleMin<T, TSelector>(
+            this in NativeArray<T> source,
+            ValueFunc<T, <#=TYPE_FULL#>>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSelector : struct, IFunc<T, <#=TYPE_FULL#>>
+        {
+            var func = source.MinAsFunc(selector);
+            return source.Schedule(func);
+        }
+
+        public static JobHandle ScheduleMin<T, TSelector>(
+            this in NativeArray<T> source,
+            ref NativeArray<<#=TYPE_FULL#>> output,
+            ValueFunc<T, <#=TYPE_FULL#>>.Struct<TSelector> selector
+            )
+            where T : struct
+            where TSelector : struct, IFunc<T, <#=TYPE_FULL#>>
+        {
+            var func = source.MinAsFunc(selector);
+            return source.Schedule(func, ref output);
         }
 
 <#
