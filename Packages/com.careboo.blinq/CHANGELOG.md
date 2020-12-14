@@ -1,3 +1,12 @@
+# [3.1.0-preview.7](https://github.com/CareBoo/Blinq/compare/v3.1.0-preview.6...v3.1.0-preview.7) (2020-12-14)
+
+
+### Features
+
+* :sparkles: Implement NativeArray RunAverage, ScheduleAverage ([dab8e0b](https://github.com/CareBoo/Blinq/commit/dab8e0baaacc4d2f845a15b96ea663f38d687019))
+* :sparkles: Implement RunMaxMin and ScheduleMaxMin ([b454d8e](https://github.com/CareBoo/Blinq/commit/b454d8e56f3579e958bcca46c1c60894a6126644)), closes [#65](https://github.com/CareBoo/Blinq/issues/65)
+* :sparkles: Implement RunMaxMin and ScheduleMaxMin ([1bce95f](https://github.com/CareBoo/Blinq/commit/1bce95f55c157cb98d3d3048f6a5624c2b79c402))
+
 # [3.1.0-preview.6](https://github.com/CareBoo/Blinq/compare/v3.1.0-preview.5...v3.1.0-preview.6) (2020-12-11)
 
 
