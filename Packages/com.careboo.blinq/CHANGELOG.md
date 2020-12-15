@@ -1,3 +1,10 @@
+# [3.1.0-preview.8](https://github.com/CareBoo/Blinq/compare/v3.1.0-preview.7...v3.1.0-preview.8) (2020-12-15)
+
+
+### Features
+
+* :sparkles: Implement Run and Schedule Contains ([48b1f88](https://github.com/CareBoo/Blinq/commit/48b1f88d249358b126bb12f9dc271d486ff60cfb)), closes [#70](https://github.com/CareBoo/Blinq/issues/70)
+
 # [3.1.0-preview.7](https://github.com/CareBoo/Blinq/compare/v3.1.0-preview.6...v3.1.0-preview.7) (2020-12-14)
 
 
