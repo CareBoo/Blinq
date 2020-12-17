@@ -5,20 +5,22 @@
       "depth": 0,
       "source": "embedded",
       "dependencies": {
-        "com.unity.collections": "0.12.0-preview.13",
-        "com.careboo.burst-delegates": "1.1.0"
+        "com.unity.collections": "0.14.0-preview.16",
+        "com.careboo.burst-delegates": "1.2.0-preview.5"
       }
     },
     "com.careboo.burst-delegates": {
-      "version": "1.1.0",
+      "version": "1.2.0-preview.5",
       "depth": 1,
       "source": "registry",
-      "dependencies": {},
+      "dependencies": {
+        "com.unity.burst": "1.5.0-pre.3"
+      },
       "url": "https://package.openupm.com"
     },
     "com.unity.burst": {
-      "version": "1.4.3",
-      "depth": 0,
+      "version": "1.5.0-pre.3",
+      "depth": 2,
       "source": "registry",
       "dependencies": {
         "com.unity.mathematics": "1.2.1"
