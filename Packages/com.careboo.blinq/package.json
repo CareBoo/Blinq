@@ -5,8 +5,8 @@
   "unity": "2020.1",
   "description": "Adds Burst-compatible, LINQ extension methods like Select, Where, and Any to `NativeArray`.",
   "dependencies": {
-    "com.unity.collections": "0.12.0-preview.13",
-    "com.careboo.burst-delegates": "1.1.0"
+    "com.unity.collections": "0.14.0-preview.16",
+    "com.careboo.burst-delegates": "1.2.0-preview.5"
   },
   "repository": {
     "type": "git",
