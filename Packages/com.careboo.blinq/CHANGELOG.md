@@ -1,3 +1,12 @@
+# [3.1.0-preview.9](https://github.com/CareBoo/Blinq/compare/v3.1.0-preview.8...v3.1.0-preview.9) (2020-12-18)
+
+
+### Features
+
+* :sparkles: Implement RunAggregate and ScheduleAggregate ([b6203e2](https://github.com/CareBoo/Blinq/commit/b6203e21fb5bf8f70dc93cf984b2d18ba10a75e9)), closes [#67](https://github.com/CareBoo/Blinq/issues/67)
+* :sparkles: Implement RunAll and ScheduleAll ([751007a](https://github.com/CareBoo/Blinq/commit/751007ada130657a52f3136c5a1f2de05aa54eed)), closes [#68](https://github.com/CareBoo/Blinq/issues/68)
+* :sparkles: Implement RunAny and ScheduleAny ([8212854](https://github.com/CareBoo/Blinq/commit/8212854b7c300d839a118b73f59970977bfdb27a)), closes [#69](https://github.com/CareBoo/Blinq/issues/69)
+
 # [3.1.0-preview.8](https://github.com/CareBoo/Blinq/compare/v3.1.0-preview.7...v3.1.0-preview.8) (2020-12-15)
 
 
