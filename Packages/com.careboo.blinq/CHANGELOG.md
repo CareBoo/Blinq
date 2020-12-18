@@ -1,3 +1,10 @@
+# [3.1.0-preview.10](https://github.com/CareBoo/Blinq/compare/v3.1.0-preview.9...v3.1.0-preview.10) (2020-12-18)
+
+
+### Features
+
+* :sparkles: Implement RunSequenceEqual and ScheduleSequenceEqual ([d860007](https://github.com/CareBoo/Blinq/commit/d860007a011bf73dda87b6720213ecc37dc489fa)), closes [#77](https://github.com/CareBoo/Blinq/issues/77)
+
 # [3.1.0-preview.9](https://github.com/CareBoo/Blinq/compare/v3.1.0-preview.8...v3.1.0-preview.9) (2020-12-18)
 
 
