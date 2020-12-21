@@ -20,7 +20,7 @@ namespace CareBoo.Blinq
             return count;
         }
 
-        public struct SequenceCountFunc<T, TPredicate>
+        public struct ArrayCountFunc<T, TPredicate>
             : IFunc<NativeArray<T>, int>
             where T : struct
             where TPredicate : struct, IFunc<T, bool>
@@ -33,7 +33,7 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<NativeArray<T>, int>.Struct<SequenceCountFunc<T, TPredicate>>
+        public static ValueFunc<NativeArray<T>, int>.Struct<ArrayCountFunc<T, TPredicate>>
         CountAsFunc<T, TPredicate>(
             this in NativeArray<T> source,
             ValueFunc<T, bool>.Struct<TPredicate> predicate
@@ -41,8 +41,8 @@ namespace CareBoo.Blinq
             where T : struct
             where TPredicate : struct, IFunc<T, bool>
         {
-            var funcStruct = new SequenceCountFunc<T, TPredicate> { Predicate = predicate };
-            return ValueFunc<NativeArray<T>, int>.New<SequenceCountFunc<T, TPredicate>>(funcStruct);
+            var funcStruct = new ArrayCountFunc<T, TPredicate> { Predicate = predicate };
+            return ValueFunc<NativeArray<T>, int>.New<ArrayCountFunc<T, TPredicate>>(funcStruct);
         }
 
         public static int RunCount<T, TPredicate>(
@@ -85,7 +85,7 @@ namespace CareBoo.Blinq
             return source.Length;
         }
 
-        public struct SequenceCountFunc<T>
+        public struct ArrayCountFunc<T>
             : IFunc<NativeArray<T>, int>
             where T : struct
         {
@@ -95,13 +95,13 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<NativeArray<T>, int>.Struct<SequenceCountFunc<T>>
+        public static ValueFunc<NativeArray<T>, int>.Struct<ArrayCountFunc<T>>
         CountAsFunc<T>(
             this in NativeArray<T> source
             )
             where T : struct
         {
-            return ValueFunc<NativeArray<T>, int>.New<SequenceCountFunc<T>>();
+            return ValueFunc<NativeArray<T>, int>.New<ArrayCountFunc<T>>();
         }
 
         public static int RunCount<T>(
