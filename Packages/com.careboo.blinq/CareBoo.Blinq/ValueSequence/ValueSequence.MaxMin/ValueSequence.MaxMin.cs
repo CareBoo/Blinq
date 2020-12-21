@@ -323,7 +323,7 @@ namespace CareBoo.Blinq
         {
             public T Invoke(ValueSequence<T, TSource, TSourceEnumerator> arg0)
             {
-                return arg0.Max();
+                return arg0.Min();
             }
         }
 
