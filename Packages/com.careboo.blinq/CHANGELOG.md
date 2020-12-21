@@ -1,3 +1,14 @@
+# [3.1.0-preview.11](https://github.com/CareBoo/Blinq/compare/v3.1.0-preview.10...v3.1.0-preview.11) (2020-12-21)
+
+
+### Features
+
+* :sparkles: Add Run and Schedule NativeArray.ElementAt ([d418942](https://github.com/CareBoo/Blinq/commit/d41894269153ef5e740318bd0bc39478a2d2cfab))
+* :sparkles: Add Run/Schedule NativeArray Last ([7400bbd](https://github.com/CareBoo/Blinq/commit/7400bbda45d0b42bd165f59629a5d4aa6e3a005d))
+* :sparkles: Add Run/Schedule NativeArray Single ([93a4f6b](https://github.com/CareBoo/Blinq/commit/93a4f6ba00df03ac1b7adc09c5bcd0faed230a9e))
+* :sparkles: Implement NativeArray Run/Schedule First ([8f8b986](https://github.com/CareBoo/Blinq/commit/8f8b986de95abd7cc8a2aab16c8f75f85695ff38))
+* Add NativeArray MaxMin ([f740e44](https://github.com/CareBoo/Blinq/commit/f740e445f12409f0df94b7f346ee0597643bb56b))
+
 # [3.1.0-preview.10](https://github.com/CareBoo/Blinq/compare/v3.1.0-preview.9...v3.1.0-preview.10) (2020-12-18)
 
 
