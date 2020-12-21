@@ -30,7 +30,7 @@ namespace CareBoo.Blinq
             throw Error.NoMatch();
         }
 
-        public struct FirstFunc<T, TSource, TSourceEnumerator, TPredicate>
+        public struct SequenceFirstFunc<T, TSource, TSourceEnumerator, TPredicate>
             : IFunc<ValueSequence<T, TSource, TSourceEnumerator>, T>
             where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
@@ -44,7 +44,7 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, T>.Struct<FirstFunc<T, TSource, TSourceEnumerator, TPredicate>> FirstAsFunc<T, TSource, TSourceEnumerator, TPredicate>(
+        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, T>.Struct<SequenceFirstFunc<T, TSource, TSourceEnumerator, TPredicate>> FirstAsFunc<T, TSource, TSourceEnumerator, TPredicate>(
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ValueFunc<T, bool>.Struct<TPredicate> predicate
             )
@@ -53,7 +53,7 @@ namespace CareBoo.Blinq
             where TSourceEnumerator : struct, IEnumerator<T>
             where TPredicate : struct, IFunc<T, bool>
         {
-            var func = new FirstFunc<T, TSource, TSourceEnumerator, TPredicate> { Predicate = predicate };
+            var func = new SequenceFirstFunc<T, TSource, TSourceEnumerator, TPredicate> { Predicate = predicate };
             return ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, T>.New(func);
         }
 
@@ -66,7 +66,7 @@ namespace CareBoo.Blinq
             where TSourceEnumerator : struct, IEnumerator<T>
             where TPredicate : struct, IFunc<T, bool>
         {
-            var FirstFunc = source.FirstAsFunc(predicate);
+            var SequenceFirstFunc = source.FirstAsFunc(predicate);
             return source.Run(source.FirstAsFunc(predicate));
         }
 
@@ -80,7 +80,7 @@ namespace CareBoo.Blinq
             where TSourceEnumerator : struct, IEnumerator<T>
             where TPredicate : struct, IFunc<T, bool>
         {
-            var FirstFunc = source.FirstAsFunc(predicate);
+            var SequenceFirstFunc = source.FirstAsFunc(predicate);
             return source.Schedule(source.FirstAsFunc(predicate), ref output);
         }
 
@@ -93,7 +93,7 @@ namespace CareBoo.Blinq
             where TSourceEnumerator : struct, IEnumerator<T>
             where TPredicate : struct, IFunc<T, bool>
         {
-            var FirstFunc = source.FirstAsFunc(predicate);
+            var SequenceFirstFunc = source.FirstAsFunc(predicate);
             return source.Schedule(source.FirstAsFunc(predicate));
         }
 
@@ -121,7 +121,7 @@ namespace CareBoo.Blinq
             return defaultVal;
         }
 
-        public struct FirstOrDefaultFunc<T, TSource, TSourceEnumerator, TPredicate>
+        public struct SequenceFirstOrDefaultFunc<T, TSource, TSourceEnumerator, TPredicate>
             : IFunc<ValueSequence<T, TSource, TSourceEnumerator>, T>
             where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
@@ -136,7 +136,7 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, T>.Struct<FirstOrDefaultFunc<T, TSource, TSourceEnumerator, TPredicate>> FirstOrDefaultAsFunc<T, TSource, TSourceEnumerator, TPredicate>(
+        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, T>.Struct<SequenceFirstOrDefaultFunc<T, TSource, TSourceEnumerator, TPredicate>> FirstOrDefaultAsFunc<T, TSource, TSourceEnumerator, TPredicate>(
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
             ValueFunc<T, bool>.Struct<TPredicate> predicate,
             in T defaultVal = default
@@ -146,7 +146,7 @@ namespace CareBoo.Blinq
             where TSourceEnumerator : struct, IEnumerator<T>
             where TPredicate : struct, IFunc<T, bool>
         {
-            var func = new FirstOrDefaultFunc<T, TSource, TSourceEnumerator, TPredicate> { Predicate = predicate, Default = defaultVal };
+            var func = new SequenceFirstOrDefaultFunc<T, TSource, TSourceEnumerator, TPredicate> { Predicate = predicate, Default = defaultVal };
             return ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, T>.New(func);
         }
 
@@ -212,7 +212,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct FirstFunc<T, TSource, TSourceEnumerator>
+        public struct SequenceFirstFunc<T, TSource, TSourceEnumerator>
             : IFunc<ValueSequence<T, TSource, TSourceEnumerator>, T>
             where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
@@ -224,14 +224,14 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, T>.Struct<FirstFunc<T, TSource, TSourceEnumerator>> FirstAsFunc<T, TSource, TSourceEnumerator>(
+        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, T>.Struct<SequenceFirstFunc<T, TSource, TSourceEnumerator>> FirstAsFunc<T, TSource, TSourceEnumerator>(
             this in ValueSequence<T, TSource, TSourceEnumerator> source
             )
             where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<T>
         {
-            return default(ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, T>.Struct<FirstFunc<T, TSource, TSourceEnumerator>>);
+            return default(ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, T>.Struct<SequenceFirstFunc<T, TSource, TSourceEnumerator>>);
         }
 
         public static T RunFirst<T, TSource, TSourceEnumerator>(
@@ -285,7 +285,7 @@ namespace CareBoo.Blinq
             return result;
         }
 
-        public struct FirstOrDefaultFunc<T, TSource, TSourceEnumerator>
+        public struct SequenceFirstOrDefaultFunc<T, TSource, TSourceEnumerator>
             : IFunc<ValueSequence<T, TSource, TSourceEnumerator>, T>
             where T : struct
             where TSource : struct, ISequence<T, TSourceEnumerator>
@@ -298,7 +298,7 @@ namespace CareBoo.Blinq
             }
         }
 
-        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, T>.Struct<FirstOrDefaultFunc<T, TSource, TSourceEnumerator>> FirstOrDefaultAsFunc<T, TSource, TSourceEnumerator>(
+        public static ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, T>.Struct<SequenceFirstOrDefaultFunc<T, TSource, TSourceEnumerator>> FirstOrDefaultAsFunc<T, TSource, TSourceEnumerator>(
             this in ValueSequence<T, TSource, TSourceEnumerator> source,
             in T defaultVal = default
             )
@@ -306,7 +306,7 @@ namespace CareBoo.Blinq
             where TSource : struct, ISequence<T, TSourceEnumerator>
             where TSourceEnumerator : struct, IEnumerator<T>
         {
-            var func = new FirstOrDefaultFunc<T, TSource, TSourceEnumerator> { Default = defaultVal };
+            var func = new SequenceFirstOrDefaultFunc<T, TSource, TSourceEnumerator> { Default = defaultVal };
             return ValueFunc<ValueSequence<T, TSource, TSourceEnumerator>, T>.New(func);
         }
 
