@@ -7,7 +7,7 @@ on:
   pull_request:
 
 env:
-  UNITY_LICENSE: ${{ secrets.UNITY_LICENSE_2020_2_0 }}
+  UNITY_LICENSE: ${{ secrets.UNITY_LICENSE_2020 }}
 
 jobs:
   testAllModes:
