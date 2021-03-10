@@ -1,3 +1,37 @@
+# [3.1.0](https://github.com/CareBoo/Blinq/compare/v3.0.0...v3.1.0) (2021-03-10)
+
+
+### Bug Fixes
+
+* :ambulance: Fix SequenceJobs to be burst compiled ([d98957d](https://github.com/CareBoo/Blinq/commit/d98957d0a2fb736b0c86bee36f8c31ecdcdedfea))
+* :bug: Fix ElementAtOrDefault throwing an exception ([8c0c4ca](https://github.com/CareBoo/Blinq/commit/8c0c4cadff64c42a6d95932fe5b10bcee7613c19))
+
+
+### Features
+
+* :sparkles: Add NativeArray.Sum ([de7a7d3](https://github.com/CareBoo/Blinq/commit/de7a7d309832540554a612f4fca27aabf63dd798)), closes [#66](https://github.com/CareBoo/Blinq/issues/66)
+* :sparkles: Add Run and Schedule NativeArray.ElementAt ([6f5632a](https://github.com/CareBoo/Blinq/commit/6f5632ab235802b8fba0903050ca27de463d2f2c))
+* :sparkles: Add Run/Schedule NativeArray Last ([3389ff2](https://github.com/CareBoo/Blinq/commit/3389ff2eb9dfa623c982227168137a2bb93699b5))
+* :sparkles: Add Run/Schedule NativeArray Single ([97d72d2](https://github.com/CareBoo/Blinq/commit/97d72d27886a81be5353317ffa297f066e0fa71b))
+* :sparkles: Implement NativeArray Run/Schedule First ([9f2f6f7](https://github.com/CareBoo/Blinq/commit/9f2f6f7b119ad4a7a1ec5da481b6014656b1c770))
+* :sparkles: Implement NativeArray RunAverage, ScheduleAverage ([e67b087](https://github.com/CareBoo/Blinq/commit/e67b08740d30bb18579ccfba880141b7a752e21f))
+* :sparkles: Implement Run and Schedule Contains ([5dd471f](https://github.com/CareBoo/Blinq/commit/5dd471f63fa2da39f63d1be923e71434ae3676cb)), closes [#70](https://github.com/CareBoo/Blinq/issues/70)
+* :sparkles: Implement RunAggregate and ScheduleAggregate ([7e043e2](https://github.com/CareBoo/Blinq/commit/7e043e20ae77eff45dd2c9f2134e41dfa0271ea3)), closes [#67](https://github.com/CareBoo/Blinq/issues/67)
+* :sparkles: Implement RunAll and ScheduleAll ([9a73d53](https://github.com/CareBoo/Blinq/commit/9a73d5312910fb8bff9db002eb8ab57ea38b4183)), closes [#68](https://github.com/CareBoo/Blinq/issues/68)
+* :sparkles: Implement RunAny and ScheduleAny ([d4f31f9](https://github.com/CareBoo/Blinq/commit/d4f31f96040c790c3febf7e123c10635ca7b4456)), closes [#69](https://github.com/CareBoo/Blinq/issues/69)
+* :sparkles: Implement RunCount and ScheduleCount ([db6f372](https://github.com/CareBoo/Blinq/commit/db6f372db5d668ff6014b4f84cb07f5d2ecf52f8)), closes [#71](https://github.com/CareBoo/Blinq/issues/71)
+* :sparkles: Implement RunElementAt and ScheduleElementAt ([4e6e6b1](https://github.com/CareBoo/Blinq/commit/4e6e6b1c53527dc3ef390451209465e2b52b2736)), closes [#72](https://github.com/CareBoo/Blinq/issues/72)
+* :sparkles: Implement RunFirst and ScheduleFirst ([2b9fb95](https://github.com/CareBoo/Blinq/commit/2b9fb959d42b70c11cb679a3086cd96b0cf65074)), closes [#74](https://github.com/CareBoo/Blinq/issues/74)
+* :sparkles: Implement RunLongCount and ScheduleLongCount ([6a2f413](https://github.com/CareBoo/Blinq/commit/6a2f413abca0828b4284eaaa0dcb5f71d08da506)), closes [#76](https://github.com/CareBoo/Blinq/issues/76)
+* :sparkles: Implement RunMaxMin and ScheduleMaxMin ([ca76b9a](https://github.com/CareBoo/Blinq/commit/ca76b9a85cb654c588c50be377082ff7357bad26)), closes [#65](https://github.com/CareBoo/Blinq/issues/65)
+* :sparkles: Implement RunMaxMin and ScheduleMaxMin ([24796f7](https://github.com/CareBoo/Blinq/commit/24796f72a458a44ab89265670faa84a7dd9b4eb3))
+* :sparkles: Implement RunSequenceEqual and ScheduleSequenceEqual ([958daf7](https://github.com/CareBoo/Blinq/commit/958daf76b524b62ed1714c06ed04f8ae922248e4)), closes [#77](https://github.com/CareBoo/Blinq/issues/77)
+* :sparkles: Implement RunSingle and ScheduleSingle ([01a4601](https://github.com/CareBoo/Blinq/commit/01a4601f3c831362d8a153d0dbb89c917a00ba49)), closes [#78](https://github.com/CareBoo/Blinq/issues/78)
+* :sparkles: Implement RunSum and ScheduleSum ([00fa0ea](https://github.com/CareBoo/Blinq/commit/00fa0eaa44f4dd91e6298931e3de95ac8a1b63e5)), closes [#66](https://github.com/CareBoo/Blinq/issues/66)
+* :sparkles: Implment RunLast and ScheduleLast ([d650406](https://github.com/CareBoo/Blinq/commit/d650406b13a8e4c28a1fb112df35477b2981ff00)), closes [#75](https://github.com/CareBoo/Blinq/issues/75)
+* :sparkles: Reduce constraints in Single API ([abd6d10](https://github.com/CareBoo/Blinq/commit/abd6d105945dd0b7cd0ebdf30ebd753793411a7b))
+* Add NativeArray MaxMin ([e03c6c4](https://github.com/CareBoo/Blinq/commit/e03c6c4fce544c5debf805eaea8d93d765fc35df))
+
 # [3.1.0-preview.11](https://github.com/CareBoo/Blinq/compare/v3.1.0-preview.10...v3.1.0-preview.11) (2020-12-21)
 
 
