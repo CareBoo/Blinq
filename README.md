@@ -27,7 +27,7 @@ var selected = myArray.Select(val => val.Item);
 [BurstCompile]
 public static int SelectItem(MyVal val) => val.Item;
 
-public static readonly BurstFunc<MyVal, int> SelectItemFunc = BustFunc.Compile(SelectItem);
+public static readonly BurstFunc<MyVal, int> SelectItemFunc = BustFunc<MyVal, int>.Compile(SelectItem);
 
 // Now we can finally call ``Select``
 var selected = myArray.Select(SelectItemFunc);
