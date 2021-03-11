@@ -15,7 +15,7 @@ Differences with Linq
 
 ### Delegates
 
-The Burst compiler doesn't support C# delegates. To get around this issue, Blinq requires you to create structs that implement the `IFunc` interface.
+The Burst compiler doesn't support C# delegates. To get around this issue, Blinq requires you to create structs that implement the `IFunc` interface. The [Burst.Delegates](https://github.com/CareBoo/Burst.Delegates) project has other useful tools to help you generate the `IFunc` interface.
 
 ```cs
 /*--- Using Linq ---*/
@@ -23,17 +23,13 @@ var selected = myArray.Select(val => val.Item);
 
 /*--- Using Blinq ---*/
 
-// Must define a struct that implements IFunc first...
-public struct MySelector : IFunc<MyVal, int>
-{
-    public int Invoke(MyVal val) => val.Item;
-}
+// Must define a method that can be used as FunctionPointer
+[BurstCompile]
+public static int SelectItem(MyVal val) => val.Item
 
-// Then we have to create a ValueFunc referencing our struct
-var selector = ValueFunc<MyVal, int>.New<MySelector>();
+public static readonly BurstFunc<MyVal, int> SelectItemFunc = BustFunc.Compile(SelectItem);
 
 // Now we can finally call ``Select``
-var selected = myArray.Select(selector);
+var selected = myArray.Select(SelectItemFunc);
 ```
 
-Current work is being made to allow burstable lambdas in the [Burst.Delegates](https://github.com/CareBoo/Burst.Delegates) project (WIP).
