@@ -15,7 +15,7 @@ Differences with Linq
 
 ### Delegates
 
-The Burst compiler doesn't support C# delegates. To get around this issue, Blinq requires you to create structs that implement the `IFunc` interface. The [Burst.Delegates](https://github.com/CareBoo/Burst.Delegates) project has other useful tools to help you generate the `IFunc` interface.
+The Burst compiler doesn't support C# delegates. To get around this issue, Blinq requires you to create structs that implement the `IFunc` interface. The [Burst.Delegates](https://github.com/CareBoo/Burst.Delegates) project has other useful tools to help you implement the `IFunc` interface.
 
 ```cs
 /*--- Using Linq ---*/
