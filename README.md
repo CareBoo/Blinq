@@ -25,7 +25,7 @@ var selected = myArray.Select(val => val.Item);
 
 // Must define a method that can be used as FunctionPointer
 [BurstCompile]
-public static int SelectItem(MyVal val) => val.Item
+public static int SelectItem(MyVal val) => val.Item;
 
 public static readonly BurstFunc<MyVal, int> SelectItemFunc = BustFunc.Compile(SelectItem);
 
