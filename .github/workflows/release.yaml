@@ -4,7 +4,8 @@ on:
   push:
     branches:
       - master
-      - preview
+      - pre
+      - exp
       - '[0-9]+.[0-9]+.[0-9]+'
       - '[0-9]+.[0-9]+.x'
       - '[0-9]+.x.x'
@@ -25,13 +26,13 @@ jobs:
             @semantic-release/git
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      
+
       - uses: actions/setup-node@v1
         with:
           node-version: '12.x'
           registry-url: 'https://npm.pkg.github.com'
           scope: '@careboo'
-      
+
       - name: Publish to GitHub Package Repository
         if: steps.semantic.outputs.new_release_published == 'true'
         run: ./scripts/release
