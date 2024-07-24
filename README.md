@@ -1,6 +1,8 @@
 Blinq
 =====
 
+> **IMPORTANT**: Blinq is no longer being developed because of limitations to recursive generics. Instead, I recommend taking a look at the [LinqGen](https://github.com/cathei/LinqGen) project.
+
 Burst Compatible, deferred, stack-allocated LINQ extensions for `NativeArray`.
 
 Installation
